@@ -19,8 +19,3 @@
   :name bowerick.JmsProducer
   :methods [[sendObject [Object] void]])
 
-(gen-interface
-  :name bowerick.JmsController
-  :methods [[connectConsumer [String bowerick.JmsConsumer] void]
-            [createProducer [String] bowerick.JmsProducer]])
-

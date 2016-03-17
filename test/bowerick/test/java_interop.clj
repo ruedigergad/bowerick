@@ -14,21 +14,21 @@
         clj-assorted-utils.util
         bowerick.jms
         bowerick.test.jms-test-base)
-  (:import (bowerick ActiveMqJmsController JmsConsumer JmsController JmsProducer)))
+  (:import (bowerick JmsController JmsConsumer JmsController JmsProducer)))
 
 (use-fixtures :each single-test-fixture)
 
 (deftest test-create-activemq-controller
-  (let [controller (ActiveMqJmsController. *local-jms-server*)]
+  (let [controller (JmsController. *local-jms-server*)]
     (is (instance? JmsController controller))))
 
 (deftest test-create-activemq-producer
-  (let [controller (ActiveMqJmsController. *local-jms-server*)
+  (let [controller (JmsController. *local-jms-server*)
         producer (.createProducer controller test-topic)]
     (is (instance? JmsProducer producer))))
 
 (deftest test-create-activemq-producer
-  (let [controller (ActiveMqJmsController. *local-jms-server*)
+  (let [controller (JmsController. *local-jms-server*)
         producer (.createProducer controller test-topic)
         flag (prepare-flag)
         data (ref nil)
@@ -43,12 +43,12 @@
     (is (= "foo" @data))))
 
 (deftest test-start-stop-embedded-broker
-  (let [controller (ActiveMqJmsController. "tcp://localhost:52525")]
+  (let [controller (JmsController. "tcp://localhost:52525")]
     (.startEmbeddedBroker controller)
     (.stopEmbeddedBroker controller)))
 
 (deftest test-start-stop-embedded-broker-with-data-exchange
-  (let [controller (ActiveMqJmsController. "tcp://localhost:52525")
+  (let [controller (JmsController. "tcp://localhost:52525")
         _ (.startEmbeddedBroker controller)
         producer (.createProducer controller test-topic)
         flag (prepare-flag)

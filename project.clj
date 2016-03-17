@@ -25,6 +25,6 @@
   :java-source-paths ["src-java"]
   :prep-tasks [["compile" "bowerick.java-interfaces"]
                ["javac" "src-java/bowerick/PooledBytesMessageProducer.java"]
-               ["compile" "bowerick.ActiveMqJmsController"] "javac" "compile"]
+               ["compile" "bowerick.JmsController"] "javac" "compile"]
   :main bowerick.main
   :plugins [[lein-cloverage "1.0.2"]])
