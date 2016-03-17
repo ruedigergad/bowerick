@@ -13,13 +13,13 @@
   (:gen-class
    :init init
    :constructors {[String] []}
-   :methods [[connectConsumer [String bowerick.JmsConsumer] void]
+   :methods [[connectConsumer [String bowerick.JmsConsumerCallback] void]
              [createProducer [String] bowerick.JmsProducer]
              [startEmbeddedBroker [] void]
              [stopEmbeddedBroker [] void]]
    :state state)
   (:use bowerick.jms)
-  (:import (bowerick JmsConsumer JmsProducer)))
+  (:import (bowerick JmsConsumerCallback JmsProducer)))
 
 (defn -init [jms-url]
   [[] {:jms-url jms-url :broker (ref nil)}])

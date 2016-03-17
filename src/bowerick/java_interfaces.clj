@@ -12,7 +12,7 @@
   bowerick.java-interfaces)
 
 (gen-interface
-  :name bowerick.JmsConsumer
+  :name bowerick.JmsConsumerCallback
   :methods [[processObject [Object] void]])
 
 (gen-interface

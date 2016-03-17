@@ -14,7 +14,7 @@
         clj-assorted-utils.util
         bowerick.jms
         bowerick.test.jms-test-base)
-  (:import (bowerick JmsController JmsConsumer JmsController JmsProducer)))
+  (:import (bowerick JmsController JmsConsumerCallback JmsController JmsProducer)))
 
 (use-fixtures :each single-test-fixture)
 
@@ -32,11 +32,11 @@
         producer (.createProducer controller test-topic)
         flag (prepare-flag)
         data (ref nil)
-        consumer (proxy [JmsConsumer] []
+        consumer (proxy [JmsConsumerCallback] []
                    (processObject [obj]
                      (dosync (ref-set data obj))
                      (set-flag flag)))
-        _ (.connectConsumer controller test-topic ^JmsConsumer consumer)]
+        _ (.connectConsumer controller test-topic ^JmsConsumerCallback consumer)]
     (.sendObject producer "foo")
     (await-flag flag)
     (is (flag-set? flag))
@@ -53,11 +53,11 @@
         producer (.createProducer controller test-topic)
         flag (prepare-flag)
         data (ref nil)
-        consumer (proxy [JmsConsumer] []
+        consumer (proxy [JmsConsumerCallback] []
                    (processObject [obj]
                      (dosync (ref-set data obj))
                      (set-flag flag)))
-        _ (.connectConsumer controller test-topic ^JmsConsumer consumer)]
+        _ (.connectConsumer controller test-topic ^JmsConsumerCallback consumer)]
     (.sendObject producer "foo")
     (await-flag flag)
     (is (flag-set? flag))
