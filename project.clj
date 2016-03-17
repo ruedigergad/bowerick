@@ -1,9 +1,9 @@
 (defproject bowerick "1.99.3"
   :description "Toolkit for using JMS with Clojure."
-  :dependencies [[org.clojure/clojure "1.7.0"]
+  :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.cli "0.2.4"]
                  [com.ning/compress-lzf "1.0.3"]
-                 [org.xerial.snappy/snappy-java "1.1.2"]
+                 [org.xerial.snappy/snappy-java "1.1.2.1"]
                  [com.esotericsoftware/kryo "3.0.3"]
                  [org.apache.activemq/activemq-broker "5.12.1"]
                  [org.apache.activemq/activemq-client "5.12.1"]
@@ -12,7 +12,7 @@
                  [org.apache.activemq/activemq-stomp "5.12.1"]
                  [org.fusesource.stompjms/stompjms-client "1.19"]
                  [org.slf4j/slf4j-simple "1.7.10"]
-                 [clj-assorted-utils "1.9.1"]
+                 [clj-assorted-utils "1.11.1"]
                  [cheshire "5.5.0"]]
   :jvm-opts ["-Djavax.net.ssl.keyStore=test/ssl/broker.ks" "-Djavax.net.ssl.keyStorePassword=password" "-Djavax.net.ssl.trustStore=test/ssl/broker.ts" "-Djavax.net.ssl.trustStorePassword=password"]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
