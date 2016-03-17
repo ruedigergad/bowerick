@@ -33,16 +33,17 @@
         producer (.createProducer controller test-topic)
         flag (prepare-flag)
         data (ref nil)
-        consumer (proxy [JmsConsumerCallback] []
-                   (processObject [obj]
-                     (dosync (ref-set data obj))
-                     (set-flag flag)))
-        _ (.connectConsumer controller test-topic ^JmsConsumerCallback consumer)]
+        consumer-cb (proxy [JmsConsumerCallback] []
+                      (processObject [obj]
+                      (dosync (ref-set data obj))
+                      (set-flag flag)))
+        consumer (.connectConsumer controller test-topic ^JmsConsumerCallback consumer-cb)]
     (.sendObject producer "foo")
     (await-flag flag)
     (is (flag-set? flag))
     (is (= "foo" @data))
-    (.close producer)))
+    (.close producer)
+    (.close consumer)))
 
 (deftest test-start-stop-embedded-broker
   (let [controller (JmsController. "tcp://localhost:52525")]
@@ -55,16 +56,17 @@
         producer (.createProducer controller test-topic)
         flag (prepare-flag)
         data (ref nil)
-        consumer (proxy [JmsConsumerCallback] []
-                   (processObject [obj]
-                     (dosync (ref-set data obj))
-                     (set-flag flag)))
-        _ (.connectConsumer controller test-topic ^JmsConsumerCallback consumer)]
+        consumer-cb (proxy [JmsConsumerCallback] []
+                      (processObject [obj]
+                      (dosync (ref-set data obj))
+                      (set-flag flag)))
+        consumer (.connectConsumer controller test-topic ^JmsConsumerCallback consumer-cb)]
     (.sendObject producer "foo")
     (await-flag flag)
     (is (flag-set? flag))
     (is (= "foo" @data))
     (.close producer)
+    (.close consumer)
     (.stopEmbeddedBroker controller)))
 
 
