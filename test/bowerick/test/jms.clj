@@ -21,8 +21,9 @@
   (is true))
 
 (deftest test-create-topic
-  (let [topic (create-producer *local-jms-server* test-topic)]
-    (is (not (nil? topic)))))
+  (let [producer (create-producer *local-jms-server* test-topic)]
+    (is (not (nil? producer)))
+    (close producer)))
 
 (deftest producer-consumer
   (let [producer (create-producer *local-jms-server* test-topic)
@@ -47,5 +48,7 @@
     (is (not= data @received))
     (producer data)
     (await-flag flag)
-    (is (= data @received))))
+    (is (= data @received))
+    (close producer)
+    (close consumer)))
 
