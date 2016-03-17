@@ -27,6 +27,8 @@
 (defn -createProducer [this topic-identifier]
   (let [producer (create-producer (:jms-url (.state this)) topic-identifier)]
     (proxy [JmsProducer] []
+      (close []
+        (close producer))
       (sendObject [obj]
         (producer obj)))))
 

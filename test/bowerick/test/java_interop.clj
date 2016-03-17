@@ -25,7 +25,8 @@
 (deftest test-create-activemq-producer
   (let [controller (JmsController. *local-jms-server*)
         producer (.createProducer controller test-topic)]
-    (is (instance? JmsProducer producer))))
+    (is (instance? JmsProducer producer))
+    (.close producer)))
 
 (deftest test-create-activemq-producer
   (let [controller (JmsController. *local-jms-server*)
@@ -40,7 +41,8 @@
     (.sendObject producer "foo")
     (await-flag flag)
     (is (flag-set? flag))
-    (is (= "foo" @data))))
+    (is (= "foo" @data))
+    (.close producer)))
 
 (deftest test-start-stop-embedded-broker
   (let [controller (JmsController. "tcp://localhost:52525")]
@@ -62,6 +64,7 @@
     (await-flag flag)
     (is (flag-set? flag))
     (is (= "foo" @data))
+    (.close producer)
     (.stopEmbeddedBroker controller)))
 
 
