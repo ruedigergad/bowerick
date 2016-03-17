@@ -9,11 +9,11 @@
 (ns
   ^{:author "Ruediger Gad",
     :doc "Functions for JMS interaction"} 
-  clj-jms-activemq-toolkit.jms
+  bowerick.jms
   (:use [clojure.string :only (join split)]
         clojure.java.io
         clj-assorted-utils.util)
-  (:import (clj_jms_activemq_toolkit PooledBytesMessageProducer)
+  (:import (bowerick PooledBytesMessageProducer)
            (com.esotericsoftware.kryo Kryo)
            (com.esotericsoftware.kryo.io Input Output)
            (com.ning.compress.lzf LZFDecoder LZFEncoder)

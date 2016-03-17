@@ -1,5 +1,5 @@
-(defproject fg-netzwerksicherheit/clj-jms-activemq-toolkit "1.99.3"
-  :description "Toolkit for using the ActiveMQ JMS implementation in Clojure."
+(defproject bowerick "1.99.3"
+  :description "Toolkit for using JMS with Clojure."
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/tools.cli "0.2.4"]
                  [com.ning/compress-lzf "1.0.3"]
@@ -23,8 +23,8 @@
   :aot :all
   :javac-options ["-target" "1.6" "-source" "1.6"]
   :java-source-paths ["src-java"]
-  :prep-tasks [["compile" "clj-jms-activemq-toolkit.java-interfaces"]
-               ["javac" "src-java/clj_jms_activemq_toolkit/PooledBytesMessageProducer.java"]
-               ["compile" "clj-jms-activemq-toolkit.ActiveMqJmsController"] "javac" "compile"]
-  :main clj-jms-activemq-toolkit.main
+  :prep-tasks [["compile" "bowerick.java-interfaces"]
+               ["javac" "src-java/bowerick/PooledBytesMessageProducer.java"]
+               ["compile" "bowerick.ActiveMqJmsController"] "javac" "compile"]
+  :main bowerick.main
   :plugins [[lein-cloverage "1.0.2"]])

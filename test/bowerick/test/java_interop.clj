@@ -9,12 +9,12 @@
 (ns 
   ^{:author "Ruediger Gad",
     :doc "Tests for Java interop"}  
-  clj-jms-activemq-toolkit.test.java-interop
+  bowerick.test.java-interop
   (:use clojure.test
         clj-assorted-utils.util
-        clj-jms-activemq-toolkit.jms
-        clj-jms-activemq-toolkit.test.jms-test-base)
-  (:import (clj_jms_activemq_toolkit ActiveMqJmsController JmsConsumer JmsController JmsProducer)))
+        bowerick.jms
+        bowerick.test.jms-test-base)
+  (:import (bowerick ActiveMqJmsController JmsConsumer JmsController JmsProducer)))
 
 (use-fixtures :each single-test-fixture)
 

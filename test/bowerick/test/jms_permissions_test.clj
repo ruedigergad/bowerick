@@ -6,14 +6,14 @@
 ;;;   http://opensource.org/licenses/eclipse-1.0.php
 ;;;
 
-(ns clj-jms-activemq-toolkit.test.jms-permissions-test
+(ns bowerick.test.jms-permissions-test
   ^{:author "Ruediger Gad",
     :doc "Tests for JMS permissions"}  
   (:require [clojure.test :refer :all]
             [clojure.pprint :refer :all])
   (:use [clojure.string :only (join split)]
          clj-assorted-utils.util
-         clj-jms-activemq-toolkit.jms)
+         bowerick.jms)
   (:import (java.util ArrayList)
            (java.util.concurrent ArrayBlockingQueue)
            (javax.jms BytesMessage Connection DeliveryMode Message MessageProducer MessageListener ObjectMessage Session TextMessage Topic)

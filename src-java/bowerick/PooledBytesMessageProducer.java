@@ -6,7 +6,7 @@
  *   http://opensource.org/licenses/eclipse-1.0.php
  */
 
-package clj_jms_activemq_toolkit;
+package bowerick;
 
 import java.io.IOException;
 

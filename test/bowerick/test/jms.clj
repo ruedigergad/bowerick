@@ -9,11 +9,11 @@
 (ns 
   ^{:author "Ruediger Gad",
     :doc "Tests for JMS interaction"}  
-  clj-jms-activemq-toolkit.test.jms
+  bowerick.test.jms
   (:use clojure.test
         clj-assorted-utils.util
-        clj-jms-activemq-toolkit.jms
-        clj-jms-activemq-toolkit.test.jms-test-base))
+        bowerick.jms
+        bowerick.test.jms-test-base))
 
 (use-fixtures :each single-test-fixture)
 

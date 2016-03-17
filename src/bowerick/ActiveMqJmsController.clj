@@ -9,16 +9,16 @@
 (ns
   ^{:author "Ruediger Gad",
     :doc "JMS controller for ActiveMQ."} 
-  clj-jms-activemq-toolkit.ActiveMqJmsController
+  bowerick.ActiveMqJmsController
   (:gen-class
-   :implements [clj_jms_activemq_toolkit.JmsController]
+   :implements [bowerick.JmsController]
    :init init
    :constructors {[String] []}
    :methods [[startEmbeddedBroker [] void]
              [stopEmbeddedBroker [] void]]
    :state state)
-  (:use clj-jms-activemq-toolkit.jms)
-  (:import (clj_jms_activemq_toolkit JmsConsumer JmsController JmsProducer)))
+  (:use bowerick.jms)
+  (:import (bowerick JmsConsumer JmsController JmsProducer)))
 
 (defn -init [jms-url]
   [[] {:jms-url jms-url :broker (ref nil)}])

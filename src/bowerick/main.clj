@@ -9,11 +9,11 @@
 (ns
   ^{:author "Ruediger Gad",
     :doc "Main class to start a simple ActiveMQ broker instance."}
-  clj-jms-activemq-toolkit.main
+  bowerick.main
   (:use [cheshire.core :only [generate-string parse-string]]
         clojure.pprint
         clojure.tools.cli
-        clj-jms-activemq-toolkit.jms)
+        bowerick.jms)
   (:gen-class))
 
 (defn -main [& args]

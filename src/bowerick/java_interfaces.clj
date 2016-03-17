@@ -9,18 +9,18 @@
 (ns
   ^{:author "Ruediger Gad",
     :doc "Interfaces for Java interop."} 
-  clj-jms-activemq-toolkit.java-interfaces)
+  bowerick.java-interfaces)
 
 (gen-interface
-  :name clj_jms_activemq_toolkit.JmsConsumer
+  :name bowerick.JmsConsumer
   :methods [[processObject [Object] void]])
 
 (gen-interface
-  :name clj_jms_activemq_toolkit.JmsProducer
+  :name bowerick.JmsProducer
   :methods [[sendObject [Object] void]])
 
 (gen-interface
-  :name clj_jms_activemq_toolkit.JmsController
-  :methods [[connectConsumer [String clj_jms_activemq_toolkit.JmsConsumer] void]
-            [createProducer [String] clj_jms_activemq_toolkit.JmsProducer]])
+  :name bowerick.JmsController
+  :methods [[connectConsumer [String bowerick.JmsConsumer] void]
+            [createProducer [String] bowerick.JmsProducer]])
 
