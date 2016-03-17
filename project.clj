@@ -21,7 +21,6 @@
             :comments "This is the same license as used for Clojure."}
   :global-vars {*warn-on-reflection* true}
   :aot :all
-  :javac-options ["-target" "1.6" "-source" "1.6"]
   :java-source-paths ["src-java"]
   :prep-tasks [["compile" "bowerick.java-interfaces"]
                ["javac" "src-java/bowerick/PooledBytesMessageProducer.java"]
