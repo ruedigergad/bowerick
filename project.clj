@@ -26,4 +26,5 @@
                ["javac" "src-java/bowerick/PooledBytesMessageProducer.java"]
                ["compile" "bowerick.JmsController"] "javac" "compile"]
   :main bowerick.main
-  :plugins [[lein-cloverage "1.0.2"]])
+  :profiles  {:repl  {:dependencies  [[jonase/eastwood "0.2.3" :exclusions  [org.clojure/clojure]]]}}
+  :plugins [[lein-cloverage "1.0.6"]])
