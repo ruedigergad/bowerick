@@ -85,10 +85,14 @@
 (defn get-destinations
   ([broker-service]
     (get-destinations broker-service true))
-  ([broker-service include-destinations-without-producers]
+  ([^BrokerService broker-service include-destinations-without-producers]
     (let [dst-vector (ref [])]
       (doseq [dst (vec (-> (.getBroker broker-service) (.getDestinationMap) (.values)))]
-        (if (or include-destinations-without-producers (> (-> (.getDestinationStatistics dst) (.getProducers) (.getCount)) 0))
+        (if (or
+              include-destinations-without-producers
+              (>
+               (-> (.getDestinationStatistics dst) (.getProducers) (.getCount))
+               0))
           (let [dst-type (condp (fn[t d] (= (type d) t)) dst
                            org.apache.activemq.broker.region.Topic "/topic/"
                            org.apache.activemq.broker.region.Queue "/queue/"
@@ -112,22 +116,22 @@
     (doto (SSLContext/getInstance "TLS")
       (.init (.getKeyManagers keyManagerFactory) (.getTrustManagers trustManagerFactory) nil))))
 
-(defmacro with-endpoint [server endpoint-description & body]
+(defmacro with-endpoint [server-url endpoint-description & body]
   `(let [factory# (cond
-                    (or (.startsWith ~server "ssl:")
-                        (.startsWith ~server "tls:"))
-                      (doto (ActiveMQSslConnectionFactory. (if (.contains ~server "?")
-                                                             (.substring ~server 0 (.indexOf ~server "?"))
-                                                             ~server))
+                    (or (.startsWith ~server-url "ssl:")
+                        (.startsWith ~server-url "tls:"))
+                      (doto (ActiveMQSslConnectionFactory. (if (.contains ~server-url "?")
+                                                             (.substring ~server-url 0 (.indexOf ~server-url "?"))
+                                                             ~server-url))
                         (.setTrustStore *trust-store-file*) (.setTrustStorePassword *trust-store-password*)
                         (.setKeyStore *key-store-file*) (.setKeyStorePassword *key-store-password*))
-                    (.startsWith ~server "stomp:")
-                      (doto (StompJmsConnectionFactory.) (.setBrokerURI (.replaceFirst ~server "stomp" "tcp")))
-                    (.startsWith ~server "stomp+ssl:")
+                    (.startsWith ~server-url "stomp:")
+                      (doto (StompJmsConnectionFactory.) (.setBrokerURI (.replaceFirst ~server-url "stomp" "tcp")))
+                    (.startsWith ~server-url "stomp+ssl:")
                       (doto (StompJmsConnectionFactory.)
                         (.setSslContext (get-adjusted-ssl-context))
-                        (.setBrokerURI (.replaceFirst ~server "stomp\\+ssl" "ssl")))
-                    :default (ActiveMQConnectionFactory. ~server))
+                        (.setBrokerURI (.replaceFirst ~server-url "stomp\\+ssl" "ssl")))
+                    :default (ActiveMQConnectionFactory. ~server-url))
          ~'connection (doto (if (and (not (nil? *user-name*)) (not (nil? *user-password*)))
                               (do
                                 (println "Creating connection for user:" *user-name*)
@@ -145,14 +149,14 @@
                       (println "Could not create endpoint. Type:" endpoint-type# "Name:" endpoint-name#))]
      ~@body))
 
-(defn init-topic [server topic-name]
-  (with-endpoint server topic-name
+(defn init-topic [^String server-url ^String topic-name]
+  (with-endpoint server-url topic-name
     (.close connection)
     endpoint))
 
-(defn create-producer [server endpoint-description]
+(defn create-producer [^String server-url ^String endpoint-description]
   (println "Creating producer for endpoint description:" endpoint-description)
-  (with-endpoint server endpoint-description
+  (with-endpoint server-url endpoint-description
     (let [^MessageProducer producer (doto
                                       (.createProducer session endpoint)
                                       (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
@@ -164,9 +168,9 @@
                      (= (type o) java.lang.String) (.send producer ^TextMessage (.createTextMessage ^Session session ^java.lang.String o))
                      :default (.send producer (.createObjectMessage ^Session session o))))))))
 
-(defn create-pooled-bytes-message-producer [server endpoint-description pool-size]
+(defn create-pooled-bytes-message-producer [^String server-url ^String endpoint-description pool-size]
   (println "Creating producer for endpoint description:" endpoint-description)
-  (with-endpoint server endpoint-description
+  (with-endpoint server-url endpoint-description
     (let [^MessageProducer producer (doto
                                       (.createProducer session endpoint)
                                       (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
@@ -175,8 +179,8 @@
 (defn close [s]
   (s :close))
 
-(defn create-pooled-producer [server endpoint-description pool-size]
-  (let [producer (create-producer server endpoint-description)
+(defn create-pooled-producer [server-url endpoint-description pool-size]
+  (let [producer (create-producer server-url endpoint-description)
         pool (ref [])
         pool-fn (fn [data]
                   (dosync 
@@ -189,8 +193,8 @@
         (= :close o) (close producer)
         :default (pool-fn o)))))
 
-(defn create-pooled-arraylist-producer [server endpoint-description pool-size]
-  (let [producer (create-producer server endpoint-description)
+(defn create-pooled-arraylist-producer [server-url endpoint-description pool-size]
+  (let [producer (create-producer server-url endpoint-description)
         pool (ArrayList. pool-size)]
     (fn [o]
       (cond
@@ -201,8 +205,8 @@
                      (producer pool)
                      (.clear pool)))))))
 
-(defn create-pooled-arraylist-drainto-producer [server endpoint-description pool-size]
-  (let [producer (create-producer server endpoint-description)
+(defn create-pooled-arraylist-drainto-producer [server-url endpoint-description pool-size]
+  (let [producer (create-producer server-url endpoint-description)
         pool (ArrayList. pool-size)]
     (fn [o]
       (cond
@@ -213,11 +217,11 @@
                    (.clear pool))))))
 
 (defn create-pooled-arraylist-kryo-producer
-  ([server endpoint-description pool-size]
+  ([server-url endpoint-description pool-size]
     (create-pooled-arraylist-kryo-producer
-      server endpoint-description pool-size (fn [^bytes ba] ba)))
-  ([server endpoint-description pool-size ba-out-fn]
-    (let [producer (create-producer server endpoint-description)
+      server-url endpoint-description pool-size (fn [^bytes ba] ba)))
+  ([server-url endpoint-description pool-size ba-out-fn]
+    (let [producer (create-producer server-url endpoint-description)
           pool (ArrayList. pool-size)
           out (Output. *kryo-output-size*)
           kryo (Kryo.)]
@@ -233,13 +237,13 @@
                          (.clear out)
                          (.clear pool)))))))))
 
-(defn create-pooled-arraylist-kryo-lzf-producer [server endpoint-description pool-size]
+(defn create-pooled-arraylist-kryo-lzf-producer [server-url endpoint-description pool-size]
   (create-pooled-arraylist-kryo-producer
-    server endpoint-description pool-size (fn [^bytes ba] (LZFEncoder/encode ba))))
+    server-url endpoint-description pool-size (fn [^bytes ba] (LZFEncoder/encode ba))))
 
-(defn create-consumer [server endpoint-description cb]
+(defn create-consumer [^String server-url ^String endpoint-description cb]
   (println "Creating consumer for endpoint descriptiont:" endpoint-description)
-  (with-endpoint server endpoint-description
+  (with-endpoint server-url endpoint-description
     (let [listener (proxy [MessageListener] []
             (onMessage [^Message m] (cond
                                       (instance? BytesMessage m) (let [data (byte-array (.getBodyLength ^BytesMessage m))]
@@ -257,17 +261,17 @@
                          (println "Closing consumer for endpoint:" endpoint)
                          (.close connection)))))))
 
-(defn create-lzf-consumer [server endpoint-description cb]
+(defn create-lzf-consumer [server-url endpoint-description cb]
   (create-consumer
-    server endpoint-description (fn [^bytes ba] (cb (LZFDecoder/decode ba)))))
+    server-url endpoint-description (fn [^bytes ba] (cb (LZFDecoder/decode ba)))))
 
 (defn create-kryo-consumer
-  ([server endpoint-description cb]
+  ([server-url endpoint-description cb]
     (create-kryo-consumer
-      server endpoint-description cb (fn [^bytes ba] ba)))
-  ([server endpoint-description cb ba-in-fn]
+      server-url endpoint-description cb (fn [^bytes ba] ba)))
+  ([^String server-url ^String endpoint-description cb ba-in-fn]
     (println "Creating consumer for endpoint description:" endpoint-description)
-    (with-endpoint server endpoint-description
+    (with-endpoint server-url endpoint-description
       (let [kryo (Kryo.)
             in (Input.)
             listener (proxy [MessageListener] []
@@ -287,7 +291,7 @@
                            (println "Closing consumer for endpoint:" endpoint)
                            (.close connection))))))))
 
-(defn create-kryo-lzf-consumer [server endpoint-description cb]
+(defn create-kryo-lzf-consumer [server-url endpoint-description cb]
   (create-kryo-consumer
-    server endpoint-description cb (fn [^bytes ba] (LZFDecoder/decode ba))))
+    server-url endpoint-description cb (fn [^bytes ba] (LZFDecoder/decode ba))))
 

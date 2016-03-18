@@ -21,12 +21,12 @@
   (:require
     [bowerick.jms :refer :all])
   (:import
-    (bowerick Closable JmsConsumerCallback JmsProducer)))
+    (bowerick Closable JmsConsumerCallback JmsController JmsProducer)))
 
 (defn -init [jms-url]
   [[] {:jms-url jms-url :broker (ref nil)}])
 
-(defn -createProducer [this topic-identifier]
+(defn -createProducer [^JmsController this topic-identifier]
   (let [producer (create-producer (:jms-url (.state this)) topic-identifier)]
     (proxy [JmsProducer] []
       (close []
@@ -34,23 +34,23 @@
       (sendObject [obj]
         (producer obj)))))
 
-(defn -connectConsumer [this topic-identifier consumer-impl]
+(defn -connectConsumer [^JmsController this topic-identifier ^JmsConsumerCallback consumer-cb]
   (let [consumer (create-consumer
                    (:jms-url (.state this))
                    topic-identifier
                    (fn [obj]
-                     (.processObject consumer-impl obj)))]
+                     (.processObject consumer-cb obj)))]
     (proxy [Closable] []
       (close []
         (close consumer)))))
 
-(defn -startEmbeddedBroker [this]
+(defn -startEmbeddedBroker [^JmsController this]
   (let [broker-ref (:broker (.state this))]
     (if (nil? @broker-ref)
       (let [brkr (start-broker (:jms-url (.state this)))]
         (dosync (ref-set broker-ref brkr))))))
 
-(defn -stopEmbeddedBroker [this]
+(defn -stopEmbeddedBroker [^JmsController this]
   (let [broker-ref (:broker (.state this))]
     (when (not (nil? @broker-ref))
       (.stop @broker-ref)
