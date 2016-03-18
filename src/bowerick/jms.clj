@@ -117,28 +117,35 @@
       (.init (.getKeyManagers keyManagerFactory) (.getTrustManagers trustManagerFactory) nil))))
 
 (defmacro with-endpoint [server-url endpoint-description & body]
-  `(let [factory# (cond
-                    (or (.startsWith ~server-url "ssl:")
-                        (.startsWith ~server-url "tls:"))
-                      (doto (ActiveMQSslConnectionFactory. (if (.contains ~server-url "?")
-                                                             (.substring ~server-url 0 (.indexOf ~server-url "?"))
-                                                             ~server-url))
-                        (.setTrustStore *trust-store-file*) (.setTrustStorePassword *trust-store-password*)
-                        (.setKeyStore *key-store-file*) (.setKeyStorePassword *key-store-password*))
-                    (.startsWith ~server-url "stomp:")
-                      (doto (StompJmsConnectionFactory.) (.setBrokerURI (.replaceFirst ~server-url "stomp" "tcp")))
-                    (.startsWith ~server-url "stomp+ssl:")
-                      (doto (StompJmsConnectionFactory.)
-                        (.setSslContext (get-adjusted-ssl-context))
-                        (.setBrokerURI (.replaceFirst ~server-url "stomp\\+ssl" "ssl")))
-                    :default (ActiveMQConnectionFactory. ~server-url))
-         ~'connection (doto (if (and (not (nil? *user-name*)) (not (nil? *user-password*)))
-                              (do
-                                (println "Creating connection for user:" *user-name*)
-                                (.createConnection factory# *user-name* *user-password*))
-                              (.createConnection factory#))
+  `(let [~'factory (cond
+                     (or (.startsWith ~server-url "ssl:")
+                         (.startsWith ~server-url "tls:"))
+                       (doto (ActiveMQSslConnectionFactory. (if (.contains ~server-url "?")
+                                                              (.substring ~server-url 0 (.indexOf ~server-url "?"))
+                                                              ~server-url))
+                         (.setTrustStore *trust-store-file*) (.setTrustStorePassword *trust-store-password*)
+                         (.setKeyStore *key-store-file*) (.setKeyStorePassword *key-store-password*))
+                     (.startsWith ~server-url "stomp:")
+                       (doto (StompJmsConnectionFactory.) (.setBrokerURI (.replaceFirst ~server-url "stomp" "tcp")))
+                     (.startsWith ~server-url "stomp+ssl:")
+                       (doto (StompJmsConnectionFactory.)
+                         (.setSslContext (get-adjusted-ssl-context))
+                         (.setBrokerURI (.replaceFirst ~server-url "stomp\\+ssl" "ssl")))
+                     :default (ActiveMQConnectionFactory. ~server-url))
+         ~'connection (doto
+                        (if (and (not (nil? *user-name*)) (not (nil? *user-password*)))
+                          (do
+                            (println "Creating connection for user:" *user-name*)
+                            ~(with-meta
+                               `(.createConnection ~'factory *user-name* *user-password*)
+                               {:tag 'javax.jms.Connection}))
+                          ~(with-meta
+                             `(.createConnection ~'factory)
+                             {:tag 'javax.jms.Connection}))
                         (.start))
-         ~'session (.createSession ~'connection false Session/AUTO_ACKNOWLEDGE)
+         ~'session ~(with-meta
+                      `(.createSession ~'connection false Session/AUTO_ACKNOWLEDGE)
+                      {:tag 'javax.jms.Session})
          split-endpoint# (filter #(not= % "") (split ~endpoint-description #"/"))
          endpoint-type# (first split-endpoint#)
          endpoint-name# (join "/" (rest split-endpoint#))
