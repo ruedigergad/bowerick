@@ -10,15 +10,13 @@
   ^{:author "Ruediger Gad",
     :doc "Tests for JMS interaction"}  
   bowerick.test.jms
-  (:use clojure.test
-        clj-assorted-utils.util
-        bowerick.jms
-        bowerick.test.jms-test-base))
+  (:require
+    [bowerick.jms :refer :all]
+    [bowerick.test.jms-test-base :refer :all]
+    [clj-assorted-utils.util :refer :all]
+    [clojure.test :refer :all] clojure.test))
 
 (use-fixtures :each single-test-fixture)
-
-(deftest test-fixture
-  (is true))
 
 (deftest test-create-topic
   (let [producer (create-producer *local-jms-server* test-topic)]

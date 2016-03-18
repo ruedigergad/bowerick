@@ -10,11 +10,13 @@
   ^{:author "Ruediger Gad",
     :doc "Tests for Java interop"}  
   bowerick.test.java-interop
-  (:use clojure.test
-        clj-assorted-utils.util
-        bowerick.jms
-        bowerick.test.jms-test-base)
-  (:import (bowerick JmsController JmsConsumerCallback JmsController JmsProducer)))
+  (:require
+    [clojure.test :refer :all]
+    [clj-assorted-utils.util :refer :all]
+    [bowerick.jms :refer :all]
+    [bowerick.test.jms-test-base :refer :all])
+  (:import
+    (bowerick JmsConsumerCallback JmsController JmsProducer)))
 
 (use-fixtures :each single-test-fixture)
 
@@ -28,7 +30,7 @@
     (is (instance? JmsProducer producer))
     (.close producer)))
 
-(deftest test-create-activemq-producer
+(deftest test-create-activemq-producer-and-consumer
   (let [controller (JmsController. *local-jms-server*)
         producer (.createProducer controller test-topic)
         flag (prepare-flag)

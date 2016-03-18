@@ -9,17 +9,20 @@
 (ns bowerick.test.jms-permissions-test
   ^{:author "Ruediger Gad",
     :doc "Tests for JMS permissions"}  
-  (:require [clojure.test :refer :all]
-            [clojure.pprint :refer :all])
-  (:use [clojure.string :only (join split)]
-         clj-assorted-utils.util
-         bowerick.jms)
-  (:import (java.util ArrayList)
-           (java.util.concurrent ArrayBlockingQueue)
-           (javax.jms BytesMessage Connection DeliveryMode Message MessageProducer MessageListener ObjectMessage Session TextMessage Topic)
-           (org.apache.activemq ActiveMQConnectionFactory ActiveMQSslConnectionFactory)
-           (org.apache.activemq.broker BrokerService)
-           (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationMap AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)))
+  (:require
+    [bowerick.jms :refer :all]
+    [clj-assorted-utils.util :refer :all]
+    [clojure.test :refer :all]
+    [clojure.pprint :refer :all])
+  (:use
+    [clojure.string :only (join split)])
+  (:import
+    (java.util ArrayList)
+    (java.util.concurrent ArrayBlockingQueue)
+    (javax.jms BytesMessage Connection DeliveryMode Message MessageProducer MessageListener ObjectMessage Session TextMessage Topic)
+    (org.apache.activemq ActiveMQConnectionFactory ActiveMQSslConnectionFactory)
+    (org.apache.activemq.broker BrokerService)
+    (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationMap AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)))
 
 (def jms-server-addr "tcp://127.0.0.1:31313")
 (def test-user-name "test-user")

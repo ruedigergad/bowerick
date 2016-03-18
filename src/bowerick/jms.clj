@@ -10,22 +10,25 @@
   ^{:author "Ruediger Gad",
     :doc "Functions for JMS interaction"} 
   bowerick.jms
-  (:use [clojure.string :only (join split)]
-        clojure.java.io
-        clj-assorted-utils.util)
-  (:import (bowerick PooledBytesMessageProducer)
-           (com.esotericsoftware.kryo Kryo)
-           (com.esotericsoftware.kryo.io Input Output)
-           (com.ning.compress.lzf LZFDecoder LZFEncoder)
-           (java.security KeyStore)
-           (java.util ArrayList)
-           (java.util.concurrent ArrayBlockingQueue)
-           (javax.jms BytesMessage Connection DeliveryMode Message MessageProducer MessageListener ObjectMessage Session TextMessage Topic)
-           (javax.net.ssl KeyManagerFactory SSLContext TrustManagerFactory)
-           (org.apache.activemq ActiveMQConnectionFactory ActiveMQSslConnectionFactory)
-           (org.apache.activemq.broker BrokerService)
-           (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationMap AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
-           (org.fusesource.stomp.jms StompJmsConnectionFactory)))
+  (:use
+    [clojure.string :only (join split)])
+  (:require
+    [clojure.java.io :refer :all]
+    [clj-assorted-utils.util :refer :all])
+  (:import
+    (bowerick PooledBytesMessageProducer)
+    (com.esotericsoftware.kryo Kryo)
+    (com.esotericsoftware.kryo.io Input Output)
+    (com.ning.compress.lzf LZFDecoder LZFEncoder)
+    (java.security KeyStore)
+    (java.util ArrayList)
+    (java.util.concurrent ArrayBlockingQueue)
+    (javax.jms BytesMessage Connection DeliveryMode Message MessageProducer MessageListener ObjectMessage Session TextMessage Topic)
+    (javax.net.ssl KeyManagerFactory SSLContext TrustManagerFactory)
+    (org.apache.activemq ActiveMQConnectionFactory ActiveMQSslConnectionFactory)
+    (org.apache.activemq.broker BrokerService)
+    (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationMap AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
+    (org.fusesource.stomp.jms StompJmsConnectionFactory)))
 
 (def ^:dynamic *kryo-output-size* 2048000)
 

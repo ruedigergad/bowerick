@@ -18,8 +18,10 @@
              [startEmbeddedBroker [] void]
              [stopEmbeddedBroker [] void]]
    :state state)
-  (:use bowerick.jms)
-  (:import (bowerick Closable JmsConsumerCallback JmsProducer)))
+  (:require
+    [bowerick.jms :refer :all])
+  (:import
+    (bowerick Closable JmsConsumerCallback JmsProducer)))
 
 (defn -init [jms-url]
   [[] {:jms-url jms-url :broker (ref nil)}])

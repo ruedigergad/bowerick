@@ -10,9 +10,10 @@
   ^{:author "Ruediger Gad",
     :doc "Base namespace for tests with JMS functionality"}  
   bowerick.test.jms-test-base
-  (:use clojure.test
-        clj-assorted-utils.util
-        bowerick.jms))
+  (:require
+    [bowerick.jms :refer :all]
+    [clj-assorted-utils.util :refer :all]
+    [clojure.test :refer :all]))
 
 (def ^:dynamic *local-jms-server* "tcp://127.0.0.1:42424")
 (def test-topic "/topic/testtopic.foo")
