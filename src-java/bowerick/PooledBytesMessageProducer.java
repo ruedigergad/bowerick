@@ -20,7 +20,6 @@ import org.apache.activemq.command.Message;
 import org.apache.activemq.util.ByteSequence;
 
 import com.ning.compress.lzf.LZFEncoder;
-import org.xerial.snappy.Snappy;
 
 /**
  * Producer for sending the given number of {@link ByteMessagePayloadPart} instances in a single BytesMessage.
@@ -39,7 +38,7 @@ public class PooledBytesMessageProducer {
     private int currentCount;
 
     private boolean compress = false;
-    public enum CompressionMethod {Lzf, Snappy}
+    public enum CompressionMethod {Lzf}
     private CompressionMethod compressionMethod = CompressionMethod.Lzf;
 
     public PooledBytesMessageProducer(MessageProducer producer, Session session,
@@ -66,9 +65,6 @@ public class PooledBytesMessageProducer {
                 switch (compressionMethod) {
                 case Lzf:
                     compressedContent = new ByteSequence(LZFEncoder.encode(origContent.data));
-                    break;
-                case Snappy:
-                    compressedContent = new ByteSequence(Snappy.compress(origContent.data));
                     break;
                 default:
                     compressedContent = new ByteSequence(LZFEncoder.encode(origContent.data));

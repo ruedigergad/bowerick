@@ -25,8 +25,7 @@
            (org.apache.activemq ActiveMQConnectionFactory ActiveMQSslConnectionFactory)
            (org.apache.activemq.broker BrokerService)
            (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationMap AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
-           (org.fusesource.stomp.jms StompJmsConnectionFactory)
-           (org.xerial.snappy Snappy)))
+           (org.fusesource.stomp.jms StompJmsConnectionFactory)))
 
 (def ^:dynamic *kryo-output-size* 2048000)
 
@@ -235,10 +234,6 @@
   (create-pooled-arraylist-kryo-producer
     server endpoint-description pool-size (fn [^bytes ba] (LZFEncoder/encode ba))))
 
-(defn create-pooled-arraylist-kryo-snappy-producer [server endpoint-description pool-size]
-  (create-pooled-arraylist-kryo-producer
-    server endpoint-description pool-size (fn [^bytes ba] (Snappy/compress ba))))
-
 (defn create-consumer [server endpoint-description cb]
   (println "Creating consumer for endpoint descriptiont:" endpoint-description)
   (with-endpoint server endpoint-description
@@ -262,10 +257,6 @@
 (defn create-lzf-consumer [server endpoint-description cb]
   (create-consumer
     server endpoint-description (fn [^bytes ba] (cb (LZFDecoder/decode ba)))))
-
-(defn create-snappy-consumer [server endpoint-description cb]
-  (create-consumer
-    server endpoint-description (fn [^bytes ba] (cb (Snappy/uncompress ba)))))
 
 (defn create-kryo-consumer
   ([server endpoint-description cb]
@@ -296,8 +287,4 @@
 (defn create-kryo-lzf-consumer [server endpoint-description cb]
   (create-kryo-consumer
     server endpoint-description cb (fn [^bytes ba] (LZFDecoder/decode ba))))
-
-(defn create-kryo-snappy-consumer [server endpoint-description cb]
-  (create-kryo-consumer
-    server endpoint-description cb (fn [^bytes ba] (Snappy/uncompress ba))))
 

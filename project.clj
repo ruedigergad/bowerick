@@ -3,7 +3,6 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.cli "0.2.4"]
                  [com.ning/compress-lzf "1.0.3"]
-                 [org.xerial.snappy/snappy-java "1.1.2.1"]
                  [com.esotericsoftware/kryo "3.0.3"]
                  [org.apache.activemq/activemq-broker "5.12.1"]
                  [org.apache.activemq/activemq-client "5.12.1"]
