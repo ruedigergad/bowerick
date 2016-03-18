@@ -91,8 +91,8 @@
         (if (or
               include-destinations-without-producers
               (>
-               (-> (.getDestinationStatistics dst) (.getProducers) (.getCount))
-               0))
+                (-> (.getDestinationStatistics dst) (.getProducers) (.getCount))
+                0))
           (let [dst-type (condp (fn[t d] (= (type d) t)) dst
                            org.apache.activemq.broker.region.Topic "/topic/"
                            org.apache.activemq.broker.region.Queue "/queue/"
