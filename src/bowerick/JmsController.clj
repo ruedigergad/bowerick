@@ -13,7 +13,7 @@
   (:gen-class
    :init init
    :constructors {[String] []}
-   :methods [[connectConsumer [String bowerick.JmsConsumerCallback] bowerick.Closable]
+   :methods [[connectConsumer [String bowerick.JmsConsumerCallback] AutoCloseable]
              [createProducer [String] bowerick.JmsProducer]
              [startEmbeddedBroker [] void]
              [stopEmbeddedBroker [] void]]
@@ -40,7 +40,7 @@
                    topic-identifier
                    (fn [obj]
                      (.processObject consumer-cb obj)))]
-    (proxy [Closable] []
+    (proxy [java.lang.AutoCloseable] []
       (close []
         (close consumer)))))
 

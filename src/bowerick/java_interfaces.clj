@@ -12,15 +12,11 @@
   bowerick.java-interfaces)
 
 (gen-interface
-  :name bowerick.Closable
-  :methods [[close [] void]])
-
-(gen-interface
   :name bowerick.JmsConsumerCallback
   :methods [[processObject [Object] void]])
 
 (gen-interface
   :name bowerick.JmsProducer
-  :extends [bowerick.Closable]
+  :extends [AutoCloseable]
   :methods [[sendObject [Object] void]])
 
