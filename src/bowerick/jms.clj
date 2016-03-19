@@ -48,31 +48,40 @@
      (.setUseJmx false)
      (.start)))
   ([address allow-anon users permissions]
-   (let [user-list (map (fn [u] (AuthenticationUser. (u "name") (u "password") (u "groups"))) users)
-         authentication-plugin (doto (SimpleAuthenticationPlugin. user-list)
-                                (.setAnonymousAccessAllowed allow-anon)
-                                (.setAnonymousUser "anonymous")
-                                (.setAnonymousGroup "anonymous"))
-         authorization-entries (map (fn [perm]
-                                      (println "Setting permission:" perm)
-                                      (let [trgt (perm "target")
-                                            adm (perm "admin")
-                                            rd (perm "read")
-                                            wrt (perm "write")
-                                            auth-entry (AuthorizationEntry.)]
-                                        (if (not (nil? adm))
-                                          (.setAdmin auth-entry adm))
-                                        (if (not (nil? rd))
-                                          (.setRead auth-entry rd))
-                                        (if (not (nil? wrt))
-                                          (.setWrite auth-entry wrt))
-                                        (condp = (perm "type")
-                                          "topic" (.setTopic auth-entry trgt)
-                                          "queue" (.setQueue auth-entry trgt)
-                                          (.setDestination auth-entry trgt))
-                                        auth-entry))
-                                    permissions)
-         authorization-map (doto (DefaultAuthorizationMap.)
+   (let [user-list (map
+                     (fn [u]
+                       (AuthenticationUser.
+                         (u "name")
+                         (u "password")
+                         (u "groups")))
+                     users)
+         authentication-plugin (doto
+                                 (SimpleAuthenticationPlugin. user-list)
+                                 (.setAnonymousAccessAllowed allow-anon)
+                                 (.setAnonymousUser "anonymous")
+                                 (.setAnonymousGroup "anonymous"))
+         authorization-entries (map
+                                 (fn [perm]
+                                   (println "Setting permission:" perm)
+                                   (let [trgt (perm "target")
+                                         adm (perm "admin")
+                                         rd (perm "read")
+                                         wrt (perm "write")
+                                         auth-entry (AuthorizationEntry.)]
+                                     (if (not (nil? adm))
+                                       (.setAdmin auth-entry adm))
+                                     (if (not (nil? rd))
+                                       (.setRead auth-entry rd))
+                                     (if (not (nil? wrt))
+                                       (.setWrite auth-entry wrt))
+                                     (condp = (perm "type")
+                                       "topic" (.setTopic auth-entry trgt)
+                                       "queue" (.setQueue auth-entry trgt)
+                                       (.setDestination auth-entry trgt))
+                                     auth-entry))
+                                 permissions)
+         authorization-map (doto
+                             (DefaultAuthorizationMap.)
                              (.setAuthorizationEntries authorization-entries))
          authorization-plugin (AuthorizationPlugin. authorization-map)]
      (doto (BrokerService.)
