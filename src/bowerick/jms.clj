@@ -189,20 +189,6 @@
 
 (defn create-pooled-producer [server-url endpoint-description pool-size]
   (let [producer (create-producer server-url endpoint-description)
-        pool (ref [])
-        pool-fn (fn [data]
-                  (dosync 
-                    (alter pool #(conj % data))
-                    (when (>= (count @pool) pool-size)
-                      (producer @pool)
-                      (ref-set pool []))))]
-    (fn [o]
-      (cond
-        (= :close o) (close producer)
-        :default (pool-fn o)))))
-
-(defn create-pooled-arraylist-producer [server-url endpoint-description pool-size]
-  (let [producer (create-producer server-url endpoint-description)
         pool (ArrayList. pool-size)]
     (fn [o]
       (cond
@@ -213,20 +199,9 @@
                      (producer pool)
                      (.clear pool)))))))
 
-(defn create-pooled-arraylist-drainto-producer [server-url endpoint-description pool-size]
-  (let [producer (create-producer server-url endpoint-description)
-        pool (ArrayList. pool-size)]
-    (fn [o]
-      (cond
-        (= :close o) (producer :close)
-        :default (do
-                   (.drainTo ^ArrayBlockingQueue o pool pool-size)
-                   (producer pool)
-                   (.clear pool))))))
-
-(defn create-pooled-arraylist-kryo-producer
+(defn create-pooled-kryo-producer
   ([server-url endpoint-description pool-size]
-    (create-pooled-arraylist-kryo-producer
+    (create-pooled-kryo-producer
       server-url endpoint-description pool-size (fn [^bytes ba] ba)))
   ([server-url endpoint-description pool-size ba-out-fn]
     (let [producer (create-producer server-url endpoint-description)
@@ -245,9 +220,14 @@
                          (.clear out)
                          (.clear pool)))))))))
 
-(defn create-pooled-arraylist-kryo-lzf-producer [server-url endpoint-description pool-size]
-  (create-pooled-arraylist-kryo-producer
-    server-url endpoint-description pool-size (fn [^bytes ba] (LZFEncoder/encode ba))))
+(defn create-pooled-lzf-producer
+  [server-url endpoint-description pool-size]
+  (create-pooled-kryo-producer
+    server-url
+    endpoint-description
+    pool-size
+    (fn [^bytes ba]
+      (LZFEncoder/encode ba))))
 
 (defn create-consumer [^String server-url ^String endpoint-description cb]
   (println "Creating consumer for endpoint descriptiont:" endpoint-description)
