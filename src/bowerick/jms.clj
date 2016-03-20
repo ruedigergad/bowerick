@@ -114,18 +114,33 @@
   (println msg)
   (producer (str "reply error " msg)))
 
-(defn get-adjusted-ssl-context []
-  (let [keyManagerFactory (doto (KeyManagerFactory/getInstance "SunX509")
-                            (.init (doto (KeyStore/getInstance "JKS")
-                                     (.load (input-stream *key-store-file*) (char-array *key-store-password*)))
-                                   (char-array *key-store-password*)))
-        trustManagerFactory (doto (TrustManagerFactory/getInstance "SunX509")
-                              (.init (doto (KeyStore/getInstance "JKS")
-                                       (.load (input-stream *trust-store-file*) (char-array *trust-store-password*)))))]
-    (doto (SSLContext/getInstance "TLS")
-      (.init (.getKeyManagers keyManagerFactory) (.getTrustManagers trustManagerFactory) nil))))
+(defn get-adjusted-ssl-context
+  []
+  (let [keyManagerFactory (doto
+                            (KeyManagerFactory/getInstance "SunX509")
+                            (.init
+                              (doto
+                                (KeyStore/getInstance "JKS")
+                                (.load
+                                  (input-stream *key-store-file*)
+                                  (char-array *key-store-password*)))
+                              (char-array *key-store-password*)))
+        trustManagerFactory (doto
+                              (TrustManagerFactory/getInstance "SunX509")
+                              (.init
+                                (doto (KeyStore/getInstance "JKS")
+                                  (.load
+                                    (input-stream *trust-store-file*)
+                                    (char-array *trust-store-password*)))))]
+    (doto
+      (SSLContext/getInstance "TLS")
+      (.init
+        (.getKeyManagers keyManagerFactory)
+        (.getTrustManagers trustManagerFactory)
+        nil))))
 
-(defmacro with-endpoint [server-url endpoint-description & body]
+(defmacro with-endpoint
+  [server-url endpoint-description & body]
   `(let [~'factory (let [~'cf (cond
                               (or (.startsWith ~server-url "ssl:")
                                   (.startsWith ~server-url "tls:"))
@@ -166,12 +181,14 @@
                       (println "Could not create endpoint. Type:" endpoint-type# "Name:" endpoint-name#))]
      ~@body))
 
-(defn init-topic [^String server-url ^String topic-name]
+(defn init-topic
+  [^String server-url ^String topic-name]
   (with-endpoint server-url topic-name
     (.close connection)
     endpoint))
 
-(defn create-producer [^String server-url ^String endpoint-description]
+(defn create-producer
+  [^String server-url ^String endpoint-description]
   (println "Creating producer for endpoint description:" endpoint-description)
   (with-endpoint server-url endpoint-description
     (let [^MessageProducer producer (doto
@@ -181,9 +198,17 @@
         (cond
           (= :close o) (.close connection)
           :default (cond
-                     (= (type o) byte-array-type) (.send producer (doto ^BytesMessage (.createBytesMessage ^Session session) (.writeBytes ^bytes o)))
-                     (= (type o) java.lang.String) (.send producer ^TextMessage (.createTextMessage ^Session session ^java.lang.String o))
-                     :default (.send producer (.createObjectMessage ^Session session o))))))))
+                     (= (type o) byte-array-type) (.send
+                                                    producer
+                                                    (doto
+                                                      ^BytesMessage (.createBytesMessage ^Session session)
+                                                      (.writeBytes ^bytes o)))
+                     (= (type o) java.lang.String) (.send
+                                                     producer
+                                                     ^TextMessage (.createTextMessage ^Session session ^java.lang.String o))
+                     :default (.send
+                                producer
+                                (.createObjectMessage ^Session session o))))))))
 
 (defn create-pooled-bytes-message-producer [^String server-url ^String endpoint-description pool-size]
   (println "Creating producer for endpoint description:" endpoint-description)
