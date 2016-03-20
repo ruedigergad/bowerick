@@ -191,9 +191,9 @@
   [^String server-url ^String endpoint-description]
   (println "Creating producer for endpoint description:" endpoint-description)
   (with-endpoint server-url endpoint-description
-    (let [^MessageProducer producer (doto
-                                      (.createProducer session endpoint)
-                                      (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
+    (let [producer (doto
+                     (.createProducer session endpoint)
+                     (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
       (fn [o]
         (cond
           (= :close o) (.close connection)
@@ -201,14 +201,14 @@
                      (= (type o) byte-array-type) (.send
                                                     producer
                                                     (doto
-                                                      ^BytesMessage (.createBytesMessage ^Session session)
+                                                      (.createBytesMessage session)
                                                       (.writeBytes ^bytes o)))
                      (= (type o) java.lang.String) (.send
                                                      producer
-                                                     ^TextMessage (.createTextMessage ^Session session ^java.lang.String o))
+                                                     (.createTextMessage session ^String o))
                      :default (.send
                                 producer
-                                (.createObjectMessage ^Session session o))))))))
+                                (.createObjectMessage session o))))))))
 
 (defn create-pooled-bytes-message-producer [^String server-url ^String endpoint-description pool-size]
   (println "Creating producer for endpoint description:" endpoint-description)
