@@ -283,10 +283,6 @@
                          (println "Closing consumer for endpoint:" endpoint)
                          (.close connection)))))))
 
-(defn create-lzf-consumer [server-url endpoint-description cb]
-  (create-consumer
-    server-url endpoint-description (fn [^bytes ba] (cb (LZFDecoder/decode ba)))))
-
 (defn create-kryo-consumer
   ([server-url endpoint-description cb]
     (create-kryo-consumer
@@ -313,7 +309,7 @@
                            (println "Closing consumer for endpoint:" endpoint)
                            (.close connection))))))))
 
-(defn create-kryo-lzf-consumer [server-url endpoint-description cb]
+(defn create-lzf-consumer [server-url endpoint-description cb]
   (create-kryo-consumer
     server-url endpoint-description cb (fn [^bytes ba] (LZFDecoder/decode ba))))
 
