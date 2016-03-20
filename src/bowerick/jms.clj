@@ -213,9 +213,9 @@
 (defn create-pooled-bytes-message-producer [^String server-url ^String endpoint-description pool-size]
   (println "Creating producer for endpoint description:" endpoint-description)
   (with-endpoint server-url endpoint-description
-    (let [^MessageProducer producer (doto
-                                      (.createProducer session endpoint)
-                                      (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
+    (let [producer (doto
+                     (.createProducer session endpoint)
+                     (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
       (PooledBytesMessageProducer. producer session connection pool-size))))
 
 (defn close [s]
