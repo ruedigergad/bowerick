@@ -13,7 +13,6 @@
                  [org.slf4j/slf4j-simple "1.7.10"]
                  [clj-assorted-utils "1.11.1"]
                  [cheshire "5.5.0"]]
-  :jvm-opts ["-Djavax.net.ssl.keyStore=test/ssl/broker.ks" "-Djavax.net.ssl.keyStorePassword=password" "-Djavax.net.ssl.trustStore=test/ssl/broker.ts" "-Djavax.net.ssl.trustStorePassword=password"]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
             :distribution :repo
@@ -25,5 +24,6 @@
                ["javac" "src-java/bowerick/PooledBytesMessageProducer.java"]
                ["compile" "bowerick.JmsController"] "javac" "compile"]
   :main bowerick.main
-  :profiles  {:repl  {:dependencies  [[jonase/eastwood "0.2.3" :exclusions  [org.clojure/clojure]]]}}
+  :profiles {:repl  {:dependencies  [[jonase/eastwood "0.2.3" :exclusions  [org.clojure/clojure]]]}
+             :test {:jvm-opts ["-Djavax.net.ssl.keyStore=test/ssl/broker.ks" "-Djavax.net.ssl.keyStorePassword=password" "-Djavax.net.ssl.trustStore=test/ssl/broker.ts" "-Djavax.net.ssl.trustStorePassword=password"]}}
   :plugins [[lein-cloverage "1.0.6"]])
