@@ -289,7 +289,10 @@
                                       (instance? BytesMessage m) (let [data (byte-array (.getBodyLength ^BytesMessage m))]
                                                                    (.readBytes ^BytesMessage m data)
                                                                    (cb data))
-                                      (instance? ObjectMessage m)  (cb (.getObject ^ObjectMessage m))
+                                      (instance? ObjectMessage m)  (try
+                                                                     (cb (.getObject ^ObjectMessage m))
+                                                                     (catch javax.jms.JMSException e
+                                                                       (println e)))
                                       (instance? TextMessage m) (cb (.getText ^TextMessage m))
                                       :default (println "Unknown message type:" (type m)))))
           consumer (doto
