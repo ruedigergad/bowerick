@@ -21,7 +21,7 @@
   (:require
     [bowerick.jms :refer :all])
   (:import
-    (bowerick Closable JmsConsumerCallback JmsController JmsProducer)))
+    (bowerick JmsConsumerCallback JmsController JmsProducer)))
 
 (defn -init [jms-url]
   [[] {:jms-url jms-url :broker (ref nil)}])
