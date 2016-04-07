@@ -243,13 +243,13 @@
   (let [producer (create-producer server-url endpoint-description)
         pool (ArrayList. pool-size)]
     (fn [o]
-      (cond
-        (= :close o) (producer :close)
-        :default (do
-                   (.add pool o)
-                   (when (>= (.size pool) pool-size)
-                     (producer pool)
-                     (.clear pool)))))))
+      (condp = o
+        :close (producer :close)
+        (do
+          (.add pool o)
+          (when (>= (.size pool) pool-size)
+            (producer pool)
+            (.clear pool)))))))
 
 (defn create-pooled-kryo-producer
   ([server-url endpoint-description pool-size]
@@ -261,16 +261,16 @@
           out (Output. *kryo-output-size*)
           kryo (Kryo.)]
       (fn [o]
-        (cond
-          (= :close o) (producer :close)
-          :default (do
-                     (.add pool o)
-                     (when (>= (.size pool) pool-size)
-                       (let [obj (.writeObject kryo out pool)
-                             ^bytes b-array (ba-out-fn (.toBytes out))]
-                         (producer b-array)
-                         (.clear out)
-                         (.clear pool)))))))))
+        (condp = o
+          :close (producer :close)
+          (do
+            (.add pool o)
+            (when (>= (.size pool) pool-size)
+              (let [obj (.writeObject kryo out pool)
+                    ^bytes b-array (ba-out-fn (.toBytes out))]
+                (producer b-array)
+                (.clear out)
+                (.clear pool)))))))))
 
 (defn create-pooled-lzf-producer
   [server-url endpoint-description pool-size]
@@ -285,24 +285,24 @@
   (println "Creating consumer for endpoint descriptiont:" endpoint-description)
   (with-endpoint server-url endpoint-description
     (let [listener (proxy [MessageListener] []
-            (onMessage [^Message m] (cond
-                                      (instance? BytesMessage m) (let [data (byte-array (.getBodyLength ^BytesMessage m))]
-                                                                   (.readBytes ^BytesMessage m data)
-                                                                   (cb data))
-                                      (instance? ObjectMessage m)  (try
-                                                                     (cb (.getObject ^ObjectMessage m))
-                                                                     (catch javax.jms.JMSException e
-                                                                       (println e)))
-                                      (instance? TextMessage m) (cb (.getText ^TextMessage m))
-                                      :default (println "Unknown message type:" (type m)))))
+            (onMessage [^Message m] (condp instance? m
+                                      BytesMessage (let [data (byte-array (.getBodyLength ^BytesMessage m))]
+                                                     (.readBytes ^BytesMessage m data)
+                                                     (cb data))
+                                      ObjectMessage  (try
+                                                       (cb (.getObject ^ObjectMessage m))
+                                                       (catch javax.jms.JMSException e
+                                                         (println e)))
+                                      TextMessage (cb (.getText ^TextMessage m))
+                                      (println "Unknown message type:" (type m)))))
           consumer (doto
                      (.createConsumer session endpoint)
                      (.setMessageListener listener))]      
       (fn [k]
-        (cond
-          (= :close k) (do
-                         (println "Closing consumer for endpoint:" endpoint)
-                         (.close connection)))))))
+        (condp = k
+          :close (do
+                   (println "Closing consumer for endpoint:" endpoint)
+                   (.close connection)))))))
 
 (defn create-kryo-consumer
   ([server-url endpoint-description cb]
@@ -314,21 +314,21 @@
       (let [kryo (Kryo.)
             in (Input.)
             listener (proxy [MessageListener] []
-              (onMessage [^Message m] (cond
-                                        (instance? ObjectMessage m)  (cb (.getObject ^ObjectMessage m))
-                                        (instance? BytesMessage m) (let [data (byte-array (.getBodyLength ^BytesMessage m))]
-                                                                     (.readBytes ^BytesMessage m data)
-                                                                     (.setBuffer in (ba-in-fn data))
-                                                                     (cb (.readObject kryo in ArrayList)))
-                                        :default (println "Unknown message type:" (type m)))))
+              (onMessage [^Message m] (condp instance? m
+                                        ObjectMessage  (cb (.getObject ^ObjectMessage m))
+                                        BytesMessage (let [data (byte-array (.getBodyLength ^BytesMessage m))]
+                                                       (.readBytes ^BytesMessage m data)
+                                                       (.setBuffer in (ba-in-fn data))
+                                                       (cb (.readObject kryo in ArrayList)))
+                                        (println "Unknown message type:" (type m)))))
             consumer (doto
                        (.createConsumer session endpoint)
                        (.setMessageListener listener))]      
         (fn [k]
-          (cond
-            (= :close k) (do
-                           (println "Closing consumer for endpoint:" endpoint)
-                           (.close connection))))))))
+          (condp = k
+            :close (do
+                     (println "Closing consumer for endpoint:" endpoint)
+                     (.close connection))))))))
 
 (defn create-lzf-consumer [server-url endpoint-description cb]
   (create-kryo-consumer
