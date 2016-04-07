@@ -30,7 +30,7 @@
     (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationMap AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
     (org.fusesource.stomp.jms StompJmsConnectionFactory)))
 
-(def ^:dynamic *kryo-output-size* 2048000)
+(def ^:dynamic ^Long *kryo-output-size* 2048000)
 
 (def ^:dynamic *user-name* nil)
 (def ^:dynamic *user-password* nil)
@@ -239,7 +239,7 @@
 (defn close [s]
   (s :close))
 
-(defn create-pooled-producer [server-url endpoint-description pool-size]
+(defn create-pooled-producer [server-url endpoint-description ^long pool-size]
   (println "Creating pooled-producer for endpoint description:" endpoint-description)
   (let [producer (create-producer server-url endpoint-description)
         pool (ArrayList. pool-size)]
@@ -256,7 +256,7 @@
   ([server-url endpoint-description pool-size]
     (create-pooled-kryo-producer
       server-url endpoint-description pool-size (fn [^bytes ba] ba)))
-  ([server-url endpoint-description pool-size ba-out-fn]
+  ([server-url endpoint-description ^long pool-size ba-out-fn]
     (println "Creating pooled-kryo-producer for endpoint description:" endpoint-description)
     (let [producer (create-producer server-url endpoint-description)
           pool (ArrayList. pool-size)
