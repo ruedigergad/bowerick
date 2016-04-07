@@ -226,6 +226,32 @@
               producer
               (.createObjectMessage session o))))))))
 
+(defn create-consumer [^String server-url ^String endpoint-description cb]
+  (println "Creating consumer for endpoint description:" endpoint-description)
+  (with-endpoint server-url endpoint-description
+    (let [listener (proxy [MessageListener] []
+            (onMessage [^Message m] (condp instance? m
+                                      BytesMessage (let [data (byte-array (.getBodyLength ^BytesMessage m))]
+                                                     (.readBytes ^BytesMessage m data)
+                                                     (cb data))
+                                      ObjectMessage  (try
+                                                       (cb (.getObject ^ObjectMessage m))
+                                                       (catch javax.jms.JMSException e
+                                                         (println e)))
+                                      TextMessage (cb (.getText ^TextMessage m))
+                                      (println "Unknown message type:" (type m)))))
+          consumer (doto
+                     (.createConsumer session endpoint)
+                     (.setMessageListener listener))]
+      (fn [k]
+        (condp = k
+          :close (do
+                   (println "Closing consumer for endpoint:" endpoint)
+                   (.close connection)))))))
+
+(defn close [s]
+  (s :close))
+
 (defn create-pooled-bytes-message-producer [^String server-url ^String endpoint-description pool-size]
   (println "Creating pooled-bytes-message-producer for endpoint description:" endpoint-description)
   (with-endpoint server-url endpoint-description
@@ -233,9 +259,6 @@
                      (.createProducer session endpoint)
                      (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
       (PooledBytesMessageProducer. producer session connection pool-size))))
-
-(defn close [s]
-  (s :close))
 
 (defn create-pooled-producer [server-url endpoint-description ^long pool-size]
   (println "Creating pooled-producer for endpoint description:" endpoint-description)
@@ -281,29 +304,6 @@
     pool-size
     (fn [^bytes ba]
       (LZFEncoder/encode ba))))
-
-(defn create-consumer [^String server-url ^String endpoint-description cb]
-  (println "Creating consumer for endpoint description:" endpoint-description)
-  (with-endpoint server-url endpoint-description
-    (let [listener (proxy [MessageListener] []
-            (onMessage [^Message m] (condp instance? m
-                                      BytesMessage (let [data (byte-array (.getBodyLength ^BytesMessage m))]
-                                                     (.readBytes ^BytesMessage m data)
-                                                     (cb data))
-                                      ObjectMessage  (try
-                                                       (cb (.getObject ^ObjectMessage m))
-                                                       (catch javax.jms.JMSException e
-                                                         (println e)))
-                                      TextMessage (cb (.getText ^TextMessage m))
-                                      (println "Unknown message type:" (type m)))))
-          consumer (doto
-                     (.createConsumer session endpoint)
-                     (.setMessageListener listener))]      
-      (fn [k]
-        (condp = k
-          :close (do
-                   (println "Closing consumer for endpoint:" endpoint)
-                   (.close connection)))))))
 
 (defn create-pooled-kryo-consumer
   ([server-url endpoint-description cb]
