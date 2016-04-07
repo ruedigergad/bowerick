@@ -213,20 +213,20 @@
                      (.createProducer session endpoint)
                      (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
       (fn [o]
-        (cond
-          (= :close o) (.close connection)
-          :default (cond
-                     (= (type o) byte-array-type) (.send
-                                                    producer
-                                                    (doto
-                                                      (.createBytesMessage session)
-                                                      (.writeBytes ^bytes o)))
-                     (= (type o) java.lang.String) (.send
-                                                     producer
-                                                     (.createTextMessage session ^String o))
-                     :default (.send
-                                producer
-                                (.createObjectMessage session o))))))))
+        (condp = o
+          :close (.close connection)
+          (condp = (type o)
+            byte-array-type (.send
+                              producer
+                              (doto
+                                (.createBytesMessage session)
+                                (.writeBytes ^bytes o)))
+            java.lang.String (.send
+                               producer
+                               (.createTextMessage session ^String o))
+            (.send
+              producer
+              (.createObjectMessage session o))))))))
 
 (defn create-pooled-bytes-message-producer [^String server-url ^String endpoint-description pool-size]
   (println "Creating producer for endpoint description:" endpoint-description)
