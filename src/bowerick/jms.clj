@@ -27,6 +27,7 @@
     (javax.net.ssl KeyManagerFactory SSLContext TrustManagerFactory)
     (org.apache.activemq ActiveMQConnectionFactory ActiveMQSslConnectionFactory)
     (org.apache.activemq.broker BrokerService)
+    (org.apache.activemq.broker.region Destination)
     (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationMap AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
     (org.fusesource.stomp.jms StompJmsConnectionFactory)))
 
@@ -105,7 +106,7 @@
     (get-destinations broker-service true))
   ([^BrokerService broker-service include-destinations-without-producers]
     (let [dst-vector (ref [])]
-      (doseq [dst (vec (-> (.getBroker broker-service) (.getDestinationMap) (.values)))]
+      (doseq [^Destination dst (vec (-> (.getBroker broker-service) (.getDestinationMap) (.values)))]
         (if (or
               include-destinations-without-producers
               (>
