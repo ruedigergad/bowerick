@@ -304,9 +304,9 @@
                    (println "Closing consumer for endpoint:" endpoint)
                    (.close connection)))))))
 
-(defn create-kryo-consumer
+(defn create-pooled-kryo-consumer
   ([server-url endpoint-description cb]
-    (create-kryo-consumer
+    (create-pooled-kryo-consumer
       server-url endpoint-description cb (fn [^bytes ba] ba)))
   ([^String server-url ^String endpoint-description cb ba-in-fn]
     (println "Creating consumer for endpoint description:" endpoint-description)
@@ -315,7 +315,6 @@
             in (Input.)
             listener (proxy [MessageListener] []
               (onMessage [^Message m] (condp instance? m
-                                        ObjectMessage  (cb (.getObject ^ObjectMessage m))
                                         BytesMessage (let [data (byte-array (.getBodyLength ^BytesMessage m))]
                                                        (.readBytes ^BytesMessage m data)
                                                        (.setBuffer in (ba-in-fn data))
@@ -330,7 +329,7 @@
                      (println "Closing consumer for endpoint:" endpoint)
                      (.close connection))))))))
 
-(defn create-lzf-consumer [server-url endpoint-description cb]
-  (create-kryo-consumer
+(defn create-pooled-lzf-consumer [server-url endpoint-description cb]
+  (create-pooled-kryo-consumer
     server-url endpoint-description cb (fn [^bytes ba] (LZFDecoder/decode ba))))
 
