@@ -222,7 +222,7 @@
                      (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
       (->ProducerWrapper
         (fn [data]
-          (condp = (type data)
+          (condp instance? data
             byte-array-type (.send
                               producer
                               (doto
