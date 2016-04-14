@@ -17,9 +17,11 @@
     [clj-assorted-utils.util :refer :all])
   (:import
     (bowerick PooledBytesMessageProducer)
+    (clojure.lang IFn)
     (com.esotericsoftware.kryo Kryo)
     (com.esotericsoftware.kryo.io Input Output)
     (com.ning.compress.lzf LZFDecoder LZFEncoder)
+    (java.lang AutoCloseable)
     (java.security KeyStore)
     (java.util ArrayList)
     (java.util.concurrent ArrayBlockingQueue)
@@ -203,6 +205,14 @@
     (.close connection)
     endpoint))
 
+(defrecord ProducerWrapper [send-fn close-fn]
+  AutoCloseable
+    (close [this]
+      (close-fn))
+  IFn
+    (invoke [this data]
+      (send-fn data)))
+
 (defn create-producer
   [^String server-url ^String endpoint-description]
   (println "Creating producer for endpoint description:" endpoint-description)
@@ -210,21 +220,28 @@
     (let [producer (doto
                      (.createProducer session endpoint)
                      (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
-      (fn [o]
-        (condp = o
-          :close (.close connection)
-          (condp = (type o)
+      (->ProducerWrapper
+        (fn [data]
+          (condp = (type data)
             byte-array-type (.send
                               producer
                               (doto
                                 (.createBytesMessage session)
-                                (.writeBytes ^bytes o)))
+                                (.writeBytes ^bytes data)))
             java.lang.String (.send
                                producer
-                               (.createTextMessage session ^String o))
+                               (.createTextMessage session ^String data))
             (.send
               producer
-              (.createObjectMessage session o))))))))
+              (.createObjectMessage session data))))
+        (fn []
+          (println "Closing producer for endpoint description:" endpoint-description)
+          (.close connection))))))
+
+(defrecord ConsumerWrapper [close-fn]
+  AutoCloseable
+    (close [this]
+      (close-fn)))
 
 (defn create-consumer [^String server-url ^String endpoint-description cb]
   (println "Creating consumer for endpoint description:" endpoint-description)
@@ -243,14 +260,15 @@
           consumer (doto
                      (.createConsumer session endpoint)
                      (.setMessageListener listener))]
-      (fn [k]
-        (condp = k
-          :close (do
-                   (println "Closing consumer for endpoint:" endpoint)
-                   (.close connection)))))))
+      (->ConsumerWrapper
+        (fn []
+          (println "Closing consumer for endpoint description:" endpoint-description)
+          (.close connection))))))
 
 (defn close [s]
-  (s :close))
+  (if (instance? AutoCloseable s)
+    (.close s)
+    (s :close)))
 
 (defn create-pooled-bytes-message-producer [^String server-url ^String endpoint-description pool-size]
   (println "Creating pooled-bytes-message-producer for endpoint description:" endpoint-description)
@@ -264,14 +282,15 @@
   (println "Creating pooled-producer for endpoint description:" endpoint-description)
   (let [producer (create-producer server-url endpoint-description)
         pool (ArrayList. pool-size)]
-    (fn [o]
-      (condp = o
-        :close (producer :close)
+    (->ProducerWrapper
+      (fn [o]
         (do
           (.add pool o)
           (when (>= (.size pool) pool-size)
             (producer pool)
-            (.clear pool)))))))
+            (.clear pool))))
+      (fn []
+        (.close producer)))))
 
 (defn create-pooled-kryo-producer
   ([server-url endpoint-description pool-size]
@@ -283,9 +302,8 @@
           pool (ArrayList. pool-size)
           out (Output. *kryo-output-size*)
           kryo (Kryo.)]
-      (fn [o]
-        (condp = o
-          :close (producer :close)
+      (->ProducerWrapper
+        (fn [o]
           (do
             (.add pool o)
             (when (>= (.size pool) pool-size)
@@ -293,7 +311,9 @@
                     ^bytes b-array (ba-out-fn (.toBytes out))]
                 (producer b-array)
                 (.clear out)
-                (.clear pool)))))))))
+                (.clear pool)))))
+        (fn []
+          (.close producer))))))
 
 (defn create-pooled-lzf-producer
   [server-url endpoint-description pool-size]
@@ -324,11 +344,10 @@
             consumer (doto
                        (.createConsumer session endpoint)
                        (.setMessageListener listener))]      
-        (fn [k]
-          (condp = k
-            :close (do
-                     (println "Closing consumer for endpoint:" endpoint)
-                     (.close connection))))))))
+        (->ConsumerWrapper
+          (fn []
+            (println "Closing consumer for endpoint description:" endpoint-description)
+            (.close connection)))))))
 
 (defn create-pooled-lzf-consumer [server-url endpoint-description cb]
   (println "Creating pooled-lzf-consumer for endpoint description:" endpoint-description)
