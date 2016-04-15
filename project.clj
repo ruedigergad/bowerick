@@ -22,7 +22,9 @@
   :java-source-paths ["src-java"]
   :prep-tasks [["compile" "bowerick.java-interfaces"]
                ["javac" "src-java/bowerick/PooledBytesMessageProducer.java"]
-               ["compile" "bowerick.JmsController"] "javac" "compile"]
+               ["compile" "bowerick.JmsController"]
+               "javac"
+               "compile"]
   :main bowerick.main
   :test-selectors {:default (complement :benchmark)
                    :benchmark :benchmark}
