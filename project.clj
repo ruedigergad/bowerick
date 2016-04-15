@@ -24,6 +24,8 @@
                ["javac" "src-java/bowerick/PooledBytesMessageProducer.java"]
                ["compile" "bowerick.JmsController"] "javac" "compile"]
   :main bowerick.main
+  :test-selectors {:default (complement :benchmark)
+                   :benchmark :benchmark}
   :profiles {:repl
                {:dependencies  [[jonase/eastwood "0.2.3" :exclusions  [org.clojure/clojure]]]}
              :test

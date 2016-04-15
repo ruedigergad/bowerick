@@ -26,7 +26,7 @@
 
 (use-fixtures :each benchmark-fixture)
 
-(deftest simple-string-transmission-benchmark
+(deftest ^:benchmark simple-string-transmission-benchmark
   (let [producer (create-producer *local-jms-server* test-topic)
         consume-fn (fn [_])
         consumer (create-consumer *local-jms-server* test-topic consume-fn)]
