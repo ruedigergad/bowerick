@@ -39,7 +39,7 @@
                       (processObject [obj]
                       (dosync (ref-set data obj))
                       (set-flag flag)))
-        consumer (.connectConsumer controller test-topic ^JmsConsumerCallback consumer-cb)]
+        consumer (.createConsumer controller test-topic ^JmsConsumerCallback consumer-cb)]
     (.sendObject producer "foo")
     (await-flag flag)
     (is (flag-set? flag))
@@ -62,7 +62,7 @@
                       (processObject [obj]
                       (dosync (ref-set data obj))
                       (set-flag flag)))
-        consumer (.connectConsumer controller test-topic ^JmsConsumerCallback consumer-cb)]
+        consumer (.createConsumer controller test-topic ^JmsConsumerCallback consumer-cb)]
     (.sendObject producer "foo")
     (await-flag flag)
     (is (flag-set? flag))

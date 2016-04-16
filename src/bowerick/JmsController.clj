@@ -13,7 +13,7 @@
   (:gen-class
    :init init
    :constructors {[String] []}
-   :methods [[connectConsumer [String bowerick.JmsConsumerCallback] AutoCloseable]
+   :methods [[createConsumer [String bowerick.JmsConsumerCallback] AutoCloseable]
              [createProducer [String] bowerick.JmsProducer]
              [startEmbeddedBroker [] void]
              [stopEmbeddedBroker [] void]]
@@ -34,15 +34,12 @@
       (sendObject [obj]
         (producer obj)))))
 
-(defn -connectConsumer [^JmsController this topic-identifier ^JmsConsumerCallback consumer-cb]
-  (let [consumer (create-consumer
-                   (:jms-url (.state this))
-                   topic-identifier
-                   (fn [obj]
-                     (.processObject consumer-cb obj)))]
-    (proxy [java.lang.AutoCloseable] []
-      (close []
-        (close consumer)))))
+(defn -createConsumer [^JmsController this topic-identifier ^JmsConsumerCallback consumer-cb]
+  (create-consumer
+    (:jms-url (.state this))
+    topic-identifier
+    (fn [obj]
+      (.processObject consumer-cb obj))))
 
 (defn -startEmbeddedBroker [^JmsController this]
   (let [broker-ref (:broker (.state this))]
