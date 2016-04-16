@@ -13,10 +13,10 @@
 
 (gen-interface
   :name bowerick.JmsConsumerCallback
-  :methods [[processObject [Object] void]])
+  :methods [[processData [Object] void]])
 
 (gen-interface
   :name bowerick.JmsProducer
   :extends [AutoCloseable]
-  :methods [[sendObject [Object] void]])
+  :methods [[sendData [Object] void]])
 

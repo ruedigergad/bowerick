@@ -16,7 +16,7 @@
     [clojure.java.io :refer :all]
     [clj-assorted-utils.util :refer :all])
   (:import
-    (bowerick PooledBytesMessageProducer)
+    (bowerick JmsProducer PooledBytesMessageProducer)
     (clojure.lang IFn)
     (com.esotericsoftware.kryo Kryo)
     (com.esotericsoftware.kryo.io Input Output)
@@ -209,6 +209,9 @@
   AutoCloseable
     (close [this]
       (close-fn))
+  JmsProducer
+    (sendData [this data]
+      (send-fn data))
   IFn
     (invoke [this data]
       (send-fn data)))

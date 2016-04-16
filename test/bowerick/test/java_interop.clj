@@ -36,11 +36,11 @@
         flag (prepare-flag)
         data (ref nil)
         consumer-cb (proxy [JmsConsumerCallback] []
-                      (processObject [obj]
-                      (dosync (ref-set data obj))
-                      (set-flag flag)))
+                      (processData [obj]
+                        (dosync (ref-set data obj))
+                        (set-flag flag)))
         consumer (.createConsumer controller test-topic ^JmsConsumerCallback consumer-cb)]
-    (.sendObject producer "foo")
+    (.sendData producer "foo")
     (await-flag flag)
     (is (flag-set? flag))
     (is (= "foo" @data))
@@ -59,11 +59,11 @@
         flag (prepare-flag)
         data (ref nil)
         consumer-cb (proxy [JmsConsumerCallback] []
-                      (processObject [obj]
-                      (dosync (ref-set data obj))
-                      (set-flag flag)))
+                      (processData [obj]
+                        (dosync (ref-set data obj))
+                        (set-flag flag)))
         consumer (.createConsumer controller test-topic ^JmsConsumerCallback consumer-cb)]
-    (.sendObject producer "foo")
+    (.sendData producer "foo")
     (await-flag flag)
     (is (flag-set? flag))
     (is (= "foo" @data))

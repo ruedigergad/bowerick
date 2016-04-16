@@ -27,19 +27,16 @@
   [[] {:jms-url jms-url :broker (ref nil)}])
 
 (defn -createProducer [^JmsController this topic-identifier]
-  (let [producer (create-producer (:jms-url (.state this)) topic-identifier)]
-    (proxy [JmsProducer] []
-      (close []
-        (close producer))
-      (sendObject [obj]
-        (producer obj)))))
+  (create-producer
+    (:jms-url (.state this))
+    topic-identifier))
 
 (defn -createConsumer [^JmsController this topic-identifier ^JmsConsumerCallback consumer-cb]
   (create-consumer
     (:jms-url (.state this))
     topic-identifier
     (fn [obj]
-      (.processObject consumer-cb obj))))
+      (.processData consumer-cb obj))))
 
 (defn -startEmbeddedBroker [^JmsController this]
   (let [broker-ref (:broker (.state this))]
