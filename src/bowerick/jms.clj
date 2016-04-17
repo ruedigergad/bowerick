@@ -295,6 +295,21 @@
       (fn []
         (.close producer)))))
 
+(defn create-pooled-consumer [^String server-url ^String endpoint-description cb]
+  (println "Creating pooled consumer for endpoint description:" endpoint-description)
+  (with-endpoint server-url endpoint-description
+    (let [listener (proxy [MessageListener] []
+                     (onMessage [^Message m]
+                       (doseq [o ^ArrayList (.getObject ^ObjectMessage m)]
+                         (cb o))))
+          consumer (doto
+                     (.createConsumer session endpoint)
+                     (.setMessageListener listener))]
+      (->ConsumerWrapper
+        (fn []
+          (println "Closing pooled consumer for endpoint description:" endpoint-description)
+          (.close connection))))))
+
 (defn create-pooled-kryo-producer
   ([server-url endpoint-description pool-size]
     (create-pooled-kryo-producer
