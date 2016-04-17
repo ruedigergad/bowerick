@@ -199,9 +199,11 @@
                       (println "Could not create endpoint. Type:" endpoint-type# "Name:" endpoint-name#))]
      ~@body))
 
-(defn init-topic
-  [^String server-url ^String topic-name]
-  (with-endpoint server-url topic-name
+(defn init-endpoint
+  [^String server-url ^String endpoint-description]
+  (with-endpoint
+    server-url
+    endpoint-description
     (.close connection)
     endpoint))
 
