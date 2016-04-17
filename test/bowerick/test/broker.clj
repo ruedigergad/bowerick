@@ -18,12 +18,11 @@
 
 (deftest get-destinations-test
   (let [brkr (start-broker *local-jms-server*)
-        _ (init-endpoint *local-jms-server* test-topic)
         destinations-with-empty (get-destinations brkr)
         destinations-non-empty (get-destinations brkr false)]
     (is
       (=
-        ["/topic/ActiveMQ.Advisory.Connection" "/topic/ActiveMQ.Advisory.MasterBroker"]
+        ["/topic/ActiveMQ.Advisory.MasterBroker"]
         destinations-with-empty))
     (is (= [] destinations-non-empty))
     (.stop brkr)))

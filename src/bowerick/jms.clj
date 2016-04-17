@@ -199,14 +199,6 @@
                       (println "Could not create endpoint. Type:" endpoint-type# "Name:" endpoint-name#))]
      ~@body))
 
-(defn init-endpoint
-  [^String server-url ^String endpoint-description]
-  (with-endpoint
-    server-url
-    endpoint-description
-    (.close connection)
-    endpoint))
-
 (defrecord ProducerWrapper [send-fn close-fn]
   AutoCloseable
     (close [this]
