@@ -27,9 +27,43 @@
 (use-fixtures :each benchmark-fixture)
 
 (deftest ^:benchmark simple-string-transmission-benchmark
+  (println "Running benchmark: simple-string-transmission-benchmark")
   (let [producer (create-producer *local-jms-server* test-topic)
         consume-fn (fn [_])
         consumer (create-consumer *local-jms-server* test-topic consume-fn)]
+    (cc/with-progress-reporting
+      (cc/quick-bench
+        (producer "foo-string")))
+    (close producer)
+    (close consumer)))
+
+(deftest ^:benchmark pooled-string-transmission-benchmark-10
+  (println "Running benchmark: pooled-string-transmission-benchmark-10")
+  (let [producer (create-pooled-producer *local-jms-server* test-topic 10)
+        consume-fn (fn [_])
+        consumer (create-pooled-consumer *local-jms-server* test-topic consume-fn)]
+    (cc/with-progress-reporting
+      (cc/quick-bench
+        (producer "foo-string")))
+    (close producer)
+    (close consumer)))
+
+(deftest ^:benchmark pooled-kryo-string-transmission-benchmark-10
+  (println "Running benchmark: pooled-kryo-string-transmission-benchmark-10")
+  (let [producer (create-pooled-kryo-producer *local-jms-server* test-topic 10)
+        consume-fn (fn [_])
+        consumer (create-pooled-kryo-consumer *local-jms-server* test-topic consume-fn)]
+    (cc/with-progress-reporting
+      (cc/quick-bench
+        (producer "foo-string")))
+    (close producer)
+    (close consumer)))
+
+(deftest ^:benchmark pooled-lzf-string-transmission-benchmark-10
+  (println "Running benchmark: pooled-lzf-string-transmission-benchmark-10")
+  (let [producer (create-pooled-lzf-producer *local-jms-server* test-topic 10)
+        consume-fn (fn [_])
+        consumer (create-pooled-lzf-consumer *local-jms-server* test-topic consume-fn)]
     (cc/with-progress-reporting
       (cc/quick-bench
         (producer "foo-string")))
