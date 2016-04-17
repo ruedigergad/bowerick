@@ -38,7 +38,7 @@
 
 (deftest send-list
   (let [producer (create-producer *local-jms-server* test-topic)
-        received (ref '())    
+        received (ref nil)
         flag (prepare-flag)
         consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
         consumer (create-consumer *local-jms-server* test-topic consume-fn)

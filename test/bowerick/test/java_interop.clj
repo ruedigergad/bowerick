@@ -71,4 +71,3 @@
     (.close consumer)
     (.stopEmbeddedBroker controller)))
 
-
