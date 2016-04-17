@@ -309,7 +309,7 @@
     (create-pooled-kryo-producer
       server-url endpoint-description pool-size (fn [^bytes ba] ba)))
   ([server-url endpoint-description ^long pool-size ba-out-fn]
-    (println "Creating pooled-kryo-producer for endpoint description:" endpoint-description)
+    (println "Creating pooled kryo producer for endpoint description:" endpoint-description)
     (let [producer (create-producer server-url endpoint-description)
           pool (ArrayList. pool-size)
           out (Output. *kryo-output-size*)
@@ -325,7 +325,32 @@
                 (.clear out)
                 (.clear pool)))))
         (fn []
+          (println "Closing pooled kryo producer for endpoint description:" endpoint-description)
           (.close producer))))))
+
+(defn create-pooled-kryo-consumer
+  ([server-url endpoint-description cb]
+    (create-pooled-kryo-consumer
+      server-url endpoint-description cb (fn [^bytes ba] ba)))
+  ([^String server-url ^String endpoint-description cb ba-in-fn]
+    (println "Creating pooled kryo consumer for endpoint description:" endpoint-description)
+    (with-endpoint server-url endpoint-description
+      (let [kryo (Kryo.)
+            in (Input.)
+            listener (proxy [MessageListener] []
+                       (onMessage [^Message m]
+                         (let [data (byte-array (.getBodyLength ^BytesMessage m))]
+                           (.readBytes ^BytesMessage m data)
+                           (.setBuffer in (ba-in-fn data))
+                           (doseq [o ^ArrayList (.readObject kryo in ArrayList)]
+                             (cb o)))))
+            consumer (doto
+                       (.createConsumer session endpoint)
+                       (.setMessageListener listener))]      
+        (->ConsumerWrapper
+          (fn []
+            (println "Closing pooled kryo consumer for endpoint description:" endpoint-description)
+            (.close connection)))))))
 
 (defn create-pooled-lzf-producer
   [server-url endpoint-description pool-size]
@@ -337,34 +362,13 @@
     (fn [^bytes ba]
       (LZFEncoder/encode ba))))
 
-(defn create-pooled-kryo-consumer
-  ([server-url endpoint-description cb]
-    (create-pooled-kryo-consumer
-      server-url endpoint-description cb (fn [^bytes ba] ba)))
-  ([^String server-url ^String endpoint-description cb ba-in-fn]
-    (println "Creating pooled-kryo-consumer for endpoint description:" endpoint-description)
-    (with-endpoint server-url endpoint-description
-      (let [kryo (Kryo.)
-            in (Input.)
-            listener (proxy [MessageListener] []
-              (onMessage [^Message m] (condp instance? m
-                                        BytesMessage (let [data (byte-array (.getBodyLength ^BytesMessage m))]
-                                                       (.readBytes ^BytesMessage m data)
-                                                       (.setBuffer in (ba-in-fn data))
-                                                       (cb (.readObject kryo in ArrayList)))
-                                        (println "Unknown message type:" (type m)))))
-            consumer (doto
-                       (.createConsumer session endpoint)
-                       (.setMessageListener listener))]      
-        (->ConsumerWrapper
-          (fn []
-            (println "Closing consumer for endpoint description:" endpoint-description)
-            (.close connection)))))))
-
 (defn create-pooled-lzf-consumer [server-url endpoint-description cb]
   (println "Creating pooled-lzf-consumer for endpoint description:" endpoint-description)
   (create-pooled-kryo-consumer
-    server-url endpoint-description cb (fn [^bytes ba] (LZFDecoder/decode ba))))
+    server-url
+    endpoint-description
+    cb
+    (fn [^bytes ba] (LZFDecoder/decode ba))))
 
 (defn create-pooled-bytes-message-producer [^String server-url ^String endpoint-description pool-size]
   (println "Creating pooled-bytes-message-producer for endpoint description:" endpoint-description)
