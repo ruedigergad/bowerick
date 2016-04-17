@@ -61,8 +61,6 @@
     (producer "c")
     (await-flag was-run)
     (is (flag-set? was-run))
-    (println (type @received))
-    (is (list? @received))
     (is (= '("a" "b" "c") @received))
     (close producer)
     (close consumer)))
