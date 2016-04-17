@@ -368,11 +368,11 @@
     cb
     (fn [^bytes ba] (LZFDecoder/decode ba))))
 
-(defn create-pooled-bytes-message-producer [^String server-url ^String endpoint-description pool-size]
-  (println "Creating pooled-bytes-message-producer for endpoint description:" endpoint-description)
-  (with-endpoint server-url endpoint-description
-    (let [producer (doto
-                     (.createProducer session endpoint)
-                     (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
-      (PooledBytesMessageProducer. producer session connection pool-size))))
+;(defn create-pooled-bytes-message-producer [^String server-url ^String endpoint-description pool-size]
+;  (println "Creating pooled-bytes-message-producer for endpoint description:" endpoint-description)
+;  (with-endpoint server-url endpoint-description
+;    (let [producer (doto
+;                     (.createProducer session endpoint)
+;                     (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
+;      (PooledBytesMessageProducer. producer session connection pool-size))))
 
