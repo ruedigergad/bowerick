@@ -50,3 +50,20 @@
     (close producer)
     (close consumer)))
 
+(deftest pooled-producer-normal-consumer
+  (let [producer (create-pooled-producer *local-jms-server* test-topic 3)
+        was-run (prepare-flag)
+        received (ref nil)
+        consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag was-run))
+        consumer (create-consumer *local-jms-server* test-topic consume-fn)]
+    (producer "a")
+    (producer "b")
+    (producer "c")
+    (await-flag was-run)
+    (is (flag-set? was-run))
+    (println (type @received))
+    (is (list? @received))
+    (is (= '("a" "b" "c") @received))
+    (close producer)
+    (close consumer)))
+

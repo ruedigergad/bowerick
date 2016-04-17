@@ -11,7 +11,7 @@
                  [org.apache.activemq/activemq-stomp "5.13.2"]
                  [org.fusesource.stompjms/stompjms-client "1.19"]
                  [org.slf4j/slf4j-simple "1.7.10"]
-                 [clj-assorted-utils "1.11.1"]
+                 [clj-assorted-utils "1.12.0-SNAPSHOT"]
                  [cheshire "5.5.0"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
