@@ -50,6 +50,26 @@
     (close producer)
     (close consumer)))
 
+(deftest send-byte-array
+  (let [producer (create-producer *local-jms-server* test-topic)
+        received (ref nil)
+        flag (prepare-flag)
+        consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
+        consumer (create-consumer *local-jms-server* test-topic consume-fn)
+        data (byte-array (map byte [1 2 3 42]))]
+    (is (not= data @received))
+    (producer data)
+    (await-flag flag)
+    (doall
+      (map
+        (fn [a b]
+          (is
+            (= a b)))
+        (vec data)
+        (vec @received)))
+    (close producer)
+    (close consumer)))
+
 (deftest pooled-producer-normal-consumer
   (let [producer (create-pooled-producer *local-jms-server* test-topic 3)
         was-run (prepare-flag)
