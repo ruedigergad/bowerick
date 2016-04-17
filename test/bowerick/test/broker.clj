@@ -28,3 +28,20 @@
     (is (= [] destinations-non-empty))
     (.stop brkr)))
 
+(deftest get-destinations-with-producer-test
+  (let [brkr (start-broker *local-jms-server*)
+        producer (create-producer *local-jms-server* test-topic)
+        destinations-with-empty (get-destinations brkr)
+        destinations-non-empty (get-destinations brkr false)]
+    (is
+      (=
+        ["/topic/ActiveMQ.Advisory.Producer.Topic.testtopic.foo"
+         "/topic/ActiveMQ.Advisory.Connection"
+         "/topic/testtopic.foo"
+         "/topic/ActiveMQ.Advisory.Topic"
+         "/topic/ActiveMQ.Advisory.MasterBroker"]
+        destinations-with-empty))
+    (is (= ["/topic/testtopic.foo"] destinations-non-empty))
+    (close producer)
+    (.stop brkr)))
+
