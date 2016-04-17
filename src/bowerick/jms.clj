@@ -270,9 +270,7 @@
           (.close connection))))))
 
 (defn close [s]
-  (if (instance? AutoCloseable s)
-    (.close s)
-    (s :close)))
+  (.close s))
 
 (defn create-pooled-producer [server-url endpoint-description ^long pool-size]
   (println "Creating pooled producer for endpoint description:" endpoint-description)
