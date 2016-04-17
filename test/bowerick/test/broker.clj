@@ -34,12 +34,13 @@
         destinations-non-empty (get-destinations brkr false)]
     (is
       (=
-        ["/topic/ActiveMQ.Advisory.Producer.Topic.testtopic.foo"
-         "/topic/ActiveMQ.Advisory.Connection"
-         "/topic/testtopic.foo"
-         "/topic/ActiveMQ.Advisory.Topic"
-         "/topic/ActiveMQ.Advisory.MasterBroker"]
-        destinations-with-empty))
+        (sort
+          ["/topic/ActiveMQ.Advisory.Producer.Topic.testtopic.foo"
+           "/topic/ActiveMQ.Advisory.Connection"
+           "/topic/testtopic.foo"
+           "/topic/ActiveMQ.Advisory.Topic"
+           "/topic/ActiveMQ.Advisory.MasterBroker"])
+        (sort destinations-with-empty)))
     (is (= ["/topic/testtopic.foo"] destinations-non-empty))
     (close producer)
     (.stop brkr)))
