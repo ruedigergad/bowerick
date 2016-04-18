@@ -1,5 +1,6 @@
 ;;;
-;;;   Copyright 2014, University of Applied Sciences Frankfurt am Main
+;;;   Copyright 2016, Ruediger Gad
+;;;   Copyright 2014, 2015 University of Applied Sciences Frankfurt am Main
 ;;;
 ;;;   This software is released under the terms of the Eclipse Public License 
 ;;;   (EPL) 1.0. You can find a copy of the EPL at: 

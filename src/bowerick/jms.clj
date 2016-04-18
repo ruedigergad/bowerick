@@ -1,4 +1,5 @@
 ;;;
+;;;   Copyright 2016, Ruediger Gad
 ;;;   Copyright 2015, Frankfurt University of Applied Sciences
 ;;;
 ;;;   This software is released under the terms of the Eclipse Public License 
