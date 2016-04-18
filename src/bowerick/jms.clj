@@ -52,14 +52,54 @@
     "org.fusesource.hawtbuf"
     "com.thoughtworks.xstream.mapper"))
 
+(defn get-adjusted-ssl-context
+  []
+  (let [keyManagerFactory (doto
+                            (KeyManagerFactory/getInstance "SunX509")
+                            (.init
+                              (doto
+                                (KeyStore/getInstance "JKS")
+                                (.load
+                                  (input-stream *key-store-file*)
+                                  (char-array *key-store-password*)))
+                              (char-array *key-store-password*)))
+        trustManagerFactory (doto
+                              (TrustManagerFactory/getInstance "SunX509")
+                              (.init
+                                (doto (KeyStore/getInstance "JKS")
+                                  (.load
+                                    (input-stream *trust-store-file*)
+                                    (char-array *trust-store-password*)))))]
+    (doto
+      (SSLContext/getInstance "TLS")
+      (.init
+        (.getKeyManagers keyManagerFactory)
+        (.getTrustManagers trustManagerFactory)
+        nil))))
+
+(defn adjust-default-ssl-context
+  []
+  (when
+    (and
+      (file-exists? *key-store-file*)
+      (file-exists? *trust-store-file*))
+    (println
+      "Setting default SSLContext to use key store file:"
+      *key-store-file*
+      "and trust store file:"
+      *trust-store-file*)
+    (SSLContext/setDefault (get-adjusted-ssl-context))))
+
 (defn start-broker
   ([address]
+   (adjust-default-ssl-context)
    (doto (BrokerService.)
      (.addConnector address)
      (.setPersistent false)
      (.setUseJmx false)
      (.start)))
   ([address allow-anon users permissions]
+   (adjust-default-ssl-context)
    (let [user-list (map
                      (fn [u]
                        (AuthenticationUser.
@@ -125,31 +165,6 @@
 (defn send-error-msg [producer msg]
   (println msg)
   (producer (str "reply error " msg)))
-
-(defn get-adjusted-ssl-context
-  []
-  (let [keyManagerFactory (doto
-                            (KeyManagerFactory/getInstance "SunX509")
-                            (.init
-                              (doto
-                                (KeyStore/getInstance "JKS")
-                                (.load
-                                  (input-stream *key-store-file*)
-                                  (char-array *key-store-password*)))
-                              (char-array *key-store-password*)))
-        trustManagerFactory (doto
-                              (TrustManagerFactory/getInstance "SunX509")
-                              (.init
-                                (doto (KeyStore/getInstance "JKS")
-                                  (.load
-                                    (input-stream *trust-store-file*)
-                                    (char-array *trust-store-password*)))))]
-    (doto
-      (SSLContext/getInstance "TLS")
-      (.init
-        (.getKeyManagers keyManagerFactory)
-        (.getTrustManagers trustManagerFactory)
-        nil))))
 
 (defmacro with-endpoint
   [server-url endpoint-description & body]

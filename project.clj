@@ -34,6 +34,5 @@
                {:dependencies  [[jonase/eastwood "0.2.3" :exclusions  [org.clojure/clojure]]]}
              :test
                {:dependencies [[criterium "0.4.4"]]
-                :jvm-opts ["-Djavax.net.ssl.keyStore=test/ssl/broker.ks" "-Djavax.net.ssl.keyStorePassword=password" "-Djavax.net.ssl.trustStore=test/ssl/broker.ts" "-Djavax.net.ssl.trustStorePassword=password"]
                 :test-paths ["test" "benchmark"]}}
   :plugins [[lein-cloverage "1.0.6"]])

@@ -19,7 +19,11 @@
 (def test-topic "/topic/testtopic.foo")
 
 (defn run-test [t]
-  (let [broker (start-broker *local-jms-server*)]
+  (let [broker (binding [*trust-store-file* "test/ssl/broker.ts"
+                         *trust-store-password* "password"
+                         *key-store-file* "test/ssl/broker.ks"
+                         *key-store-password* "password"]
+                 (start-broker *local-jms-server*))]
     (t)
     (.stop broker)))
 
@@ -31,18 +35,26 @@
     (run-test t))
   (binding [*local-jms-server* "stomp+ssl://127.0.0.1:42423"
             *trust-store-file* "test/ssl/client.ts"
-            *key-store-file* "test/ssl/client.ks"]
+            *trust-store-password* "password"
+            *key-store-file* "test/ssl/client.ks"
+            *key-store-password* "password"]
     (run-test t))
   (binding [*local-jms-server* "stomp+ssl://127.0.0.1:42423?needClientAuth=true"
             *trust-store-file* "test/ssl/client.ts"
-            *key-store-file* "test/ssl/client.ks"]
+            *trust-store-password* "password"
+            *key-store-file* "test/ssl/client.ks"
+            *key-store-password* "password"]
     (run-test t))
   (binding [*local-jms-server* "ssl://127.0.0.1:42425"
             *trust-store-file* "test/ssl/client.ts"
-            *key-store-file* "test/ssl/client.ks"]
+            *trust-store-password* "password"
+            *key-store-file* "test/ssl/client.ks"
+            *key-store-password* "password"]
     (run-test t))
   (binding [*local-jms-server* "ssl://127.0.0.1:42425?needClientAuth=true"
             *trust-store-file* "test/ssl/client.ts"
-            *key-store-file* "test/ssl/client.ks"]
+            *trust-store-password* "password"
+            *key-store-file* "test/ssl/client.ks"
+            *key-store-password* "password"]
     (run-test t)))
 
