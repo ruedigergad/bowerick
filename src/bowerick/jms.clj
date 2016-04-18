@@ -54,6 +54,10 @@
     "com.thoughtworks.xstream.mapper"))
 
 (defn get-adjusted-ssl-context
+  "Get an SSLContext for which the key and trust stores are initialized based
+   on the settings defined in the global dynamic vars:
+   *key-store-file* *key-store-password*
+   *trust-store-file* *trust-store-password*"
   []
   (let [keyManagerFactory (doto
                             (KeyManagerFactory/getInstance "SunX509")
@@ -79,6 +83,10 @@
         nil))))
 
 (defn adjust-default-ssl-context
+  "Set the default SSLContext to a context that is initialized with key and
+   trust stores based on the settings defined in the global dynamic vars:
+   *key-store-file* *key-store-password*
+   *trust-store-file* *trust-store-password*"
   []
   (when
     (and
@@ -92,6 +100,16 @@
     (SSLContext/setDefault (get-adjusted-ssl-context))))
 
 (defn start-broker
+  "Start an embedded ActiveMQ broker.
+   Examples for valid addresses are: tcp://127.0.0.1:42424 udp://127.0.0.1:42426
+   ssl://127.0.0.1:42425 ssl://127.0.0.1:42425?needClientAuth=true
+   stomp+ssl://127.0.0.1:42423 stomp+ssl://127.0.0.1:42423?needClientAuth=true
+   In addition to the address, it is possible to configure the access control:
+   When allow-anon is true, anonymous access is allowed.
+   The list of users is defined as a vector of maps, e.g.:
+   [{\"name\" \"test-user\", \"password\" \"secret\", \"groups\" \"test-group,admins,publishers,consumers\"}]
+   Permissions are also defined as a vector of maps, e.g.:
+   [{\"target\" \"test.topic.a\", \"type\" \"topic\", \"write\" \"anonymous\"}"
   ([address]
    (adjust-default-ssl-context)
    (doto (BrokerService.)
@@ -145,6 +163,9 @@
        (.start)))))
 
 (defn get-destinations
+  "Get a lexicographically sorted list of destinations that exist for the given borker-service
+   Optionally, destinations without producers can be excluded by setting
+   include-destinations-without-producers to false."
   ([broker-service]
     (get-destinations broker-service true))
   ([^BrokerService broker-service include-destinations-without-producers]
@@ -161,7 +182,7 @@
                            "/na/")]
             (dosync
               (alter dst-vector conj (str dst-type (.getName dst)))))))
-      @dst-vector)))
+      (sort @dst-vector))))
 
 (defn send-error-msg [producer msg]
   (println msg)
