@@ -115,6 +115,63 @@
     (close producer)
     (close consumer)))
 
+(deftest pooled-producer-pooled-consumer-nippy-lz4
+  (let [producer (create-pooled-nippy-producer
+                   *local-jms-server*
+                   test-topic
+                   3
+                   {:compressor taoensso.nippy/lz4-compressor})
+        was-run (prepare-flag 3)
+        received (ref [])
+        consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
+        consumer (create-pooled-nippy-consumer *local-jms-server* test-topic consume-fn)]
+    (producer "a")
+    (producer "b")
+    (producer "c")
+    (await-flag was-run)
+    (is (flag-set? was-run))
+    (is (= ["a" "b" "c"] @received))
+    (close producer)
+    (close consumer)))
+
+(deftest pooled-producer-pooled-consumer-nippy-snappy
+  (let [producer (create-pooled-nippy-producer
+                   *local-jms-server*
+                   test-topic
+                   3
+                   {:compressor taoensso.nippy/snappy-compressor})
+        was-run (prepare-flag 3)
+        received (ref [])
+        consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
+        consumer (create-pooled-nippy-consumer *local-jms-server* test-topic consume-fn)]
+    (producer "a")
+    (producer "b")
+    (producer "c")
+    (await-flag was-run)
+    (is (flag-set? was-run))
+    (is (= ["a" "b" "c"] @received))
+    (close producer)
+    (close consumer)))
+
+(deftest pooled-producer-pooled-consumer-nippy-lzma2
+  (let [producer (create-pooled-nippy-producer
+                   *local-jms-server*
+                   test-topic
+                   3
+                   {:compressor taoensso.nippy/lzma2-compressor})
+        was-run (prepare-flag 3)
+        received (ref [])
+        consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
+        consumer (create-pooled-nippy-consumer *local-jms-server* test-topic consume-fn)]
+    (producer "a")
+    (producer "b")
+    (producer "c")
+    (await-flag was-run)
+    (is (flag-set? was-run))
+    (is (= ["a" "b" "c"] @received))
+    (close producer)
+    (close consumer)))
+
 (deftest pooled-producer-pooled-consumer-lzf
   (let [producer (create-pooled-lzf-producer *local-jms-server* test-topic 3)
         was-run (prepare-flag 3)

@@ -348,16 +348,21 @@
 (defn create-pooled-nippy-producer
   ([server-url endpoint-description pool-size]
     (create-pooled-nippy-producer
-      server-url endpoint-description pool-size (fn [^bytes ba] ba)))
-  ([server-url endpoint-description ^long pool-size ba-out-fn]
-    (println "Creating pooled nippy producer for endpoint description:" endpoint-description)
+      server-url endpoint-description pool-size {}))
+  ([server-url endpoint-description pool-size nippy-opts]
+    (create-pooled-nippy-producer
+      server-url endpoint-description pool-size nippy-opts (fn [^bytes ba] ba)))
+  ([server-url endpoint-description pool-size nippy-opts ba-out-fn]
+    (println "Creating pooled nippy producer for endpoint description:" endpoint-description
+             "with options:" nippy-opts)
     (let [producer (create-producer server-url endpoint-description)
-          pool (ArrayList. pool-size)]
+          ps (long pool-size)
+          pool (ArrayList. ps)]
       (->ProducerWrapper
         (fn [o]
           (.add pool o)
-          (when (>= (.size pool) pool-size)
-            (let [^bytes b-array (ba-out-fn (freeze pool))]
+          (when (>= (.size pool) ps)
+            (let [^bytes b-array (ba-out-fn (freeze pool nippy-opts))]
               (producer b-array)
               (.clear pool))))
         (fn []
@@ -392,6 +397,7 @@
     server-url
     endpoint-description
     pool-size
+    {}
     (fn [^bytes ba]
       (LZFEncoder/encode ba))))
 

@@ -48,11 +48,11 @@
     (close producer)
     (close consumer)))
 
-(deftest ^:benchmark pooled-kryo-string-transmission-benchmark-10-single
-  (println "Running benchmark: pooled-kryo-string-transmission-benchmark-10-single")
-  (let [producer (create-pooled-kryo-producer *local-jms-server* test-topic 10)
+(deftest ^:benchmark pooled-nippy-string-transmission-benchmark-10-single
+  (println "Running benchmark: pooled-nippy-string-transmission-benchmark-10-single")
+  (let [producer (create-pooled-nippy-producer *local-jms-server* test-topic 10)
         consume-fn (fn [_])
-        consumer (create-pooled-kryo-consumer *local-jms-server* test-topic consume-fn)]
+        consumer (create-pooled-nippy-consumer *local-jms-server* test-topic consume-fn)]
     (cc/with-progress-reporting
       (cc/quick-bench
         (producer "foo-string")))
