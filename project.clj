@@ -4,7 +4,6 @@
                  [org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.cli "0.2.4"]
                  [com.ning/compress-lzf "1.0.3"]
-                 [com.esotericsoftware/kryo "3.0.3"]
                  [org.apache.activemq/activemq-broker "5.13.2"]
                  [org.apache.activemq/activemq-client "5.13.2"]
                  [org.apache.activemq/activemq-jaas "5.13.2"]

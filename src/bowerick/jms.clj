@@ -20,8 +20,6 @@
   (:import
     (bowerick JmsProducer PooledBytesMessageProducer)
     (clojure.lang IFn)
-    (com.esotericsoftware.kryo Kryo)
-    (com.esotericsoftware.kryo.io Input Output)
     (com.ning.compress.lzf LZFDecoder LZFEncoder)
     (java.lang AutoCloseable)
     (java.security KeyStore)
