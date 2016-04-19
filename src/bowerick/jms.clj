@@ -15,7 +15,8 @@
     [clojure.string :only (join split)])
   (:require
     [clojure.java.io :refer :all]
-    [clj-assorted-utils.util :refer :all])
+    [clj-assorted-utils.util :refer :all]
+    [taoensso.nippy :refer :all])
   (:import
     (bowerick JmsProducer PooledBytesMessageProducer)
     (clojure.lang IFn)
@@ -395,10 +396,50 @@
             (println "Closing pooled kryo consumer for endpoint description:" endpoint-description)
             (.close connection)))))))
 
+(defn create-pooled-nippy-producer
+  ([server-url endpoint-description pool-size]
+    (create-pooled-nippy-producer
+      server-url endpoint-description pool-size (fn [^bytes ba] ba)))
+  ([server-url endpoint-description ^long pool-size ba-out-fn]
+    (println "Creating pooled nippy producer for endpoint description:" endpoint-description)
+    (let [producer (create-producer server-url endpoint-description)
+          pool (ArrayList. pool-size)]
+      (->ProducerWrapper
+        (fn [o]
+          (.add pool o)
+          (when (>= (.size pool) pool-size)
+            (let [^bytes b-array (ba-out-fn (freeze pool))]
+              (producer b-array)
+              (.clear pool))))
+        (fn []
+          (println "Closing pooled nippy producer for endpoint description:" endpoint-description)
+          (.close producer))))))
+
+(defn create-pooled-nippy-consumer
+  ([server-url endpoint-description cb]
+    (create-pooled-nippy-consumer
+      server-url endpoint-description cb (fn [^bytes ba] ba)))
+  ([^String server-url ^String endpoint-description cb ba-in-fn]
+    (println "Creating pooled nippy consumer for endpoint description:" endpoint-description)
+    (with-endpoint server-url endpoint-description
+      (let [listener (proxy [MessageListener] []
+                       (onMessage [^Message m]
+                         (let [data (byte-array (.getBodyLength ^BytesMessage m))]
+                           (.readBytes ^BytesMessage m data)
+                           (doseq [o ^ArrayList (thaw (ba-in-fn data))]
+                             (cb o)))))
+            consumer (doto
+                       (.createConsumer session endpoint)
+                       (.setMessageListener listener))]
+        (->ConsumerWrapper
+          (fn []
+            (println "Closing pooled nippy consumer for endpoint description:" endpoint-description)
+            (.close connection)))))))
+
 (defn create-pooled-lzf-producer
   [server-url endpoint-description pool-size]
   (println "Creating pooled-lzf-producer for endpoint description:" endpoint-description)
-  (create-pooled-kryo-producer
+  (create-pooled-nippy-producer
     server-url
     endpoint-description
     pool-size
@@ -407,11 +448,12 @@
 
 (defn create-pooled-lzf-consumer [server-url endpoint-description cb]
   (println "Creating pooled-lzf-consumer for endpoint description:" endpoint-description)
-  (create-pooled-kryo-consumer
+  (create-pooled-nippy-consumer
     server-url
     endpoint-description
     cb
-    (fn [^bytes ba] (LZFDecoder/decode ba))))
+    (fn [^bytes ba]
+      (LZFDecoder/decode ba))))
 
 ;(defn create-pooled-bytes-message-producer [^String server-url ^String endpoint-description pool-size]
 ;  (println "Creating pooled-bytes-message-producer for endpoint description:" endpoint-description)
