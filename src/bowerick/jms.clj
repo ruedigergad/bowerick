@@ -316,99 +316,89 @@
 (defn close [s]
   (.close s))
 
-(defn create-pooled-producer [server-url endpoint-description ^long pool-size]
-  (println "Creating pooled producer for endpoint description:" endpoint-description)
-  (let [producer (create-producer server-url endpoint-description)
-        pool (ArrayList. pool-size)]
-    (->ProducerWrapper
-      (fn [o]
-        (.add pool o)
-        (when (>= (.size pool) pool-size)
-          (producer pool)
-          (.clear pool)))
-      (fn []
-        (println "Closing pooled producer for endpoint description:" endpoint-description)
-        (.close producer)))))
-
-(defn create-pooled-consumer [^String server-url ^String endpoint-description cb]
-  (println "Creating pooled consumer for endpoint description:" endpoint-description)
-  (with-endpoint server-url endpoint-description
-    (let [listener (proxy [MessageListener] []
-                     (onMessage [^Message m]
-                       (doseq [o ^ArrayList (.getObject ^ObjectMessage m)]
-                         (cb o))))
-          consumer (doto
-                     (.createConsumer session endpoint)
-                     (.setMessageListener listener))]
-      (->ConsumerWrapper
-        (fn []
-          (println "Closing pooled consumer for endpoint description:" endpoint-description)
-          (.close connection))))))
-
-(defn create-pooled-nippy-producer
+(defn create-pooled-producer
   ([server-url endpoint-description pool-size]
-    (create-pooled-nippy-producer
-      server-url endpoint-description pool-size {}))
-  ([server-url endpoint-description pool-size nippy-opts]
-    (create-pooled-nippy-producer
-      server-url endpoint-description pool-size nippy-opts (fn [^bytes ba] ba)))
-  ([server-url endpoint-description pool-size nippy-opts ba-out-fn]
-    (println "Creating pooled nippy producer for endpoint description:" endpoint-description
-             "with options:" nippy-opts)
+    (create-pooled-producer server-url endpoint-description pool-size identity))
+  ([server-url endpoint-description ^long pool-size serialization-fn]
+    (println "Creating pooled producer for endpoint description:" endpoint-description)
     (let [producer (create-producer server-url endpoint-description)
-          ps (long pool-size)
-          pool (ArrayList. ps)]
+          pool (ArrayList. pool-size)]
       (->ProducerWrapper
         (fn [o]
           (.add pool o)
-          (when (>= (.size pool) ps)
-            (let [^bytes b-array (ba-out-fn (freeze pool nippy-opts))]
-              (producer b-array)
-              (.clear pool))))
+          (when (>= (.size pool) pool-size)
+            (producer (serialization-fn pool))
+            (.clear pool)))
         (fn []
-          (println "Closing pooled nippy producer for endpoint description:" endpoint-description)
+          (println "Closing pooled producer for endpoint description:" endpoint-description)
           (.close producer))))))
 
-(defn create-pooled-nippy-consumer
+(defn create-pooled-consumer
   ([server-url endpoint-description cb]
-    (create-pooled-nippy-consumer
-      server-url endpoint-description cb (fn [^bytes ba] ba)))
-  ([^String server-url ^String endpoint-description cb ba-in-fn]
-    (println "Creating pooled nippy consumer for endpoint description:" endpoint-description)
+    (create-pooled-consumer server-url endpoint-description cb identity))
+  ([server-url endpoint-description cb de-serialization-fn]
+    (println "Creating pooled consumer for endpoint description:" endpoint-description)
     (with-endpoint server-url endpoint-description
       (let [listener (proxy [MessageListener] []
                        (onMessage [^Message m]
-                         (let [data (byte-array (.getBodyLength ^BytesMessage m))]
-                           (.readBytes ^BytesMessage m data)
-                           (doseq [o ^ArrayList (thaw (ba-in-fn data))]
+                         (let [data (condp instance? m
+                                      BytesMessage (let [ba (byte-array (.getBodyLength ^BytesMessage m))]
+                                                     (.readBytes ^BytesMessage m ba)
+                                                     ba)
+                                      ObjectMessage (.getObject ^ObjectMessage m))]
+                           (doseq [o ^ArrayList (de-serialization-fn data)]
                              (cb o)))))
             consumer (doto
                        (.createConsumer session endpoint)
                        (.setMessageListener listener))]
         (->ConsumerWrapper
           (fn []
-            (println "Closing pooled nippy consumer for endpoint description:" endpoint-description)
+            (println "Closing pooled consumer for endpoint description:" endpoint-description)
             (.close connection)))))))
 
-(defn create-pooled-lzf-producer
+(defn create-pooled-nippy-producer
+  ([server-url endpoint-description pool-size]
+    (create-pooled-nippy-producer
+      server-url endpoint-description pool-size {}))
+  ([server-url endpoint-description pool-size nippy-opts]
+    (println "Creating pooled nippy producer for endpoint description:" endpoint-description
+             "with options:" nippy-opts)
+    (create-pooled-producer
+      server-url
+      endpoint-description
+      pool-size
+      (fn [data]
+        (freeze data nippy-opts)))))
+
+(defn create-pooled-nippy-consumer
+  ([server-url endpoint-description cb]
+    (create-pooled-nippy-consumer server-url endpoint-description cb {}))
+  ([server-url endpoint-description cb nippy-opts]
+    (create-pooled-consumer
+      server-url
+      endpoint-description
+      cb
+      (fn [ba]
+        (thaw ba nippy-opts)))))
+
+(defn create-pooled-nippy-lzf-producer
   [server-url endpoint-description pool-size]
-  (println "Creating pooled-lzf-producer for endpoint description:" endpoint-description)
-  (create-pooled-nippy-producer
+  (println "Creating pooled-nippy-lzf-producer for endpoint description:" endpoint-description)
+  (create-pooled-producer
     server-url
     endpoint-description
     pool-size
-    {}
-    (fn [^bytes ba]
-      (LZFEncoder/encode ba))))
+    (fn [data]
+      (LZFEncoder/encode ^bytes (freeze data)))))
 
-(defn create-pooled-lzf-consumer [server-url endpoint-description cb]
-  (println "Creating pooled-lzf-consumer for endpoint description:" endpoint-description)
-  (create-pooled-nippy-consumer
+(defn create-pooled-nippy-lzf-consumer [server-url endpoint-description cb]
+  (println "Creating pooled-nippy-lzf-consumer for endpoint description:" endpoint-description)
+  (create-pooled-consumer
     server-url
     endpoint-description
     cb
     (fn [^bytes ba]
-      (LZFDecoder/decode ba))))
+      (thaw (LZFDecoder/decode ba)))))
 
 ;(defn create-pooled-bytes-message-producer [^String server-url ^String endpoint-description pool-size]
 ;  (println "Creating pooled-bytes-message-producer for endpoint description:" endpoint-description)

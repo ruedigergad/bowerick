@@ -172,12 +172,12 @@
     (close producer)
     (close consumer)))
 
-(deftest pooled-producer-pooled-consumer-lzf
-  (let [producer (create-pooled-lzf-producer *local-jms-server* test-topic 3)
+(deftest pooled-producer-pooled-consumer-nippy-lzf
+  (let [producer (create-pooled-nippy-lzf-producer *local-jms-server* test-topic 3)
         was-run (prepare-flag 3)
         received (ref [])
         consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
-        consumer (create-pooled-lzf-consumer *local-jms-server* test-topic consume-fn)]
+        consumer (create-pooled-nippy-lzf-consumer *local-jms-server* test-topic consume-fn)]
     (producer "a")
     (producer "b")
     (producer "c")
