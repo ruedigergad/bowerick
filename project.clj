@@ -1,6 +1,7 @@
 (defproject bowerick "1.99.3"
   :description "Toolkit for using JMS with Clojure."
-  :dependencies [[org.clojure/clojure "1.8.0"]
+  :dependencies [[com.taoensso/nippy "2.11.1"]
+                 [org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.cli "0.2.4"]
                  [com.ning/compress-lzf "1.0.3"]
                  [com.esotericsoftware/kryo "3.0.3"]
