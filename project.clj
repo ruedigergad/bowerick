@@ -1,6 +1,7 @@
 (defproject bowerick "1.99.3"
   :description "Toolkit for using JMS with Clojure."
-  :dependencies [[cheshire "5.5.0"]
+  :dependencies [[com.twitter/carbonite "1.5.0"]
+                 [cheshire "5.5.0"]
                  [clj-assorted-utils "1.12.0"]
                  [com.ning/compress-lzf "1.0.3"]
                  [com.taoensso/nippy "2.11.1"]

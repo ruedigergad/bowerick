@@ -14,9 +14,11 @@
   (:use
     [clojure.string :only (join split)])
   (:require
+    [carbonite.api :as carb-api]
+    [carbonite.buffer :as carb-buf]
     [clojure.java.io :refer :all]
     [clj-assorted-utils.util :refer :all]
-    [taoensso.nippy :refer :all])
+    [taoensso.nippy :as nippy])
   (:import
     (bowerick JmsProducer PooledBytesMessageProducer)
     (clojure.lang IFn)
@@ -368,7 +370,7 @@
       endpoint-description
       pool-size
       (fn [data]
-        (freeze data nippy-opts)))))
+        (nippy/freeze data nippy-opts)))))
 
 (defn create-pooled-nippy-consumer
   ([server-url endpoint-description cb]
@@ -379,26 +381,70 @@
       endpoint-description
       cb
       (fn [ba]
-        (thaw ba nippy-opts)))))
+        (nippy/thaw ba nippy-opts)))))
 
 (defn create-pooled-nippy-lzf-producer
   [server-url endpoint-description pool-size]
-  (println "Creating pooled-nippy-lzf-producer for endpoint description:" endpoint-description)
+  (println "Creating pooled nippy lzf producer for endpoint description:" endpoint-description)
   (create-pooled-producer
     server-url
     endpoint-description
     pool-size
     (fn [data]
-      (LZFEncoder/encode ^bytes (freeze data)))))
+      (LZFEncoder/encode ^bytes (nippy/freeze data)))))
 
 (defn create-pooled-nippy-lzf-consumer [server-url endpoint-description cb]
-  (println "Creating pooled-nippy-lzf-consumer for endpoint description:" endpoint-description)
+  (println "Creating pooled nippy lzf consumer for endpoint description:" endpoint-description)
   (create-pooled-consumer
     server-url
     endpoint-description
     cb
     (fn [^bytes ba]
-      (thaw (LZFDecoder/decode ba)))))
+      (nippy/thaw (LZFDecoder/decode ba)))))
+
+(defn create-pooled-carbonite-producer
+  [server-url endpoint-description pool-size]
+  (println "Creating pooled carbonite producer for endpoint description:" endpoint-description)
+  (let [reg (carb-api/default-registry)]
+    (create-pooled-producer
+      server-url
+      endpoint-description
+      pool-size
+      (fn [data]
+        (carb-buf/write-bytes reg data)))))
+
+(defn create-pooled-carbonite-consumer
+  [server-url endpoint-description cb]
+  (println "Creating pooled carbonite consumer for endpoint description:" endpoint-description)
+  (let [reg (carb-api/default-registry)]
+    (create-pooled-consumer
+      server-url
+      endpoint-description
+      cb
+      (fn [ba]
+        (carb-buf/read-bytes reg ba)))))
+
+(defn create-pooled-carbonite-lzf-producer
+  [server-url endpoint-description pool-size]
+  (println "Creating pooled carbonite lzf producer for endpoint description:" endpoint-description)
+  (let [reg (carb-api/default-registry)]
+    (create-pooled-producer
+      server-url
+      endpoint-description
+      pool-size
+      (fn [data]
+        (LZFEncoder/encode ^bytes (carb-buf/write-bytes reg data))))))
+
+(defn create-pooled-carbonite-lzf-consumer
+  [server-url endpoint-description cb]
+  (println "Creating pooled carbonite lzf consumer for endpoint description:" endpoint-description)
+  (let [reg (carb-api/default-registry)]
+    (create-pooled-consumer
+      server-url
+      endpoint-description
+      cb
+      (fn [^bytes ba]
+        (carb-buf/read-bytes reg (LZFDecoder/decode ^bytes ba))))))
 
 ;(defn create-pooled-bytes-message-producer [^String server-url ^String endpoint-description pool-size]
 ;  (println "Creating pooled-bytes-message-producer for endpoint description:" endpoint-description)

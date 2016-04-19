@@ -187,3 +187,33 @@
     (close producer)
     (close consumer)))
 
+(deftest pooled-producer-pooled-consumer-carbonite
+  (let [producer (create-pooled-carbonite-producer *local-jms-server* test-topic 3)
+        was-run (prepare-flag 3)
+        received (ref [])
+        consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
+        consumer (create-pooled-carbonite-consumer *local-jms-server* test-topic consume-fn)]
+    (producer "a")
+    (producer "b")
+    (producer "c")
+    (await-flag was-run)
+    (is (flag-set? was-run))
+    (is (= ["a" "b" "c"] @received))
+    (close producer)
+    (close consumer)))
+
+(deftest pooled-producer-pooled-consumer-carbonite-lzf
+  (let [producer (create-pooled-carbonite-lzf-producer *local-jms-server* test-topic 3)
+        was-run (prepare-flag 3)
+        received (ref [])
+        consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
+        consumer (create-pooled-carbonite-lzf-consumer *local-jms-server* test-topic consume-fn)]
+    (producer "a")
+    (producer "b")
+    (producer "c")
+    (await-flag was-run)
+    (is (flag-set? was-run))
+    (is (= ["a" "b" "c"] @received))
+    (close producer)
+    (close consumer)))
+
