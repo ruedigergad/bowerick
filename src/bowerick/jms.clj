@@ -101,14 +101,20 @@
 
 (defn start-broker
   "Start an embedded ActiveMQ broker.
-   Examples for valid addresses are: tcp://127.0.0.1:42424 udp://127.0.0.1:42426
+   Examples for valid addresses are: 
+  
+   tcp://127.0.0.1:42424 udp://127.0.0.1:42426
    ssl://127.0.0.1:42425 ssl://127.0.0.1:42425?needClientAuth=true
    stomp+ssl://127.0.0.1:42423 stomp+ssl://127.0.0.1:42423?needClientAuth=true
+   
    In addition to the address, it is possible to configure the access control:
    When allow-anon is true, anonymous access is allowed.
    The list of users is defined as a vector of maps, e.g.:
+
    [{\"name\" \"test-user\", \"password\" \"secret\", \"groups\" \"test-group,admins,publishers,consumers\"}]
+   
    Permissions are also defined as a vector of maps, e.g.:
+   
    [{\"target\" \"test.topic.a\", \"type\" \"topic\", \"write\" \"anonymous\"}"
   ([address]
    (adjust-default-ssl-context)
@@ -189,6 +195,16 @@
   (producer (str "reply error " msg)))
 
 (defmacro with-endpoint
+  "Execute body in a context for which connection, session, and endpoint are
+   made available based on the provided server-url and endpoint-description.
+   
+   The server-url is the address of the broker to which a connection shall
+   be establishd. Examples for valid address schemes are given in the doc
+   string of start-broker.
+  
+   Endpoint descriptions have the form \"/<type>/<name>\" for which \"<type>\"
+   is currently either \"topic\" or \"queue\" and the \"<name>\" is the unique
+   name of the endpoint."
   [server-url endpoint-description & body]
   `(let [factory# (cond
                     (or (.startsWith ~server-url "ssl:")
