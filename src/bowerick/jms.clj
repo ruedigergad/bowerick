@@ -325,11 +325,10 @@
         pool (ArrayList. pool-size)]
     (->ProducerWrapper
       (fn [o]
-        (do
-          (.add pool o)
-          (when (>= (.size pool) pool-size)
-            (producer pool)
-            (.clear pool))))
+        (.add pool o)
+        (when (>= (.size pool) pool-size)
+          (producer pool)
+          (.clear pool)))
       (fn []
         (println "Closing pooled producer for endpoint description:" endpoint-description)
         (.close producer)))))
@@ -361,14 +360,13 @@
           kryo (Kryo.)]
       (->ProducerWrapper
         (fn [o]
-          (do
-            (.add pool o)
-            (when (>= (.size pool) pool-size)
-              (let [obj (.writeObject kryo out pool)
-                    ^bytes b-array (ba-out-fn (.toBytes out))]
-                (producer b-array)
-                (.clear out)
-                (.clear pool)))))
+          (.add pool o)
+          (when (>= (.size pool) pool-size)
+            (let [obj (.writeObject kryo out pool)
+                  ^bytes b-array (ba-out-fn (.toBytes out))]
+              (producer b-array)
+              (.clear out)
+              (.clear pool))))
         (fn []
           (println "Closing pooled kryo producer for endpoint description:" endpoint-description)
           (.close producer))))))
