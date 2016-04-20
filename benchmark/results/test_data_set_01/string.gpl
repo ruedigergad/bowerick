@@ -1,0 +1,17 @@
+set term pdf size 5, 4
+set xlabel "Pool Size [data instaces/message]"
+set ylabel "Execution Time [µs]"
+set xtics rotate
+set logscale xy
+set grid
+set key below
+plot []\
+    "pooled-carbonite-lzf-string-transmission.data" using 1:($2/1000) with linespoints lw 2.5 ps 1 title "pooled-carbonite-lzf-string-transmission",\
+    "pooled-carbonite-string-transmission.data" using 1:($2/1000) with linespoints lw 2.5 ps 1 title "pooled-carbonite-string-transmission",\
+    "pooled-nippy-lz4-string-transmission.data" using 1:($2/1000) with linespoints lw 2.5 ps 1 title "pooled-nippy-lz4-string-transmission",\
+    "pooled-nippy-lzf-string-transmission.data" using 1:($2/1000) with linespoints lw 2.5 ps 1 title "pooled-nippy-lzf-string-transmission",\
+    "pooled-nippy-lzma2-string-transmission.data" using 1:($2/1000) with linespoints lw 2.5 ps 1 title "pooled-nippy-lzma2-string-transmission",\
+    "pooled-nippy-snappy-string-transmission.data" using 1:($2/1000) with linespoints lw 2.5 ps 1 title "pooled-nippy-snappy-string-transmission",\
+    "pooled-nippy-string-transmission.data" using 1:($2/1000) with linespoints lw 2.5 ps 1 title "pooled-nippy-string-transmission",\
+    "pooled-string-transmission.data" using 1:($2/1000) with linespoints lw 2.5 ps 1 title "pooled-string-transmission",\
+
