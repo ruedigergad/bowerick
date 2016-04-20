@@ -141,3 +141,65 @@
     create-pooled-carbonite-lzf-consumer
     "foo-string"))
 
+(def nippy-stress-data-benchable
+  (dissoc taoensso.nippy/stress-data-benchable :sorted-map :sorted-set))
+
+(deftest ^:benchmark pooled-nippy-stress-data-transmission-benchmarks
+  (run-benchmarks
+    "pooled-nippy-stress-data-transmission"
+    create-pooled-producer
+    create-pooled-consumer
+    nippy-stress-data-benchable))
+
+(deftest ^:benchmark pooled-nippy-nippy-stress-data-transmission-benchmarks
+  (run-benchmarks
+    "pooled-nippy-nippy-stress-data-transmission"
+    create-pooled-nippy-producer
+    create-pooled-nippy-consumer
+    nippy-stress-data-benchable))
+
+(deftest ^:benchmark pooled-nippy-lz4-nippy-stress-data-transmission-benchmarks
+  (run-benchmarks
+    "pooled-nippy-lz4-nippy-stress-data-transmission"
+    (fn [url ep n]
+      (create-pooled-nippy-producer url ep n {:compressor taoensso.nippy/lz4-compressor}))
+    create-pooled-nippy-consumer
+    nippy-stress-data-benchable))
+
+(deftest ^:benchmark pooled-nippy-lzma2-nippy-stress-data-transmission-benchmarks
+  (run-benchmarks
+    "pooled-nippy-lzma2-nippy-stress-data-transmission"
+    (fn [url ep n]
+      (create-pooled-nippy-producer url ep n {:compressor taoensso.nippy/lzma2-compressor}))
+    create-pooled-nippy-consumer
+    nippy-stress-data-benchable))
+
+(deftest ^:benchmark pooled-nippy-snappy-nippy-stress-data-transmission-benchmarks
+  (run-benchmarks
+    "pooled-nippy-snappy-nippy-stress-data-transmission"
+    (fn [url ep n]
+      (create-pooled-nippy-producer url ep n {:compressor taoensso.nippy/snappy-compressor}))
+    create-pooled-nippy-consumer
+    nippy-stress-data-benchable))
+
+(deftest ^:benchmark pooled-nippy-lzf-nippy-stress-data-transmission-benchmarks
+  (run-benchmarks
+    "pooled-nippy-lzf-nippy-stress-data-transmission"
+    create-pooled-nippy-lzf-producer
+    create-pooled-nippy-lzf-consumer
+    nippy-stress-data-benchable))
+
+(deftest ^:benchmark pooled-carbonite-nippy-stress-data-transmission-benchmarks
+  (run-benchmarks
+    "pooled-carbonite-nippy-stress-data-transmission"
+    create-pooled-carbonite-producer
+    create-pooled-carbonite-consumer
+    nippy-stress-data-benchable))
+
+(deftest ^:benchmark pooled-carbonite-lzf-nippy-stress-data-transmission-benchmarks
+  (run-benchmarks
+    "pooled-carbonite-lzf-nippy-stress-data-transmission"
+    create-pooled-carbonite-lzf-producer
+    create-pooled-carbonite-lzf-consumer
+    nippy-stress-data-benchable))
+
