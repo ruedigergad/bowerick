@@ -1,0 +1,14 @@
+set term pdf size 6, 5
+set xlabel "Scenario"
+set ylabel "Execution Time [ns]"
+set xtics rotate
+set logscale xy
+set grid
+plot []\
+    "pooled-carbonite-lzf-nippy-stress-data-transmission.data" using 1:2 with linespoints lw 2.5 pt 1 ps 1.5,\
+    "pooled-carbonite-nippy-stress-data-transmission.data" using 1:2 with linespoints lw 2.5 pt 1 ps 1.5,\
+    "pooled-nippy-lz4-nippy-stress-data-transmission.data" using 1:2 with linespoints lw 2.5 pt 1 ps 1.5,\
+    "pooled-nippy-lzf-nippy-stress-data-transmission.data" using 1:2 with linespoints lw 2.5 pt 1 ps 1.5,\
+    "pooled-nippy-nippy-stress-data-transmission.data" using 1:2 with linespoints lw 2.5 pt 1 ps 1.5,\
+    "pooled-nippy-snappy-nippy-stress-data-transmission.data" using 1:2 with linespoints lw 2.5 pt 1 ps 1.5,\
+

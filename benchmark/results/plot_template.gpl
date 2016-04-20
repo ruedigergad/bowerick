@@ -1,0 +1,7 @@
+set term pdf size 6, 5
+set xlabel "Scenario"
+set ylabel "Execution Time [ns]"
+set xtics rotate
+set logscale xy
+set grid
+plot []\
