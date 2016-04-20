@@ -1,7 +1,8 @@
-set term pdf size 6, 5
-set xlabel "Scenario"
-set ylabel "Execution Time [ns]"
+set term pdf size 5, 4
+set xlabel "Pool Size [data instaces/message]"
+set ylabel "Execution Time [µs]"
 set xtics rotate
 set logscale xy
 set grid
+set key below
 plot []\
