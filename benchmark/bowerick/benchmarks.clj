@@ -73,7 +73,7 @@
 (defn run-benchmarks
   [description producer-factory-fn consumer-factory-fn data]
   (doseq [n [1 1 1 1 2 3 4 6 8 10 15 20 30 40 50 75 100 150 200 300 400 500 750 1000]]
-    (println "Running benchmark:" description n)
+    (println (str "Running benchmark: " description "-" n))
     (let [producer (producer-factory-fn *local-jms-server* test-topic n)
           consumer (consumer-factory-fn *local-jms-server* test-topic identity)]
       (cc/with-progress-reporting
