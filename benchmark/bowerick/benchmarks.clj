@@ -70,99 +70,74 @@
     (close producer)
     (close consumer)))
 
-(deftest ^:benchmark pooled-string-transmission-benchmarks
+(defn run-benchmarks
+  [description producer-factory-fn consumer-factory-fn data]
   (doseq [n [1 1 1 1 2 3 4 6 8 10 15 20 30 40 50 75 100 150 200 300 400 500 750 1000]]
-    (println (str "Running benchmark: pooled-string-transmission-benchmark-" n))
-    (let [producer (create-pooled-producer *local-jms-server* test-topic n)
-          consume-fn (fn [_])
-          consumer (create-pooled-consumer *local-jms-server* test-topic consume-fn)]
+    (println (str "Running benchmark: " description "-" n))
+    (let [producer (producer-factory-fn *local-jms-server* test-topic n)
+          consumer (consumer-factory-fn *local-jms-server* test-topic identity)]
       (cc/with-progress-reporting
         (cc/quick-bench
-          (producer "foo-string")))
+          (producer data)))
       (close producer)
       (close consumer))))
+
+(deftest ^:benchmark pooled-string-transmission-benchmarks
+  (run-benchmarks
+    "pooled-string-transmission"
+    create-pooled-producer
+    create-pooled-consumer
+    "foo-string"))
 
 (deftest ^:benchmark pooled-nippy-string-transmission-benchmarks
-  (doseq [n [1 1 1 1 2 3 4 6 8 10 15 20 30 40 50 75 100 150 200 300 400 500 750 1000]]
-    (println (str "Running benchmark: pooled-nippy-string-transmission-benchmark-" n))
-    (let [producer (create-pooled-nippy-producer *local-jms-server* test-topic n)
-          consume-fn (fn [_])
-          consumer (create-pooled-nippy-consumer *local-jms-server* test-topic consume-fn)]
-      (cc/with-progress-reporting
-        (cc/quick-bench
-          (producer "foo-string")))
-      (close producer)
-      (close consumer))))
+  (run-benchmarks
+    "pooled-nippy-string-transmission"
+    create-pooled-nippy-producer
+    create-pooled-nippy-consumer
+    "foo-string"))
 
 (deftest ^:benchmark pooled-nippy-lz4-string-transmission-benchmarks
-  (doseq [n [1 1 1 1 2 3 4 6 8 10 15 20 30 40 50 75 100 150 200 300 400 500 750 1000]]
-    (println (str "Running benchmark: pooled-nippy-lz4-string-transmission-benchmark-" n))
-    (let [producer (create-pooled-nippy-producer *local-jms-server* test-topic n {:compressor taoensso.nippy/lz4-compressor})
-          consume-fn (fn [_])
-          consumer (create-pooled-nippy-consumer *local-jms-server* test-topic consume-fn)]
-      (cc/with-progress-reporting
-        (cc/quick-bench
-          (producer "foo-string")))
-      (close producer)
-      (close consumer))))
+  (run-benchmarks
+    "pooled-nippy-lz4-string-transmission"
+    (fn [url ep n]
+      (create-pooled-nippy-producer url ep n {:compressor taoensso.nippy/lz4-compressor}))
+    create-pooled-nippy-consumer
+    "foo-string"))
 
 (deftest ^:benchmark pooled-nippy-lzma2-string-transmission-benchmarks
-  (doseq [n [1 1 1 1 2 3 4 6 8 10 15 20 30 40 50 75 100 150 200 300 400 500 750 1000]]
-    (println (str "Running benchmark: pooled-nippy-lzma2-string-transmission-benchmark-" n))
-    (let [producer (create-pooled-nippy-producer *local-jms-server* test-topic n {:compressor taoensso.nippy/lzma2-compressor})
-          consume-fn (fn [_])
-          consumer (create-pooled-nippy-consumer *local-jms-server* test-topic consume-fn)]
-      (cc/with-progress-reporting
-        (cc/quick-bench
-          (producer "foo-string")))
-      (close producer)
-      (close consumer))))
+  (run-benchmarks
+    "pooled-nippy-lzma2-string-transmission"
+    (fn [url ep n]
+      (create-pooled-nippy-producer url ep n {:compressor taoensso.nippy/lzma2-compressor}))
+    create-pooled-nippy-consumer
+    "foo-string"))
 
 (deftest ^:benchmark pooled-nippy-snappy-string-transmission-benchmarks
-  (doseq [n [1 1 1 1 2 3 4 6 8 10 15 20 30 40 50 75 100 150 200 300 400 500 750 1000]]
-    (println (str "Running benchmark: pooled-nippy-snappy-string-transmission-benchmark-" n))
-    (let [producer (create-pooled-nippy-producer *local-jms-server* test-topic n {:compressor taoensso.nippy/snappy-compressor})
-          consume-fn (fn [_])
-          consumer (create-pooled-nippy-consumer *local-jms-server* test-topic consume-fn)]
-      (cc/with-progress-reporting
-        (cc/quick-bench
-          (producer "foo-string")))
-      (close producer)
-      (close consumer))))
+  (run-benchmarks
+    "pooled-nippy-snappy-string-transmission"
+    (fn [url ep n]
+      (create-pooled-nippy-producer url ep n {:compressor taoensso.nippy/snappy-compressor}))
+    create-pooled-nippy-consumer
+    "foo-string"))
 
 (deftest ^:benchmark pooled-nippy-lzf-string-transmission-benchmarks
-  (doseq [n [1 1 1 1 2 3 4 6 8 10 15 20 30 40 50 75 100 150 200 300 400 500 750 1000]]
-    (println (str "Running benchmark: pooled-nippy-lzf-string-transmission-benchmark-" n))
-    (let [producer (create-pooled-nippy-lzf-producer *local-jms-server* test-topic n)
-          consume-fn (fn [_])
-          consumer (create-pooled-nippy-lzf-consumer *local-jms-server* test-topic consume-fn)]
-      (cc/with-progress-reporting
-        (cc/quick-bench
-          (producer "foo-string")))
-      (close producer)
-      (close consumer))))
+  (run-benchmarks
+    "pooled-nippy-lzf-string-transmission"
+    create-pooled-nippy-lzf-producer
+    create-pooled-nippy-lzf-consumer
+    "foo-string"))
 
 (deftest ^:benchmark pooled-carbonite-string-transmission-benchmarks
-  (doseq [n [1 1 1 1 2 3 4 6 8 10 15 20 30 40 50 75 100 150 200 300 400 500 750 1000]]
-    (println (str "Running benchmark: pooled-carbonite-string-transmission-benchmark-" n))
-    (let [producer (create-pooled-carbonite-producer *local-jms-server* test-topic n)
-          consume-fn (fn [_])
-          consumer (create-pooled-carbonite-consumer *local-jms-server* test-topic consume-fn)]
-      (cc/with-progress-reporting
-        (cc/quick-bench
-          (producer "foo-string")))
-      (close producer)
-      (close consumer))))
+  (run-benchmarks
+    "pooled-carbonite-string-transmission"
+    create-pooled-carbonite-producer
+    create-pooled-carbonite-consumer
+    "foo-string"))
 
 (deftest ^:benchmark pooled-carbonite-lzf-string-transmission-benchmarks
-  (doseq [n [1 1 1 1 2 3 4 6 8 10 15 20 30 40 50 75 100 150 200 300 400 500 750 1000]]
-    (println (str "Running benchmark: pooled-carbonite-lzf-string-transmission-benchmark-" n))
-    (let [producer (create-pooled-carbonite-lzf-producer *local-jms-server* test-topic n)
-          consume-fn (fn [_])
-          consumer (create-pooled-carbonite-lzf-consumer *local-jms-server* test-topic consume-fn)]
-      (cc/with-progress-reporting
-        (cc/quick-bench
-          (producer "foo-string")))
-      (close producer)
-      (close consumer))))
+  (run-benchmarks
+    "pooled-carbonite-lzf-string-transmission"
+    create-pooled-carbonite-lzf-producer
+    create-pooled-carbonite-lzf-consumer
+    "foo-string"))
 
