@@ -33,6 +33,6 @@
                {:dependencies  [[jonase/eastwood "0.2.3" :exclusions  [org.clojure/clojure]]]}
              :test
                {:dependencies [[criterium "0.4.4"]]
-                :jvm-opts ["-Xss1024M" "-Xmx1024M"]
+                :jvm-opts ["-Xss1024M" "-Xmx2048M"]
                 :test-paths ["test" "benchmark"]}}
   :plugins [[lein-cloverage "1.0.6"]])
