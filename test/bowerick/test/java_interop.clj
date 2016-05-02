@@ -21,17 +21,17 @@
 
 (use-fixtures :each single-test-fixture)
 
-(deftest test-create-activemq-controller
+(deftest test-create-controller
   (let [controller (JmsController. *local-jms-server*)]
     (is (instance? JmsController controller))))
 
-(deftest test-create-activemq-producer
+(deftest test-create-producer
   (let [controller (JmsController. *local-jms-server*)
         producer (.createProducer controller test-topic)]
     (is (instance? JmsProducer producer))
     (.close producer)))
 
-(deftest test-create-activemq-producer-and-consumer
+(deftest test-producer-and-consumer
   (let [controller (JmsController. *local-jms-server*)
         producer (.createProducer controller test-topic)
         flag (prepare-flag)
