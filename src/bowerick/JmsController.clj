@@ -16,6 +16,8 @@
    :constructors {[String] []}
    :methods [[createConsumer [String bowerick.JmsConsumerCallback] AutoCloseable]
              [createProducer [String] bowerick.JmsProducer]
+             [createPooledConsumer [String bowerick.JmsConsumerCallback] AutoCloseable]
+             [createPooledProducer [String int] bowerick.JmsProducer]
              [startEmbeddedBroker [] void]
              [stopEmbeddedBroker [] void]]
    :state state)
@@ -34,6 +36,19 @@
 
 (defn -createConsumer [this topic-identifier ^JmsConsumerCallback consumer-cb]
   (create-consumer
+    (:jms-url (.state this))
+    topic-identifier
+    (fn [obj]
+      (.processData consumer-cb obj))))
+
+(defn -createPooledProducer [this topic-identifier pool-size]
+  (create-pooled-producer
+    (:jms-url (.state this))
+    topic-identifier
+    pool-size))
+
+(defn -createPooledConsumer [this topic-identifier ^JmsConsumerCallback consumer-cb]
+  (create-pooled-consumer
     (:jms-url (.state this))
     topic-identifier
     (fn [obj]

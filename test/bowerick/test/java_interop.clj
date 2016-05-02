@@ -72,3 +72,26 @@
     (.close consumer)
     (.stopEmbeddedBroker controller)))
 
+(deftest test-pooled-producer-and-consumer
+  (let [controller (JmsController. *local-jms-server*)
+        n 3
+        cntr (counter)
+        producer (.createPooledProducer controller test-topic n)
+        flag (prepare-flag n)
+        data (atom "")
+        consumer-cb (proxy [JmsConsumerCallback] []
+                      (processData [obj]
+                        (swap! data str obj)
+                        (cntr inc)
+                        (set-flag flag)))
+        consumer (.createPooledConsumer controller test-topic ^JmsConsumerCallback consumer-cb)]
+    (.sendData producer "foo")
+    (.sendData producer "bar")
+    (.sendData producer "baz")
+    (await-flag flag)
+    (is (flag-set? flag))
+    (is (= n (cntr)))
+    (is (= "foobarbaz" @data))
+    (.close producer)
+    (.close consumer)))
+
