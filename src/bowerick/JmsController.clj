@@ -18,6 +18,10 @@
              [createProducer [String] bowerick.JmsProducer]
              [createPooledConsumer [String bowerick.JmsConsumerCallback] AutoCloseable]
              [createPooledProducer [String int] bowerick.JmsProducer]
+             [createPooledCarboniteConsumer [String bowerick.JmsConsumerCallback] AutoCloseable]
+             [createPooledCarboniteProducer [String int] bowerick.JmsProducer]
+             [createPooledCarboniteLzfConsumer [String bowerick.JmsConsumerCallback] AutoCloseable]
+             [createPooledCarboniteLzfProducer [String int] bowerick.JmsProducer]
              [startEmbeddedBroker [] void]
              [stopEmbeddedBroker [] void]]
    :state state)
@@ -49,6 +53,32 @@
 
 (defn -createPooledConsumer [this topic-identifier ^JmsConsumerCallback consumer-cb]
   (create-pooled-consumer
+    (:jms-url (.state this))
+    topic-identifier
+    (fn [obj]
+      (.processData consumer-cb obj))))
+
+(defn -createPooledCarboniteProducer [this topic-identifier pool-size]
+  (create-pooled-carbonite-producer
+    (:jms-url (.state this))
+    topic-identifier
+    pool-size))
+
+(defn -createPooledCarboniteConsumer [this topic-identifier ^JmsConsumerCallback consumer-cb]
+  (create-pooled-carbonite-consumer
+    (:jms-url (.state this))
+    topic-identifier
+    (fn [obj]
+      (.processData consumer-cb obj))))
+
+(defn -createPooledCarboniteLzfProducer [this topic-identifier pool-size]
+  (create-pooled-carbonite-lzf-producer
+    (:jms-url (.state this))
+    topic-identifier
+    pool-size))
+
+(defn -createPooledCarboniteLzfConsumer [this topic-identifier ^JmsConsumerCallback consumer-cb]
+  (create-pooled-carbonite-lzf-consumer
     (:jms-url (.state this))
     topic-identifier
     (fn [obj]
