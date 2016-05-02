@@ -47,6 +47,7 @@
 (def ^:dynamic *serializable-packages*
   '("clojure.lang"
     "java.lang"
+    "java.math"
     "java.util"
     "org.apache.activemq"
     "org.fusesource.hawtbuf"
