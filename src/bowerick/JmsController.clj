@@ -27,25 +27,25 @@
 (defn -init [jms-url]
   [[] {:jms-url jms-url :broker (ref nil)}])
 
-(defn -createProducer [^JmsController this topic-identifier]
+(defn -createProducer [this topic-identifier]
   (create-producer
     (:jms-url (.state this))
     topic-identifier))
 
-(defn -createConsumer [^JmsController this topic-identifier ^JmsConsumerCallback consumer-cb]
+(defn -createConsumer [this topic-identifier ^JmsConsumerCallback consumer-cb]
   (create-consumer
     (:jms-url (.state this))
     topic-identifier
     (fn [obj]
       (.processData consumer-cb obj))))
 
-(defn -startEmbeddedBroker [^JmsController this]
+(defn -startEmbeddedBroker [this]
   (let [broker-ref (:broker (.state this))]
     (if (nil? @broker-ref)
       (let [brkr (start-broker (:jms-url (.state this)))]
         (dosync (ref-set broker-ref brkr))))))
 
-(defn -stopEmbeddedBroker [^JmsController this]
+(defn -stopEmbeddedBroker [this]
   (let [broker-ref (:broker (.state this))]
     (when (not (nil? @broker-ref))
       (.stop @broker-ref)
