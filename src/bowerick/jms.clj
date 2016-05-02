@@ -348,8 +348,9 @@
                                       BytesMessage (let [ba (byte-array (.getBodyLength ^BytesMessage m))]
                                                      (.readBytes ^BytesMessage m ba)
                                                      ba)
-                                      ObjectMessage (.getObject ^ObjectMessage m))]
-                           (doseq [o ^ArrayList (de-serialization-fn data)]
+                                      ObjectMessage (.getObject ^ObjectMessage m))
+                               ^ArrayList lst (de-serialization-fn data)]
+                           (doseq [o lst]
                              (cb o)))))
             consumer (doto
                        (.createConsumer session endpoint)
