@@ -26,53 +26,53 @@
 
 (use-fixtures :each benchmark-fixture)
 
-(deftest ^:benchmark simple-string-transmission-benchmark
-  (println "Running benchmark: simple-string-transmission-benchmark")
-  (let [producer (create-producer *local-jms-server* test-topic)
-        consume-fn (fn [_])
-        consumer (create-consumer *local-jms-server* test-topic consume-fn)]
-    (cc/with-progress-reporting
-      (cc/quick-bench
-        (producer "foo-string")))
-    (close producer)
-    (close consumer)))
-
-(deftest ^:benchmark pooled-string-transmission-benchmark-10-single
-  (println "Running benchmark: pooled-string-transmission-benchmark-10-single")
-  (let [producer (create-pooled-producer *local-jms-server* test-topic 10)
-        consume-fn (fn [_])
-        consumer (create-pooled-consumer *local-jms-server* test-topic consume-fn)]
-    (cc/with-progress-reporting
-      (cc/quick-bench
-        (producer "foo-string")))
-    (close producer)
-    (close consumer)))
-
-(deftest ^:benchmark pooled-nippy-string-transmission-benchmark-10-single
-  (println "Running benchmark: pooled-nippy-string-transmission-benchmark-10-single")
-  (let [producer (create-pooled-nippy-producer *local-jms-server* test-topic 10)
-        consume-fn (fn [_])
-        consumer (create-pooled-nippy-consumer *local-jms-server* test-topic consume-fn)]
-    (cc/with-progress-reporting
-      (cc/quick-bench
-        (producer "foo-string")))
-    (close producer)
-    (close consumer)))
-
-(deftest ^:benchmark pooled-nippy-lzf-string-transmission-benchmark-10-single
-  (println "Running benchmark: pooled-nippy-lzf-string-transmission-benchmark-10-single")
-  (let [producer (create-pooled-nippy-lzf-producer *local-jms-server* test-topic 10)
-        consume-fn (fn [_])
-        consumer (create-pooled-nippy-lzf-consumer *local-jms-server* test-topic consume-fn)]
-    (cc/with-progress-reporting
-      (cc/quick-bench
-        (producer "foo-string")))
-    (close producer)
-    (close consumer)))
+;(deftest ^:benchmark simple-string-transmission-benchmark
+;  (println "Running benchmark: simple-string-transmission-benchmark")
+;  (let [producer (create-producer *local-jms-server* test-topic)
+;        consume-fn (fn [_])
+;        consumer (create-consumer *local-jms-server* test-topic consume-fn)]
+;    (cc/with-progress-reporting
+;      (cc/quick-bench
+;        (producer "foo-string")))
+;    (close producer)
+;    (close consumer)))
+;
+;(deftest ^:benchmark pooled-string-transmission-benchmark-10-single
+;  (println "Running benchmark: pooled-string-transmission-benchmark-10-single")
+;  (let [producer (create-pooled-producer *local-jms-server* test-topic 10)
+;        consume-fn (fn [_])
+;        consumer (create-pooled-consumer *local-jms-server* test-topic consume-fn)]
+;    (cc/with-progress-reporting
+;      (cc/quick-bench
+;        (producer "foo-string")))
+;    (close producer)
+;    (close consumer)))
+;
+;(deftest ^:benchmark pooled-nippy-string-transmission-benchmark-10-single
+;  (println "Running benchmark: pooled-nippy-string-transmission-benchmark-10-single")
+;  (let [producer (create-pooled-nippy-producer *local-jms-server* test-topic 10)
+;        consume-fn (fn [_])
+;        consumer (create-pooled-nippy-consumer *local-jms-server* test-topic consume-fn)]
+;    (cc/with-progress-reporting
+;      (cc/quick-bench
+;        (producer "foo-string")))
+;    (close producer)
+;    (close consumer)))
+;
+;(deftest ^:benchmark pooled-nippy-lzf-string-transmission-benchmark-10-single
+;  (println "Running benchmark: pooled-nippy-lzf-string-transmission-benchmark-10-single")
+;  (let [producer (create-pooled-nippy-lzf-producer *local-jms-server* test-topic 10)
+;        consume-fn (fn [_])
+;        consumer (create-pooled-nippy-lzf-consumer *local-jms-server* test-topic consume-fn)]
+;    (cc/with-progress-reporting
+;      (cc/quick-bench
+;        (producer "foo-string")))
+;    (close producer)
+;    (close consumer)))
 
 (defn run-benchmarks
   [description producer-factory-fn consumer-factory-fn data]
-  (doseq [n [1 1 1 1 2 3 4 6 8 10 15 20 30 40 50 75 100 150 200 300 400 500 750 1000]]
+  (doseq [n [1 1 2 4 10 20 50 100 200 400 750 1000]]
     (println (str "Running benchmark: " description "-" n))
     (let [consumer (consumer-factory-fn *local-jms-server* test-topic identity)
           producer (producer-factory-fn *local-jms-server* test-topic n)]
