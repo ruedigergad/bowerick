@@ -142,7 +142,7 @@
     "foo-string"))
 
 (def nippy-stress-data-benchable
-  (dissoc taoensso.nippy/stress-data-benchable :sorted-map :sorted-set))
+  (dissoc taoensso.nippy/stress-data-benchable :lazy-seq :lazy-seq-empty :sorted-map :sorted-set))
 
 (deftest ^:benchmark pooled-nippy-stress-data-transmission-benchmarks
   (run-benchmarks
