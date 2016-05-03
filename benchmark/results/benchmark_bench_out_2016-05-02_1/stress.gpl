@@ -1,0 +1,17 @@
+set term pdf size 5, 4
+set xlabel "Pool Size [data instaces/message]"
+set ylabel "Execution Time [µs]"
+set xtics rotate
+set logscale xy
+set grid
+set key below
+plot []\
+    "pooled-carbonite-lzf-nippy-stress-data-transmission.data" using 1:($2/1000) with linespoints lw 2.5 ps 1 title "pooled-carbonite-lzf-nippy-stress-data-transmission",\
+    "pooled-carbonite-nippy-stress-data-transmission.data" using 1:($2/1000) with linespoints lw 2.5 ps 1 title "pooled-carbonite-nippy-stress-data-transmission",\
+    "pooled-nippy-lz4-nippy-stress-data-transmission.data" using 1:($2/1000) with linespoints lw 2.5 ps 1 title "pooled-nippy-lz4-nippy-stress-data-transmission",\
+    "pooled-nippy-lzf-nippy-stress-data-transmission.data" using 1:($2/1000) with linespoints lw 2.5 ps 1 title "pooled-nippy-lzf-nippy-stress-data-transmission",\
+    "pooled-nippy-lzma2-nippy-stress-data-transmission.data" using 1:($2/1000) with linespoints lw 2.5 ps 1 title "pooled-nippy-lzma2-nippy-stress-data-transmission",\
+    "pooled-nippy-nippy-stress-data-transmission.data" using 1:($2/1000) with linespoints lw 2.5 ps 1 title "pooled-nippy-nippy-stress-data-transmission",\
+    "pooled-nippy-snappy-nippy-stress-data-transmission.data" using 1:($2/1000) with linespoints lw 2.5 ps 1 title "pooled-nippy-snappy-nippy-stress-data-transmission",\
+    "pooled-nippy-stress-data-transmission.data" using 1:($2/1000) with linespoints lw 2.5 ps 1 title "pooled-nippy-stress-data-transmission",\
+
