@@ -77,7 +77,7 @@
     (let [consumer (consumer-factory-fn *local-jms-server* test-topic identity)
           producer (producer-factory-fn *local-jms-server* test-topic n)]
       (cc/with-progress-reporting
-        (cc/quick-bench
+        (cc/bench
           (producer data)))
       (close producer)
       (close consumer))))
