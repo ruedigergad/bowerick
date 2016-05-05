@@ -97,6 +97,7 @@ http://ruedigergad.github.io/bowerick/doc/
 #### Pooling, Serialization, and Compression
 
 Placeholders Used in the Cheat Sheet Examples
+
     (def server-url "tcp://127.0.0.1:42424")
     (def endpoint-description "/topic/my.topic.name")
     (def pool-size 10)
