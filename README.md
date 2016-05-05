@@ -1,6 +1,6 @@
 # bowerick
 
-Easing the Use of JMS with Clojure (and Java)
+Easing Simple JMS Tasks with Clojure (and Java)
 
 ## Status
 
