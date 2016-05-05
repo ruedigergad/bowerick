@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="bowerick.test.broker" errors="0" failures="0" tests="2" time="0.2594" timestamp="2016-05-05_20:53:57+0200">
+    <testcase name="get-destinations-test" classname="bowerick.test.broker" time="0.1779">
+    </testcase>
+    <testcase name="get-destinations-with-producer-test" classname="bowerick.test.broker" time="0.0797">
+    </testcase>
+</testsuite>
