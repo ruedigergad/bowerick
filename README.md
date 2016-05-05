@@ -74,9 +74,7 @@ http://ruedigergad.github.io/bowerick/doc/
 
 * Encrypted
     * OpenWire via TCP (with optional client authentication)
-
       ssl://127.0.0.1:42425
-      
       ssl://127.0.0.1:42425?needClientAuth=true
     * STOMP via TCP (with optional client authentication)
       
