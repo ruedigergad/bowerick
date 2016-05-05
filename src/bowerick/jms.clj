@@ -264,6 +264,13 @@
       (send-fn data)))
 
 (defn create-producer
+  "Create a message producer for sending data to the specified endpoint and server/broker.
+
+   The created producer implements IFn. Hence, the idiomatic way for using it in Clojure
+   is to use the producer as a function to which the data that is to be transmitted is
+   passed as single function argument.
+  
+   For each invocation, the passed data will be transmitted in a separate message."
   [^String server-url ^String endpoint-description]
   (println "Creating producer for endpoint description:" endpoint-description)
   (with-endpoint server-url endpoint-description
@@ -293,7 +300,12 @@
     (close [this]
       (close-fn)))
 
-(defn create-consumer [^String server-url ^String endpoint-description cb]
+(defn create-consumer
+  "Create a message consumer for receiving data from the specified endpoint and server/broker.
+
+   The passed callback function (cb) will be called for each message and will receive the data
+   from the message as its single argument."
+  [^String server-url ^String endpoint-description cb]
   (println "Creating consumer for endpoint description:" endpoint-description)
   (with-endpoint server-url endpoint-description
     (let [listener (proxy [MessageListener] []
@@ -316,10 +328,19 @@
           (println "Closing consumer for endpoint description:" endpoint-description)
           (.close connection))))))
 
-(defn close [s]
-  (.close s))
+(defn close
+  "Close a producer or consumer."
+  [o]
+  (.close o))
 
 (defn create-pooled-producer
+  "Create a pooled producer with the given pool-size for the given server-url and endpoint-description.
+  
+   A pooled producer does not send the passed data instances individually but groups them in a pool and
+   sends the entire pool at once when the pool is filled.
+  
+   Optionally, a single argument function for customizing the serialization of the pooled-data can be given.
+   This defaults to idenitity such that the default serialization of the underlying JMS implementation is used."
   ([server-url endpoint-description pool-size]
     (create-pooled-producer server-url endpoint-description pool-size identity))
   ([server-url endpoint-description ^long pool-size serialization-fn]
@@ -337,6 +358,14 @@
           (.close producer))))))
 
 (defn create-pooled-consumer
+  "Create a consumer for receiving pooled data.
+   
+   The calback function, cb, will be called for each data instance in the pool individually.
+  
+   Optionally, a single argument function for customizing the de-serialization of the transferred data can be given.
+   Typically, this should be the inverse operation of the serialization function as used for the pooled producer and defaults to identity.
+  
+   See also create-pooled-producer."
   ([server-url endpoint-description cb]
     (create-pooled-consumer server-url endpoint-description cb identity))
   ([server-url endpoint-description cb de-serialization-fn]
@@ -361,6 +390,14 @@
             (.close connection)))))))
 
 (defn create-pooled-nippy-producer
+  "Create a pooled producer that uses nippy for serialization.
+
+   Optionally, a map of options for customizing the nippy serialization, nippy-opts, can be given.
+   This can be used, e.g., for enabling compression or encryption.
+   Compression can be enabled with {:compressor taoensso.nippy/lz4-compressor}.
+   Possible compressor settings are: taoensso.nippy/lz4-compressor, taoensso.nippy/snappy-compressor, taoensso.nippy/lzma2-compressor.
+
+   For more details about pooled producers please see create-pooled-producer."
   ([server-url endpoint-description pool-size]
     (create-pooled-nippy-producer
       server-url endpoint-description pool-size {}))
@@ -375,6 +412,13 @@
         (nippy/freeze data nippy-opts)))))
 
 (defn create-pooled-nippy-consumer
+  "Create a pooled consumer that uses nippy for de-serialization.
+
+   Optionally, a map of options for customizing the nippy serialization, nippy-opts, can be given.
+   See also: create-pooled-nippy-producer.
+   For uncompressing compressed data, no options need to be specified as nippy can figure out the employed compression algorithms on its own.
+
+   For more details about pooled consumers and producers please see create-pooled-consumer and create-pooled-producer."
   ([server-url endpoint-description cb]
     (create-pooled-nippy-consumer server-url endpoint-description cb {}))
   ([server-url endpoint-description cb nippy-opts]
@@ -386,6 +430,9 @@
         (nippy/thaw ba nippy-opts)))))
 
 (defn create-pooled-nippy-lzf-producer
+  "Create a pooled producer that uses nippy for serialization and compresses the serialized data with LZF.
+
+   For more details about pooled producers please see create-pooled-producer."
   [server-url endpoint-description pool-size]
   (println "Creating pooled nippy lzf producer for endpoint description:" endpoint-description)
   (create-pooled-producer
@@ -396,6 +443,9 @@
       (LZFEncoder/encode ^bytes (nippy/freeze data)))))
 
 (defn create-pooled-nippy-lzf-consumer [server-url endpoint-description cb]
+  "Create a pooled consumer that uncompresses the transferred data via LZF and uses nippy for de-serialization.
+
+   For more details about pooled consumers and producers please see create-pooled-consumer and create-pooled-producer."
   (println "Creating pooled nippy lzf consumer for endpoint description:" endpoint-description)
   (create-pooled-consumer
     server-url
@@ -405,6 +455,9 @@
       (nippy/thaw (LZFDecoder/decode ba)))))
 
 (defn create-pooled-carbonite-producer
+  "Create a pooled producer that uses carbonite for serialization.
+
+   For more details about pooled producers please see create-pooled-producer."
   [server-url endpoint-description pool-size]
   (println "Creating pooled carbonite producer for endpoint description:" endpoint-description)
   (let [reg (carb-api/default-registry)]
@@ -416,6 +469,9 @@
         (carb-buf/write-bytes reg data)))))
 
 (defn create-pooled-carbonite-consumer
+  "Create a pooled consumer that uses carbonite for de-serialization.
+
+   For more details about pooled consumers and producers please see create-pooled-consumer and create-pooled-producer."
   [server-url endpoint-description cb]
   (println "Creating pooled carbonite consumer for endpoint description:" endpoint-description)
   (let [reg (carb-api/default-registry)]
@@ -427,6 +483,9 @@
         (carb-buf/read-bytes reg ba)))))
 
 (defn create-pooled-carbonite-lzf-producer
+  "Create a pooled producer that uses carbonite for serialization and compresses the serialized data with LZF.
+
+   For more details about pooled producers please see create-pooled-producer."
   [server-url endpoint-description pool-size]
   (println "Creating pooled carbonite lzf producer for endpoint description:" endpoint-description)
   (let [reg (carb-api/default-registry)]
@@ -438,6 +497,9 @@
         (LZFEncoder/encode ^bytes (carb-buf/write-bytes reg data))))))
 
 (defn create-pooled-carbonite-lzf-consumer
+  "Create a pooled consumer that decompresses the transferred data with LZF and uses carbonite for de-serialization.
+
+   For more details about pooled consumers and producers please see create-pooled-consumer and create-pooled-producer."
   [server-url endpoint-description cb]
   (println "Creating pooled carbonite lzf consumer for endpoint description:" endpoint-description)
   (let [reg (carb-api/default-registry)]
