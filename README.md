@@ -146,6 +146,7 @@ Placeholders Used in the Cheat Sheet Examples
 ## License
 
 Copyright © 2016 Ruediger Gad
+
 Copyright © 2014, 2015 Frankfurt University of Applied Sciences
 
 Distributed under the Eclipse Public License either version 1.0 or (at
