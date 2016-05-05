@@ -1,5 +1,5 @@
-(defproject bowerick "1.99.3"
-  :description "Toolkit for using JMS with Clojure."
+(defproject bowerick "1.99.4"
+  :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
                  [cheshire "5.5.0"]
                  [clj-assorted-utils "1.12.0"]
@@ -24,8 +24,8 @@
   :prep-tasks [["compile" "bowerick.java-interfaces"]
                ["javac" "src-java/bowerick/PooledBytesMessageProducer.java"]
                ["compile" "bowerick.JmsController"]
-               "javac"
-               "compile"]
+                "javac"
+                "compile"]
   :main bowerick.main
   :test-selectors {:default (complement :benchmark)
                    :benchmark :benchmark}
