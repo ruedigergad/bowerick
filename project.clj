@@ -29,6 +29,11 @@
   :main bowerick.main
   :test-selectors {:default (complement :benchmark)
                    :benchmark :benchmark}
+  :test2junit-output-dir "ghpages/test-results"
+  :test2junit-run-ant true
+  :html5-docs-docs-dir "ghpages/doc"
+  :html5-docs-ns-includes #"^bowerick.*"
+  :html5-docs-repository-url "https://github.com/ruedigergad/bowerick/blob/master"
   :profiles {:repl
                {:dependencies  [[jonase/eastwood "0.2.3" :exclusions  [org.clojure/clojure]]]}
              :test
