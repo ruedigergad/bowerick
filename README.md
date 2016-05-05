@@ -74,18 +74,25 @@ http://ruedigergad.github.io/bowerick/doc/
 
 * Encrypted
     * OpenWire via TCP (with optional client authentication)
-        ssl://127.0.0.1:42425
-        ssl://127.0.0.1:42425?needClientAuth=true
+
+      ssl://127.0.0.1:42425
+      
+      ssl://127.0.0.1:42425?needClientAuth=true
     * STOMP via TCP (with optional client authentication)
-        stomp+ssl://127.0.0.1:42423
-        stomp+ssl://127.0.0.1:42423?needClientAuth=true   
+      
+      stomp+ssl://127.0.0.1:42423
+      
+      stomp+ssl://127.0.0.1:42423?needClientAuth=true
 * Unencrypted
     * OpenWire via TCP
-        tcp://127.0.0.1:42424
+      
+      tcp://127.0.0.1:42424
     * OpenWire via UDP
-        udp://127.0.0.1:42426 
+      
+      udp://127.0.0.1:42426
     * STOMP via TCP
-        stomp://127.0.0.1:42422 
+      
+      stomp://127.0.0.1:42422
 
 #### Pooling, Serialization, and Compression
 
@@ -96,29 +103,45 @@ Placeholders Used in the Cheat Sheet Examples
     (defn callback-fn [data] (println data))
 
 * Single Message Operation
-   (create-producer server-url endpoint-description)
-   (create-consumer server-url endpoint-description callback-fn)
+  
+  (create-producer server-url endpoint-description)
+  
+  (create-consumer server-url endpoint-description callback-fn)
 * Pooled Operation
    * Default Serialization
-       (create-pooled-producer server-url endpoint-description pool-size)
-       (create-pooled-consumer server-url endpoint-description callback-fn)
+     
+     (create-pooled-producer server-url endpoint-description pool-size)
+     
+     (create-pooled-consumer server-url endpoint-description callback-fn)
    * Criptonite (Kryo) Serialization
-       (create-pooled-cryptonite-producer server-url endpoint-description pool-size)
-       (create-pooled-cryptonite-consumer server-url endpoint-description callback-fn)
+     
+     (create-pooled-cryptonite-producer server-url endpoint-description pool-size)
+     
+     (create-pooled-cryptonite-consumer server-url endpoint-description callback-fn)
    * Criptonite (Kryo) Serialization with LZF Compression
-       (create-pooled-cryptonite-lzf-producer server-url endpoint-description pool-size)
-       (create-pooled-cryptonite-lzf-consumer server-url endpoint-description callback-fn)
+     
+     (create-pooled-cryptonite-lzf-producer server-url endpoint-description pool-size)
+     
+     (create-pooled-cryptonite-lzf-consumer server-url endpoint-description callback-fn)
    * Nippy Serialization
-       (create-pooled-nippy-producer server-url endpoint-description pool-size)
-       (create-pooled-nippy-consumer server-url endpoint-description callback-fn)
+     
+     (create-pooled-nippy-producer server-url endpoint-description pool-size)
+     
+     (create-pooled-nippy-consumer server-url endpoint-description callback-fn)
    * Nippy Serialization with Compression (LZ4, Snappy, LZMA2)
-       (create-pooled-nippy-producer server-url endpoint-description pool-size {:compressor taoensso.nippy/lz4-compressor})
-       (create-pooled-nippy-producer server-url endpoint-description pool-size {:compressor taoensso.nippy/snappy-compressor})
-       (create-pooled-nippy-producer server-url endpoint-description pool-size {:compressor taoensso.nippy/lzma2-compressor})
-       (create-pooled-nippy-consumer server-url endpoint-description callback-fn)
+     
+     (create-pooled-nippy-producer server-url endpoint-description pool-size {:compressor taoensso.nippy/lz4-compressor})
+     
+     (create-pooled-nippy-producer server-url endpoint-description pool-size {:compressor taoensso.nippy/snappy-compressor})
+     
+     (create-pooled-nippy-producer server-url endpoint-description pool-size {:compressor taoensso.nippy/lzma2-compressor})
+     
+     (create-pooled-nippy-consumer server-url endpoint-description callback-fn)
    * Nippy Serialization with LZF Compression
-       (create-pooled-nippy-lzf-producer server-url endpoint-description pool-size)
-       (create-pooled-nippy-lzf-consumer server-url endpoint-description callback-fn)
+     
+     (create-pooled-nippy-lzf-producer server-url endpoint-description pool-size)
+     
+     (create-pooled-nippy-lzf-consumer server-url endpoint-description callback-fn)
 
 ## License
 
