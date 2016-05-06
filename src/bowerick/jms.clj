@@ -222,6 +222,7 @@
                      (.setUseJmx false)
                      (.start)))
           producer (try
+                     (println "Info: Enabled management producer at:" *broker-management-reply-topic*)
                      (binding [*trust-store-file* *key-store-file*
                                *trust-store-password* *key-store-password*
                                *key-store-file* *trust-store-file*
@@ -233,6 +234,7 @@
                      (catch Exception e
                        (println "Warning: Could not create management producer for:" *broker-management-reply-topic*)))
           consumer (try
+                     (println "Info: Enabled management consumer at:" *broker-management-command-topic*)
                      (binding [*trust-store-file* *key-store-file*
                                *trust-store-password* *key-store-password*
                                *key-store-file* *trust-store-file*
