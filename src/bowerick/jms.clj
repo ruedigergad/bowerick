@@ -16,6 +16,7 @@
   (:require
     [carbonite.api :as carb-api]
     [carbonite.buffer :as carb-buf]
+    [cheshire.core :refer :all]
     [clojure.java.io :refer :all]
     [clj-assorted-utils.util :refer :all]
     [taoensso.nippy :as nippy])
@@ -42,6 +43,9 @@
 (def ^:dynamic *trust-store-password* "password")
 (def ^:dynamic *key-store-file* "client.ks")
 (def ^:dynamic *key-store-password* "password")
+
+(def ^:dynamic *broker-management-command-topic* "/topic/bowerick.broker.management.command")
+(def ^:dynamic *broker-management-reply-topic* "/topic/bowerick.broker.management.reply")
 
 ; See also: http://activemq.apache.org/objectmessage.html
 (def ^:dynamic *serializable-packages*
@@ -99,6 +103,94 @@
       *trust-store-file*)
     (SSLContext/setDefault (get-adjusted-ssl-context))))
 
+(defn get-destinations
+  "Get a lexicographically sorted list of destinations that exist for the given borker-service
+   Optionally, destinations without producers can be excluded by setting
+   include-destinations-without-producers to false."
+  ([broker]
+    (get-destinations broker true))
+  ([broker include-destinations-without-producers]
+    (let [^BrokerService broker-service (if
+                                          (map? broker)
+                                          (:broker broker)
+                                          broker)
+          dst-vector (ref [])]
+      (doseq [^Destination dst (vec
+                                 (->
+                                   (.getBroker broker-service)
+                                   (.getDestinationMap)
+                                   (.values)))]
+        (if (or
+              include-destinations-without-producers
+              (>
+                (-> (.getDestinationStatistics dst) (.getProducers) (.getCount))
+                0))
+          (let [dst-type (condp (fn[t d] (= (type d) t)) dst
+                           org.apache.activemq.broker.region.Topic "/topic/"
+                           org.apache.activemq.broker.region.Queue "/queue/"
+                           "/na/")]
+            (dosync
+              (alter dst-vector conj (str dst-type (.getName dst)))))))
+      (sort @dst-vector))))
+
+(defn send-error-msg [producer msg]
+  (println msg)
+  (producer (str "error " msg)))
+
+(defn setup-broker-with-auth
+  [address allow-anon users permissions]
+  (let [user-list (map
+                    (fn [u]
+                      (AuthenticationUser.
+                        (u "name")
+                        (u "password")
+                        (u "groups")))
+                    users)
+        authentication-plugin (doto
+                                (SimpleAuthenticationPlugin. user-list)
+                                (.setAnonymousAccessAllowed allow-anon)
+                                (.setAnonymousUser "anonymous")
+                                (.setAnonymousGroup "anonymous"))
+        authorization-entries (map
+                                (fn [perm]
+                                  (println "Setting permission:" perm)
+                                  (let [trgt (perm "target")
+                                        adm (perm "admin")
+                                        rd (perm "read")
+                                        wrt (perm "write")
+                                        auth-entry (AuthorizationEntry.)]
+                                    (if (not (nil? adm))
+                                      (.setAdmin auth-entry adm))
+                                    (if (not (nil? rd))
+                                      (.setRead auth-entry rd))
+                                    (if (not (nil? wrt))
+                                      (.setWrite auth-entry wrt))
+                                    (condp = (perm "type")
+                                      "topic" (.setTopic auth-entry trgt)
+                                      "queue" (.setQueue auth-entry trgt)
+                                      (.setDestination auth-entry trgt))
+                                    auth-entry))
+                                permissions)
+        authorization-map (doto
+                            (DefaultAuthorizationMap.)
+                            (.setAuthorizationEntries authorization-entries))
+        authorization-plugin (AuthorizationPlugin. authorization-map)
+        broker (doto
+                 (BrokerService.)
+                 (.addConnector address)
+                 (.setPersistent false)
+                 (.setUseJmx false)
+                 (.setPlugins
+                   (into-array
+                     org.apache.activemq.broker.BrokerPlugin
+                     [authentication-plugin authorization-plugin]))
+                 (.start))]
+    broker))
+
+(declare create-producer)
+(declare create-consumer)
+(declare close)
+
 (defn start-broker
   "Start an embedded ActiveMQ broker.
    Examples for valid addresses are: 
@@ -117,82 +209,57 @@
    
    [{\"target\" \"test.topic.a\", \"type\" \"topic\", \"write\" \"anonymous\"}"
   ([address]
-   (adjust-default-ssl-context)
-   (doto (BrokerService.)
-     (.addConnector address)
-     (.setPersistent false)
-     (.setUseJmx false)
-     (.start)))
+    (start-broker address nil nil nil))
   ([address allow-anon users permissions]
-   (adjust-default-ssl-context)
-   (let [user-list (map
-                     (fn [u]
-                       (AuthenticationUser.
-                         (u "name")
-                         (u "password")
-                         (u "groups")))
-                     users)
-         authentication-plugin (doto
-                                 (SimpleAuthenticationPlugin. user-list)
-                                 (.setAnonymousAccessAllowed allow-anon)
-                                 (.setAnonymousUser "anonymous")
-                                 (.setAnonymousGroup "anonymous"))
-         authorization-entries (map
-                                 (fn [perm]
-                                   (println "Setting permission:" perm)
-                                   (let [trgt (perm "target")
-                                         adm (perm "admin")
-                                         rd (perm "read")
-                                         wrt (perm "write")
-                                         auth-entry (AuthorizationEntry.)]
-                                     (if (not (nil? adm))
-                                       (.setAdmin auth-entry adm))
-                                     (if (not (nil? rd))
-                                       (.setRead auth-entry rd))
-                                     (if (not (nil? wrt))
-                                       (.setWrite auth-entry wrt))
-                                     (condp = (perm "type")
-                                       "topic" (.setTopic auth-entry trgt)
-                                       "queue" (.setQueue auth-entry trgt)
-                                       (.setDestination auth-entry trgt))
-                                     auth-entry))
-                                 permissions)
-         authorization-map (doto
-                             (DefaultAuthorizationMap.)
-                             (.setAuthorizationEntries authorization-entries))
-         authorization-plugin (AuthorizationPlugin. authorization-map)]
-     (doto (BrokerService.)
-       (.addConnector address)
-       (.setPersistent false)
-       (.setUseJmx false)
-       (.setPlugins (into-array org.apache.activemq.broker.BrokerPlugin [authentication-plugin authorization-plugin]))
-       (.start)))))
+    (adjust-default-ssl-context)
+    (let [broker (if
+                   (and allow-anon users permissions)
+                   (setup-broker-with-auth address allow-anon users permissions)
+                   (doto
+                     (BrokerService.)
+                     (.addConnector address)
+                     (.setPersistent false)
+                     (.setUseJmx false)
+                     (.start)))
+          producer (try
+                     (binding [*trust-store-file* *key-store-file*
+                               *trust-store-password* *key-store-password*
+                               *key-store-file* *trust-store-file*
+                               *key-store-password* *trust-store-password*]
+                       (create-producer
+                         address
+                         *broker-management-reply-topic*
+                         generate-string))
+                     (catch Exception e
+                       (println "Warning: Could not create management producer for:" *broker-management-reply-topic*)))
+          consumer (try
+                     (binding [*trust-store-file* *key-store-file*
+                               *trust-store-password* *key-store-password*
+                               *key-store-file* *trust-store-file*
+                               *key-store-password* *trust-store-password*]
+                       (create-consumer
+                         address
+                         *broker-management-command-topic*
+                         (fn [cmd]
+                           (condp = cmd
+                             "get-destinations" (producer (get-destinations broker false))
+                             "get-all-destinations" (producer (get-destinations broker true))
+                             (send-error-msg producer (str "Unknown command: " cmd))))
+                         parse-string))
+                     (catch Exception e
+                       (println "Warning: Could not create management consumer for:" *broker-management-command-topic*)))]
+      (.waitUntilStarted broker)
+      {:broker broker
+       :stop (fn []
+               (if consumer
+                 (close consumer))
+               (if producer
+                 (close producer))
+               (.stop broker))})))
 
-(defn get-destinations
-  "Get a lexicographically sorted list of destinations that exist for the given borker-service
-   Optionally, destinations without producers can be excluded by setting
-   include-destinations-without-producers to false."
-  ([broker-service]
-    (get-destinations broker-service true))
-  ([^BrokerService broker-service include-destinations-without-producers]
-    (let [dst-vector (ref [])]
-      (doseq [^Destination dst (vec (-> (.getBroker broker-service) (.getDestinationMap) (.values)))]
-        (if (or
-              include-destinations-without-producers
-              (>
-                (-> (.getDestinationStatistics dst) (.getProducers) (.getCount))
-                0))
-          (let [dst-type (condp (fn[t d] (= (type d) t)) dst
-                           org.apache.activemq.broker.region.Topic "/topic/"
-                           org.apache.activemq.broker.region.Queue "/queue/"
-                           "/na/")]
-            (dosync
-              (alter dst-vector conj (str dst-type (.getName dst)))))))
-      (sort @dst-vector))))
-
-(defn send-error-msg [producer msg]
-  (println msg)
-  (producer (str "reply error " msg)))
+(defn stop
+  [brkr]
+  ((:stop brkr)))
 
 (defmacro with-endpoint
   "Execute body in a context for which connection, session, and endpoint are

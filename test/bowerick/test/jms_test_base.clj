@@ -26,7 +26,7 @@
                          *key-store-password* "password"]
                  (start-broker *local-jms-server*))]
     (t)
-    (.stop broker)))
+    (stop broker)))
 
 (defn single-test-fixture [t]
   (run-test t)

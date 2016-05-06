@@ -117,5 +117,5 @@
     (binding [*user-name* test-user-name *user-password* test-user-password] (create-consumer jms-server-addr test-topic (fn [_])))
     (create-producer jms-server-addr test-topic)
     (is (thrown-with-msg? javax.jms.JMSSecurityException #"User anonymous is not authorized to read from: topic://test.topic.a" (create-consumer jms-server-addr test-topic (fn [_]))))
-    (.stop broker-service)))
+    (stop broker-service)))
 

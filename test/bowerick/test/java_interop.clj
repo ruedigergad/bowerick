@@ -26,7 +26,7 @@
 (defn run-test [t]
   (let [broker (start-broker local-jms-server)]
     (t)
-    (.stop broker)))
+    (stop broker)))
 
 (use-fixtures :each run-test)
 

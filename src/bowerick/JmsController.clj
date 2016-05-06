@@ -29,8 +29,7 @@
    :state state)
   (:require
     [bowerick.jms :refer :all]
-    [cheshire.core :refer :all]
-    )
+    [cheshire.core :refer :all])
   (:import
     (bowerick JmsConsumerCallback JmsController JmsProducer)))
 
@@ -111,6 +110,6 @@
 (defn -stopEmbeddedBroker [this]
   (let [broker-ref (:broker (.state this))]
     (when (not (nil? @broker-ref))
-      (.stop @broker-ref)
+      (stop @broker-ref)
       (dosync (ref-set broker-ref nil)))))
 
