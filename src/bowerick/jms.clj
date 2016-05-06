@@ -271,29 +271,32 @@
    passed as single function argument.
   
    For each invocation, the passed data will be transmitted in a separate message."
-  [^String server-url ^String endpoint-description]
-  (println "Creating producer for endpoint description:" endpoint-description)
-  (with-endpoint server-url endpoint-description
-    (let [producer (doto
-                     (.createProducer session endpoint)
-                     (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
-      (->ProducerWrapper
-        (fn [data]
-          (condp instance? data
-            byte-array-type (.send
-                              producer
-                              (doto
-                                (.createBytesMessage session)
-                                (.writeBytes ^bytes data)))
-            java.lang.String (.send
-                               producer
-                               (.createTextMessage session ^String data))
-            (.send
-              producer
-              (.createObjectMessage session data))))
-        (fn []
-          (println "Closing producer for endpoint description:" endpoint-description)
-          (.close connection))))))
+  ([server-url endpoint-description]
+    (create-producer server-url endpoint-description identity))
+  ([^String server-url ^String endpoint-description transformation-fn]
+    (println "Creating producer for endpoint description:" endpoint-description)
+    (with-endpoint server-url endpoint-description
+      (let [producer (doto
+                       (.createProducer session endpoint)
+                       (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
+        (->ProducerWrapper
+          (fn [data]
+            (let [transformed-data (transformation-fn data)]
+              (condp instance? transformed-data
+                byte-array-type (.send
+                                  producer
+                                  (doto
+                                    (.createBytesMessage session)
+                                    (.writeBytes ^bytes transformed-data)))
+                java.lang.String (.send
+                                   producer
+                                   (.createTextMessage session ^String transformed-data))
+                (.send
+                  producer
+                  (.createObjectMessage session transformed-data)))))
+          (fn []
+            (println "Closing producer for endpoint description:" endpoint-description)
+            (.close connection)))))))
 
 (defrecord ConsumerWrapper [close-fn]
   AutoCloseable

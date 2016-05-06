@@ -13,6 +13,7 @@
   (:require
     [bowerick.jms :refer :all]
     [bowerick.test.jms-test-base :refer :all]
+    [cheshire.core :refer :all]
     [clj-assorted-utils.util :refer :all]
     [clojure.test :refer :all] clojure.test))
 
@@ -67,6 +68,18 @@
             (= a b)))
         (vec data)
         (vec @received)))
+    (close producer)
+    (close consumer)))
+
+(deftest custom-transformation-producer-cheshire
+  (let [producer (create-producer *local-jms-server* test-topic generate-string)
+        received (ref nil)
+        flag (prepare-flag)
+        consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
+        consumer (create-consumer *local-jms-server* test-topic consume-fn)]
+    (producer {:a "a", :b 123})
+    (await-flag flag)
+    (is (= "{\"a\":\"a\",\"b\":123}" @received))
     (close producer)
     (close consumer)))
 
