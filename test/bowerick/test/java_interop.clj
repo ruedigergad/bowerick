@@ -14,25 +14,36 @@
   (:require
     [clojure.test :refer :all]
     [clj-assorted-utils.util :refer :all]
-    [bowerick.jms :refer :all]
-    [bowerick.test.jms-test-base :refer :all])
+    [bowerick.jms :refer :all])
   (:import
     (bowerick JmsConsumerCallback JmsController JmsProducer)))
 
-(use-fixtures :each single-test-fixture)
+
+
+(def local-jms-server "tcp://127.0.0.1:42424")
+(def test-topic "/topic/testtopic.foo")
+
+(defn run-test [t]
+  (let [broker (start-broker local-jms-server)]
+    (t)
+    (.stop broker)))
+
+(use-fixtures :each run-test)
+
+
 
 (deftest test-create-controller
-  (let [controller (JmsController. *local-jms-server*)]
+  (let [controller (JmsController. local-jms-server)]
     (is (instance? JmsController controller))))
 
 (deftest test-create-producer
-  (let [controller (JmsController. *local-jms-server*)
+  (let [controller (JmsController. local-jms-server)
         producer (.createProducer controller test-topic)]
     (is (instance? JmsProducer producer))
     (.close producer)))
 
 (deftest test-producer-and-consumer
-  (let [controller (JmsController. *local-jms-server*)
+  (let [controller (JmsController. local-jms-server)
         producer (.createProducer controller test-topic)
         flag (prepare-flag)
         data (ref nil)
@@ -72,8 +83,25 @@
     (.close consumer)
     (.stopEmbeddedBroker controller)))
 
+(deftest test-json-producer-and-consumer
+  (let [controller (JmsController. local-jms-server)
+        producer (.createJsonProducer controller test-topic)
+        flag (prepare-flag)
+        data (atom nil)
+        consumer-cb (proxy [JmsConsumerCallback] []
+                      (processData [obj]
+                        (reset! data obj)
+                        (set-flag flag)))
+        consumer (.createJsonConsumer controller test-topic ^JmsConsumerCallback consumer-cb)]
+    (.sendData producer {"a" "A", "b" 123})
+    (await-flag flag)
+    (is (flag-set? flag))
+    (is (= {"a" "A", "b" 123} @data))
+    (.close producer)
+    (.close consumer)))
+
 (deftest test-pooled-producer-and-consumer
-  (let [controller (JmsController. *local-jms-server*)
+  (let [controller (JmsController. local-jms-server)
         n 3
         cntr (counter)
         producer (.createPooledProducer controller test-topic n)
@@ -96,7 +124,7 @@
     (.close consumer)))
 
 (deftest test-pooled-carbonite-producer-and-consumer
-  (let [controller (JmsController. *local-jms-server*)
+  (let [controller (JmsController. local-jms-server)
         n 3
         cntr (counter)
         producer (.createPooledCarboniteProducer controller test-topic n)
@@ -119,7 +147,7 @@
     (.close consumer)))
 
 (deftest test-pooled-carbonite-lzf-producer-and-consumer
-  (let [controller (JmsController. *local-jms-server*)
+  (let [controller (JmsController. local-jms-server)
         n 3
         cntr (counter)
         producer (.createPooledCarboniteLzfProducer controller test-topic n)

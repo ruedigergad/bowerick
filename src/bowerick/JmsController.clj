@@ -15,6 +15,8 @@
    :init init
    :constructors {[String] []}
    :methods [[createConsumer [String bowerick.JmsConsumerCallback] AutoCloseable]
+             [createJsonConsumer [String bowerick.JmsConsumerCallback] AutoCloseable]
+             [createJsonProducer [String] bowerick.JmsProducer]
              [createProducer [String] bowerick.JmsProducer]
              [createPooledConsumer [String bowerick.JmsConsumerCallback] AutoCloseable]
              [createPooledProducer [String int] bowerick.JmsProducer]
@@ -26,17 +28,14 @@
              [stopEmbeddedBroker [] void]]
    :state state)
   (:require
-    [bowerick.jms :refer :all])
+    [bowerick.jms :refer :all]
+    [cheshire.core :refer :all]
+    )
   (:import
     (bowerick JmsConsumerCallback JmsController JmsProducer)))
 
 (defn -init [jms-url]
   [[] {:jms-url jms-url :broker (ref nil)}])
-
-(defn -createProducer [this topic-identifier]
-  (create-producer
-    (:jms-url (.state this))
-    topic-identifier))
 
 (defn -createConsumer [this topic-identifier ^JmsConsumerCallback consumer-cb]
   (create-consumer
@@ -44,6 +43,25 @@
     topic-identifier
     (fn [obj]
       (.processData consumer-cb obj))))
+
+(defn -createJsonConsumer [this topic-identifier ^JmsConsumerCallback consumer-cb]
+  (create-consumer
+    (:jms-url (.state this))
+    topic-identifier
+    (fn [obj]
+      (.processData consumer-cb obj))
+    parse-string))
+
+(defn -createJsonProducer [this topic-identifier]
+  (create-producer
+    (:jms-url (.state this))
+    topic-identifier
+    generate-string))
+
+(defn -createProducer [this topic-identifier]
+  (create-producer
+    (:jms-url (.state this))
+    topic-identifier))
 
 (defn -createPooledProducer [this topic-identifier pool-size]
   (create-pooled-producer
