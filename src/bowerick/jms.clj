@@ -270,10 +270,13 @@
    is to use the producer as a function to which the data that is to be transmitted is
    passed as single function argument.
   
-   For each invocation, the passed data will be transmitted in a separate message."
+   For each invocation, the passed data will be transmitted in a separate message.
+   
+   Optionally, a single argument function for customizing the serialization of the data can be given.
+   This defaults to idenitity such that the default serialization of the underlying JMS implementation is used."
   ([server-url endpoint-description]
     (create-producer server-url endpoint-description identity))
-  ([^String server-url ^String endpoint-description transformation-fn]
+  ([^String server-url ^String endpoint-description serialization-fn]
     (println "Creating producer for endpoint description:" endpoint-description)
     (with-endpoint server-url endpoint-description
       (let [producer (doto
@@ -281,19 +284,19 @@
                        (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
         (->ProducerWrapper
           (fn [data]
-            (let [transformed-data (transformation-fn data)]
-              (condp instance? transformed-data
+            (let [serialized-data (serialization-fn data)]
+              (condp instance? serialized-data
                 byte-array-type (.send
                                   producer
                                   (doto
                                     (.createBytesMessage session)
-                                    (.writeBytes ^bytes transformed-data)))
+                                    (.writeBytes ^bytes serialized-data)))
                 java.lang.String (.send
                                    producer
-                                   (.createTextMessage session ^String transformed-data))
+                                   (.createTextMessage session ^String serialized-data))
                 (.send
                   producer
-                  (.createObjectMessage session transformed-data)))))
+                  (.createObjectMessage session serialized-data)))))
           (fn []
             (println "Closing producer for endpoint description:" endpoint-description)
             (.close connection)))))))
@@ -307,10 +310,15 @@
   "Create a message consumer for receiving data from the specified endpoint and server/broker.
 
    The passed callback function (cb) will be called for each message and will receive the data
-   from the message as its single argument."
+   from the message as its single argument.
+  
+   Optionally, a single argument function for customizing the de-serialization of the transferred data can be given.
+   Typically, this should be the inverse operation of the serialization function as used for the producer and defaults to identity.
+  
+   See also create-producer."
   ([server-url endpoint-description cb]
     (create-consumer server-url endpoint-description cb identity))
-  ([^String server-url ^String endpoint-description cb transformation-fn]
+  ([^String server-url ^String endpoint-description cb de-serialization-fn]
     (println "Creating consumer for endpoint description:" endpoint-description)
     (with-endpoint server-url endpoint-description
       (let [listener (proxy [MessageListener] []
@@ -318,12 +326,12 @@
                          (condp instance? m
                            BytesMessage (let [data (byte-array (.getBodyLength ^BytesMessage m))]
                                           (.readBytes ^BytesMessage m data)
-                                          (cb (transformation-fn data)))
+                                          (cb (de-serialization-fn data)))
                            ObjectMessage  (try
-                                            (cb (transformation-fn (.getObject ^ObjectMessage m)))
+                                            (cb (de-serialization-fn (.getObject ^ObjectMessage m)))
                                             (catch javax.jms.JMSException e
                                               (println e)))
-                           TextMessage (cb (transformation-fn (.getText ^TextMessage m)))
+                           TextMessage (cb (de-serialization-fn (.getText ^TextMessage m)))
                            (println "Unknown message type:" (type m)))))
             consumer (doto
                        (.createConsumer session endpoint)
