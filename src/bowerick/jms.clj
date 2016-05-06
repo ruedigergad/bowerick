@@ -308,28 +308,30 @@
 
    The passed callback function (cb) will be called for each message and will receive the data
    from the message as its single argument."
-  [^String server-url ^String endpoint-description cb]
-  (println "Creating consumer for endpoint description:" endpoint-description)
-  (with-endpoint server-url endpoint-description
-    (let [listener (proxy [MessageListener] []
-                     (onMessage [^Message m]
-                       (condp instance? m
-                         BytesMessage (let [data (byte-array (.getBodyLength ^BytesMessage m))]
-                                        (.readBytes ^BytesMessage m data)
-                                        (cb data))
-                         ObjectMessage  (try
-                                          (cb (.getObject ^ObjectMessage m))
-                                          (catch javax.jms.JMSException e
-                                            (println e)))
-                         TextMessage (cb (.getText ^TextMessage m))
-                         (println "Unknown message type:" (type m)))))
-          consumer (doto
-                     (.createConsumer session endpoint)
-                     (.setMessageListener listener))]
-      (->ConsumerWrapper
-        (fn []
-          (println "Closing consumer for endpoint description:" endpoint-description)
-          (.close connection))))))
+  ([server-url endpoint-description cb]
+    (create-consumer server-url endpoint-description cb identity))
+  ([^String server-url ^String endpoint-description cb transformation-fn]
+    (println "Creating consumer for endpoint description:" endpoint-description)
+    (with-endpoint server-url endpoint-description
+      (let [listener (proxy [MessageListener] []
+                       (onMessage [^Message m]
+                         (condp instance? m
+                           BytesMessage (let [data (byte-array (.getBodyLength ^BytesMessage m))]
+                                          (.readBytes ^BytesMessage m data)
+                                          (cb (transformation-fn data)))
+                           ObjectMessage  (try
+                                            (cb (transformation-fn (.getObject ^ObjectMessage m)))
+                                            (catch javax.jms.JMSException e
+                                              (println e)))
+                           TextMessage (cb (transformation-fn (.getText ^TextMessage m)))
+                           (println "Unknown message type:" (type m)))))
+            consumer (doto
+                       (.createConsumer session endpoint)
+                       (.setMessageListener listener))]
+        (->ConsumerWrapper
+          (fn []
+            (println "Closing consumer for endpoint description:" endpoint-description)
+            (.close connection)))))))
 
 (defn close
   "Close a producer or consumer."

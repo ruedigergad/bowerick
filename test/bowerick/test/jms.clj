@@ -77,9 +77,21 @@
         flag (prepare-flag)
         consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
         consumer (create-consumer *local-jms-server* test-topic consume-fn)]
-    (producer {:a "a", :b 123})
+    (producer {"a" "A", "b" 123})
     (await-flag flag)
-    (is (= "{\"a\":\"a\",\"b\":123}" @received))
+    (is (= "{\"a\":\"A\",\"b\":123}" @received))
+    (close producer)
+    (close consumer)))
+
+(deftest custom-transformation-producer-consumer-cheshire
+  (let [producer (create-producer *local-jms-server* test-topic generate-string)
+        received (ref nil)
+        flag (prepare-flag)
+        consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
+        consumer (create-consumer *local-jms-server* test-topic consume-fn parse-string)]
+    (producer {"a" "A", "b" 123})
+    (await-flag flag)
+    (is (= {"a" "A", "b" 123} @received))
     (close producer)
     (close consumer)))
 
