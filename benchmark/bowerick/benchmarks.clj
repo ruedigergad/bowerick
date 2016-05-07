@@ -14,7 +14,10 @@
     [bowerick.jms :refer :all]
     [clj-assorted-utils.util :refer :all]
     [clojure.test :refer :all]
-    [criterium [core :as cc]]))
+    [criterium [core :as cc]])
+  (:import
+    (com.ning.compress.lzf LZFDecoder LZFEncoder)
+    (java.nio.charset Charset)))
 
 (def ^:dynamic *local-jms-server* "tcp://127.0.0.1:42424")
 (def test-topic "/topic/testtopic.foo")
@@ -76,6 +79,27 @@
     (fn [url ep n cb]
       (create-pooled-consumer url ep n cb cheshire.core/parse-string))
     nippy-stress-data-benchable))
+
+(deftest ^:benchmark pooled-cheshire-lzf-nippy-stress-data-transmission-benchmarks
+  (let [charset (Charset/forName "UTF-8")]
+    (run-benchmarks
+      "pooled-cheshire-lzf-nippy-stress-data-transmission"
+      (fn [url ep n]
+        (create-pooled-producer
+          url
+          ep
+          n
+          (fn [data]
+            (-> data (cheshire.core/generate-string) (.getBytes charset) (LZFEncoder/encode)))))
+      (fn [url ep n cb]
+        (create-pooled-consumer
+          url
+          ep
+          n
+          cb
+          (fn [^bytes data]
+            (-> data (LZFDecoder/decode) (String. charset) (cheshire.core/parse-string)))))
+      nippy-stress-data-benchable)))
 
 (deftest ^:benchmark pooled-nippy-nippy-stress-data-transmission-benchmarks
   (run-benchmarks
