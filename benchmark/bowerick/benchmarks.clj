@@ -76,8 +76,8 @@
     "pooled-cheshire-nippy-stress-data-transmission"
     (fn [url ep n]
       (create-pooled-producer url ep n cheshire.core/generate-string))
-    (fn [url ep n cb]
-      (create-pooled-consumer url ep n cb cheshire.core/parse-string))
+    (fn [url ep cb]
+      (create-pooled-consumer url ep cb cheshire.core/parse-string))
     nippy-stress-data-benchable))
 
 (deftest ^:benchmark pooled-cheshire-lzf-nippy-stress-data-transmission-benchmarks
@@ -91,11 +91,10 @@
           n
           (fn [data]
             (-> data (cheshire.core/generate-string) (.getBytes charset) (LZFEncoder/encode)))))
-      (fn [url ep n cb]
+      (fn [url ep cb]
         (create-pooled-consumer
           url
           ep
-          n
           cb
           (fn [^bytes data]
             (-> data (LZFDecoder/decode) (String. charset) (cheshire.core/parse-string)))))
