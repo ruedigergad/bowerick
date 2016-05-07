@@ -71,34 +71,34 @@
     create-pooled-consumer
     nippy-stress-data-benchable))
 
-(deftest ^:benchmark pooled-cheshire-nippy-stress-data-transmission-benchmarks
-  (run-benchmarks
-    "pooled-cheshire-nippy-stress-data-transmission"
-    (fn [url ep n]
-      (create-pooled-producer url ep n cheshire.core/generate-string))
-    (fn [url ep cb]
-      (create-pooled-consumer url ep cb cheshire.core/parse-string))
-    nippy-stress-data-benchable))
-
-(deftest ^:benchmark pooled-cheshire-lzf-nippy-stress-data-transmission-benchmarks
-  (let [charset (Charset/forName "UTF-8")]
-    (run-benchmarks
-      "pooled-cheshire-lzf-nippy-stress-data-transmission"
-      (fn [url ep n]
-        (create-pooled-producer
-          url
-          ep
-          n
-          (fn [data]
-            (-> data (cheshire.core/generate-string) (.getBytes charset) (LZFEncoder/encode)))))
-      (fn [url ep cb]
-        (create-pooled-consumer
-          url
-          ep
-          cb
-          (fn [^bytes data]
-            (-> data (LZFDecoder/decode) (String. charset) (cheshire.core/parse-string)))))
-      nippy-stress-data-benchable)))
+;(deftest ^:benchmark pooled-cheshire-nippy-stress-data-transmission-benchmarks
+;  (run-benchmarks
+;    "pooled-cheshire-nippy-stress-data-transmission"
+;    (fn [url ep n]
+;      (create-pooled-producer url ep n cheshire.core/generate-string))
+;    (fn [url ep cb]
+;      (create-pooled-consumer url ep cb cheshire.core/parse-string))
+;    nippy-stress-data-benchable))
+;
+;(deftest ^:benchmark pooled-cheshire-lzf-nippy-stress-data-transmission-benchmarks
+;  (let [charset (Charset/forName "UTF-8")]
+;    (run-benchmarks
+;      "pooled-cheshire-lzf-nippy-stress-data-transmission"
+;      (fn [url ep n]
+;        (create-pooled-producer
+;          url
+;          ep
+;          n
+;          (fn [data]
+;            (-> data (cheshire.core/generate-string) (.getBytes charset) (LZFEncoder/encode)))))
+;      (fn [url ep cb]
+;        (create-pooled-consumer
+;          url
+;          ep
+;          cb
+;          (fn [^bytes data]
+;            (-> data (LZFDecoder/decode) (String. charset) (cheshire.core/parse-string)))))
+;      nippy-stress-data-benchable)))
 
 (deftest ^:benchmark pooled-nippy-nippy-stress-data-transmission-benchmarks
   (run-benchmarks
