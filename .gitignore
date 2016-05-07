@@ -1,3 +1,6 @@
 .lein-failures
 pom.xml
 target/
+*.swp
+.nrepl-port
+.lein-repl-history
