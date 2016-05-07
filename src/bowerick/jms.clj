@@ -257,7 +257,8 @@
                  (close consumer))
                (if producer
                  (close producer))
-               (.stop broker))})))
+               (.stop broker)
+               (.waitUntilStopped broker))})))
 
 (defn stop
   [brkr]
