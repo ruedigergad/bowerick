@@ -1,0 +1,1752 @@
+
+lein test bowerick.benchmarks
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating producer for endpoint description: /topic/bowerick.broker.management.reply
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating consumer for endpoint description: /topic/bowerick.broker.management.command
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.command
+Running benchmark: pooled-nippy-lzma2-nippy-stress-data-transmission-1
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.LZMA2Compressor 0x719d35e8 taoensso.nippy.compression.LZMA2Compressor@719d35e8]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Estimating sampling overhead
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 876401 iterations
+  compilation occurred before 28915697 iterations
+  compilation occurred before 113033585 iterations
+  compilation occurred before 222562085 iterations
+  compilation occurred before 335595497 iterations
+  compilation occurred before 447752681 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Warming up for JIT optimisations 10000000000 ...
+  classes loaded before 1 iterations
+  compilation occurred before 1 iterations
+  classes loaded before 363 iterations
+  compilation occurred before 363 iterations
+  classes loaded before 725 iterations
+  compilation occurred before 725 iterations
+  compilation occurred before 1087 iterations
+  compilation occurred before 1449 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 18180 in 60 samples of 303 calls.
+             Execution time mean : 3.352845 ms
+    Execution time std-deviation : 345.123953 µs
+   Execution time lower quantile : 3.201770 ms ( 2.5%)
+   Execution time upper quantile : 4.608349 ms (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 5 outliers in 60 samples (8.3333 %)
+	low-severe	 5 (8.3333 %)
+ Variance from outliers : 70.4043 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-lzma2-nippy-stress-data-transmission-4
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.LZMA2Compressor 0x719d35e8 taoensso.nippy.compression.LZMA2Compressor@719d35e8]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 229 iterations
+  compilation occurred before 5087 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 57600 in 60 samples of 960 calls.
+             Execution time mean : 853.069797 µs
+    Execution time std-deviation : 90.396838 µs
+   Execution time lower quantile : 811.486618 µs ( 2.5%)
+   Execution time upper quantile : 1.150253 ms (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 7 outliers in 60 samples (11.6667 %)
+	low-severe	 7 (11.6667 %)
+ Variance from outliers : 72.0861 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-lzma2-nippy-stress-data-transmission-10
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.LZMA2Compressor 0x719d35e8 taoensso.nippy.compression.LZMA2Compressor@719d35e8]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 183780 in 60 samples of 3063 calls.
+             Execution time mean : 344.407121 µs
+    Execution time std-deviation : 45.713168 µs
+   Execution time lower quantile : 320.856937 µs ( 2.5%)
+   Execution time upper quantile : 464.053617 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 8 outliers in 60 samples (13.3333 %)
+	low-severe	 8 (13.3333 %)
+ Variance from outliers : 80.6808 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-lzma2-nippy-stress-data-transmission-40
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.LZMA2Compressor 0x719d35e8 taoensso.nippy.compression.LZMA2Compressor@719d35e8]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 742620 in 60 samples of 12377 calls.
+             Execution time mean : 83.981725 µs
+    Execution time std-deviation : 6.325243 µs
+   Execution time lower quantile : 81.131852 µs ( 2.5%)
+   Execution time upper quantile : 104.902790 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 5 outliers in 60 samples (8.3333 %)
+	low-severe	 1 (1.6667 %)
+	low-mild	 4 (6.6667 %)
+ Variance from outliers : 56.7712 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-lzma2-nippy-stress-data-transmission-100
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.LZMA2Compressor 0x719d35e8 taoensso.nippy.compression.LZMA2Compressor@719d35e8]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 360170 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 1818120 in 60 samples of 30302 calls.
+             Execution time mean : 33.982309 µs
+    Execution time std-deviation : 3.025309 µs
+   Execution time lower quantile : 32.427703 µs ( 2.5%)
+   Execution time upper quantile : 46.235544 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 7 outliers in 60 samples (11.6667 %)
+	low-severe	 7 (11.6667 %)
+ Variance from outliers : 65.2063 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-lzma2-nippy-stress-data-transmission-400
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.LZMA2Compressor 0x719d35e8 taoensso.nippy.compression.LZMA2Compressor@719d35e8]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 18137141 iterations
+  compilation occurred before 54410663 iterations
+  compilation occurred before 108820946 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 7082880 in 60 samples of 118048 calls.
+             Execution time mean : 8.738984 µs
+    Execution time std-deviation : 816.398978 ns
+   Execution time lower quantile : 8.280266 µs ( 2.5%)
+   Execution time upper quantile : 11.593398 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 8 outliers in 60 samples (13.3333 %)
+	low-severe	 8 (13.3333 %)
+ Variance from outliers : 66.9400 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Closing consumer for endpoint description: /topic/bowerick.broker.management.command
+Closing producer for endpoint description: /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating producer for endpoint description: /topic/bowerick.broker.management.reply
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating consumer for endpoint description: /topic/bowerick.broker.management.command
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.command
+Running benchmark: pooled-nippy-stress-data-transmission-1
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  classes loaded before 1 iterations
+  classes loaded before 1343 iterations
+  compilation occurred before 1343 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 105720 in 60 samples of 1762 calls.
+             Execution time mean : 614.143849 µs
+    Execution time std-deviation : 78.237399 µs
+   Execution time lower quantile : 565.971410 µs ( 2.5%)
+   Execution time upper quantile : 855.222896 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 6 outliers in 60 samples (10.0000 %)
+	low-severe	 1 (1.6667 %)
+	low-mild	 5 (8.3333 %)
+ Variance from outliers : 78.9730 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-stress-data-transmission-4
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 412740 in 60 samples of 6879 calls.
+             Execution time mean : 148.495402 µs
+    Execution time std-deviation : 13.232379 µs
+   Execution time lower quantile : 141.187681 µs ( 2.5%)
+   Execution time upper quantile : 197.951176 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 6 outliers in 60 samples (10.0000 %)
+	low-severe	 2 (3.3333 %)
+	low-mild	 4 (6.6667 %)
+ Variance from outliers : 65.2091 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-stress-data-transmission-10
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 244 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 1034580 in 60 samples of 17243 calls.
+             Execution time mean : 60.472411 µs
+    Execution time std-deviation : 7.017297 µs
+   Execution time lower quantile : 56.780114 µs ( 2.5%)
+   Execution time upper quantile : 83.976927 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 8 outliers in 60 samples (13.3333 %)
+	low-severe	 3 (5.0000 %)
+	low-mild	 5 (8.3333 %)
+ Variance from outliers : 75.5299 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-stress-data-transmission-40
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 260 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 4085640 in 60 samples of 68094 calls.
+             Execution time mean : 15.263541 µs
+    Execution time std-deviation : 1.382776 µs
+   Execution time lower quantile : 14.252536 µs ( 2.5%)
+   Execution time upper quantile : 18.736858 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 12 outliers in 60 samples (20.0000 %)
+	low-severe	 4 (6.6667 %)
+	low-mild	 8 (13.3333 %)
+ Variance from outliers : 65.2564 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-stress-data-transmission-100
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 265 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 10345800 in 60 samples of 172430 calls.
+             Execution time mean : 6.354440 µs
+    Execution time std-deviation : 762.605450 ns
+   Execution time lower quantile : 5.741538 µs ( 2.5%)
+   Execution time upper quantile : 8.133002 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 4 outliers in 60 samples (6.6667 %)
+	low-severe	 4 (6.6667 %)
+ Variance from outliers : 77.2239 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-stress-data-transmission-400
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 13720556 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 39069180 in 60 samples of 651153 calls.
+             Execution time mean : 1.608108 µs
+    Execution time std-deviation : 154.146602 ns
+   Execution time lower quantile : 1.513164 µs ( 2.5%)
+   Execution time upper quantile : 2.127199 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 8 outliers in 60 samples (13.3333 %)
+	low-severe	 3 (5.0000 %)
+	low-mild	 5 (8.3333 %)
+ Variance from outliers : 68.6112 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Closing consumer for endpoint description: /topic/bowerick.broker.management.command
+Closing producer for endpoint description: /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating producer for endpoint description: /topic/bowerick.broker.management.reply
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating consumer for endpoint description: /topic/bowerick.broker.management.command
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.command
+Running benchmark: pooled-carbonite-nippy-stress-data-transmission-1
+Creating pooled carbonite consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled carbonite producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  classes loaded before 1 iterations
+  compilation occurred before 1 iterations
+  classes loaded before 564 iterations
+  compilation occurred before 564 iterations
+  compilation occurred before 1127 iterations
+  compilation occurred before 6757 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 139080 in 60 samples of 2318 calls.
+             Execution time mean : 449.564370 µs
+    Execution time std-deviation : 44.509651 µs
+   Execution time lower quantile : 430.821335 µs ( 2.5%)
+   Execution time upper quantile : 600.239234 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 5 outliers in 60 samples (8.3333 %)
+	low-severe	 1 (1.6667 %)
+	low-mild	 4 (6.6667 %)
+ Variance from outliers : 68.6982 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-carbonite-nippy-stress-data-transmission-4
+Creating pooled carbonite consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled carbonite producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 17544 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 546420 in 60 samples of 9107 calls.
+             Execution time mean : 117.431657 µs
+    Execution time std-deviation : 22.596239 µs
+   Execution time lower quantile : 108.049356 µs ( 2.5%)
+   Execution time upper quantile : 199.012466 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 6 outliers in 60 samples (10.0000 %)
+	low-severe	 6 (10.0000 %)
+ Variance from outliers : 89.4303 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-carbonite-nippy-stress-data-transmission-10
+Creating pooled carbonite consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled carbonite producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 1298340 in 60 samples of 21639 calls.
+             Execution time mean : 48.676784 µs
+    Execution time std-deviation : 10.159565 µs
+   Execution time lower quantile : 43.517620 µs ( 2.5%)
+   Execution time upper quantile : 81.163747 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 8 outliers in 60 samples (13.3333 %)
+	low-severe	 1 (1.6667 %)
+	low-mild	 7 (11.6667 %)
+ Variance from outliers : 91.1643 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-carbonite-nippy-stress-data-transmission-40
+Creating pooled carbonite consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled carbonite producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 5403660 in 60 samples of 90061 calls.
+             Execution time mean : 12.442565 µs
+    Execution time std-deviation : 2.764140 µs
+   Execution time lower quantile : 11.085105 µs ( 2.5%)
+   Execution time upper quantile : 20.844586 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 10 outliers in 60 samples (16.6667 %)
+	low-severe	 1 (1.6667 %)
+	low-mild	 9 (15.0000 %)
+ Variance from outliers : 92.8737 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-carbonite-nippy-stress-data-transmission-100
+Creating pooled carbonite consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled carbonite producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 187 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 13237860 in 60 samples of 220631 calls.
+             Execution time mean : 4.723155 µs
+    Execution time std-deviation : 571.232496 ns
+   Execution time lower quantile : 4.470859 µs ( 2.5%)
+   Execution time upper quantile : 5.636675 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 3 outliers in 60 samples (5.0000 %)
+	low-severe	 3 (5.0000 %)
+ Variance from outliers : 77.2409 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-carbonite-nippy-stress-data-transmission-400
+Creating pooled carbonite consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled carbonite producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 49685940 in 60 samples of 828099 calls.
+             Execution time mean : 1.364780 µs
+    Execution time std-deviation : 324.999831 ns
+   Execution time lower quantile : 1.184121 µs ( 2.5%)
+   Execution time upper quantile : 2.243013 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 11 outliers in 60 samples (18.3333 %)
+	low-severe	 1 (1.6667 %)
+	low-mild	 10 (16.6667 %)
+ Variance from outliers : 92.9333 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Closing consumer for endpoint description: /topic/bowerick.broker.management.command
+Closing producer for endpoint description: /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating producer for endpoint description: /topic/bowerick.broker.management.reply
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating consumer for endpoint description: /topic/bowerick.broker.management.command
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.command
+Running benchmark: pooled-nippy-lzf-nippy-stress-data-transmission-1
+Creating pooled nippy lzf consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy lzf producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  classes loaded before 1 iterations
+  compilation occurred before 811 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 60000 in 60 samples of 1000 calls.
+             Execution time mean : 838.923742 µs
+    Execution time std-deviation : 135.290565 µs
+   Execution time lower quantile : 770.384419 µs ( 2.5%)
+   Execution time upper quantile : 1.344666 ms (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 8 outliers in 60 samples (13.3333 %)
+	low-severe	 8 (13.3333 %)
+ Variance from outliers : 85.9146 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-lzf-nippy-stress-data-transmission-4
+Creating pooled nippy lzf consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy lzf producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 235200 in 60 samples of 3920 calls.
+             Execution time mean : 217.747390 µs
+    Execution time std-deviation : 39.968564 µs
+   Execution time lower quantile : 194.741859 µs ( 2.5%)
+   Execution time upper quantile : 335.840630 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 10 outliers in 60 samples (16.6667 %)
+	low-severe	 2 (3.3333 %)
+	low-mild	 8 (13.3333 %)
+ Variance from outliers : 89.3739 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-lzf-nippy-stress-data-transmission-10
+Creating pooled nippy lzf consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy lzf producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 732000 in 60 samples of 12200 calls.
+             Execution time mean : 84.192297 µs
+    Execution time std-deviation : 12.158846 µs
+   Execution time lower quantile : 77.426630 µs ( 2.5%)
+   Execution time upper quantile : 123.519845 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 6 outliers in 60 samples (10.0000 %)
+	low-severe	 6 (10.0000 %)
+ Variance from outliers : 82.4662 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-lzf-nippy-stress-data-transmission-40
+Creating pooled nippy lzf consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy lzf producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 2986560 in 60 samples of 49776 calls.
+             Execution time mean : 20.755045 µs
+    Execution time std-deviation : 1.967201 µs
+   Execution time lower quantile : 19.382882 µs ( 2.5%)
+   Execution time upper quantile : 26.904955 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 4 outliers in 60 samples (6.6667 %)
+	low-severe	 4 (6.6667 %)
+ Variance from outliers : 66.9798 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-lzf-nippy-stress-data-transmission-100
+Creating pooled nippy lzf consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy lzf producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 7435860 in 60 samples of 123931 calls.
+             Execution time mean : 8.492535 µs
+    Execution time std-deviation : 1.207732 µs
+   Execution time lower quantile : 7.850762 µs ( 2.5%)
+   Execution time upper quantile : 13.530293 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 5 outliers in 60 samples (8.3333 %)
+	low-severe	 1 (1.6667 %)
+	low-mild	 4 (6.6667 %)
+ Variance from outliers : 82.4391 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-lzf-nippy-stress-data-transmission-400
+Creating pooled nippy lzf consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy lzf producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 21461736 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 28181820 in 60 samples of 469697 calls.
+             Execution time mean : 2.197371 µs
+    Execution time std-deviation : 277.106614 ns
+   Execution time lower quantile : 2.041465 µs ( 2.5%)
+   Execution time upper quantile : 3.065382 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 4 outliers in 60 samples (6.6667 %)
+	low-severe	 4 (6.6667 %)
+ Variance from outliers : 78.9520 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Closing consumer for endpoint description: /topic/bowerick.broker.management.command
+Closing producer for endpoint description: /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating producer for endpoint description: /topic/bowerick.broker.management.reply
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating consumer for endpoint description: /topic/bowerick.broker.management.command
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.command
+Running benchmark: pooled-carbonite-lzf-nippy-stress-data-transmission-1
+Creating pooled carbonite lzf consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled carbonite lzf producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 2061 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 111240 in 60 samples of 1854 calls.
+             Execution time mean : 533.109432 µs
+    Execution time std-deviation : 16.454183 µs
+   Execution time lower quantile : 505.840939 µs ( 2.5%)
+   Execution time upper quantile : 565.231113 µs (97.5%)
+                   Overhead used : 8.915655 ns
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-carbonite-lzf-nippy-stress-data-transmission-4
+Creating pooled carbonite lzf consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled carbonite lzf producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  classes loaded before 126 iterations
+  compilation occurred before 126 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 485340 in 60 samples of 8089 calls.
+             Execution time mean : 143.839927 µs
+    Execution time std-deviation : 29.018968 µs
+   Execution time lower quantile : 127.310235 µs ( 2.5%)
+   Execution time upper quantile : 222.106722 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 10 outliers in 60 samples (16.6667 %)
+	low-severe	 2 (3.3333 %)
+	low-mild	 8 (13.3333 %)
+ Variance from outliers : 91.1290 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-carbonite-lzf-nippy-stress-data-transmission-10
+Creating pooled carbonite lzf consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled carbonite lzf producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 361 iterations
+  compilation occurred before 21309 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 1158420 in 60 samples of 19307 calls.
+             Execution time mean : 55.610575 µs
+    Execution time std-deviation : 7.954068 µs
+   Execution time lower quantile : 50.746294 µs ( 2.5%)
+   Execution time upper quantile : 86.021560 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 7 outliers in 60 samples (11.6667 %)
+	low-severe	 7 (11.6667 %)
+ Variance from outliers : 82.4494 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-carbonite-lzf-nippy-stress-data-transmission-40
+Creating pooled carbonite lzf consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled carbonite lzf producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 4532940 in 60 samples of 75549 calls.
+             Execution time mean : 14.524835 µs
+    Execution time std-deviation : 2.555345 µs
+   Execution time lower quantile : 12.803969 µs ( 2.5%)
+   Execution time upper quantile : 21.892484 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 12 outliers in 60 samples (20.0000 %)
+	low-severe	 2 (3.3333 %)
+	low-mild	 10 (16.6667 %)
+ Variance from outliers : 87.6768 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-carbonite-lzf-nippy-stress-data-transmission-100
+Creating pooled carbonite lzf consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled carbonite lzf producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 11062200 in 60 samples of 184370 calls.
+             Execution time mean : 5.867902 µs
+    Execution time std-deviation : 1.110977 µs
+   Execution time lower quantile : 5.206937 µs ( 2.5%)
+   Execution time upper quantile : 9.110390 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 10 outliers in 60 samples (16.6667 %)
+	low-severe	 2 (3.3333 %)
+	low-mild	 8 (13.3333 %)
+ Variance from outliers : 89.4116 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-carbonite-lzf-nippy-stress-data-transmission-400
+Creating pooled carbonite lzf consumer for endpoint description: /topic/testtopic.foo
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled carbonite lzf producer for endpoint description: /topic/testtopic.foo
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 42612600 in 60 samples of 710210 calls.
+             Execution time mean : 1.536921 µs
+    Execution time std-deviation : 283.513397 ns
+   Execution time lower quantile : 1.368190 µs ( 2.5%)
+   Execution time upper quantile : 2.341616 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 11 outliers in 60 samples (18.3333 %)
+	low-severe	 3 (5.0000 %)
+	low-mild	 8 (13.3333 %)
+ Variance from outliers : 89.3801 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Closing consumer for endpoint description: /topic/bowerick.broker.management.command
+Closing producer for endpoint description: /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating producer for endpoint description: /topic/bowerick.broker.management.reply
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating consumer for endpoint description: /topic/bowerick.broker.management.command
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.command
+Running benchmark: pooled-nippy-lz4-nippy-stress-data-transmission-1
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.LZ4Compressor 0x3883fef9 taoensso.nippy.compression.LZ4Compressor@3883fef9]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 93600 in 60 samples of 1560 calls.
+             Execution time mean : 695.089105 µs
+    Execution time std-deviation : 86.178813 µs
+   Execution time lower quantile : 638.556956 µs ( 2.5%)
+   Execution time upper quantile : 885.583889 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 11 outliers in 60 samples (18.3333 %)
+	low-severe	 1 (1.6667 %)
+	low-mild	 10 (16.6667 %)
+ Variance from outliers : 78.9158 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-lz4-nippy-stress-data-transmission-4
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.LZ4Compressor 0x3883fef9 taoensso.nippy.compression.LZ4Compressor@3883fef9]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 276 iterations
+  compilation occurred before 6589 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 369780 in 60 samples of 6163 calls.
+             Execution time mean : 179.406576 µs
+    Execution time std-deviation : 27.340862 µs
+   Execution time lower quantile : 162.100242 µs ( 2.5%)
+   Execution time upper quantile : 248.683679 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 12 outliers in 60 samples (20.0000 %)
+	low-severe	 1 (1.6667 %)
+	low-mild	 11 (18.3333 %)
+ Variance from outliers : 84.1899 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-lz4-nippy-stress-data-transmission-10
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.LZ4Compressor 0x3883fef9 taoensso.nippy.compression.LZ4Compressor@3883fef9]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 902580 in 60 samples of 15043 calls.
+             Execution time mean : 70.753109 µs
+    Execution time std-deviation : 8.083724 µs
+   Execution time lower quantile : 64.860994 µs ( 2.5%)
+   Execution time upper quantile : 91.491649 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 7 outliers in 60 samples (11.6667 %)
+	low-severe	 5 (8.3333 %)
+	low-mild	 2 (3.3333 %)
+ Variance from outliers : 75.4941 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-lz4-nippy-stress-data-transmission-40
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.LZ4Compressor 0x3883fef9 taoensso.nippy.compression.LZ4Compressor@3883fef9]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 387 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 3648000 in 60 samples of 60800 calls.
+             Execution time mean : 17.307244 µs
+    Execution time std-deviation : 1.708572 µs
+   Execution time lower quantile : 16.250813 µs ( 2.5%)
+   Execution time upper quantile : 22.316252 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 7 outliers in 60 samples (11.6667 %)
+	low-severe	 7 (11.6667 %)
+ Variance from outliers : 68.6907 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-lz4-nippy-stress-data-transmission-100
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.LZ4Compressor 0x3883fef9 taoensso.nippy.compression.LZ4Compressor@3883fef9]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 8820060 in 60 samples of 147001 calls.
+             Execution time mean : 7.228357 µs
+    Execution time std-deviation : 1.075357 µs
+   Execution time lower quantile : 6.574537 µs ( 2.5%)
+   Execution time upper quantile : 10.247805 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 10 outliers in 60 samples (16.6667 %)
+	low-severe	 2 (3.3333 %)
+	low-mild	 8 (13.3333 %)
+ Variance from outliers : 84.1499 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-lz4-nippy-stress-data-transmission-400
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.LZ4Compressor 0x3883fef9 taoensso.nippy.compression.LZ4Compressor@3883fef9]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 33863880 in 60 samples of 564398 calls.
+             Execution time mean : 1.810940 µs
+    Execution time std-deviation : 196.108608 ns
+   Execution time lower quantile : 1.706705 µs ( 2.5%)
+   Execution time upper quantile : 2.378559 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 8 outliers in 60 samples (13.3333 %)
+	low-severe	 1 (1.6667 %)
+	low-mild	 7 (11.6667 %)
+ Variance from outliers : 73.7509 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Closing consumer for endpoint description: /topic/bowerick.broker.management.command
+Closing producer for endpoint description: /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating producer for endpoint description: /topic/bowerick.broker.management.reply
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating consumer for endpoint description: /topic/bowerick.broker.management.command
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.command
+Running benchmark: pooled-nippy-nippy-stress-data-transmission-1
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 93840 in 60 samples of 1564 calls.
+             Execution time mean : 689.236866 µs
+    Execution time std-deviation : 96.941899 µs
+   Execution time lower quantile : 637.396910 µs ( 2.5%)
+   Execution time upper quantile : 976.069455 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 10 outliers in 60 samples (16.6667 %)
+	low-severe	 1 (1.6667 %)
+	low-mild	 9 (15.0000 %)
+ Variance from outliers : 82.4192 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-nippy-stress-data-transmission-4
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 253440 in 60 samples of 4224 calls.
+             Execution time mean : 175.149469 µs
+    Execution time std-deviation : 22.212748 µs
+   Execution time lower quantile : 160.340420 µs ( 2.5%)
+   Execution time upper quantile : 240.134537 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 8 outliers in 60 samples (13.3333 %)
+	low-severe	 1 (1.6667 %)
+	low-mild	 7 (11.6667 %)
+ Variance from outliers : 78.9638 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-nippy-stress-data-transmission-10
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 920940 in 60 samples of 15349 calls.
+             Execution time mean : 68.962338 µs
+    Execution time std-deviation : 7.323931 µs
+   Execution time lower quantile : 64.876543 µs ( 2.5%)
+   Execution time upper quantile : 89.342377 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 5 outliers in 60 samples (8.3333 %)
+	low-severe	 5 (8.3333 %)
+ Variance from outliers : 72.0917 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-nippy-stress-data-transmission-40
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 3682020 in 60 samples of 61367 calls.
+             Execution time mean : 18.086254 µs
+    Execution time std-deviation : 2.505751 µs
+   Execution time lower quantile : 16.304588 µs ( 2.5%)
+   Execution time upper quantile : 24.396537 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 2 outliers in 60 samples (3.3333 %)
+	low-severe	 2 (3.3333 %)
+ Variance from outliers : 82.3912 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-nippy-stress-data-transmission-100
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 161 iterations
+  compilation occurred before 383102 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 8966460 in 60 samples of 149441 calls.
+             Execution time mean : 7.156312 µs
+    Execution time std-deviation : 978.328347 ns
+   Execution time lower quantile : 6.571720 µs ( 2.5%)
+   Execution time upper quantile : 10.458906 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 11 outliers in 60 samples (18.3333 %)
+	low-severe	 2 (3.3333 %)
+	low-mild	 9 (15.0000 %)
+ Variance from outliers : 80.7373 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-nippy-stress-data-transmission-400
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 22867985 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 34077420 in 60 samples of 567957 calls.
+             Execution time mean : 1.871940 µs
+    Execution time std-deviation : 273.194198 ns
+   Execution time lower quantile : 1.715123 µs ( 2.5%)
+   Execution time upper quantile : 2.711281 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 10 outliers in 60 samples (16.6667 %)
+	low-severe	 4 (6.6667 %)
+	low-mild	 6 (10.0000 %)
+ Variance from outliers : 84.1166 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Closing consumer for endpoint description: /topic/bowerick.broker.management.command
+Closing producer for endpoint description: /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating producer for endpoint description: /topic/bowerick.broker.management.reply
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating consumer for endpoint description: /topic/bowerick.broker.management.command
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.command
+Running benchmark: single-nippy-stress-data-benchmark
+Creating consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 1647 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 102600 in 60 samples of 1710 calls.
+             Execution time mean : 594.994490 µs
+    Execution time std-deviation : 48.134842 µs
+   Execution time lower quantile : 568.190315 µs ( 2.5%)
+   Execution time upper quantile : 760.332800 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 5 outliers in 60 samples (8.3333 %)
+	low-severe	 5 (8.3333 %)
+ Variance from outliers : 60.1535 % Variance is severely inflated by outliers
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing consumer for endpoint description: /topic/testtopic.foo
+Closing consumer for endpoint description: /topic/bowerick.broker.management.command
+Closing producer for endpoint description: /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating producer for endpoint description: /topic/bowerick.broker.management.reply
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating consumer for endpoint description: /topic/bowerick.broker.management.command
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.command
+Running benchmark: pooled-nippy-snappy-nippy-stress-data-transmission-1
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.SnappyCompressor 0x6bae6904 taoensso.nippy.compression.SnappyCompressor@6bae6904]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  classes loaded before 1 iterations
+  compilation occurred before 1 iterations
+  compilation occurred before 659 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 77040 in 60 samples of 1284 calls.
+             Execution time mean : 837.998719 µs
+    Execution time std-deviation : 161.516304 µs
+   Execution time lower quantile : 775.911728 µs ( 2.5%)
+   Execution time upper quantile : 1.423565 ms (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 7 outliers in 60 samples (11.6667 %)
+	low-severe	 7 (11.6667 %)
+ Variance from outliers : 89.4322 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-snappy-nippy-stress-data-transmission-4
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.SnappyCompressor 0x6bae6904 taoensso.nippy.compression.SnappyCompressor@6bae6904]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 242880 in 60 samples of 4048 calls.
+             Execution time mean : 209.891194 µs
+    Execution time std-deviation : 36.725316 µs
+   Execution time lower quantile : 194.849399 µs ( 2.5%)
+   Execution time upper quantile : 357.977965 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 7 outliers in 60 samples (11.6667 %)
+	low-severe	 2 (3.3333 %)
+	low-mild	 5 (8.3333 %)
+ Variance from outliers : 87.6696 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-snappy-nippy-stress-data-transmission-10
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.SnappyCompressor 0x6bae6904 taoensso.nippy.compression.SnappyCompressor@6bae6904]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+  compilation occurred before 20796 iterations
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 765180 in 60 samples of 12753 calls.
+             Execution time mean : 86.062529 µs
+    Execution time std-deviation : 18.705600 µs
+   Execution time lower quantile : 77.744886 µs ( 2.5%)
+   Execution time upper quantile : 142.261821 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 8 outliers in 60 samples (13.3333 %)
+	low-severe	 1 (1.6667 %)
+	low-mild	 7 (11.6667 %)
+ Variance from outliers : 92.8531 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-snappy-nippy-stress-data-transmission-40
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.SnappyCompressor 0x6bae6904 taoensso.nippy.compression.SnappyCompressor@6bae6904]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 3022800 in 60 samples of 50380 calls.
+             Execution time mean : 21.177759 µs
+    Execution time std-deviation : 3.846427 µs
+   Execution time lower quantile : 19.540071 µs ( 2.5%)
+   Execution time upper quantile : 34.689966 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 8 outliers in 60 samples (13.3333 %)
+	low-severe	 2 (3.3333 %)
+	low-mild	 6 (10.0000 %)
+ Variance from outliers : 89.3606 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-snappy-nippy-stress-data-transmission-100
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.SnappyCompressor 0x6bae6904 taoensso.nippy.compression.SnappyCompressor@6bae6904]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 5922240 in 60 samples of 98704 calls.
+             Execution time mean : 8.397758 µs
+    Execution time std-deviation : 1.221940 µs
+   Execution time lower quantile : 7.862051 µs ( 2.5%)
+   Execution time upper quantile : 12.016959 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 8 outliers in 60 samples (13.3333 %)
+	low-severe	 3 (5.0000 %)
+	low-mild	 5 (8.3333 %)
+ Variance from outliers : 84.1113 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Running benchmark: pooled-nippy-snappy-nippy-stress-data-transmission-400
+Creating pooled consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating pooled nippy producer for endpoint description: /topic/testtopic.foo with options: {:compressor #object[taoensso.nippy.compression.SnappyCompressor 0x6bae6904 taoensso.nippy.compression.SnappyCompressor@6bae6904]}
+Creating pooled producer for endpoint description: /topic/testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Warming up for JIT optimisations 10000000000 ...
+Estimating execution count ...
+Sampling ...
+Final GC...
+Checking GC...
+Finding outliers ...
+Bootstrapping ...
+Checking outlier significance
+Evaluation count : 28005900 in 60 samples of 466765 calls.
+             Execution time mean : 2.265934 µs
+    Execution time std-deviation : 479.858813 ns
+   Execution time lower quantile : 2.041378 µs ( 2.5%)
+   Execution time upper quantile : 3.748356 µs (97.5%)
+                   Overhead used : 8.915655 ns
+
+Found 8 outliers in 60 samples (13.3333 %)
+	low-severe	 1 (1.6667 %)
+	low-mild	 7 (11.6667 %)
+ Variance from outliers : 91.1787 % Variance is severely inflated by outliers
+Closing pooled producer for endpoint description: /topic/testtopic.foo
+Closing producer for endpoint description: /topic/testtopic.foo
+Closing pooled consumer for endpoint description: /topic/testtopic.foo
+Closing consumer for endpoint description: /topic/bowerick.broker.management.command
+Closing producer for endpoint description: /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating producer for endpoint description: /topic/bowerick.broker.management.reply
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating consumer for endpoint description: /topic/bowerick.broker.management.command
+Creating connection.
+Creating endpoint. Type: topic Name: bowerick.broker.management.command
+Running benchmark: single-cheshire-nippy-stress-data-benchmark
+Creating consumer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+Creating producer for endpoint description: /topic/testtopic.foo
+Creating connection.
+Creating endpoint. Type: topic Name: testtopic.foo
+
+lein test :only bowerick.benchmarks/single-cheshire-nippy-stress-data-benchmark
+
+ERROR in (single-cheshire-nippy-stress-data-benchmark) (core.clj:154)
+Uncaught exception, not in assertion.
+expected: nil
+  actual: java.lang.ClassCastException: clojure.lang.PersistentHashMap cannot be cast to java.lang.String
+ at cheshire.core$parse_string.invokeStatic (core.clj:154)
+    cheshire.core$parse_string.invoke (core.clj:142)
+    cheshire.core$parse_string.invokeStatic (core.clj:149)
+    cheshire.core$parse_string.invoke (core.clj:142)
+    bowerick.jms$create_producer$fn__198.invoke (jms.clj:357)
+    bowerick.jms.ProducerWrapper.invoke (jms.clj:334)
+    bowerick.benchmarks$fn__810$fn__811$fn__812.invoke (benchmarks.clj:51)
+    criterium.core$run_benchmark.invokeStatic (core.clj:478)
+    criterium.core$run_benchmark.invoke (core.clj:470)
+    criterium.core$benchmark_STAR_.invokeStatic (core.clj:826)
+    criterium.core$benchmark_STAR_.invoke (core.clj:812)
+    bowerick.benchmarks$fn__810$fn__811.invoke (benchmarks.clj:50)
+    bowerick.benchmarks$fn__810.invokeStatic (benchmarks.clj:49)
+    bowerick.benchmarks/fn (benchmarks.clj:45)
+    clojure.test$test_var$fn__7983.invoke (test.clj:716)
+    clojure.test$test_var.invokeStatic (test.clj:716)
+    clojure.test$test_var.invoke (test.clj:707)
+    clojure.test$test_vars$fn__8005$fn__8010.invoke (test.clj:734)
+    bowerick.benchmarks$benchmark_fixture.invokeStatic (benchmarks.clj:27)
+    bowerick.benchmarks$benchmark_fixture.invoke (benchmarks.clj:25)
+    clojure.test$compose_fixtures$fn__7977$fn__7978.invoke (test.clj:693)
+    clojure.test$default_fixture.invokeStatic (test.clj:686)
+    clojure.test$default_fixture.invoke (test.clj:682)
+    clojure.test$compose_fixtures$fn__7977.invoke (test.clj:693)
+    clojure.test$test_vars$fn__8005.invoke (test.clj:734)
+    clojure.test$default_fixture.invokeStatic (test.clj:686)
+    clojure.test$default_fixture.invoke (test.clj:682)
+    clojure.test$test_vars.invokeStatic (test.clj:730)
+    clojure.test$test_all_vars.invokeStatic (test.clj:736)
+    clojure.test$test_ns.invokeStatic (test.clj:757)
+    clojure.test$test_ns.invoke (test.clj:742)
+    clojure.core$map$fn__4785.invoke (core.clj:2646)
+    clojure.lang.LazySeq.sval (LazySeq.java:40)
+    clojure.lang.LazySeq.seq (LazySeq.java:49)
+    clojure.lang.Cons.next (Cons.java:39)
+    clojure.lang.RT.boundedLength (RT.java:1749)
+    clojure.lang.RestFn.applyTo (RestFn.java:130)
+    clojure.core$apply.invokeStatic (core.clj:648)
+    clojure.test$run_tests.invokeStatic (test.clj:767)
+    clojure.test$run_tests.doInvoke (test.clj:767)
+    clojure.lang.RestFn.applyTo (RestFn.java:137)
+    clojure.core$apply.invokeStatic (core.clj:646)
+    clojure.core$apply.invoke (core.clj:641)
+    user$eval87$fn__142$fn__173.invoke (form-init7323614538425215472.clj:1)
+    user$eval87$fn__142$fn__143.invoke (form-init7323614538425215472.clj:1)
+    user$eval87$fn__142.invoke (form-init7323614538425215472.clj:1)
+    user$eval87.invokeStatic (form-init7323614538425215472.clj:1)
+    user$eval87.invoke (form-init7323614538425215472.clj:1)
+    clojure.lang.Compiler.eval (Compiler.java:6927)
+    clojure.lang.Compiler.eval (Compiler.java:6917)
+    clojure.lang.Compiler.load (Compiler.java:7379)
+    clojure.lang.Compiler.loadFile (Compiler.java:7317)
+    clojure.main$load_script.invokeStatic (main.clj:275)
+    clojure.main$init_opt.invokeStatic (main.clj:277)
+    clojure.main$init_opt.invoke (main.clj:277)
+    clojure.main$initialize.invokeStatic (main.clj:308)
+    clojure.main$null_opt.invokeStatic (main.clj:342)
+    clojure.main$null_opt.invoke (main.clj:339)
+    clojure.main$main.invokeStatic (main.clj:421)
+    clojure.main$main.doInvoke (main.clj:384)
+    clojure.lang.RestFn.invoke (RestFn.java:421)
+    clojure.lang.Var.invoke (Var.java:383)
+    clojure.lang.AFn.applyToHelper (AFn.java:156)
+    clojure.lang.Var.applyTo (Var.java:700)
+    clojure.main.main (main.java:37)
+Closing consumer for endpoint description: /topic/bowerick.broker.management.command
+Closing producer for endpoint description: /topic/bowerick.broker.management.reply
+
+Ran 10 tests containing 1 assertions.
+0 failures, 1 errors.
