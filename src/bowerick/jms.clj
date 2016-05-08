@@ -525,10 +525,11 @@
     (fn [data]
       (LZFEncoder/encode ^bytes (nippy/freeze data)))))
 
-(defn create-pooled-nippy-lzf-consumer [server-url endpoint-description cb]
+(defn create-pooled-nippy-lzf-consumer
   "Create a pooled consumer that uncompresses the transferred data via LZF and uses nippy for de-serialization.
 
    For more details about pooled consumers and producers please see create-pooled-consumer and create-pooled-producer."
+  [server-url endpoint-description cb]
   (println "Creating pooled nippy lzf consumer for endpoint description:" endpoint-description)
   (create-pooled-consumer
     server-url
