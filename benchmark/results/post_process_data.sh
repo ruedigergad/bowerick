@@ -8,7 +8,8 @@ mkdir $DATA_SET_NAME
 
 for i in *.out_tmp
 do
-    tail -n +2 $i > ${DATA_SET_NAME}/$(basename -s .out_tmp $i).data
+    #tail -n +2 $i > ${DATA_SET_NAME}/$(basename -s .out_tmp $i).data
+    cat $i > ${DATA_SET_NAME}/$(basename -s .out_tmp $i).data
 done
 
 rm -f *.out_tmp
