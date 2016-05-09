@@ -37,14 +37,14 @@
   [[] {:jms-url jms-url :broker (ref nil)}])
 
 (defn -createConsumer [this topic-identifier ^JmsConsumerCallback consumer-cb]
-  (create-consumer
+  (create-single-consumer
     (:jms-url (.state this))
     topic-identifier
     (fn [obj]
       (.processData consumer-cb obj))))
 
 (defn -createJsonConsumer [this topic-identifier ^JmsConsumerCallback consumer-cb]
-  (create-consumer
+  (create-single-consumer
     (:jms-url (.state this))
     topic-identifier
     (fn [obj]
@@ -52,13 +52,13 @@
     parse-string))
 
 (defn -createJsonProducer [this topic-identifier]
-  (create-producer
+  (create-single-producer
     (:jms-url (.state this))
     topic-identifier
     generate-string))
 
 (defn -createProducer [this topic-identifier]
-  (create-producer
+  (create-single-producer
     (:jms-url (.state this))
     topic-identifier))
 

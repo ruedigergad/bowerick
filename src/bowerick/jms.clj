@@ -187,8 +187,8 @@
                  (.start))]
     broker))
 
-(declare create-producer)
-(declare create-consumer)
+(declare create-single-producer)
+(declare create-single-consumer)
 (declare close)
 
 (defn start-broker
@@ -227,7 +227,7 @@
                                *trust-store-password* *key-store-password*
                                *key-store-file* *trust-store-file*
                                *key-store-password* *trust-store-password*]
-                       (create-producer
+                       (create-single-producer
                          address
                          *broker-management-reply-topic*
                          generate-string))
@@ -239,7 +239,7 @@
                                *trust-store-password* *key-store-password*
                                *key-store-file* *trust-store-file*
                                *key-store-password* *trust-store-password*]
-                       (create-consumer
+                       (create-single-consumer
                          address
                          *broker-management-command-topic*
                          (fn [cmd]
@@ -333,7 +333,7 @@
     (invoke [this data]
       (send-fn data)))
 
-(defn create-producer
+(defn create-single-producer
   "Create a message producer for sending data to the specified endpoint and server/broker.
 
    The created producer implements IFn. Hence, the idiomatic way for using it in Clojure
@@ -345,7 +345,7 @@
    Optionally, a single argument function for customizing the serialization of the data can be given.
    This defaults to idenitity such that the default serialization of the underlying JMS implementation is used."
   ([server-url endpoint-description]
-    (create-producer server-url endpoint-description identity))
+    (create-single-producer server-url endpoint-description identity))
   ([^String server-url ^String endpoint-description serialization-fn]
     (println "Creating producer for endpoint description:" endpoint-description)
     (with-endpoint server-url endpoint-description
@@ -376,7 +376,7 @@
     (close [this]
       (close-fn)))
 
-(defn create-consumer
+(defn create-single-consumer
   "Create a message consumer for receiving data from the specified endpoint and server/broker.
 
    The passed callback function (cb) will be called for each message and will receive the data
@@ -385,9 +385,9 @@
    Optionally, a single argument function for customizing the de-serialization of the transferred data can be given.
    Typically, this should be the inverse operation of the serialization function as used for the producer and defaults to identity.
   
-   See also create-producer."
+   See also create-single-producer."
   ([server-url endpoint-description cb]
-    (create-consumer server-url endpoint-description cb identity))
+    (create-single-consumer server-url endpoint-description cb identity))
   ([^String server-url ^String endpoint-description cb de-serialization-fn]
     (println "Creating consumer for endpoint description:" endpoint-description)
     (with-endpoint server-url endpoint-description
@@ -428,7 +428,7 @@
     (create-pooled-producer server-url endpoint-description pool-size identity))
   ([server-url endpoint-description ^long pool-size serialization-fn]
     (println "Creating pooled producer for endpoint description:" endpoint-description)
-    (let [producer (create-producer server-url endpoint-description serialization-fn)
+    (let [producer (create-single-producer server-url endpoint-description serialization-fn)
           pool (ArrayList. pool-size)]
       (->ProducerWrapper
         (fn [o]
@@ -456,7 +456,7 @@
     (let [pooled-cb (fn [^ArrayList lst]
                       (doseq [o lst]
                         (cb o)))
-          consumer (create-consumer server-url endpoint-description pooled-cb de-serialization-fn)]
+          consumer (create-single-consumer server-url endpoint-description pooled-cb de-serialization-fn)]
       (->ConsumerWrapper
         (fn []
           (println "Closing pooled consumer for endpoint description:" endpoint-description)

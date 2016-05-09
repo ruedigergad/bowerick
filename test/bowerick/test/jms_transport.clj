@@ -66,10 +66,10 @@
 
 
 (deftest send-string-test
-  (let [producer (create-producer *local-jms-server* test-topic)
+  (let [producer (create-single-producer *local-jms-server* test-topic)
         was-run (prepare-flag)
         consume-fn (fn [_] (set-flag was-run))
-        consumer (create-consumer *local-jms-server* test-topic consume-fn)]
+        consumer (create-single-consumer *local-jms-server* test-topic consume-fn)]
     (is (not (nil? producer)))
     (is (not (nil? consumer)))
     (producer "¡Hola!")
@@ -79,11 +79,11 @@
     (close consumer)))
 
 (deftest send-list-test
-  (let [producer (create-producer *local-jms-server* test-topic)
+  (let [producer (create-single-producer *local-jms-server* test-topic)
         received (ref nil)
         flag (prepare-flag)
         consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
-        consumer (create-consumer *local-jms-server* test-topic consume-fn)
+        consumer (create-single-consumer *local-jms-server* test-topic consume-fn)
         data '(:a :b :c)]
     (is (not= data @received))
     (producer data)
@@ -93,11 +93,11 @@
     (close consumer)))
 
 (deftest send-byte-array-test
-  (let [producer (create-producer *local-jms-server* test-topic)
+  (let [producer (create-single-producer *local-jms-server* test-topic)
         received (ref nil)
         flag (prepare-flag)
         consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
-        consumer (create-consumer *local-jms-server* test-topic consume-fn)
+        consumer (create-single-consumer *local-jms-server* test-topic consume-fn)
         data (byte-array (map byte [1 2 3 42]))]
     (is (not= data @received))
     (producer data)

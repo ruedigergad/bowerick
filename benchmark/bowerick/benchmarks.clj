@@ -34,8 +34,8 @@
 
 (deftest ^:benchmark single-nippy-stress-data-benchmark
   (println "Running benchmark: single-nippy-stress-data-benchmark")
-  (let [consumer (create-consumer *local-jms-server* test-topic identity)
-        producer (create-producer *local-jms-server* test-topic)]
+  (let [consumer (create-single-consumer *local-jms-server* test-topic identity)
+        producer (create-single-producer *local-jms-server* test-topic)]
     (cc/with-progress-reporting
       (cc/bench
         (producer nippy-stress-data-benchable)))
@@ -44,8 +44,8 @@
 
 (deftest ^:benchmark single-cheshire-nippy-stress-data-benchmark
   (println "Running benchmark: single-cheshire-nippy-stress-data-benchmark")
-  (let [consumer (create-consumer *local-jms-server* test-topic identity cheshire.core/parse-string)
-        producer (create-producer *local-jms-server* test-topic cheshire.core/generate-string)]
+  (let [consumer (create-single-consumer *local-jms-server* test-topic identity cheshire.core/parse-string)
+        producer (create-single-producer *local-jms-server* test-topic cheshire.core/generate-string)]
     (cc/with-progress-reporting
       (cc/bench
         (producer nippy-stress-data-benchable)))

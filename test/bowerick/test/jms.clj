@@ -31,16 +31,16 @@
 
 
 (deftest test-create-topic
-  (let [producer (create-producer local-jms-server test-topic)]
+  (let [producer (create-single-producer local-jms-server test-topic)]
     (is (not (nil? producer)))
     (close producer)))
 
 (deftest custom-transformation-producer-cheshire
-  (let [producer (create-producer local-jms-server test-topic generate-string)
+  (let [producer (create-single-producer local-jms-server test-topic generate-string)
         received (ref nil)
         flag (prepare-flag)
         consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
-        consumer (create-consumer local-jms-server test-topic consume-fn)]
+        consumer (create-single-consumer local-jms-server test-topic consume-fn)]
     (producer {"a" "A", "b" 123})
     (await-flag flag)
     (is (= "{\"a\":\"A\",\"b\":123}" @received))
@@ -48,11 +48,11 @@
     (close consumer)))
 
 (deftest custom-transformation-producer-consumer-cheshire
-  (let [producer (create-producer local-jms-server test-topic generate-string)
+  (let [producer (create-single-producer local-jms-server test-topic generate-string)
         received (ref nil)
         flag (prepare-flag)
         consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
-        consumer (create-consumer local-jms-server test-topic consume-fn parse-string)]
+        consumer (create-single-consumer local-jms-server test-topic consume-fn parse-string)]
     (producer {"a" "A", "b" 123})
     (await-flag flag)
     (is (= {"a" "A", "b" 123} @received))
@@ -64,7 +64,7 @@
         was-run (prepare-flag)
         received (ref nil)
         consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag was-run))
-        consumer (create-consumer local-jms-server test-topic consume-fn)]
+        consumer (create-single-consumer local-jms-server test-topic consume-fn)]
     (producer "a")
     (producer "b")
     (producer "c")

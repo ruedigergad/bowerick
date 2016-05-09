@@ -44,7 +44,7 @@
 
 (deftest get-destinations-with-producer-test
   (let [brkr (start-broker local-jms-server)
-        producer (create-producer local-jms-server test-topic)
+        producer (create-single-producer local-jms-server test-topic)
         destinations-with-empty (get-destinations brkr)
         destinations-non-empty (get-destinations brkr false)]
     (is
@@ -72,11 +72,11 @@
   (let [brkr (start-broker local-jms-server)
         ret (atom nil)
         flag (prepare-flag)
-        producer (create-producer
+        producer (create-single-producer
                    local-jms-server
                    broker-management-command-topic
                    cheshire.core/generate-string)
-        consumer (create-consumer
+        consumer (create-single-consumer
                    local-jms-server
                    broker-management-reply-topic
                    (fn [data]
@@ -97,11 +97,11 @@
   (let [brkr (start-broker local-jms-server)
         ret (atom nil)
         flag (prepare-flag)
-        producer (create-producer
+        producer (create-single-producer
                    local-jms-server
                    broker-management-command-topic
                    cheshire.core/generate-string)
-        consumer (create-consumer
+        consumer (create-single-consumer
                    local-jms-server
                    broker-management-reply-topic
                    (fn [data]
@@ -130,11 +130,11 @@
   (let [brkr (start-broker local-jms-server)
         ret (atom nil)
         flag (prepare-flag)
-        producer (create-producer
+        producer (create-single-producer
                    local-jms-server
                    broker-management-command-topic
                    cheshire.core/generate-string)
-        consumer (create-consumer
+        consumer (create-single-consumer
                    local-jms-server
                    broker-management-reply-topic
                    (fn [data]
