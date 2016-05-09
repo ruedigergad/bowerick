@@ -428,13 +428,13 @@
     (create-pooled-producer server-url endpoint-description pool-size identity))
   ([server-url endpoint-description ^long pool-size serialization-fn]
     (println "Creating pooled producer for endpoint description:" endpoint-description)
-    (let [producer (create-producer server-url endpoint-description)
+    (let [producer (create-producer server-url endpoint-description serialization-fn)
           pool (ArrayList. pool-size)]
       (->ProducerWrapper
         (fn [o]
           (.add pool o)
           (when (>= (.size pool) pool-size)
-            (producer (serialization-fn pool))
+            (producer pool)
             (.clear pool)))
         (fn []
           (println "Closing pooled producer for endpoint description:" endpoint-description)
@@ -453,24 +453,14 @@
     (create-pooled-consumer server-url endpoint-description cb identity))
   ([server-url endpoint-description cb de-serialization-fn]
     (println "Creating pooled consumer for endpoint description:" endpoint-description)
-    (with-endpoint server-url endpoint-description
-      (let [listener (proxy [MessageListener] []
-                       (onMessage [^Message m]
-                         (let [data (condp instance? m
-                                      BytesMessage (let [ba (byte-array (.getBodyLength ^BytesMessage m))]
-                                                     (.readBytes ^BytesMessage m ba)
-                                                     ba)
-                                      ObjectMessage (.getObject ^ObjectMessage m))
-                               ^ArrayList lst (de-serialization-fn data)]
-                           (doseq [o lst]
-                             (cb o)))))
-            consumer (doto
-                       (.createConsumer session endpoint)
-                       (.setMessageListener listener))]
-        (->ConsumerWrapper
-          (fn []
-            (println "Closing pooled consumer for endpoint description:" endpoint-description)
-            (.close connection)))))))
+    (let [pooled-cb (fn [^ArrayList lst]
+                      (doseq [o lst]
+                        (cb o)))
+          consumer (create-consumer server-url endpoint-description pooled-cb de-serialization-fn)]
+      (->ConsumerWrapper
+        (fn []
+          (println "Closing pooled consumer for endpoint description:" endpoint-description)
+          (close consumer))))))
 
 (defn create-pooled-nippy-producer
   "Create a pooled producer that uses nippy for serialization.
