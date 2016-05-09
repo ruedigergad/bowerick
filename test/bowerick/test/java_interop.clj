@@ -23,12 +23,12 @@
 (def local-jms-server "tcp://127.0.0.1:42424")
 (def test-topic "/topic/testtopic.foo")
 
-(defn run-test [t]
+(defn test-with-broker [t]
   (let [broker (start-broker local-jms-server)]
     (t)
     (stop broker)))
 
-(use-fixtures :each run-test)
+(use-fixtures :each test-with-broker)
 
 
 

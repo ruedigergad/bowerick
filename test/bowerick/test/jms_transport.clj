@@ -9,12 +9,14 @@
 
 (ns 
   ^{:author "Ruediger Gad",
-    :doc "Base namespace for tests with JMS functionality"}  
-  bowerick.test.jms-test-base
+    :doc "Tests for different JMS transport connections"}  
+  bowerick.test.jms-transport
   (:require
     [bowerick.jms :refer :all]
     [clj-assorted-utils.util :refer :all]
     [clojure.test :refer :all]))
+
+
 
 (def ^:dynamic *local-jms-server* "tcp://127.0.0.1:42424")
 (def test-topic "/topic/testtopic.foo")
@@ -58,4 +60,55 @@
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
     (run-test t)))
+
+(use-fixtures :each single-test-fixture)
+
+
+
+(deftest send-string-test
+  (let [producer (create-producer *local-jms-server* test-topic)
+        was-run (prepare-flag)
+        consume-fn (fn [_] (set-flag was-run))
+        consumer (create-consumer *local-jms-server* test-topic consume-fn)]
+    (is (not (nil? producer)))
+    (is (not (nil? consumer)))
+    (producer "¡Hola!")
+    (await-flag was-run)
+    (is (flag-set? was-run))
+    (close producer)
+    (close consumer)))
+
+(deftest send-list-test
+  (let [producer (create-producer *local-jms-server* test-topic)
+        received (ref nil)
+        flag (prepare-flag)
+        consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
+        consumer (create-consumer *local-jms-server* test-topic consume-fn)
+        data '(:a :b :c)]
+    (is (not= data @received))
+    (producer data)
+    (await-flag flag)
+    (is (= data @received))
+    (close producer)
+    (close consumer)))
+
+(deftest send-byte-array-test
+  (let [producer (create-producer *local-jms-server* test-topic)
+        received (ref nil)
+        flag (prepare-flag)
+        consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
+        consumer (create-consumer *local-jms-server* test-topic consume-fn)
+        data (byte-array (map byte [1 2 3 42]))]
+    (is (not= data @received))
+    (producer data)
+    (await-flag flag)
+    (doall
+      (map
+        (fn [a b]
+          (is
+            (= a b)))
+        (vec data)
+        (vec @received)))
+    (close producer)
+    (close consumer)))
 

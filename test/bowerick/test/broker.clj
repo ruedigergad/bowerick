@@ -12,13 +12,13 @@
   bowerick.test.broker
   (:require
     [bowerick.jms :refer :all]
-    [bowerick.test.jms-test-base :refer :all]
     [clj-assorted-utils.util :refer :all]
     [clojure.test :refer :all] clojure.test))
 
 
 
 (def local-jms-server "tcp://127.0.0.1:42424")
+(def test-topic "/topic/testtopic.foo")
 (def broker-management-command-topic "/topic/bowerick.broker.management.command")
 (def broker-management-reply-topic "/topic/bowerick.broker.management.reply")
 
