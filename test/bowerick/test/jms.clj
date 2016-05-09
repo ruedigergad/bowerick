@@ -12,7 +12,6 @@
   bowerick.test.jms
   (:require
     [bowerick.jms :refer :all]
-    [cheshire.core :refer :all]
     [clj-assorted-utils.util :refer :all]
     [clojure.test :refer :all] clojure.test))
 
@@ -31,16 +30,16 @@
 
 
 (deftest test-create-topic
-  (let [producer (create-single-producer local-jms-server test-topic)]
+  (let [producer (create-producer local-jms-server test-topic)]
     (is (not (nil? producer)))
     (close producer)))
 
 (deftest custom-transformation-producer-cheshire
-  (let [producer (create-single-producer local-jms-server test-topic generate-string)
+  (let [producer (create-producer local-jms-server test-topic 1 cheshire.core/generate-string)
         received (ref nil)
         flag (prepare-flag)
         consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
-        consumer (create-single-consumer local-jms-server test-topic consume-fn)]
+        consumer (create-consumer local-jms-server test-topic consume-fn)]
     (producer {"a" "A", "b" 123})
     (await-flag flag)
     (is (= "{\"a\":\"A\",\"b\":123}" @received))
@@ -48,11 +47,11 @@
     (close consumer)))
 
 (deftest custom-transformation-producer-consumer-cheshire
-  (let [producer (create-single-producer local-jms-server test-topic generate-string)
+  (let [producer (create-producer local-jms-server test-topic 1 cheshire.core/generate-string)
         received (ref nil)
         flag (prepare-flag)
         consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
-        consumer (create-single-consumer local-jms-server test-topic consume-fn parse-string)]
+        consumer (create-single-consumer local-jms-server test-topic consume-fn cheshire.core/parse-string)]
     (producer {"a" "A", "b" 123})
     (await-flag flag)
     (is (= {"a" "A", "b" 123} @received))

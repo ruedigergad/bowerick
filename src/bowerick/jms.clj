@@ -462,6 +462,28 @@
           (println "Closing pooled consumer for endpoint description:" endpoint-description)
           (close consumer))))))
 
+(defn create-producer
+  ([server-url endpoint-description]
+    (create-producer server-url endpoint-description 1))
+  ([server-url endpoint-description pool-size]
+    (create-producer server-url endpoint-description pool-size identity))
+  ([server-url endpoint-description pool-size serialization-fn]
+    (cond
+      (= pool-size 1) (create-single-producer server-url endpoint-description serialization-fn)
+      (> pool-size 1) (create-pooled-producer server-url endpoint-description pool-size serialization-fn)
+      :default (println "Error: Invalid pool size:" pool-size))))
+
+(defn create-consumer
+  ([server-url endpoint-description cb]
+    (create-consumer server-url endpoint-description cb 1))
+  ([server-url endpoint-description cb pool-size]
+    (create-consumer server-url endpoint-description cb pool-size identity))
+  ([server-url endpoint-description cb pool-size de-serialization-fn]
+    (cond
+      (= pool-size 1) (create-single-consumer server-url endpoint-description cb de-serialization-fn)
+      (> pool-size 1) (create-pooled-consumer server-url endpoint-description cb de-serialization-fn)
+      :default (println "Error: Invalid pool size:" pool-size))))
+
 (defn create-pooled-nippy-producer
   "Create a pooled producer that uses nippy for serialization.
 
