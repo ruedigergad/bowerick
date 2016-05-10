@@ -427,7 +427,7 @@
   ([server-url endpoint-description pool-size]
     (create-pooled-producer server-url endpoint-description pool-size identity))
   ([server-url endpoint-description ^long pool-size serialization-fn]
-    (println "Creating pooled producer for endpoint description:" endpoint-description)
+    (println "Creating pooled producer for endpoint description:" endpoint-description "; Pool size:" pool-size)
     (let [producer (create-single-producer server-url endpoint-description serialization-fn)
           pool (ArrayList. pool-size)]
       (->ProducerWrapper
