@@ -484,39 +484,44 @@
       (> pool-size 1) (create-pooled-consumer server-url endpoint-description cb de-serialization-fn)
       :default (println "Error: Invalid pool size:" pool-size))))
 
-(defn create-pooled-nippy-producer
-  "Create a pooled producer that uses nippy for serialization.
+(defn create-nippy-producer
+  "Create a producer that uses nippy for serialization.
 
    Optionally, a map of options for customizing the nippy serialization, nippy-opts, can be given.
    This can be used, e.g., for enabling compression or encryption.
    Compression can be enabled with {:compressor taoensso.nippy/lz4-compressor}.
    Possible compressor settings are: taoensso.nippy/lz4-compressor, taoensso.nippy/snappy-compressor, taoensso.nippy/lzma2-compressor.
 
-   For more details about pooled producers please see create-pooled-producer."
+   For more details about producers please see create-producer."
+  ([server-url endpoint-description]
+    (create-nippy-producer
+      server-url endpoint-description 1))
   ([server-url endpoint-description pool-size]
-    (create-pooled-nippy-producer
+    (create-nippy-producer
       server-url endpoint-description pool-size {}))
   ([server-url endpoint-description pool-size nippy-opts]
-    (println "Creating pooled nippy producer for endpoint description:" endpoint-description
+    (println "Creating nippy producer for endpoint description:" endpoint-description
              "with options:" nippy-opts)
-    (create-pooled-producer
+    (create-producer
       server-url
       endpoint-description
       pool-size
       (fn [data]
         (nippy/freeze data nippy-opts)))))
 
-(defn create-pooled-nippy-consumer
-  "Create a pooled consumer that uses nippy for de-serialization.
+(defn create-nippy-consumer
+  "Create a consumer that uses nippy for de-serialization.
 
    Optionally, a map of options for customizing the nippy serialization, nippy-opts, can be given.
    See also: create-pooled-nippy-producer.
    For uncompressing compressed data, no options need to be specified as nippy can figure out the employed compression algorithms on its own.
 
-   For more details about pooled consumers and producers please see create-pooled-consumer and create-pooled-producer."
+   For more details about consumers and producers please see create-consumer and create-producer."
   ([server-url endpoint-description cb]
-    (create-pooled-nippy-consumer server-url endpoint-description cb {}))
-  ([server-url endpoint-description cb nippy-opts]
+    (create-nippy-consumer server-url endpoint-description cb 1))
+  ([server-url endpoint-description cb pool-size]
+    (create-nippy-consumer server-url endpoint-description cb pool-size {}))
+  ([server-url endpoint-description cb pool-size nippy-opts]
     (create-pooled-consumer
       server-url
       endpoint-description
@@ -524,31 +529,40 @@
       (fn [ba]
         (nippy/thaw ba nippy-opts)))))
 
-(defn create-pooled-nippy-lzf-producer
-  "Create a pooled producer that uses nippy for serialization and compresses the serialized data with LZF.
+(defn create-nippy-lzf-producer
+  "Create a producer that uses nippy for serialization and compresses the serialized data with LZF.
 
-   For more details about pooled producers please see create-pooled-producer."
-  [server-url endpoint-description pool-size]
-  (println "Creating pooled nippy lzf producer for endpoint description:" endpoint-description)
-  (create-pooled-producer
-    server-url
-    endpoint-description
-    pool-size
-    (fn [data]
-      (LZFEncoder/encode ^bytes (nippy/freeze data)))))
+   For more details about producers please see create-producer."
+  ([server-url endpoint-description]
+     (create-nippy-lzf-producer server-url endpoint-description 1))
+  ([server-url endpoint-description pool-size]
+     (create-nippy-lzf-producer server-url endpoint-description pool-size {}))
+  ([server-url endpoint-description pool-size nippy-opts]
+    (println "Creating nippy lzf producer for endpoint description:" endpoint-description)
+    (create-producer
+      server-url
+      endpoint-description
+      pool-size
+      (fn [data]
+        (LZFEncoder/encode ^bytes (nippy/freeze data nippy-opts))))))
 
-(defn create-pooled-nippy-lzf-consumer
-  "Create a pooled consumer that uncompresses the transferred data via LZF and uses nippy for de-serialization.
+(defn create-nippy-lzf-consumer
+  "Create a consumer that uncompresses the transferred data via LZF and uses nippy for de-serialization.
 
-   For more details about pooled consumers and producers please see create-pooled-consumer and create-pooled-producer."
-  [server-url endpoint-description cb]
-  (println "Creating pooled nippy lzf consumer for endpoint description:" endpoint-description)
-  (create-pooled-consumer
-    server-url
-    endpoint-description
-    cb
-    (fn [^bytes ba]
-      (nippy/thaw (LZFDecoder/decode ba)))))
+   For more details about consumers and producers please see create-consumer and create-producer."
+  ([server-url endpoint-description cb]
+    (create-nippy-lzf-consumer server-url endpoint-description cb 1))
+  ([server-url endpoint-description cb pool-size]
+    (create-nippy-lzf-consumer server-url endpoint-description cb pool-size {}))
+  ([server-url endpoint-description cb pool-size nippy-opts]
+    (println "Creating nippy lzf consumer for endpoint description:" endpoint-description)
+    (create-consumer
+      server-url
+      endpoint-description
+      cb
+      pool-size
+      (fn [^bytes ba]
+        (nippy/thaw (LZFDecoder/decode ba) nippy-opts)))))
 
 (defn create-pooled-carbonite-producer
   "Create a pooled producer that uses carbonite for serialization.

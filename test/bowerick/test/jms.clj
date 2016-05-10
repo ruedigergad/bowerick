@@ -89,11 +89,11 @@
     (close consumer)))
 
 (deftest pooled-producer-pooled-consumer-nippy
-  (let [producer (create-pooled-nippy-producer local-jms-server test-topic 3)
+  (let [producer (create-nippy-producer local-jms-server test-topic 3)
         was-run (prepare-flag 3)
         received (ref [])
         consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
-        consumer (create-pooled-nippy-consumer local-jms-server test-topic consume-fn)]
+        consumer (create-nippy-consumer local-jms-server test-topic consume-fn 3)]
     (producer "a")
     (producer "b")
     (producer "c")
@@ -104,7 +104,7 @@
     (close consumer)))
 
 (deftest pooled-producer-pooled-consumer-nippy-lz4
-  (let [producer (create-pooled-nippy-producer
+  (let [producer (create-nippy-producer
                    local-jms-server
                    test-topic
                    3
@@ -112,7 +112,7 @@
         was-run (prepare-flag 3)
         received (ref [])
         consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
-        consumer (create-pooled-nippy-consumer local-jms-server test-topic consume-fn)]
+        consumer (create-nippy-consumer local-jms-server test-topic consume-fn 3)]
     (producer "a")
     (producer "b")
     (producer "c")
@@ -123,7 +123,7 @@
     (close consumer)))
 
 (deftest pooled-producer-pooled-consumer-nippy-snappy
-  (let [producer (create-pooled-nippy-producer
+  (let [producer (create-nippy-producer
                    local-jms-server
                    test-topic
                    3
@@ -131,7 +131,7 @@
         was-run (prepare-flag 3)
         received (ref [])
         consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
-        consumer (create-pooled-nippy-consumer local-jms-server test-topic consume-fn)]
+        consumer (create-nippy-consumer local-jms-server test-topic consume-fn 3)]
     (producer "a")
     (producer "b")
     (producer "c")
@@ -142,7 +142,7 @@
     (close consumer)))
 
 (deftest pooled-producer-pooled-consumer-nippy-lzma2
-  (let [producer (create-pooled-nippy-producer
+  (let [producer (create-nippy-producer
                    local-jms-server
                    test-topic
                    3
@@ -150,7 +150,7 @@
         was-run (prepare-flag 3)
         received (ref [])
         consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
-        consumer (create-pooled-nippy-consumer local-jms-server test-topic consume-fn)]
+        consumer (create-nippy-consumer local-jms-server test-topic consume-fn 3)]
     (producer "a")
     (producer "b")
     (producer "c")
@@ -161,11 +161,11 @@
     (close consumer)))
 
 (deftest pooled-producer-pooled-consumer-nippy-lzf
-  (let [producer (create-pooled-nippy-lzf-producer local-jms-server test-topic 3)
+  (let [producer (create-nippy-lzf-producer local-jms-server test-topic 3)
         was-run (prepare-flag 3)
         received (ref [])
         consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
-        consumer (create-pooled-nippy-lzf-consumer local-jms-server test-topic consume-fn)]
+        consumer (create-nippy-lzf-consumer local-jms-server test-topic consume-fn 3)]
     (producer "a")
     (producer "b")
     (producer "c")
