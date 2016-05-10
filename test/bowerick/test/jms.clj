@@ -59,11 +59,11 @@
     (close consumer)))
 
 (deftest pooled-producer-normal-consumer
-  (let [producer (create-pooled-producer local-jms-server test-topic 3)
+  (let [producer (create-producer local-jms-server test-topic 3)
         was-run (prepare-flag)
         received (ref nil)
         consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag was-run))
-        consumer (create-single-consumer local-jms-server test-topic consume-fn)]
+        consumer (create-consumer local-jms-server test-topic consume-fn)]
     (producer "a")
     (producer "b")
     (producer "c")
@@ -74,11 +74,11 @@
     (close consumer)))
 
 (deftest pooled-producer-pooled-consumer
-  (let [producer (create-pooled-producer local-jms-server test-topic 3)
+  (let [producer (create-producer local-jms-server test-topic 3)
         was-run (prepare-flag 3)
         received (ref [])
         consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
-        consumer (create-pooled-consumer local-jms-server test-topic consume-fn)]
+        consumer (create-consumer local-jms-server test-topic consume-fn 3)]
     (producer "a")
     (producer "b")
     (producer "c")
