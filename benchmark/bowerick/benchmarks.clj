@@ -32,31 +32,11 @@
 (def nippy-stress-data-benchable
   (dissoc taoensso.nippy/stress-data-benchable :lazy-seq :lazy-seq-empty :sorted-map :sorted-set))
 
-(deftest ^:benchmark single-nippy-stress-data-benchmark
-  (println "Running benchmark: single-nippy-stress-data-benchmark")
-  (let [consumer (create-single-consumer *local-jms-server* test-topic identity)
-        producer (create-single-producer *local-jms-server* test-topic)]
-    (cc/with-progress-reporting
-      (cc/bench
-        (producer nippy-stress-data-benchable)))
-    (close producer)
-    (close consumer)))
-
-(deftest ^:benchmark single-cheshire-nippy-stress-data-benchmark
-  (println "Running benchmark: single-cheshire-nippy-stress-data-benchmark")
-  (let [consumer (create-single-consumer *local-jms-server* test-topic identity cheshire.core/parse-string)
-        producer (create-single-producer *local-jms-server* test-topic cheshire.core/generate-string)]
-    (cc/with-progress-reporting
-      (cc/bench
-        (producer nippy-stress-data-benchable)))
-    (close producer)
-    (close consumer)))
-
 (defn run-benchmarks
   [description producer-factory-fn consumer-factory-fn data]
   (doseq [n [1 4 10 40 100 400]] ;[1 1 2 4 10 20 50 100 200 500]
     (println (str "Running benchmark: " description "-" n))
-    (let [consumer (consumer-factory-fn *local-jms-server* test-topic identity)
+    (let [consumer (consumer-factory-fn *local-jms-server* test-topic identity n)
           producer (producer-factory-fn *local-jms-server* test-topic n)]
       (cc/with-progress-reporting
         (cc/bench
@@ -64,11 +44,11 @@
       (close producer)
       (close consumer))))
 
-(deftest ^:benchmark pooled-nippy-stress-data-transmission-benchmarks
+(deftest ^:benchmark default-serialization-nippy-stress-data-benchmarks
   (run-benchmarks
-    "pooled-nippy-stress-data-transmission"
-    create-pooled-producer
-    create-pooled-consumer
+    "default-serialization_nippy-stress-data"
+    create-producer
+    create-consumer
     nippy-stress-data-benchable))
 
 ;(deftest ^:benchmark pooled-cheshire-nippy-stress-data-transmission-benchmarks
@@ -100,55 +80,55 @@
 ;            (-> data (LZFDecoder/decode) (String. charset) (cheshire.core/parse-string)))))
 ;      nippy-stress-data-benchable)))
 
-(deftest ^:benchmark pooled-nippy-nippy-stress-data-transmission-benchmarks
+(deftest ^:benchmark nippy-serialization-nippy-stress-data-benchmarks
   (run-benchmarks
-    "pooled-nippy-nippy-stress-data-transmission"
-    create-pooled-nippy-producer
-    create-pooled-nippy-consumer
+    "nippy-serialization_nippy-stress-data"
+    create-nippy-producer
+    create-nippy-consumer
     nippy-stress-data-benchable))
 
-(deftest ^:benchmark pooled-nippy-lz4-nippy-stress-data-transmission-benchmarks
+(deftest ^:benchmark nippy-lz4-serialization-nippy-stress-data-benchmarks
   (run-benchmarks
-    "pooled-nippy-lz4-nippy-stress-data-transmission"
+    "nippy-lz4-serialization_nippy-stress-data"
     (fn [url ep n]
-      (create-pooled-nippy-producer url ep n {:compressor taoensso.nippy/lz4-compressor}))
-    create-pooled-nippy-consumer
+      (create-nippy-producer url ep n {:compressor taoensso.nippy/lz4-compressor}))
+    create-nippy-consumer
     nippy-stress-data-benchable))
 
-(deftest ^:benchmark pooled-nippy-lzma2-nippy-stress-data-transmission-benchmarks
+(deftest ^:benchmark nippy-lzma2-serialization-nippy-stress-data-benchmarks
   (run-benchmarks
-    "pooled-nippy-lzma2-nippy-stress-data-transmission"
+    "nippy-lzma2-serialization_nippy-stress-data"
     (fn [url ep n]
-      (create-pooled-nippy-producer url ep n {:compressor taoensso.nippy/lzma2-compressor}))
-    create-pooled-nippy-consumer
+      (create-nippy-producer url ep n {:compressor taoensso.nippy/lzma2-compressor}))
+    create-nippy-consumer
     nippy-stress-data-benchable))
 
-(deftest ^:benchmark pooled-nippy-snappy-nippy-stress-data-transmission-benchmarks
+(deftest ^:benchmark nippy-snappy-serialization-nippy-stress-data-benchmarks
   (run-benchmarks
-    "pooled-nippy-snappy-nippy-stress-data-transmission"
+    "nippy-snappy-serialization_nippy-stress-data"
     (fn [url ep n]
-      (create-pooled-nippy-producer url ep n {:compressor taoensso.nippy/snappy-compressor}))
-    create-pooled-nippy-consumer
+      (create-nippy-producer url ep n {:compressor taoensso.nippy/snappy-compressor}))
+    create-nippy-consumer
     nippy-stress-data-benchable))
 
-(deftest ^:benchmark pooled-nippy-lzf-nippy-stress-data-transmission-benchmarks
+(deftest ^:benchmark nippy-lzf-serialization-nippy-stress-data-benchmarks
   (run-benchmarks
-    "pooled-nippy-lzf-nippy-stress-data-transmission"
-    create-pooled-nippy-lzf-producer
-    create-pooled-nippy-lzf-consumer
+    "nippy-lzf-serialization_nippy-stress-data"
+    create-nippy-lzf-producer
+    create-nippy-lzf-consumer
     nippy-stress-data-benchable))
 
-(deftest ^:benchmark pooled-carbonite-nippy-stress-data-transmission-benchmarks
-  (run-benchmarks
-    "pooled-carbonite-nippy-stress-data-transmission"
-    create-pooled-carbonite-producer
-    create-pooled-carbonite-consumer
-    nippy-stress-data-benchable))
-
-(deftest ^:benchmark pooled-carbonite-lzf-nippy-stress-data-transmission-benchmarks
-  (run-benchmarks
-    "pooled-carbonite-lzf-nippy-stress-data-transmission"
-    create-pooled-carbonite-lzf-producer
-    create-pooled-carbonite-lzf-consumer
-    nippy-stress-data-benchable))
-
+;(deftest ^:benchmark pooled-carbonite-nippy-stress-data-transmission-benchmarks
+;  (run-benchmarks
+;    "pooled-carbonite-nippy-stress-data-transmission"
+;    create-pooled-carbonite-producer
+;    create-pooled-carbonite-consumer
+;    nippy-stress-data-benchable))
+;
+;(deftest ^:benchmark pooled-carbonite-lzf-nippy-stress-data-transmission-benchmarks
+;  (run-benchmarks
+;    "pooled-carbonite-lzf-nippy-stress-data-transmission"
+;    create-pooled-carbonite-lzf-producer
+;    create-pooled-carbonite-lzf-consumer
+;    nippy-stress-data-benchable))
+;
