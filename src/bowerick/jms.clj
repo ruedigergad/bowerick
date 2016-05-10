@@ -343,7 +343,11 @@
    For each invocation, the passed data will be transmitted in a separate message.
    
    Optionally, a single argument function for customizing the serialization of the data can be given.
-   This defaults to idenitity such that the default serialization of the underlying JMS implementation is used."
+   This defaults to idenitity such that the default serialization of the underlying JMS implementation is used.
+  
+   This function is not intended to be used directly.
+   It is recommended to use create-producer or the various create-XXXXXX-producer derivatives that employ
+   customized serialization mechanisms instead."
   ([server-url endpoint-description]
     (create-single-producer server-url endpoint-description identity))
   ([^String server-url ^String endpoint-description serialization-fn]
@@ -385,7 +389,9 @@
    Optionally, a single argument function for customizing the de-serialization of the transferred data can be given.
    Typically, this should be the inverse operation of the serialization function as used for the producer and defaults to identity.
   
-   See also create-single-producer."
+   This function is not intended to be used directly.
+   It is recommended to use create-consumer or the various create-XXXXXX-consumer derivatives that employ
+   customized serialization mechanisms instead."
   ([server-url endpoint-description cb]
     (create-single-consumer server-url endpoint-description cb identity))
   ([^String server-url ^String endpoint-description cb de-serialization-fn]
@@ -423,7 +429,11 @@
    sends the entire pool at once when the pool is filled.
   
    Optionally, a single argument function for customizing the serialization of the pooled-data can be given.
-   This defaults to idenitity such that the default serialization of the underlying JMS implementation is used."
+   This defaults to idenitity such that the default serialization of the underlying JMS implementation is used.
+  
+   This function is not intended to be used directly.
+   It is recommended to use create-producer or the various create-XXXXXX-producer derivatives that employ
+   customized serialization mechanisms instead."
   ([server-url endpoint-description pool-size]
     (create-pooled-producer server-url endpoint-description pool-size identity))
   ([server-url endpoint-description ^long pool-size serialization-fn]
@@ -448,7 +458,9 @@
    Optionally, a single argument function for customizing the de-serialization of the transferred data can be given.
    Typically, this should be the inverse operation of the serialization function as used for the pooled producer and defaults to identity.
   
-   See also create-pooled-producer."
+   This function is not intended to be used directly.
+   It is recommended to use create-consumer or the various create-XXXXXX-consumer derivatives that employ
+   customized serialization mechanisms instead."
   ([server-url endpoint-description cb]
     (create-pooled-consumer server-url endpoint-description cb identity))
   ([server-url endpoint-description cb de-serialization-fn]
@@ -463,6 +475,20 @@
           (close consumer))))))
 
 (defn create-producer
+  "This is a convenience function for creating a producer for the given server-url and endpoint-description.
+   
+   The created producer implements IFn. Hence, the idiomatic way for using it in Clojure
+   is to use the producer as a function to which the data that is to be transmitted is
+   passed as single function argument.
+  
+   By default a single-step producer will be created that immediately sends the passed data.
+
+   Optionally, when passing a pool-size larger than 1, a pooled producer is created.
+   A pooled producer does not send the passed data instances individually but groups them in a pool and
+   sends the entire pool at once when the pool is filled.
+  
+   Optionally, a single argument function for customizing the serialization of the pooled-data can be given.
+   This defaults to idenitity such that the default serialization of the underlying JMS implementation is used."
   ([server-url endpoint-description]
     (create-producer server-url endpoint-description 1))
   ([server-url endpoint-description pool-size]
@@ -474,6 +500,16 @@
       :default (println "Error: Invalid pool size:" pool-size))))
 
 (defn create-consumer
+  "Create a message consumer for receiving data from the specified endpoint and server/broker.
+
+   The passed callback function (cb) will be called for each message and will receive the data
+   from the message as its single argument.
+  
+   Optionally, when passing a pool-size larger than 1, a pooled consumer is created.
+   A pooled consumer receives data in batches and it is the counter part to a pooled producer.
+
+   Optionally, a single argument function for customizing the de-serialization of the transferred data can be given.
+   Typically, this should be the inverse operation of the serialization function as used for the producer and defaults to identity."
   ([server-url endpoint-description cb]
     (create-consumer server-url endpoint-description cb 1))
   ([server-url endpoint-description cb pool-size]
