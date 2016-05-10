@@ -38,20 +38,21 @@
 
 (deftest test-create-producer
   (let [controller (JmsController. local-jms-server)
-        producer (.createProducer controller test-topic)]
+        producer (.createProducer controller test-topic 1)]
     (is (instance? JmsProducer producer))
     (.close producer)))
 
 (deftest test-producer-and-consumer
   (let [controller (JmsController. local-jms-server)
-        producer (.createProducer controller test-topic)
+        n 1
+        producer (.createProducer controller test-topic n)
         flag (prepare-flag)
         data (ref nil)
         consumer-cb (proxy [JmsConsumerCallback] []
                       (processData [obj]
                         (dosync (ref-set data obj))
                         (set-flag flag)))
-        consumer (.createConsumer controller test-topic ^JmsConsumerCallback consumer-cb)]
+        consumer (.createConsumer controller test-topic ^JmsConsumerCallback consumer-cb n)]
     (.sendData producer "foo")
     (await-flag flag)
     (is (flag-set? flag))
@@ -67,14 +68,15 @@
 (deftest test-start-stop-embedded-broker-with-data-exchange
   (let [controller (JmsController. "tcp://localhost:52525")
         _ (.startEmbeddedBroker controller)
-        producer (.createProducer controller test-topic)
+        n 1
+        producer (.createProducer controller test-topic n)
         flag (prepare-flag)
         data (ref nil)
         consumer-cb (proxy [JmsConsumerCallback] []
                       (processData [obj]
                         (dosync (ref-set data obj))
                         (set-flag flag)))
-        consumer (.createConsumer controller test-topic ^JmsConsumerCallback consumer-cb)]
+        consumer (.createConsumer controller test-topic ^JmsConsumerCallback consumer-cb n)]
     (.sendData producer "foo")
     (await-flag flag)
     (is (flag-set? flag))
@@ -85,14 +87,15 @@
 
 (deftest test-json-producer-and-consumer
   (let [controller (JmsController. local-jms-server)
-        producer (.createJsonProducer controller test-topic)
+        n 1
+        producer (.createJsonProducer controller test-topic n)
         flag (prepare-flag)
         data (atom nil)
         consumer-cb (proxy [JmsConsumerCallback] []
                       (processData [obj]
                         (reset! data obj)
                         (set-flag flag)))
-        consumer (.createJsonConsumer controller test-topic ^JmsConsumerCallback consumer-cb)]
+        consumer (.createJsonConsumer controller test-topic ^JmsConsumerCallback consumer-cb n)]
     (.sendData producer {"a" "A", "b" 123})
     (await-flag flag)
     (is (flag-set? flag))
@@ -104,7 +107,7 @@
   (let [controller (JmsController. local-jms-server)
         n 3
         cntr (counter)
-        producer (.createPooledProducer controller test-topic n)
+        producer (.createProducer controller test-topic n)
         flag (prepare-flag n)
         data (atom "")
         consumer-cb (proxy [JmsConsumerCallback] []
@@ -112,7 +115,7 @@
                         (swap! data str obj)
                         (cntr inc)
                         (set-flag flag)))
-        consumer (.createPooledConsumer controller test-topic ^JmsConsumerCallback consumer-cb)]
+        consumer (.createConsumer controller test-topic ^JmsConsumerCallback consumer-cb n)]
     (.sendData producer "foo")
     (.sendData producer "bar")
     (.sendData producer "baz")
