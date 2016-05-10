@@ -127,7 +127,7 @@
   (let [controller (JmsController. local-jms-server)
         n 3
         cntr (counter)
-        producer (.createPooledCarboniteProducer controller test-topic n)
+        producer (.createCarboniteProducer controller test-topic n)
         flag (prepare-flag n)
         data (atom "")
         consumer-cb (proxy [JmsConsumerCallback] []
@@ -135,7 +135,7 @@
                         (swap! data str obj)
                         (cntr inc)
                         (set-flag flag)))
-        consumer (.createPooledCarboniteConsumer controller test-topic ^JmsConsumerCallback consumer-cb)]
+        consumer (.createCarboniteConsumer controller test-topic ^JmsConsumerCallback consumer-cb n)]
     (.sendData producer "foo")
     (.sendData producer "bar")
     (.sendData producer "baz")
@@ -150,7 +150,7 @@
   (let [controller (JmsController. local-jms-server)
         n 3
         cntr (counter)
-        producer (.createPooledCarboniteLzfProducer controller test-topic n)
+        producer (.createCarboniteLzfProducer controller test-topic n)
         flag (prepare-flag n)
         data (atom "")
         consumer-cb (proxy [JmsConsumerCallback] []
@@ -158,7 +158,7 @@
                         (swap! data str obj)
                         (cntr inc)
                         (set-flag flag)))
-        consumer (.createPooledCarboniteLzfConsumer controller test-topic ^JmsConsumerCallback consumer-cb)]
+        consumer (.createCarboniteLzfConsumer controller test-topic ^JmsConsumerCallback consumer-cb n)]
     (.sendData producer "foo")
     (.sendData producer "bar")
     (.sendData producer "baz")

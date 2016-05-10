@@ -118,17 +118,17 @@
     create-nippy-lzf-consumer
     nippy-stress-data-benchable))
 
-;(deftest ^:benchmark pooled-carbonite-nippy-stress-data-transmission-benchmarks
-;  (run-benchmarks
-;    "pooled-carbonite-nippy-stress-data-transmission"
-;    create-pooled-carbonite-producer
-;    create-pooled-carbonite-consumer
-;    nippy-stress-data-benchable))
-;
-;(deftest ^:benchmark pooled-carbonite-lzf-nippy-stress-data-transmission-benchmarks
-;  (run-benchmarks
-;    "pooled-carbonite-lzf-nippy-stress-data-transmission"
-;    create-pooled-carbonite-lzf-producer
-;    create-pooled-carbonite-lzf-consumer
-;    nippy-stress-data-benchable))
-;
+(deftest ^:benchmark carbonite-serialization-nippy-stress-data-benchmarks
+  (run-benchmarks
+    "carbonite-serialization_nippy-stress-data"
+    create-carbonite-producer
+    create-carbonite-consumer
+    nippy-stress-data-benchable))
+
+(deftest ^:benchmark carbonite-lzf-serialization-nippy-stress-data-benchmarks
+  (run-benchmarks
+    "carbonite-lzf-serialization_nippy-stress-data"
+    create-carbonite-lzf-producer
+    create-carbonite-lzf-consumer
+    nippy-stress-data-benchable))
+

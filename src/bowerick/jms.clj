@@ -564,61 +564,71 @@
       (fn [^bytes ba]
         (nippy/thaw (LZFDecoder/decode ba) nippy-opts)))))
 
-(defn create-pooled-carbonite-producer
-  "Create a pooled producer that uses carbonite for serialization.
+(defn create-carbonite-producer
+  "Create a producer that uses carbonite for serialization.
 
-   For more details about pooled producers please see create-pooled-producer."
-  [server-url endpoint-description pool-size]
-  (println "Creating pooled carbonite producer for endpoint description:" endpoint-description)
-  (let [reg (carb-api/default-registry)]
-    (create-pooled-producer
-      server-url
-      endpoint-description
-      pool-size
-      (fn [data]
-        (carb-buf/write-bytes reg data)))))
+   For more details about producers please see create-producer."
+  ([server-url endpoint-description]
+    (create-carbonite-producer server-url endpoint-description 1))
+  ([server-url endpoint-description pool-size]
+    (println "Creating carbonite producer for endpoint description:" endpoint-description)
+    (let [reg (carb-api/default-registry)]
+      (create-producer
+        server-url
+        endpoint-description
+        pool-size
+        (fn [data]
+          (carb-buf/write-bytes reg data))))))
 
-(defn create-pooled-carbonite-consumer
-  "Create a pooled consumer that uses carbonite for de-serialization.
+(defn create-carbonite-consumer
+  "Create a consumer that uses carbonite for de-serialization.
 
-   For more details about pooled consumers and producers please see create-pooled-consumer and create-pooled-producer."
-  [server-url endpoint-description cb]
-  (println "Creating pooled carbonite consumer for endpoint description:" endpoint-description)
-  (let [reg (carb-api/default-registry)]
-    (create-pooled-consumer
-      server-url
-      endpoint-description
-      cb
-      (fn [ba]
-        (carb-buf/read-bytes reg ba)))))
+   For more details about consumers and producers please see create-consumer and create-producer."
+  ([server-url endpoint-description cb]
+    (create-carbonite-consumer server-url endpoint-description cb 1))
+  ([server-url endpoint-description cb pool-size]
+    (println "Creating carbonite consumer for endpoint description:" endpoint-description)
+    (let [reg (carb-api/default-registry)]
+      (create-consumer
+        server-url
+        endpoint-description
+        cb
+        pool-size
+        (fn [ba]
+          (carb-buf/read-bytes reg ba))))))
 
-(defn create-pooled-carbonite-lzf-producer
-  "Create a pooled producer that uses carbonite for serialization and compresses the serialized data with LZF.
+(defn create-carbonite-lzf-producer
+  "Create a producer that uses carbonite for serialization and compresses the serialized data with LZF.
 
-   For more details about pooled producers please see create-pooled-producer."
-  [server-url endpoint-description pool-size]
-  (println "Creating pooled carbonite lzf producer for endpoint description:" endpoint-description)
-  (let [reg (carb-api/default-registry)]
-    (create-pooled-producer
-      server-url
-      endpoint-description
-      pool-size
-      (fn [data]
-        (LZFEncoder/encode ^bytes (carb-buf/write-bytes reg data))))))
+   For more details about producers please see create-producer."
+  ([server-url endpoint-description]
+    (create-carbonite-lzf-producer server-url endpoint-description 1))
+  ([server-url endpoint-description pool-size]
+    (println "Creating carbonite lzf producer for endpoint description:" endpoint-description)
+    (let [reg (carb-api/default-registry)]
+      (create-producer
+        server-url
+        endpoint-description
+        pool-size
+        (fn [data]
+          (LZFEncoder/encode ^bytes (carb-buf/write-bytes reg data)))))))
 
-(defn create-pooled-carbonite-lzf-consumer
-  "Create a pooled consumer that decompresses the transferred data with LZF and uses carbonite for de-serialization.
+(defn create-carbonite-lzf-consumer
+  "Create a consumer that decompresses the transferred data with LZF and uses carbonite for de-serialization.
 
-   For more details about pooled consumers and producers please see create-pooled-consumer and create-pooled-producer."
-  [server-url endpoint-description cb]
-  (println "Creating pooled carbonite lzf consumer for endpoint description:" endpoint-description)
-  (let [reg (carb-api/default-registry)]
-    (create-pooled-consumer
-      server-url
-      endpoint-description
-      cb
-      (fn [^bytes ba]
-        (carb-buf/read-bytes reg (LZFDecoder/decode ^bytes ba))))))
+   For more details about consumers and producers please see create-consumer and create-producer."
+  ([server-url endpoint-description cb]
+    (create-carbonite-lzf-consumer server-url endpoint-description cb 1))
+  ([server-url endpoint-description cb pool-size]
+    (println "Creating carbonite lzf consumer for endpoint description:" endpoint-description)
+    (let [reg (carb-api/default-registry)]
+      (create-consumer
+        server-url
+        endpoint-description
+        cb
+        pool-size
+        (fn [^bytes ba]
+          (carb-buf/read-bytes reg (LZFDecoder/decode ^bytes ba)))))))
 
 ;(defn create-pooled-bytes-message-producer [^String server-url ^String endpoint-description pool-size]
 ;  (println "Creating pooled-bytes-message-producer for endpoint description:" endpoint-description)
