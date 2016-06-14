@@ -67,3 +67,17 @@
     (close consumer)
     (stop broker)))
 
+(deftest test-stomp-to-openwire
+  (let [broker (start-broker [local-openwire-1 local-stomp-1])
+        producer (create-producer local-stomp-1 test-topic)
+        received (atom nil)
+        flag (prepare-flag)
+        consume-fn (fn [obj] (reset! received obj) (set-flag flag))
+        consumer (create-consumer local-openwire-1 test-topic consume-fn)]
+    (producer "test-string")
+    (await-flag flag)
+    (is (= "test-string" @received))
+    (close producer)
+    (close consumer)
+    (stop broker)))
+
