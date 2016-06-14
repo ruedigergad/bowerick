@@ -13,7 +13,8 @@
   (:require
     [bowerick.jms :refer :all]
     [clj-assorted-utils.util :refer :all]
-    [clojure.test :refer :all] clojure.test))
+    [clojure.java.io :refer :all]
+    [clojure.test :refer :all]))
 
 
 
@@ -62,7 +63,8 @@
         consumer (create-consumer local-stomp-1 test-topic consume-fn)]
     (producer "test-string")
     (await-flag flag)
-    (is (= "test-string" @received))
+    (is (= byte-array-type (type @received)))
+    (is (= "test-string" (String. @received)))
     (close producer)
     (close consumer)
     (stop broker)))
@@ -76,7 +78,8 @@
         consumer (create-consumer local-openwire-1 test-topic consume-fn)]
     (producer "test-string")
     (await-flag flag)
-    (is (= "test-string" @received))
+    (is (= byte-array-type (type @received)))
+    (is (= "test-string" (String. @received)))
     (close producer)
     (close consumer)
     (stop broker)))
