@@ -81,3 +81,47 @@
     (close consumer)
     (stop broker)))
 
+(deftest test-stomp-to-openwire-byte-array
+  (let [broker (start-broker [local-openwire-1 local-stomp-1])
+        producer (create-producer local-stomp-1 test-topic)
+        received (atom nil)
+        data (byte-array (map byte [1 2 3 4 5]))
+        flag (prepare-flag)
+        consume-fn (fn [obj] (reset! received obj) (set-flag flag))
+        consumer (create-consumer local-openwire-1 test-topic consume-fn)]
+    (producer data)
+    (await-flag flag)
+    (doall (map (fn [a b] (is (= a b))) data @received))
+    (close producer)
+    (close consumer)
+    (stop broker)))
+
+(deftest test-openwire-to-stomp-byte-array
+  (let [broker (start-broker [local-openwire-1 local-stomp-1])
+        producer (create-producer local-openwire-1 test-topic)
+        received (atom nil)
+        data (byte-array (map byte [1 2 3 4 5]))
+        flag (prepare-flag)
+        consume-fn (fn [obj] (reset! received obj) (set-flag flag))
+        consumer (create-consumer local-stomp-1 test-topic consume-fn)]
+    (producer data)
+    (await-flag flag)
+    (doall (map (fn [a b] (is (= a b))) data @received))
+    (close producer)
+    (close consumer)
+    (stop broker)))
+
+(deftest test-stomp-to-openwire-nippy
+  (let [broker (start-broker [local-openwire-1 local-stomp-1])
+        producer (create-nippy-producer local-stomp-1 test-topic)
+        received (atom nil)
+        flag (prepare-flag)
+        consume-fn (fn [obj] (reset! received obj) (set-flag flag))
+        consumer (create-nippy-consumer local-openwire-1 test-topic consume-fn)]
+    (producer "test-string")
+    (await-flag flag)
+    (is (= "test-string" @received))
+    (close producer)
+    (close consumer)
+    (stop broker)))
+
