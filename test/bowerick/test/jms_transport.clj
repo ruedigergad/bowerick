@@ -92,6 +92,20 @@
     (close producer)
     (close consumer)))
 
+(deftest send-vector-test
+  (let [producer (create-single-producer *local-jms-server* test-topic)
+        received (ref nil)
+        flag (prepare-flag)
+        consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
+        consumer (create-single-consumer *local-jms-server* test-topic consume-fn)
+        data [1 2 3 4 5]]
+    (is (not= data @received))
+    (producer data)
+    (await-flag flag)
+    (is (= data @received))
+    (close producer)
+    (close consumer)))
+
 (deftest send-byte-array-test
   (let [producer (create-single-producer *local-jms-server* test-topic)
         received (ref nil)
