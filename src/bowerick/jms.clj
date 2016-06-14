@@ -559,10 +559,11 @@
   ([server-url endpoint-description cb pool-size]
     (create-nippy-consumer server-url endpoint-description cb pool-size {}))
   ([server-url endpoint-description cb pool-size nippy-opts]
-    (create-pooled-consumer
+    (create-consumer
       server-url
       endpoint-description
       cb
+      pool-size
       (fn [ba]
         (nippy/thaw ba nippy-opts)))))
 
