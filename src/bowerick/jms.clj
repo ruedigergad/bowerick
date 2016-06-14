@@ -138,7 +138,7 @@
   (producer (str "error " msg)))
 
 (defn setup-broker-with-auth
-  [address allow-anon users permissions]
+  [allow-anon users permissions]
   (let [user-list (map
                     (fn [u]
                       (AuthenticationUser.
@@ -177,14 +177,12 @@
         authorization-plugin (AuthorizationPlugin. authorization-map)
         broker (doto
                  (BrokerService.)
-                 (.addConnector address)
                  (.setPersistent false)
                  (.setUseJmx false)
                  (.setPlugins
                    (into-array
                      org.apache.activemq.broker.BrokerPlugin
-                     [authentication-plugin authorization-plugin]))
-                 (.start))]
+                     [authentication-plugin authorization-plugin])))]
     broker))
 
 (declare create-single-producer)
@@ -214,13 +212,16 @@
     (adjust-default-ssl-context)
     (let [broker (if
                    (and allow-anon users permissions)
-                   (setup-broker-with-auth address allow-anon users permissions)
+                   (setup-broker-with-auth allow-anon users permissions)
                    (doto
                      (BrokerService.)
-                     (.addConnector address)
                      (.setPersistent false)
-                     (.setUseJmx false)
-                     (.start)))
+                     (.setUseJmx false)))
+          _ (if (sequential? address)
+              (doseq [addr address]
+                (.addConnector broker addr))
+              (.addConnector broker address))
+          _ (.start broker)
           producer (try
                      (println "Info: Enabling management producer at:" *broker-management-reply-topic*)
                      (binding [*trust-store-file* *key-store-file*
