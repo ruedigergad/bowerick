@@ -125,3 +125,17 @@
     (close consumer)
     (stop broker)))
 
+(deftest test-stomp-to-openwire-nippy-complexer-data
+  (let [broker (start-broker [local-openwire-1 local-stomp-1])
+        producer (create-nippy-producer local-stomp-1 test-topic)
+        received (atom nil)
+        flag (prepare-flag)
+        consume-fn (fn [obj] (reset! received obj) (set-flag flag))
+        consumer (create-nippy-consumer local-openwire-1 test-topic consume-fn)]
+    (producer [1 2 :a :b {:c "CDE"}])
+    (await-flag flag)
+    (is (= [1 2 :a :b {:c "CDE"}] @received))
+    (close producer)
+    (close consumer)
+    (stop broker)))
+
