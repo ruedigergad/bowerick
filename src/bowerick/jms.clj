@@ -368,7 +368,9 @@
                                     (.writeBytes ^bytes serialized-data)))
                 java.lang.String (.send
                                    producer
-                                   (.createTextMessage session ^String serialized-data))
+                                   (doto
+                                     (.createTextMessage session ^String serialized-data)
+                                     (.setStringProperty "transformation" "TEXT")))
                 (.send
                   producer
                   (.createObjectMessage session serialized-data)))))
