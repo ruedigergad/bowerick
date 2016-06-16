@@ -78,8 +78,8 @@
         consumer (create-consumer local-openwire-1 test-topic consume-fn)]
     (producer "test-string")
     (await-flag flag)
-    (is (= byte-array-type (type @received)))
-    (is (= "test-string" (String. @received)))
+    (is (= String (type @received)))
+    (is (= "test-string" @received))
     (close producer)
     (close consumer)
     (stop broker)))
