@@ -12,7 +12,7 @@
                  [org.apache.activemq/activemq-stomp "5.13.3"]
                  [org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.cli "0.2.4"]
-                 [org.fusesource.stompjms/stompjms-client "1.19"]
+                 [rgad/stompjms-client "1.20-SNAPSHOT"]
                  [org.slf4j/slf4j-simple "1.7.10"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
