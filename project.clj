@@ -13,6 +13,7 @@
                  [org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.cli "0.2.4"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]
+                 [org.springframework/spring-messaging "4.3.0.RELEASE"]
                  [org.springframework/spring-websocket "4.3.0.RELEASE"]
                  [org.slf4j/slf4j-simple "1.7.10"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"

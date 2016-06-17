@@ -34,7 +34,12 @@
     (org.apache.activemq.broker BrokerService)
     (org.apache.activemq.broker.region Destination)
     (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationMap AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
-    (org.fusesource.stomp.jms StompJmsConnectionFactory)))
+    (org.fusesource.stomp.jms StompJmsConnectionFactory)
+    (org.springframework.messaging.converter ByteArrayMessageConverter SmartMessageConverter StringMessageConverter)
+    (org.springframework.messaging.simp.stomp StompFrameHandler StompSession StompSessionHandler StompSessionHandlerAdapter)
+    (org.springframework.web.socket.client WebSocketClient)
+    (org.springframework.web.socket.messaging WebSocketStompClient)
+    (org.springframework.web.socket.client.standard StandardWebSocketClient)))
 
 (def ^:dynamic *user-name* nil)
 (def ^:dynamic *user-password* nil)
