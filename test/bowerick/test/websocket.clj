@@ -36,7 +36,7 @@
         received (atom nil)
         flag (prepare-flag)
         consume-fn (fn [obj] (reset! received obj) (set-flag flag))
-        consumer (create-single-consumer url-openwire test-topic consume-fn)]
+        consumer (create-consumer url-openwire test-topic consume-fn)]
     (producer "¿Qué pasa?")
     (await-flag flag)
     (is (instance? byte-array-type @received))
@@ -49,11 +49,24 @@
         received (atom nil)
         flag (prepare-flag)
         consume-fn (fn [obj] (reset! received obj) (set-flag flag))
-        consumer (create-single-consumer url-stomp test-topic consume-fn)]
-    (producer "¡No pasa nada!")
+        consumer (create-consumer url-stomp test-topic consume-fn)]
+    (producer "¿Cómo estás?")
     (await-flag flag)
     (is (instance? byte-array-type @received))
-    (is (= "¡No pasa nada!" (String. @received)))
+    (is (= "¿Cómo estás?" (String. @received)))
+    (close producer)
+    (close consumer)))
+
+(deftest openwire-to-websocket-string-test
+  (let [producer (create-producer url-openwire test-topic)
+        received (atom nil)
+        flag (prepare-flag)
+        consume-fn (fn [obj] (reset! received obj) (set-flag flag))
+        consumer (create-consumer url-websocket test-topic consume-fn)]
+    (producer "¿Qué tal?")
+    (await-flag flag)
+    (is (instance? byte-array-type @received))
+    (is (= "¿Qué tal?" (String. @received)))
     (close producer)
     (close consumer)))
 
