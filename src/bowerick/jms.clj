@@ -36,7 +36,7 @@
     (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationMap AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
     (org.fusesource.stomp.jms StompJmsConnectionFactory)
     (org.springframework.messaging.converter ByteArrayMessageConverter SmartMessageConverter StringMessageConverter)
-    (org.springframework.messaging.simp.stomp StompFrameHandler StompSession StompSessionHandler StompSessionHandlerAdapter)
+    (org.springframework.messaging.simp.stomp StompFrameHandler StompHeaders StompSession StompSessionHandler StompSessionHandlerAdapter)
     (org.springframework.web.socket.client WebSocketClient)
     (org.springframework.web.socket.messaging WebSocketStompClient)
     (org.springframework.web.socket.client.standard StandardWebSocketClient)))
@@ -358,30 +358,50 @@
     (create-single-producer server-url endpoint-description identity))
   ([^String server-url ^String endpoint-description serialization-fn]
     (println "Creating producer for endpoint description:" endpoint-description)
-    (with-endpoint server-url endpoint-description
-      (let [producer (doto
-                       (.createProducer session endpoint)
-                       (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
-        (->ProducerWrapper
-          (fn [data]
-            (let [serialized-data (serialization-fn data)]
-              (condp instance? serialized-data
-                byte-array-type (.send
-                                  producer
-                                  (doto
-                                    (.createBytesMessage session)
-                                    (.writeBytes ^bytes serialized-data)))
-                java.lang.String (.send
-                                   producer
-                                   (doto
-                                     (.createTextMessage session ^String serialized-data)
-                                     (.setStringProperty "transformation" "TEXT")))
-                (.send
-                  producer
-                  (.createObjectMessage session serialized-data)))))
-          (fn []
-            (println "Closing producer for endpoint description:" endpoint-description)
-            (.close connection)))))))
+    (cond
+      (.startsWith server-url "ws") (let [ws-client (StandardWebSocketClient.)
+                                          ws-stomp-client (WebSocketStompClient. ws-client)
+                                          session (atom nil)
+                                          flag (prepare-flag)]
+                                      (.setMessageConverter ws-stomp-client (StringMessageConverter.))
+                                      (.connect
+                                        ws-stomp-client
+                                        server-url
+                                        (proxy [StompSessionHandlerAdapter] []
+                                          (afterConnected [^StompSession new-session ^StompHeaders stomp-headers]
+                                            (reset! session new-session)
+                                            (set-flag flag)))
+                                        (await-flag flag)
+                                        (->ProducerWrapper
+                                          (fn [data]
+                                            (.send ^StompSession @session) ^String endpoint-description)
+                                          (fn []
+                                            (println "Closing producer for endpoint description:" endpoint-description)
+                                            (println "FIXME: Properly close websocket connection.")))))
+      :default (with-endpoint server-url endpoint-description
+                 (let [producer (doto
+                                  (.createProducer session endpoint)
+                                  (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
+                   (->ProducerWrapper
+                     (fn [data]
+                       (let [serialized-data (serialization-fn data)]
+                         (condp instance? serialized-data
+                           byte-array-type (.send
+                                             producer
+                                             (doto
+                                               (.createBytesMessage session)
+                                               (.writeBytes ^bytes serialized-data)))
+                           java.lang.String (.send
+                                              producer
+                                              (doto
+                                                (.createTextMessage session ^String serialized-data)
+                                                (.setStringProperty "transformation" "TEXT")))
+                           (.send
+                             producer
+                             (.createObjectMessage session serialized-data)))))
+                     (fn []
+                       (println "Closing producer for endpoint description:" endpoint-description)
+                       (.close connection))))))))
 
 (defrecord ConsumerWrapper [close-fn]
   AutoCloseable
