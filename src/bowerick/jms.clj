@@ -25,6 +25,7 @@
     (clojure.lang IFn)
     (com.ning.compress.lzf LZFDecoder LZFEncoder)
     (java.lang AutoCloseable)
+    (java.nio.charset Charset)
     (java.security KeyStore)
     (java.util ArrayList)
     (java.util.concurrent ArrayBlockingQueue)
@@ -362,8 +363,8 @@
       (.startsWith server-url "ws") (let [ws-client (StandardWebSocketClient.)
                                           ws-stomp-client (WebSocketStompClient. ws-client)
                                           session (atom nil)
-                                          flag (prepare-flag)]
-                                      (.setMessageConverter ws-stomp-client (StringMessageConverter.))
+                                          flag (prepare-flag)
+                                          charset (Charset/forName "UTF-8")]
                                       (.connect
                                         ws-stomp-client
                                         ^String server-url
@@ -376,10 +377,16 @@
                                       (->ProducerWrapper
                                         (fn [data]
                                           (let [serialized-data (serialization-fn data)
+                                                byte-array-data (condp instance? serialized-data
+                                                                  byte-array-type serialized-data
+                                                                  java.lang.String (.getBytes ^String serialized-data charset)
+                                                                  (.getBytes
+                                                                    ^String (cheshire.core/generate-string serialized-data)
+                                                                    charset))
                                                 stomp-headers (doto
                                                                 (StompHeaders.)
                                                                 (.setDestination ^String endpoint-description))]
-                                            (.send ^StompSession @session stomp-headers serialized-data)))
+                                            (.send ^StompSession @session stomp-headers byte-array-data)))
                                         (fn []
                                           (println "Closing producer for endpoint description:" endpoint-description)
                                           (.disconnect @session)
