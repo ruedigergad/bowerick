@@ -382,7 +382,7 @@
   ([server-url endpoint-description]
     (create-single-producer server-url endpoint-description identity))
   ([^String server-url ^String endpoint-description serialization-fn]
-    (println "Creating producer for endpoint description:" endpoint-description)
+    (println "Creating producer for server-url:" server-url ", endpoint description:" endpoint-description)
     (cond
       (.startsWith server-url "ws") (let [session-map (create-ws-stomp-session server-url)
                                           session ^StompSession (:session session-map)
@@ -448,27 +448,45 @@
   ([server-url endpoint-description cb]
     (create-single-consumer server-url endpoint-description cb identity))
   ([^String server-url ^String endpoint-description cb de-serialization-fn]
-    (println "Creating consumer for endpoint description:" endpoint-description)
-    (with-endpoint server-url endpoint-description
-      (let [listener (proxy [MessageListener] []
-                       (onMessage [^Message m]
-                         (condp instance? m
-                           BytesMessage (let [data (byte-array (.getBodyLength ^BytesMessage m))]
-                                          (.readBytes ^BytesMessage m data)
-                                          (cb (de-serialization-fn data)))
-                           ObjectMessage  (try
-                                            (cb (de-serialization-fn (.getObject ^ObjectMessage m)))
-                                            (catch javax.jms.JMSException e
-                                              (println e)))
-                           TextMessage (cb (de-serialization-fn (.getText ^TextMessage m)))
-                           (println "Unknown message type:" (type m)))))
-            consumer (doto
-                       (.createConsumer session endpoint)
-                       (.setMessageListener listener))]
-        (->ConsumerWrapper
-          (fn []
-            (println "Closing consumer for endpoint description:" endpoint-description)
-            (.close connection)))))))
+    (println "Creating consumer for server-url:" server-url ", endpoint description:" endpoint-description)
+    (cond
+      (.startsWith server-url "ws") (let [session-map (create-ws-stomp-session server-url)]
+                                      (println 0)
+                                      (.subscribe
+                                        (:session session-map)
+                                        endpoint-description
+                                        (proxy [StompFrameHandler] []
+                                          (getPayloadType [^StompHeaders stomp-headers]
+                                            (println 1)
+                                            java.lang.Object)
+                                          (handleFrame [^StompHeaders stomp-headers payload]
+                                            (println 2)
+                                            (cb (de-serialization-fn payload)))))
+                                      (println 3)
+                                      (->ConsumerWrapper
+                                        (fn []
+                                          (println "Closing consumer for endpoint description:" endpoint-description)
+                                          (close-ws-stomp-session session-map))))
+      :default (with-endpoint server-url endpoint-description
+                 (let [listener (proxy [MessageListener] []
+                                  (onMessage [^Message m]
+                                    (condp instance? m
+                                      BytesMessage (let [data (byte-array (.getBodyLength ^BytesMessage m))]
+                                                     (.readBytes ^BytesMessage m data)
+                                                     (cb (de-serialization-fn data)))
+                                      ObjectMessage  (try
+                                                       (cb (de-serialization-fn (.getObject ^ObjectMessage m)))
+                                                       (catch javax.jms.JMSException e
+                                                         (println e)))
+                                      TextMessage (cb (de-serialization-fn (.getText ^TextMessage m)))
+                                      (println "Unknown message type:" (type m)))))
+                       consumer (doto
+                                  (.createConsumer session endpoint)
+                                  (.setMessageListener listener))]
+                   (->ConsumerWrapper
+                     (fn []
+                       (println "Closing consumer for endpoint description:" endpoint-description)
+                       (.close connection))))))))
 
 (defn close
   "Close a producer or consumer."
