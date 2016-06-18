@@ -39,6 +39,7 @@
         consumer (create-single-consumer url-openwire test-topic consume-fn)]
     (producer "¿Que pasa?")
     (await-flag flag)
+    (is (instance? byte-array-type @received))
     (is (= "¿Que pasa?" (String. @received)))
     (close producer)
     (close consumer)))
