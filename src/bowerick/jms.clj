@@ -271,6 +271,30 @@
   [brkr]
   ((:stop brkr)))
 
+(defn create-ws-stomp-session
+  [server-url]
+  (let [ws-client (StandardWebSocketClient.)
+        ws-stomp-client (WebSocketStompClient. ws-client)
+        session (atom nil)
+        flag (prepare-flag)]
+    (.connect
+      ws-stomp-client
+      server-url
+      (proxy [StompSessionHandlerAdapter] []
+        (afterConnected [^StompSession new-session ^StompHeaders stomp-headers]
+          (reset! session new-session)
+          (set-flag flag)))
+      (object-array 0))
+    (await-flag flag)
+    {:ws-client ws-client
+     :ws-stomp-client ws-stomp-client
+     :session @session}))
+
+(defn close-ws-stomp-session
+  [session-map]
+  (.disconnect (:session session-map))
+  (.stop (:ws-stomp-client session-map)))
+
 (defmacro with-endpoint
   "Execute body in a context for which connection, session, and endpoint are
    made available based on the provided server-url and endpoint-description.
@@ -360,20 +384,9 @@
   ([^String server-url ^String endpoint-description serialization-fn]
     (println "Creating producer for endpoint description:" endpoint-description)
     (cond
-      (.startsWith server-url "ws") (let [ws-client (StandardWebSocketClient.)
-                                          ws-stomp-client (WebSocketStompClient. ws-client)
-                                          session (atom nil)
-                                          flag (prepare-flag)
+      (.startsWith server-url "ws") (let [session-map (create-ws-stomp-session server-url)
+                                          session (:session session-map)
                                           charset (Charset/forName "UTF-8")]
-                                      (.connect
-                                        ws-stomp-client
-                                        ^String server-url
-                                        ^StompSessionHandler (proxy [StompSessionHandlerAdapter] []
-                                                               (afterConnected [^StompSession new-session ^StompHeaders stomp-headers]
-                                                                 (reset! session new-session)
-                                                                 (set-flag flag)))
-                                        (object-array 0))
-                                      (await-flag flag)
                                       (->ProducerWrapper
                                         (fn [data]
                                           (let [serialized-data (serialization-fn data)
@@ -386,11 +399,10 @@
                                                 stomp-headers (doto
                                                                 (StompHeaders.)
                                                                 (.setDestination ^String endpoint-description))]
-                                            (.send ^StompSession @session stomp-headers byte-array-data)))
+                                            (.send ^StompSession session stomp-headers byte-array-data)))
                                         (fn []
                                           (println "Closing producer for endpoint description:" endpoint-description)
-                                          (.disconnect @session)
-                                          (.stop ws-stomp-client))))
+                                          (close-ws-stomp-session session-map))))
       :default (with-endpoint server-url endpoint-description
                  (let [producer (doto
                                   (.createProducer session endpoint)
