@@ -385,7 +385,7 @@
     (println "Creating producer for endpoint description:" endpoint-description)
     (cond
       (.startsWith server-url "ws") (let [session-map (create-ws-stomp-session server-url)
-                                          session (:session session-map)
+                                          session ^StompSession (:session session-map)
                                           charset (Charset/forName "UTF-8")]
                                       (->ProducerWrapper
                                         (fn [data]
@@ -399,7 +399,7 @@
                                                 stomp-headers (doto
                                                                 (StompHeaders.)
                                                                 (.setDestination ^String endpoint-description))]
-                                            (.send ^StompSession session stomp-headers byte-array-data)))
+                                            (.send session stomp-headers byte-array-data)))
                                         (fn []
                                           (println "Closing producer for endpoint description:" endpoint-description)
                                           (close-ws-stomp-session session-map))))
