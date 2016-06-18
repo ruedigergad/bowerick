@@ -38,7 +38,7 @@
         consumer (create-single-consumer url-openwire test-topic consume-fn)]
     (producer "¿Que pasa?")
     (await-flag flag)
-    (is (= "¿Que pasa?" @received))
+    (is (= "¿Que pasa?" (String. @received)))
     (close producer)
     (close consumer)))
 
