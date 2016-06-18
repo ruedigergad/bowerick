@@ -17,13 +17,13 @@
 
 
 
-(def url-openwire "tcp://127.0.0.1:42424")
+(def url-openwire "tcp://127.0.0.1:42423")
 (def url-stomp "stomp://127.0.0.1:42424")
 (def url-websocket "ws://127.0.0.1:42425")
 (def test-topic "/topic/testtopic.foo")
 
 (defn test-with-broker [t]
-  (let [broker (start-broker [url-openwire url-websocket])]
+  (let [broker (start-broker [url-openwire url-stomp url-websocket])]
     (t)
     (stop broker)))
 
@@ -37,10 +37,23 @@
         flag (prepare-flag)
         consume-fn (fn [obj] (reset! received obj) (set-flag flag))
         consumer (create-single-consumer url-openwire test-topic consume-fn)]
-    (producer "¿Que pasa?")
+    (producer "¿Qué pasa?")
     (await-flag flag)
     (is (instance? byte-array-type @received))
-    (is (= "¿Que pasa?" (String. @received)))
+    (is (= "¿Qué pasa?" (String. @received)))
+    (close producer)
+    (close consumer)))
+
+(deftest websocket-to-stomp-string-test
+  (let [producer (create-producer url-websocket test-topic)
+        received (atom nil)
+        flag (prepare-flag)
+        consume-fn (fn [obj] (reset! received obj) (set-flag flag))
+        consumer (create-single-consumer url-stomp test-topic consume-fn)]
+    (producer "¡No pasa nada!")
+    (await-flag flag)
+    (is (instance? byte-array-type @received))
+    (is (= "¡No pasa nada!" (String. @received)))
     (close producer)
     (close consumer)))
 
