@@ -375,7 +375,11 @@
                                       (await-flag flag)
                                       (->ProducerWrapper
                                         (fn [data]
-                                          (.send ^DefaultStompSession @session ^String endpoint-description data))
+                                          (let [serialized-data (serialization-fn data)
+                                                stomp-headers (doto
+                                                                (StompHeaders.)
+                                                                (.setDestination ^String endpoint-description))]
+                                            (.send ^StompSession @session stomp-headers serialized-data)))
                                         (fn []
                                           (println "Closing producer for endpoint description:" endpoint-description)
                                           (.disconnect @session)
