@@ -57,16 +57,16 @@
     (close producer)
     (close consumer)))
 
-(deftest openwire-to-websocket-string-test
-  (let [producer (create-producer url-openwire test-topic)
-        received (atom nil)
-        flag (prepare-flag)
-        consume-fn (fn [obj] (reset! received obj) (set-flag flag))
-        consumer (create-consumer url-websocket test-topic consume-fn)]
-    (producer "¿Qué tal?")
-    (await-flag flag)
-    (is (instance? byte-array-type @received))
-    (is (= "¿Qué tal?" (String. @received)))
-    (close producer)
-    (close consumer)))
+;(deftest openwire-to-websocket-string-test
+;  (let [producer (create-producer url-openwire test-topic)
+;        received (atom nil)
+;        flag (prepare-flag)
+;        consume-fn (fn [obj] (reset! received obj) (set-flag flag))
+;        consumer (create-consumer url-websocket test-topic consume-fn)]
+;    (producer "¿Qué tal?")
+;    (await-flag flag)
+;    (is (instance? byte-array-type @received))
+;    (is (= "¿Qué tal?" (String. @received)))
+;    (close producer)
+;    (close consumer)))
 
