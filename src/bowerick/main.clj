@@ -42,8 +42,10 @@
   (start-cli {:cmds
                {:send {:fn (fn [url data]
                              (str "Sent: " url " <- " data))}
+                :s :send
                 :receive {:fn (fn [url]
                                 (str "Set up consumer for: " url))}
+                :r :receive
                 }
               })
   )
