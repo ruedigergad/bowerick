@@ -57,3 +57,17 @@
             (str "\"Set up consumer for: " local-jms-server ":" test-topic "\"")))
         out-string))))
 
+(deftest simple-send-receive-test
+  (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
+                        (str "send " local-jms-server ":" test-topic " \"test-data\"")]
+        out-string (test-cli-stdout (fn [] (-main "-c") (sleep 200)) test-cmd-input)]
+    (is
+      (=
+        (expected-string
+          (conj
+            startup-string
+            (str "\"Set up consumer for: " local-jms-server ":" test-topic "\"")
+            (str "\"Sent: " local-jms-server ":" test-topic " <- test-data\"")
+            (str "\"Received: " local-jms-server ":" test-topic " -> test-data\"")))
+        out-string))))
+

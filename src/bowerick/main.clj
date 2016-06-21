@@ -16,7 +16,9 @@
   (:require
     [bowerick.jms :refer :all]
     [cli4clj.cli :refer :all]
+    [clj-assorted-utils.util :refer :all]
     [clojure.pprint :refer :all]
+    [clojure.string :as s]
     [clojure.tools.cli :refer :all])
   (:gen-class))
 
@@ -39,16 +41,36 @@
 (defn start-client-mode
   [arg-map]
   (println "Starting bowerick in client mode.")
-  (start-cli {:cmds
-               {:send {:fn (fn [url data]
-                             (str "Sent: " url " <- " data))}
-                :s :send
-                :receive {:fn (fn [url]
-                                (str "Set up consumer for: " url))}
-                :r :receive
-                }
-              })
-  )
+  (let [consumers (atom {})
+        producers (atom {})]
+    (start-cli {:cmds
+                 {:send {:fn (fn [url data]
+                               (when (not (@producers url))
+                                 (swap!
+                                   producers
+                                   assoc
+                                   url
+                                   (create-producer
+                                     (first (s/split (str url) #":(?=/[^/])"))
+                                     (second (s/split (str url) #":(?=/[^/])")))))
+                               ((@producers url) data)
+                               (str "Sent: " url " <- " data))}
+                  :s :send
+                  :receive {:fn (fn [url]
+                                  (when (not (@consumers url))
+                                    (swap!
+                                      consumers
+                                      assoc
+                                      url
+                                      (create-consumer
+                                        (first (s/split (str url) #":(?=/[^/])"))
+                                        (second (s/split (str url) #":(?=/[^/])"))
+                                        (fn [rcvd]
+                                          (println "Received: " url " -> " rcvd))))
+                                  (str "Set up consumer for: " url)))}
+                  :r :receive
+                  }
+                })))
 
 (defn -main [& args]
   (let [cli-args (cli args
