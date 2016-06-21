@@ -15,6 +15,7 @@
     [cheshire.core :only [generate-string parse-string]])
   (:require
     [bowerick.jms :refer :all]
+    [cli4clj.cli :refer :all]
     [clojure.pprint :refer :all]
     [clojure.tools.cli :refer :all])
   (:gen-class))
@@ -37,7 +38,13 @@
 
 (defn start-client-mode
   [arg-map]
-  (println "Starting bowerick in client mode."))
+  (println "Starting bowerick in client mode.")
+  (start-cli {:cmds
+               {:send {:fn (fn [url endpoint data]
+                             (str "Sent '" data "' to: " url endpoint)
+                             )}}
+              })
+  )
 
 (defn -main [& args]
   (let [cli-args (cli args
