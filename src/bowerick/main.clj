@@ -38,25 +38,8 @@
     (pprint extra-args)
     (let [url (arg-map :url)
           broker-service (start-broker url)
-          broker-info-producer (create-producer url "/topic/broker.info.reply")
-          broker-info-fn (fn [msg]
-                           (if (= (type msg) java.lang.String)
-                             (let [m (parse-string msg)
-                                   cmd (m "cmd")
-                                   args (m "args")]
-                               (condp = cmd
-                                 "get-destinations" (let [dst-vector (get-destinations broker-service)
-                                                          dst-json (generate-string {"destinations" dst-vector})]
-                                                      (broker-info-producer dst-json))
-                                 (send-error-msg broker-info-producer (str "Invalid broker.info.cmd message: " msg))))
-                             (send-error-msg broker-info-producer (str "Invalid data type for broker.info.cmd message: " (type msg)))))
-          broker-info-consumer (create-consumer url "/topic/broker.info.cmd" broker-info-fn)
           shutdown-fn (fn []
-                        (broker-info-producer :close)
-                        (broker-info-consumer :close)
-                        (.stop broker-service))]
-      ;;; Running the main from, e.g., leiningen results in stdout not being properly accessible.
-      ;;; Hence, this will not work when run this way but works when run from a jar via "java -jar ...".
+                        (stop broker-service))]
       (if (:daemon arg-map)
         (-> (agent 0) (await))
         (do
