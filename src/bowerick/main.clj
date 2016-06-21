@@ -57,17 +57,19 @@
                                (str "Sent: " url " <- " data))}
                   :s :send
                   :receive {:fn (fn [url]
-                                  (when (not (@consumers url))
-                                    (swap!
-                                      consumers
-                                      assoc
-                                      url
-                                      (create-consumer
-                                        (first (s/split (str url) #":(?=/[^/])"))
-                                        (second (s/split (str url) #":(?=/[^/])"))
-                                        (fn [rcvd]
-                                          (println "Received: " url " -> " rcvd))))
-                                  (str "Set up consumer for: " url)))}
+                                  (let [out-binding *out*]
+                                    (when (not (@consumers url))
+                                      (swap!
+                                        consumers
+                                        assoc
+                                        url
+                                        (create-consumer
+                                          (first (s/split (str url) #":(?=/[^/])"))
+                                          (second (s/split (str url) #":(?=/[^/])"))
+                                          (fn [rcvd]
+                                            (binding [*out* out-binding]
+                                              (println "Received:" url "->" rcvd)))))
+                                    (str "Set up consumer for: " url))))}
                   :r :receive
                   }
                 })))

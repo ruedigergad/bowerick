@@ -68,6 +68,6 @@
             startup-string
             (str "\"Set up consumer for: " local-jms-server ":" test-topic "\"")
             (str "\"Sent: " local-jms-server ":" test-topic " <- test-data\"")
-            (str "\"Received: " local-jms-server ":" test-topic " -> test-data\"")))
+            (str "Received: " local-jms-server ":" test-topic " -> test-data")))
         out-string))))
 
