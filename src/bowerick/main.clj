@@ -41,8 +41,10 @@
   (println "Starting bowerick in client mode.")
   (start-cli {:cmds
                {:send {:fn (fn [url data]
-                             (str "Sent '" data "' to: " url)
-                             )}}
+                             (str "Sent: " url " <- " data))}
+                :receive {:fn (fn [url]
+                                (str "Set up consumer for: " url))}
+                }
               })
   )
 

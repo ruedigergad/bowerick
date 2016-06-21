@@ -43,6 +43,17 @@
         (expected-string
           (conj
             startup-string
-            (str "\"Sent 'test-data' to: " local-jms-server ":" test-topic "\"")))
+            (str "\"Sent: " local-jms-server ":" test-topic " <- test-data\"")))
+        out-string))))
+
+(deftest dummy-receive-test
+  (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)]
+        out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
+    (is
+      (=
+        (expected-string
+          (conj
+            startup-string
+            (str "\"Set up consumer for: " local-jms-server ":" test-topic "\"")))
         out-string))))
 
