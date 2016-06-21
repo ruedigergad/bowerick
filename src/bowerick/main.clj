@@ -9,7 +9,7 @@
 
 (ns
   ^{:author "Ruediger Gad",
-    :doc "Main class to start a simple ActiveMQ broker instance."}
+    :doc "Main class to start the bowerick stand-alone application."}
   bowerick.main
   (:use
     [cheshire.core :only [generate-string parse-string]])
