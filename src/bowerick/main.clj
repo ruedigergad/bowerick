@@ -40,8 +40,8 @@
   [arg-map]
   (println "Starting bowerick in client mode.")
   (start-cli {:cmds
-               {:send {:fn (fn [url endpoint data]
-                             (str "Sent '" data "' to: " url endpoint)
+               {:send {:fn (fn [url data]
+                             (str "Sent '" data "' to: " url)
                              )}}
               })
   )

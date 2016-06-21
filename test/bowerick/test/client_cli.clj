@@ -36,12 +36,13 @@
 
 
 (deftest dummy-send-test
-  (let [test-cmd-input [(str "send \"" local-jms-server "\" \"" test-topic "\" \"test-data\"")]
+  (let [test-cmd-input [(str "send " local-jms-server ":" test-topic " \"test-data\"")]
         out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
     (is
       (=
         (expected-string
-          (conj startup-string
-            (str "\"Sent 'test-data' to: " local-jms-server test-topic "\"")))
+          (conj
+            startup-string
+            (str "\"Sent 'test-data' to: " local-jms-server ":" test-topic "\"")))
         out-string))))
 
