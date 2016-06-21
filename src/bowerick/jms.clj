@@ -102,7 +102,7 @@
     (and
       (file-exists? *key-store-file*)
       (file-exists? *trust-store-file*))
-    (println
+    (println-err
       "Setting default SSLContext to use key store file:"
       *key-store-file*
       "and trust store file:"
@@ -140,7 +140,7 @@
       (sort @dst-vector))))
 
 (defn send-error-msg [producer msg]
-  (println msg)
+  (println-err msg)
   (producer (str "error " msg)))
 
 (defn setup-broker-with-auth
@@ -159,7 +159,7 @@
                                 (.setAnonymousGroup "anonymous"))
         authorization-entries (map
                                 (fn [perm]
-                                  (println "Setting permission:" perm)
+                                  (println-err "Setting permission:" perm)
                                   (let [trgt (perm "target")
                                         adm (perm "admin")
                                         rd (perm "read")
@@ -232,7 +232,7 @@
                                (sequential? address) (first address)
                                :default address)
           producer (try
-                     (println "Info: Enabling management producer at:" *broker-management-reply-topic*)
+                     (println-err "Info: Enabling management producer at:" *broker-management-reply-topic*)
                      (binding [*trust-store-file* *key-store-file*
                                *trust-store-password* *key-store-password*
                                *key-store-file* *trust-store-file*
@@ -242,9 +242,9 @@
                          *broker-management-reply-topic*
                          generate-string))
                      (catch Exception e
-                       (println "Warning: Could not create management producer for:" *broker-management-reply-topic*)))
+                       (println-err "Warning: Could not create management producer for:" *broker-management-reply-topic*)))
           consumer (try
-                     (println "Info: Enabling management consumer at:" *broker-management-command-topic*)
+                     (println-err "Info: Enabling management consumer at:" *broker-management-command-topic*)
                      (binding [*trust-store-file* *key-store-file*
                                *trust-store-password* *key-store-password*
                                *key-store-file* *trust-store-file*
@@ -259,7 +259,7 @@
                              (send-error-msg producer (str "Unknown command: " cmd))))
                          parse-string))
                      (catch Exception e
-                       (println "Warning: Could not create management consumer for:" *broker-management-command-topic*)))]
+                       (println-err "Warning: Could not create management consumer for:" *broker-management-command-topic*)))]
       (.waitUntilStarted broker)
       {:broker broker
        :stop (fn []
@@ -337,10 +337,10 @@
          ~'connection (doto
                         (if (and (not (nil? *user-name*)) (not (nil? *user-password*)))
                           (do
-                            (println "Creating connection for user:" *user-name*)
+                            (println-err "Creating connection for user:" *user-name*)
                             (.createConnection factory# *user-name* *user-password*))
                           (do
-                            (println "Creating connection.")
+                            (println-err "Creating connection.")
                             (.createConnection factory#)))
                         (.start))
          ~'session ~(with-meta
@@ -349,11 +349,11 @@
          split-endpoint# (filter #(not= % "") (split ~endpoint-description #"/"))
          endpoint-type# (first split-endpoint#)
          endpoint-name# (join "/" (rest split-endpoint#))
-         _# (println "Creating endpoint. Type:" endpoint-type# "Name:" endpoint-name#)
+         _# (println-err "Creating endpoint. Type:" endpoint-type# "Name:" endpoint-name#)
          ~'endpoint (condp = endpoint-type#
                       "topic" (.createTopic ~'session endpoint-name#)
                       "queue" (.createQueue ~'session endpoint-name#)
-                      (println "Could not create endpoint. Type:" endpoint-type# "Name:" endpoint-name#))]
+                      (println-err "Could not create endpoint. Type:" endpoint-type# "Name:" endpoint-name#))]
      ~@body))
 
 (defrecord ProducerWrapper [send-fn close-fn]
@@ -385,7 +385,7 @@
   ([server-url endpoint-description]
     (create-single-producer server-url endpoint-description identity))
   ([^String server-url ^String endpoint-description serialization-fn]
-    (println "Creating producer for server-url:" server-url ", endpoint description:" endpoint-description)
+    (println-err "Creating producer for server-url:" server-url ", endpoint description:" endpoint-description)
     (cond
       (.startsWith server-url "ws") (let [session-map (create-ws-stomp-session server-url)
                                           session ^StompSession (:session session-map)
@@ -404,7 +404,7 @@
                                                                 (.setDestination ^String endpoint-description))]
                                             (.send session stomp-headers byte-array-data)))
                                         (fn []
-                                          (println "Closing producer for endpoint description:" endpoint-description)
+                                          (println-err "Closing producer for endpoint description:" endpoint-description)
                                           (close-ws-stomp-session session-map))))
       :default (with-endpoint server-url endpoint-description
                  (let [producer (doto
@@ -428,7 +428,7 @@
                              producer
                              (.createObjectMessage session serialized-data)))))
                      (fn []
-                       (println "Closing producer for endpoint description:" endpoint-description)
+                       (println-err "Closing producer for endpoint description:" endpoint-description)
                        (.close connection))))))))
 
 (defrecord ConsumerWrapper [close-fn]
@@ -451,24 +451,24 @@
   ([server-url endpoint-description cb]
     (create-single-consumer server-url endpoint-description cb identity))
   ([^String server-url ^String endpoint-description cb de-serialization-fn]
-    (println "Creating consumer for server-url:" server-url ", endpoint description:" endpoint-description)
+    (println-err "Creating consumer for server-url:" server-url ", endpoint description:" endpoint-description)
     (cond
       (.startsWith server-url "ws") (let [session-map (create-ws-stomp-session server-url)]
-                                      (println 0)
+                                      (println-err 0)
                                       (.subscribe
                                         (:session session-map)
                                         endpoint-description
                                         (proxy [StompFrameHandler] []
                                           (getPayloadType [^StompHeaders stomp-headers]
-                                            (println 1)
+                                            (println-err 1)
                                             java.lang.Object)
                                           (handleFrame [^StompHeaders stomp-headers payload]
-                                            (println 2)
+                                            (println-err 2)
                                             (cb (de-serialization-fn payload)))))
-                                      (println 3)
+                                      (println-err 3)
                                       (->ConsumerWrapper
                                         (fn []
-                                          (println "Closing consumer for endpoint description:" endpoint-description)
+                                          (println-err "Closing consumer for endpoint description:" endpoint-description)
                                           (close-ws-stomp-session session-map))))
       :default (with-endpoint server-url endpoint-description
                  (let [listener (proxy [MessageListener] []
@@ -480,15 +480,15 @@
                                       ObjectMessage  (try
                                                        (cb (de-serialization-fn (.getObject ^ObjectMessage m)))
                                                        (catch javax.jms.JMSException e
-                                                         (println e)))
+                                                         (println-err e)))
                                       TextMessage (cb (de-serialization-fn (.getText ^TextMessage m)))
-                                      (println "Unknown message type:" (type m)))))
+                                      (println-err "Unknown message type:" (type m)))))
                        consumer (doto
                                   (.createConsumer session endpoint)
                                   (.setMessageListener listener))]
                    (->ConsumerWrapper
                      (fn []
-                       (println "Closing consumer for endpoint description:" endpoint-description)
+                       (println-err "Closing consumer for endpoint description:" endpoint-description)
                        (.close connection))))))))
 
 (defn close
@@ -511,7 +511,7 @@
   ([server-url endpoint-description pool-size]
     (create-pooled-producer server-url endpoint-description pool-size identity))
   ([server-url endpoint-description ^long pool-size serialization-fn]
-    (println "Creating pooled producer for endpoint description:" endpoint-description "; Pool size:" pool-size)
+    (println-err "Creating pooled producer for endpoint description:" endpoint-description "; Pool size:" pool-size)
     (let [producer (create-single-producer server-url endpoint-description serialization-fn)
           pool (ArrayList. pool-size)]
       (->ProducerWrapper
@@ -521,7 +521,7 @@
             (producer pool)
             (.clear pool)))
         (fn []
-          (println "Closing pooled producer for endpoint description:" endpoint-description)
+          (println-err "Closing pooled producer for endpoint description:" endpoint-description)
           (.close producer))))))
 
 (defn create-pooled-consumer
@@ -538,14 +538,14 @@
   ([server-url endpoint-description cb]
     (create-pooled-consumer server-url endpoint-description cb identity))
   ([server-url endpoint-description cb de-serialization-fn]
-    (println "Creating pooled consumer for endpoint description:" endpoint-description)
+    (println-err "Creating pooled consumer for endpoint description:" endpoint-description)
     (let [pooled-cb (fn [^ArrayList lst]
                       (doseq [o lst]
                         (cb o)))
           consumer (create-single-consumer server-url endpoint-description pooled-cb de-serialization-fn)]
       (->ConsumerWrapper
         (fn []
-          (println "Closing pooled consumer for endpoint description:" endpoint-description)
+          (println-err "Closing pooled consumer for endpoint description:" endpoint-description)
           (close consumer))))))
 
 (defn create-producer
@@ -571,7 +571,7 @@
     (cond
       (= pool-size 1) (create-single-producer server-url endpoint-description serialization-fn)
       (> pool-size 1) (create-pooled-producer server-url endpoint-description pool-size serialization-fn)
-      :default (println "Error: Invalid pool size:" pool-size))))
+      :default (println-err "Error: Invalid pool size:" pool-size))))
 
 (defn create-consumer
   "Create a message consumer for receiving data from the specified endpoint and server/broker.
@@ -592,7 +592,7 @@
     (cond
       (= pool-size 1) (create-single-consumer server-url endpoint-description cb de-serialization-fn)
       (> pool-size 1) (create-pooled-consumer server-url endpoint-description cb de-serialization-fn)
-      :default (println "Error: Invalid pool size:" pool-size))))
+      :default (println-err "Error: Invalid pool size:" pool-size))))
 
 (defn create-nippy-producer
   "Create a producer that uses nippy for serialization.
@@ -610,7 +610,7 @@
     (create-nippy-producer
       server-url endpoint-description pool-size {}))
   ([server-url endpoint-description pool-size nippy-opts]
-    (println "Creating nippy producer for endpoint description:" endpoint-description
+    (println-err "Creating nippy producer for endpoint description:" endpoint-description
              "with options:" nippy-opts)
     (create-producer
       server-url
@@ -649,7 +649,7 @@
   ([server-url endpoint-description pool-size]
      (create-nippy-lzf-producer server-url endpoint-description pool-size {}))
   ([server-url endpoint-description pool-size nippy-opts]
-    (println "Creating nippy lzf producer for endpoint description:" endpoint-description)
+    (println-err "Creating nippy lzf producer for endpoint description:" endpoint-description)
     (create-producer
       server-url
       endpoint-description
@@ -666,7 +666,7 @@
   ([server-url endpoint-description cb pool-size]
     (create-nippy-lzf-consumer server-url endpoint-description cb pool-size {}))
   ([server-url endpoint-description cb pool-size nippy-opts]
-    (println "Creating nippy lzf consumer for endpoint description:" endpoint-description)
+    (println-err "Creating nippy lzf consumer for endpoint description:" endpoint-description)
     (create-consumer
       server-url
       endpoint-description
@@ -682,7 +682,7 @@
   ([server-url endpoint-description]
     (create-carbonite-producer server-url endpoint-description 1))
   ([server-url endpoint-description pool-size]
-    (println "Creating carbonite producer for endpoint description:" endpoint-description)
+    (println-err "Creating carbonite producer for endpoint description:" endpoint-description)
     (let [reg (carb-api/default-registry)]
       (create-producer
         server-url
@@ -698,7 +698,7 @@
   ([server-url endpoint-description cb]
     (create-carbonite-consumer server-url endpoint-description cb 1))
   ([server-url endpoint-description cb pool-size]
-    (println "Creating carbonite consumer for endpoint description:" endpoint-description)
+    (println-err "Creating carbonite consumer for endpoint description:" endpoint-description)
     (let [reg (carb-api/default-registry)]
       (create-consumer
         server-url
@@ -715,7 +715,7 @@
   ([server-url endpoint-description]
     (create-carbonite-lzf-producer server-url endpoint-description 1))
   ([server-url endpoint-description pool-size]
-    (println "Creating carbonite lzf producer for endpoint description:" endpoint-description)
+    (println-err "Creating carbonite lzf producer for endpoint description:" endpoint-description)
     (let [reg (carb-api/default-registry)]
       (create-producer
         server-url
@@ -731,7 +731,7 @@
   ([server-url endpoint-description cb]
     (create-carbonite-lzf-consumer server-url endpoint-description cb 1))
   ([server-url endpoint-description cb pool-size]
-    (println "Creating carbonite lzf consumer for endpoint description:" endpoint-description)
+    (println-err "Creating carbonite lzf consumer for endpoint description:" endpoint-description)
     (let [reg (carb-api/default-registry)]
       (create-consumer
         server-url
@@ -742,7 +742,7 @@
           (carb-buf/read-bytes reg (LZFDecoder/decode ^bytes ba)))))))
 
 ;(defn create-pooled-bytes-message-producer [^String server-url ^String endpoint-description pool-size]
-;  (println "Creating pooled-bytes-message-producer for endpoint description:" endpoint-description)
+;  (println-err "Creating pooled-bytes-message-producer for endpoint description:" endpoint-description)
 ;  (with-endpoint server-url endpoint-description
 ;    (let [producer (doto
 ;                     (.createProducer session endpoint)
