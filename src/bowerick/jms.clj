@@ -228,6 +228,9 @@
                 (.addConnector broker addr))
               (.addConnector broker address))
           _ (.start broker)
+          management-address (cond
+                               (sequential? address) (first address)
+                               :default address)
           producer (try
                      (println "Info: Enabling management producer at:" *broker-management-reply-topic*)
                      (binding [*trust-store-file* *key-store-file*
@@ -235,7 +238,7 @@
                                *key-store-file* *trust-store-file*
                                *key-store-password* *trust-store-password*]
                        (create-single-producer
-                         address
+                         management-address
                          *broker-management-reply-topic*
                          generate-string))
                      (catch Exception e
@@ -247,7 +250,7 @@
                                *key-store-file* *trust-store-file*
                                *key-store-password* *trust-store-password*]
                        (create-single-consumer
-                         address
+                         management-address
                          *broker-management-command-topic*
                          (fn [cmd]
                            (condp = cmd
