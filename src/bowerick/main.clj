@@ -38,6 +38,14 @@
         (println "Shutting down...")
         (shutdown-fn)))))
 
+(def url-format-help-string
+  (str
+    "The URL format is: <PROTOCOL>://<ADDRESS>:<PORT>:/[topic,queue]/<NAME>"
+    "\n\t<PROTOCOL> can be, e.g.,: tcp, udp, stomp, ssl stomp+ssl"
+    "\n\t<ADDRESS> is the IP address or name of the broker."
+    "\n\t<PORT> is the port number on which the broker listens."
+    "\n\t<NAME> is the name of the topic/queue to which the data will be sent."))
+
 (defn start-client-mode
   [arg-map]
   (println-err "Starting bowerick in client mode.")
@@ -56,7 +64,10 @@
                                      (second (s/split (str url) #":(?=/[^/])")))))
                                (println "Sending:" url "<-")
                                (pprint data)
-                               ((@producers url) data))}
+                               ((@producers url) data))
+                         :short-info "Send data to URL."
+                         :long-info (str
+                                      url-format-help-string)}
                   :s :send
                   :receive {:fn (fn [url]
                                   (when (not (@consumers url))
@@ -71,7 +82,9 @@
                                           (binding [*out* out-binding]
                                             (println "Received:" url "->")
                                             (pprint rcvd)))))
-                                  (println "Set up consumer for:" url)))}
+                                  (println "Set up consumer for:" url)))
+                         :short-info "Set up a consumer for receiving data from URL."
+                         :long-info (str url-format-help-string)}
                   :r :receive}
                 :prompt-string "bowerick# "})))
 
