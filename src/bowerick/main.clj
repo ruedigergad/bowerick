@@ -41,10 +41,12 @@
 (def url-format-help-string
   (str
     "The URL format is: <PROTOCOL>://<ADDRESS>:<PORT>:/[topic,queue]/<NAME>"
-    "\n\t<PROTOCOL> can be, e.g.,: tcp, udp, stomp, ssl stomp+ssl"
+    "\n\t<PROTOCOL> can be, e.g.: tcp, udp, stomp, ssl or stomp+ssl"
     "\n\t<ADDRESS> is the IP address or name of the broker."
     "\n\t<PORT> is the port number on which the broker listens."
-    "\n\t<NAME> is the name of the topic/queue to which the data will be sent."))
+    "\n\t<NAME> is the name of the topic/queue to which the data will be sent."
+    "\n\tAn example of an URL is: tcp://localhost:61616:/topic/test.topic.name"
+    ))
 
 (defn start-client-mode
   [arg-map]
@@ -84,7 +86,8 @@
                                             (pprint rcvd)))))
                                   (println "Set up consumer for:" url)))
                          :short-info "Set up a consumer for receiving data from URL."
-                         :long-info (str url-format-help-string)}
+                         :long-info (str
+                                      url-format-help-string)}
                   :r :receive}
                 :prompt-string "bowerick# "})))
 
