@@ -72,9 +72,8 @@
                                             (println "Received:" url "->")
                                             (pprint rcvd)))))
                                   (println "Set up consumer for:" url)))}
-                  :r :receive
-                  }
-                })))
+                  :r :receive}
+                :prompt-string "bowerick# "})))
 
 (defn -main [& args]
   (let [cli-args (cli args
