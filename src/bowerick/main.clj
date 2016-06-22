@@ -54,7 +54,8 @@
                                    (create-producer
                                      (first (s/split (str url) #":(?=/[^/])"))
                                      (second (s/split (str url) #":(?=/[^/])")))))
-                               (println "Sending:" url "<-" data)  
+                               (print "Sending:" url "<- ")
+                               (pprint data)
                                ((@producers url) data))}
                   :s :send
                   :receive {:fn (fn [url]
@@ -68,7 +69,8 @@
                                         (second (s/split (str url) #":(?=/[^/])"))
                                         (fn [rcvd]
                                           (binding [*out* out-binding]
-                                            (println "Received:" url "->" rcvd)))))
+                                            (print "Received:" url "-> ")
+                                            (pprint rcvd)))))
                                   (println "Set up consumer for:" url)))}
                   :r :receive
                   }
