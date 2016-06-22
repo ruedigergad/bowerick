@@ -24,7 +24,7 @@
 
 (defn start-broker-mode
   [arg-map]
-  (println "Starting bowerick in broker mode.")
+  (println-err "Starting bowerick in broker mode.")
   (let [url (arg-map :url)
         broker-service (start-broker url)
         shutdown-fn (fn []
@@ -40,7 +40,7 @@
 
 (defn start-client-mode
   [arg-map]
-  (println "Starting bowerick in client mode.")
+  (println-err "Starting bowerick in client mode.")
   (let [consumers (atom {})
         producers (atom {})
         out-binding *out*]
@@ -90,9 +90,10 @@
     (when (arg-map :help)
       (println help-string)
       (System/exit 0))
-    (println "Starting bowerick using the following options:")
-    (pprint arg-map)
-    (pprint extra-args)
+    (binding [*out* *err*]
+      (println "Starting bowerick using the following options:")
+      (pprint arg-map)
+      (pprint extra-args))
     (if (:client arg-map)
       (start-client-mode arg-map)
       (start-broker-mode arg-map))))

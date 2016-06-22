@@ -21,10 +21,6 @@
 
 (def local-jms-server "tcp://127.0.0.1:42424")
 (def test-topic "/topic/testtopic.foo")
-(def startup-string ["Starting bowerick using the following options:"
-                     "{:client true, :daemon false, :help false, :url \"tcp://localhost:61616\"}"
-                     "[]"
-                     "Starting bowerick in client mode."])
 
 (defn test-with-broker [t]
   (let [broker (start-broker local-jms-server)]
@@ -41,9 +37,7 @@
     (is
       (=
         (expected-string
-          (conj
-            startup-string
-            (str "\"Sent: " local-jms-server ":" test-topic " <- test-data\"")))
+          [(str "\"Sent: " local-jms-server ":" test-topic " <- test-data\"")])
         out-string))))
 
 (deftest dummy-receive-test
@@ -52,9 +46,7 @@
     (is
       (=
         (expected-string
-          (conj
-            startup-string
-            (str "\"Set up consumer for: " local-jms-server ":" test-topic "\"")))
+          [(str "\"Set up consumer for: " local-jms-server ":" test-topic "\"")])
         out-string))))
 
 (deftest simple-send-receive-test
@@ -64,10 +56,8 @@
     (is
       (=
         (expected-string
-          (conj
-            startup-string
-            (str "\"Set up consumer for: " local-jms-server ":" test-topic "\"")
-            (str "\"Sent: " local-jms-server ":" test-topic " <- test-data\"")
-            (str "Received: " local-jms-server ":" test-topic " -> test-data")))
+          [(str "\"Set up consumer for: " local-jms-server ":" test-topic "\"")
+           (str "\"Sent: " local-jms-server ":" test-topic " <- test-data\"")
+           (str "Received: " local-jms-server ":" test-topic " -> test-data")])
         out-string))))
 
