@@ -37,7 +37,7 @@
     (is
       (=
         (expected-string
-          [(str "\"Sent: " local-jms-server ":" test-topic " <- test-data\"")])
+          [(str "Sending: " local-jms-server ":" test-topic " <- test-data")])
         out-string))))
 
 (deftest dummy-receive-test
@@ -46,7 +46,7 @@
     (is
       (=
         (expected-string
-          [(str "\"Set up consumer for: " local-jms-server ":" test-topic "\"")])
+          [(str "Set up consumer for: " local-jms-server ":" test-topic)])
         out-string))))
 
 (deftest simple-send-receive-test
@@ -56,8 +56,8 @@
     (is
       (=
         (expected-string
-          [(str "\"Set up consumer for: " local-jms-server ":" test-topic "\"")
-           (str "\"Sent: " local-jms-server ":" test-topic " <- test-data\"")
+          [(str "Set up consumer for: " local-jms-server ":" test-topic)
+           (str "Sending: " local-jms-server ":" test-topic " <- test-data")
            (str "Received: " local-jms-server ":" test-topic " -> test-data")])
         out-string))))
 
