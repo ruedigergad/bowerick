@@ -48,6 +48,20 @@
     "\n\tAn example of an URL is: tcp://localhost:61616:/topic/test.topic.name"
     ))
 
+(defn create-cached-endpoint
+  [cache url endpoint-factory-fn & args]
+  (when (not (@cache url))
+    (swap!
+      cache
+      assoc
+      url
+      (apply
+        endpoint-factory-fn
+        (conj
+          args
+          (second (s/split (str url) #":(?=/[^/])"))
+          (first (s/split (str url) #":(?=/[^/])")))))))
+
 (defn start-client-mode
   [arg-map]
   (println-err "Starting bowerick in client mode.")
@@ -56,14 +70,7 @@
         out-binding *out*]
     (start-cli {:cmds
                  {:send {:fn (fn [url data]
-                               (when (not (@producers url))
-                                 (swap!
-                                   producers
-                                   assoc
-                                   url
-                                   (create-producer
-                                     (first (s/split (str url) #":(?=/[^/])"))
-                                     (second (s/split (str url) #":(?=/[^/])")))))
+                               (create-cached-endpoint producers url create-producer)
                                (println "Sending:" url "<-")
                                (pprint data)
                                ((@producers url) data))
@@ -72,23 +79,21 @@
                                       url-format-help-string)}
                   :s :send
                   :receive {:fn (fn [url]
-                                  (when (not (@consumers url))
-                                    (swap!
-                                      consumers
-                                      assoc
-                                      url
-                                      (create-consumer
-                                        (first (s/split (str url) #":(?=/[^/])"))
-                                        (second (s/split (str url) #":(?=/[^/])"))
-                                        (fn [rcvd]
-                                          (binding [*out* out-binding]
-                                            (println "Received:" url "->")
-                                            (pprint rcvd)))))
-                                  (println "Set up consumer for:" url)))
+                                  (create-cached-endpoint
+                                    consumers
+                                    url
+                                    create-consumer
+                                    (fn [rcvd]
+                                      (binding [*out* out-binding]
+                                        (println "Received:" url "->")
+                                        (pprint rcvd))))
+                                  (println "Set up consumer for:" url))
                          :short-info "Set up a consumer for receiving data from URL."
                          :long-info (str
                                       url-format-help-string)}
-                  :r :receive}
+                  :r :receive
+                  :management {:fn (fn [url command & args])}
+                  }
                 :prompt-string "bowerick# "})))
 
 (defn -main [& args]
