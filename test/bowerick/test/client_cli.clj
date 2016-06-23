@@ -64,3 +64,16 @@
            "\"test-data\""])
         out-string))))
 
+(deftest broker-management-get-destinations-test
+  (let [test-cmd-input [(str "management \"" local-jms-server "\" get-destinations")]
+        out-string (test-cli-stdout (fn [] (-main "-c") (sleep 200)) test-cmd-input)]
+    (is
+      (=
+        (expected-string
+          ["Management Command: tcp://127.0.0.1:42424:/topic/bowerick.broker.management.command <-"
+           "\"get-destinations\""
+           "Management Reply: tcp://127.0.0.1:42424 ->"
+           "(\"/topic/bowerick.broker.management.command\""
+           " \"/topic/bowerick.broker.management.reply\")"]          )
+        out-string))))
+

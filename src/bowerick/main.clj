@@ -100,10 +100,15 @@
                                        (fn [reply]
                                          (binding [*out* out-binding]
                                            (println "Management Reply:" broker-url "->")
-                                           (pprint reply))))
-                                     (create-cached-destination
-                                       producers
-                                       (str broker-url ":" *broker-management-command-topic*)))}
+                                           (pprint reply)))
+                                       1
+                                       cheshire.core/parse-string)
+                                     (let [cmd-destination (str broker-url ":" *broker-management-command-topic*)
+                                           cmd-with-args (str command (reduce #(str %1 " " %2) "" args))]
+                                       (create-cached-destination producers cmd-destination create-producer 1 cheshire.core/generate-string)
+                                       (println "Management Command:" cmd-destination "<-")
+                                       (pprint cmd-with-args)
+                                       ((@producers cmd-destination) cmd-with-args)))}
                   }
                 :prompt-string "bowerick# "})))
 
