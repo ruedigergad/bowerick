@@ -74,6 +74,26 @@
            "\"get-destinations\""
            "Management Reply: tcp://127.0.0.1:42424 ->"
            "(\"/topic/bowerick.broker.management.command\""
-           " \"/topic/bowerick.broker.management.reply\")"]          )
+           " \"/topic/bowerick.broker.management.reply\")"])
+        out-string))))
+
+(deftest broker-management-get-all-destinations-test
+  (let [test-cmd-input [(str "management \"" local-jms-server "\" get-all-destinations")]
+        out-string (test-cli-stdout (fn [] (-main "-c") (sleep 200)) test-cmd-input)]
+    (is
+      (=
+        (expected-string
+          ["Management Command: tcp://127.0.0.1:42424:/topic/bowerick.broker.management.command <-"
+           "\"get-all-destinations\""
+           "Management Reply: tcp://127.0.0.1:42424 ->"
+           "(\"/topic/ActiveMQ.Advisory.Connection\""
+           " \"/topic/ActiveMQ.Advisory.Consumer.Topic.bowerick.broker.management.command\""
+           " \"/topic/ActiveMQ.Advisory.Consumer.Topic.bowerick.broker.management.reply\""
+           " \"/topic/ActiveMQ.Advisory.MasterBroker\""
+           " \"/topic/ActiveMQ.Advisory.Producer.Topic.bowerick.broker.management.command\""
+           " \"/topic/ActiveMQ.Advisory.Producer.Topic.bowerick.broker.management.reply\""
+           " \"/topic/ActiveMQ.Advisory.Topic\""
+           " \"/topic/bowerick.broker.management.command\""
+           " \"/topic/bowerick.broker.management.reply\")"])
         out-string))))
 
