@@ -38,29 +38,29 @@
         (println "Shutting down...")
         (shutdown-fn)))))
 
-(def url-format-help-string
+(def destination-url-format-help-string
   (str
-    "The URL format is: <PROTOCOL>://<ADDRESS>:<PORT>:/[topic,queue]/<NAME>"
+    "The destination-url format is: <PROTOCOL>://<ADDRESS>:<PORT>:/[topic,queue]/<NAME>"
     "\n\t<PROTOCOL> can be, e.g.: tcp, udp, stomp, ssl or stomp+ssl"
     "\n\t<ADDRESS> is the IP address or name of the broker."
     "\n\t<PORT> is the port number on which the broker listens."
     "\n\t<NAME> is the name of the topic/queue to which the data will be sent."
-    "\n\tAn example of an URL is: tcp://localhost:61616:/topic/test.topic.name"
+    "\n\tAn example of a destintation-url is: tcp://localhost:61616:/topic/test.topic.name"
     ))
 
-(defn create-cached-endpoint
-  [cache url endpoint-factory-fn & args]
-  (when (not (@cache url))
+(defn create-cached-destination
+  [cache destination-url destination-factory-fn & args]
+  (when (not (@cache destination-url))
     (swap!
       cache
       assoc
-      url
+      destination-url
       (apply
-        endpoint-factory-fn
+        destination-factory-fn
         (conj
           args
-          (second (s/split (str url) #":(?=/[^/])"))
-          (first (s/split (str url) #":(?=/[^/])")))))))
+          (second (s/split (str destination-url) #":(?=/[^/])"))
+          (first (s/split (str destination-url) #":(?=/[^/])")))))))
 
 (defn start-client-mode
   [arg-map]
@@ -69,30 +69,41 @@
         producers (atom {})
         out-binding *out*]
     (start-cli {:cmds
-                 {:send {:fn (fn [url data]
-                               (create-cached-endpoint producers url create-producer)
-                               (println "Sending:" url "<-")
+                 {:send {:fn (fn [destination-url data]
+                               (create-cached-destination producers destination-url create-producer)
+                               (println "Sending:" destination-url "<-")
                                (pprint data)
-                               ((@producers url) data))
-                         :short-info "Send data to URL."
+                               ((@producers destination-url) data))
+                         :short-info "Send data to destination."
                          :long-info (str
-                                      url-format-help-string)}
+                                      destination-url-format-help-string)}
                   :s :send
-                  :receive {:fn (fn [url]
-                                  (create-cached-endpoint
+                  :receive {:fn (fn [destination-url]
+                                  (create-cached-destination
                                     consumers
-                                    url
+                                    destination-url
                                     create-consumer
                                     (fn [rcvd]
                                       (binding [*out* out-binding]
-                                        (println "Received:" url "->")
+                                        (println "Received:" destination-url "->")
                                         (pprint rcvd))))
-                                  (println "Set up consumer for:" url))
-                         :short-info "Set up a consumer for receiving data from URL."
+                                  (println "Set up consumer for:" destination-url))
+                         :short-info "Set up a consumer for receiving data from destintation."
                          :long-info (str
-                                      url-format-help-string)}
+                                      destination-url-format-help-string)}
                   :r :receive
-                  :management {:fn (fn [url command & args])}
+                  :management {:fn (fn [broker-url command & args]
+                                     (create-cached-destination
+                                       consumers
+                                       (str broker-url ":" *broker-management-reply-topic*)
+                                       create-consumer
+                                       (fn [reply]
+                                         (binding [*out* out-binding]
+                                           (println "Management Reply:" broker-url "->")
+                                           (pprint reply))))
+                                     (create-cached-destination
+                                       producers
+                                       (str broker-url ":" *broker-management-command-topic*)))}
                   }
                 :prompt-string "bowerick# "})))
 
