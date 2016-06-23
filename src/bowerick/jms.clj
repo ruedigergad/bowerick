@@ -275,14 +275,14 @@
   ((:stop brkr)))
 
 (defn create-ws-stomp-session
-  [server-url]
+  [broker-url]
   (let [ws-client (StandardWebSocketClient.)
         ws-stomp-client (WebSocketStompClient. ws-client)
         session (atom nil)
         flag (prepare-flag)]
     (.connect
       ws-stomp-client
-      server-url
+      broker-url
       (proxy [StompSessionHandlerAdapter] []
         (afterConnected [^StompSession new-session ^StompHeaders stomp-headers]
           (reset! session new-session)
@@ -298,41 +298,41 @@
   (.disconnect (:session session-map))
   (.stop (:ws-stomp-client session-map)))
 
-(defmacro with-endpoint
-  "Execute body in a context for which connection, session, and endpoint are
-   made available based on the provided server-url and endpoint-description.
+(defmacro with-destination
+  "Execute body in a context for which connection, session, and destination are
+   made available based on the provided broker-url and destination-description.
    
-   The server-url is the address of the broker to which a connection shall
+   The broker-url is the address of the broker to which a connection shall
    be establishd. Examples for valid address schemes are given in the doc
    string of start-broker.
   
-   Endpoint descriptions have the form \"/<type>/<name>\" for which \"<type>\"
+   Destination descriptions have the form \"/<type>/<name>\" for which \"<type>\"
    is currently either \"topic\" or \"queue\" and the \"<name>\" is the unique
-   name of the endpoint."
-  [server-url endpoint-description & body]
+   name of the destination."
+  [broker-url destination-description & body]
   `(let [factory# (cond
-                    (or (.startsWith ~server-url "ssl:")
-                        (.startsWith ~server-url "tls:"))
+                    (or (.startsWith ~broker-url "ssl:")
+                        (.startsWith ~broker-url "tls:"))
                       (doto
                         (ActiveMQSslConnectionFactory.
                           (if
-                            (.contains ~server-url "?")
-                            (.substring ~server-url 0 (.indexOf ~server-url "?"))
-                            ~server-url))
+                            (.contains ~broker-url "?")
+                            (.substring ~broker-url 0 (.indexOf ~broker-url "?"))
+                            ~broker-url))
                         (.setTrustStore *trust-store-file*) (.setTrustStorePassword *trust-store-password*)
                         (.setKeyStore *key-store-file*) (.setKeyStorePassword *key-store-password*)
                         (.setTrustedPackages *serializable-packages*))
-                    (.startsWith ~server-url "stomp:")
+                    (.startsWith ~broker-url "stomp:")
                       (doto
                         (StompJmsConnectionFactory.)
-                        (.setBrokerURI (.replaceFirst ~server-url "stomp" "tcp")))
-                    (.startsWith ~server-url "stomp+ssl:")
+                        (.setBrokerURI (.replaceFirst ~broker-url "stomp" "tcp")))
+                    (.startsWith ~broker-url "stomp+ssl:")
                       (doto
                         (StompJmsConnectionFactory.)
                         (.setSslContext (get-adjusted-ssl-context))
-                        (.setBrokerURI (.replaceFirst ~server-url "stomp\\+ssl" "ssl")))
+                        (.setBrokerURI (.replaceFirst ~broker-url "stomp\\+ssl" "ssl")))
                     :default (doto
-                               (ActiveMQConnectionFactory. ~server-url)
+                               (ActiveMQConnectionFactory. ~broker-url)
                                (.setTrustedPackages *serializable-packages*)))
          ~'connection (doto
                         (if (and (not (nil? *user-name*)) (not (nil? *user-password*)))
@@ -346,14 +346,14 @@
          ~'session ~(with-meta
                       `(.createSession ~'connection false Session/AUTO_ACKNOWLEDGE)
                       {:tag 'javax.jms.Session})
-         split-endpoint# (filter #(not= % "") (split ~endpoint-description #"/"))
-         endpoint-type# (first split-endpoint#)
-         endpoint-name# (join "/" (rest split-endpoint#))
-         _# (println-err "Creating endpoint. Type:" endpoint-type# "Name:" endpoint-name#)
-         ~'endpoint (condp = endpoint-type#
-                      "topic" (.createTopic ~'session endpoint-name#)
-                      "queue" (.createQueue ~'session endpoint-name#)
-                      (println-err "Could not create endpoint. Type:" endpoint-type# "Name:" endpoint-name#))]
+         split-destination# (filter #(not= % "") (split ~destination-description #"/"))
+         destination-type# (first split-destination#)
+         destination-name# (join "/" (rest split-destination#))
+         _# (println-err "Creating destination. Type:" destination-type# "Name:" destination-name#)
+         ~'destination (condp = destination-type#
+                      "topic" (.createTopic ~'session destination-name#)
+                      "queue" (.createQueue ~'session destination-name#)
+                      (println-err "Could not create destination. Type:" destination-type# "Name:" destination-name#))]
      ~@body))
 
 (defrecord ProducerWrapper [send-fn close-fn]
@@ -368,7 +368,7 @@
       (send-fn data)))
 
 (defn create-single-producer
-  "Create a message producer for sending data to the specified endpoint and server/broker.
+  "Create a message producer for sending data to the specified destination and server/broker.
 
    The created producer implements IFn. Hence, the idiomatic way for using it in Clojure
    is to use the producer as a function to which the data that is to be transmitted is
@@ -382,12 +382,12 @@
    This function is not intended to be used directly.
    It is recommended to use create-producer or the various create-XXXXXX-producer derivatives that employ
    customized serialization mechanisms instead."
-  ([server-url endpoint-description]
-    (create-single-producer server-url endpoint-description identity))
-  ([^String server-url ^String endpoint-description serialization-fn]
-    (println-err "Creating producer for server-url:" server-url ", endpoint description:" endpoint-description)
+  ([broker-url destination-description]
+    (create-single-producer broker-url destination-description identity))
+  ([^String broker-url ^String destination-description serialization-fn]
+    (println-err "Creating producer for broker-url:" broker-url ", destination description:" destination-description)
     (cond
-      (.startsWith server-url "ws") (let [session-map (create-ws-stomp-session server-url)
+      (.startsWith broker-url "ws") (let [session-map (create-ws-stomp-session broker-url)
                                           session ^StompSession (:session session-map)
                                           charset (Charset/forName "UTF-8")]
                                       (->ProducerWrapper
@@ -401,14 +401,14 @@
                                                                     charset))
                                                 stomp-headers (doto
                                                                 (StompHeaders.)
-                                                                (.setDestination ^String endpoint-description))]
+                                                                (.setDestination ^String destination-description))]
                                             (.send session stomp-headers byte-array-data)))
                                         (fn []
-                                          (println-err "Closing producer for endpoint description:" endpoint-description)
+                                          (println-err "Closing producer for destination description:" destination-description)
                                           (close-ws-stomp-session session-map))))
-      :default (with-endpoint server-url endpoint-description
+      :default (with-destination broker-url destination-description
                  (let [producer (doto
-                                  (.createProducer session endpoint)
+                                  (.createProducer session destination)
                                   (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
                    (->ProducerWrapper
                      (fn [data]
@@ -428,7 +428,7 @@
                              producer
                              (.createObjectMessage session serialized-data)))))
                      (fn []
-                       (println-err "Closing producer for endpoint description:" endpoint-description)
+                       (println-err "Closing producer for destination description:" destination-description)
                        (.close connection))))))))
 
 (defrecord ConsumerWrapper [close-fn]
@@ -437,7 +437,7 @@
       (close-fn)))
 
 (defn create-single-consumer
-  "Create a message consumer for receiving data from the specified endpoint and server/broker.
+  "Create a message consumer for receiving data from the specified destination and server/broker.
 
    The passed callback function (cb) will be called for each message and will receive the data
    from the message as its single argument.
@@ -448,16 +448,16 @@
    This function is not intended to be used directly.
    It is recommended to use create-consumer or the various create-XXXXXX-consumer derivatives that employ
    customized serialization mechanisms instead."
-  ([server-url endpoint-description cb]
-    (create-single-consumer server-url endpoint-description cb identity))
-  ([^String server-url ^String endpoint-description cb de-serialization-fn]
-    (println-err "Creating consumer for server-url:" server-url ", endpoint description:" endpoint-description)
+  ([broker-url destination-description cb]
+    (create-single-consumer broker-url destination-description cb identity))
+  ([^String broker-url ^String destination-description cb de-serialization-fn]
+    (println-err "Creating consumer for broker-url:" broker-url ", destination description:" destination-description)
     (cond
-      (.startsWith server-url "ws") (let [session-map (create-ws-stomp-session server-url)]
+      (.startsWith broker-url "ws") (let [session-map (create-ws-stomp-session broker-url)]
                                       (println-err 0)
                                       (.subscribe
                                         (:session session-map)
-                                        endpoint-description
+                                        destination-description
                                         (proxy [StompFrameHandler] []
                                           (getPayloadType [^StompHeaders stomp-headers]
                                             (println-err 1)
@@ -468,9 +468,9 @@
                                       (println-err 3)
                                       (->ConsumerWrapper
                                         (fn []
-                                          (println-err "Closing consumer for endpoint description:" endpoint-description)
+                                          (println-err "Closing consumer for destination description:" destination-description)
                                           (close-ws-stomp-session session-map))))
-      :default (with-endpoint server-url endpoint-description
+      :default (with-destination broker-url destination-description
                  (let [listener (proxy [MessageListener] []
                                   (onMessage [^Message m]
                                     (condp instance? m
@@ -484,11 +484,11 @@
                                       TextMessage (cb (de-serialization-fn (.getText ^TextMessage m)))
                                       (println-err "Unknown message type:" (type m)))))
                        consumer (doto
-                                  (.createConsumer session endpoint)
+                                  (.createConsumer session destination)
                                   (.setMessageListener listener))]
                    (->ConsumerWrapper
                      (fn []
-                       (println-err "Closing consumer for endpoint description:" endpoint-description)
+                       (println-err "Closing consumer for destination description:" destination-description)
                        (.close connection))))))))
 
 (defn close
@@ -497,7 +497,7 @@
   (.close o))
 
 (defn create-pooled-producer
-  "Create a pooled producer with the given pool-size for the given server-url and endpoint-description.
+  "Create a pooled producer with the given pool-size for the given broker-url and destination-description.
   
    A pooled producer does not send the passed data instances individually but groups them in a pool and
    sends the entire pool at once when the pool is filled.
@@ -508,11 +508,11 @@
    This function is not intended to be used directly.
    It is recommended to use create-producer or the various create-XXXXXX-producer derivatives that employ
    customized serialization mechanisms instead."
-  ([server-url endpoint-description pool-size]
-    (create-pooled-producer server-url endpoint-description pool-size identity))
-  ([server-url endpoint-description ^long pool-size serialization-fn]
-    (println-err "Creating pooled producer for endpoint description:" endpoint-description "; Pool size:" pool-size)
-    (let [producer (create-single-producer server-url endpoint-description serialization-fn)
+  ([broker-url destination-description pool-size]
+    (create-pooled-producer broker-url destination-description pool-size identity))
+  ([broker-url destination-description ^long pool-size serialization-fn]
+    (println-err "Creating pooled producer for destination description:" destination-description "; Pool size:" pool-size)
+    (let [producer (create-single-producer broker-url destination-description serialization-fn)
           pool (ArrayList. pool-size)]
       (->ProducerWrapper
         (fn [o]
@@ -521,7 +521,7 @@
             (producer pool)
             (.clear pool)))
         (fn []
-          (println-err "Closing pooled producer for endpoint description:" endpoint-description)
+          (println-err "Closing pooled producer for destination description:" destination-description)
           (.close producer))))))
 
 (defn create-pooled-consumer
@@ -535,21 +535,21 @@
    This function is not intended to be used directly.
    It is recommended to use create-consumer or the various create-XXXXXX-consumer derivatives that employ
    customized serialization mechanisms instead."
-  ([server-url endpoint-description cb]
-    (create-pooled-consumer server-url endpoint-description cb identity))
-  ([server-url endpoint-description cb de-serialization-fn]
-    (println-err "Creating pooled consumer for endpoint description:" endpoint-description)
+  ([broker-url destination-description cb]
+    (create-pooled-consumer broker-url destination-description cb identity))
+  ([broker-url destination-description cb de-serialization-fn]
+    (println-err "Creating pooled consumer for destination description:" destination-description)
     (let [pooled-cb (fn [^ArrayList lst]
                       (doseq [o lst]
                         (cb o)))
-          consumer (create-single-consumer server-url endpoint-description pooled-cb de-serialization-fn)]
+          consumer (create-single-consumer broker-url destination-description pooled-cb de-serialization-fn)]
       (->ConsumerWrapper
         (fn []
-          (println-err "Closing pooled consumer for endpoint description:" endpoint-description)
+          (println-err "Closing pooled consumer for destination description:" destination-description)
           (close consumer))))))
 
 (defn create-producer
-  "This is a convenience function for creating a producer for the given server-url and endpoint-description.
+  "This is a convenience function for creating a producer for the given broker-url and destination-description.
    
    The created producer implements IFn. Hence, the idiomatic way for using it in Clojure
    is to use the producer as a function to which the data that is to be transmitted is
@@ -563,18 +563,18 @@
   
    Optionally, a single argument function for customizing the serialization of the pooled-data can be given.
    This defaults to idenitity such that the default serialization of the underlying JMS implementation is used."
-  ([server-url endpoint-description]
-    (create-producer server-url endpoint-description 1))
-  ([server-url endpoint-description pool-size]
-    (create-producer server-url endpoint-description pool-size identity))
-  ([server-url endpoint-description pool-size serialization-fn]
+  ([broker-url destination-description]
+    (create-producer broker-url destination-description 1))
+  ([broker-url destination-description pool-size]
+    (create-producer broker-url destination-description pool-size identity))
+  ([broker-url destination-description pool-size serialization-fn]
     (cond
-      (= pool-size 1) (create-single-producer server-url endpoint-description serialization-fn)
-      (> pool-size 1) (create-pooled-producer server-url endpoint-description pool-size serialization-fn)
+      (= pool-size 1) (create-single-producer broker-url destination-description serialization-fn)
+      (> pool-size 1) (create-pooled-producer broker-url destination-description pool-size serialization-fn)
       :default (println-err "Error: Invalid pool size:" pool-size))))
 
 (defn create-consumer
-  "Create a message consumer for receiving data from the specified endpoint and server/broker.
+  "Create a message consumer for receiving data from the specified destination and server/broker.
 
    The passed callback function (cb) will be called for each message and will receive the data
    from the message as its single argument.
@@ -584,14 +584,14 @@
 
    Optionally, a single argument function for customizing the de-serialization of the transferred data can be given.
    Typically, this should be the inverse operation of the serialization function as used for the producer and defaults to identity."
-  ([server-url endpoint-description cb]
-    (create-consumer server-url endpoint-description cb 1))
-  ([server-url endpoint-description cb pool-size]
-    (create-consumer server-url endpoint-description cb pool-size identity))
-  ([server-url endpoint-description cb pool-size de-serialization-fn]
+  ([broker-url destination-description cb]
+    (create-consumer broker-url destination-description cb 1))
+  ([broker-url destination-description cb pool-size]
+    (create-consumer broker-url destination-description cb pool-size identity))
+  ([broker-url destination-description cb pool-size de-serialization-fn]
     (cond
-      (= pool-size 1) (create-single-consumer server-url endpoint-description cb de-serialization-fn)
-      (> pool-size 1) (create-pooled-consumer server-url endpoint-description cb de-serialization-fn)
+      (= pool-size 1) (create-single-consumer broker-url destination-description cb de-serialization-fn)
+      (> pool-size 1) (create-pooled-consumer broker-url destination-description cb de-serialization-fn)
       :default (println-err "Error: Invalid pool size:" pool-size))))
 
 (defn create-nippy-producer
@@ -603,18 +603,18 @@
    Possible compressor settings are: taoensso.nippy/lz4-compressor, taoensso.nippy/snappy-compressor, taoensso.nippy/lzma2-compressor.
 
    For more details about producers please see create-producer."
-  ([server-url endpoint-description]
+  ([broker-url destination-description]
     (create-nippy-producer
-      server-url endpoint-description 1))
-  ([server-url endpoint-description pool-size]
+      broker-url destination-description 1))
+  ([broker-url destination-description pool-size]
     (create-nippy-producer
-      server-url endpoint-description pool-size {}))
-  ([server-url endpoint-description pool-size nippy-opts]
-    (println-err "Creating nippy producer for endpoint description:" endpoint-description
+      broker-url destination-description pool-size {}))
+  ([broker-url destination-description pool-size nippy-opts]
+    (println-err "Creating nippy producer for destination description:" destination-description
              "with options:" nippy-opts)
     (create-producer
-      server-url
-      endpoint-description
+      broker-url
+      destination-description
       pool-size
       (fn [data]
         (nippy/freeze data nippy-opts)))))
@@ -627,14 +627,14 @@
    For uncompressing compressed data, no options need to be specified as nippy can figure out the employed compression algorithms on its own.
 
    For more details about consumers and producers please see create-consumer and create-producer."
-  ([server-url endpoint-description cb]
-    (create-nippy-consumer server-url endpoint-description cb 1))
-  ([server-url endpoint-description cb pool-size]
-    (create-nippy-consumer server-url endpoint-description cb pool-size {}))
-  ([server-url endpoint-description cb pool-size nippy-opts]
+  ([broker-url destination-description cb]
+    (create-nippy-consumer broker-url destination-description cb 1))
+  ([broker-url destination-description cb pool-size]
+    (create-nippy-consumer broker-url destination-description cb pool-size {}))
+  ([broker-url destination-description cb pool-size nippy-opts]
     (create-consumer
-      server-url
-      endpoint-description
+      broker-url
+      destination-description
       cb
       pool-size
       (fn [ba]
@@ -644,15 +644,15 @@
   "Create a producer that uses nippy for serialization and compresses the serialized data with LZF.
 
    For more details about producers please see create-producer."
-  ([server-url endpoint-description]
-     (create-nippy-lzf-producer server-url endpoint-description 1))
-  ([server-url endpoint-description pool-size]
-     (create-nippy-lzf-producer server-url endpoint-description pool-size {}))
-  ([server-url endpoint-description pool-size nippy-opts]
-    (println-err "Creating nippy lzf producer for endpoint description:" endpoint-description)
+  ([broker-url destination-description]
+     (create-nippy-lzf-producer broker-url destination-description 1))
+  ([broker-url destination-description pool-size]
+     (create-nippy-lzf-producer broker-url destination-description pool-size {}))
+  ([broker-url destination-description pool-size nippy-opts]
+    (println-err "Creating nippy lzf producer for destination description:" destination-description)
     (create-producer
-      server-url
-      endpoint-description
+      broker-url
+      destination-description
       pool-size
       (fn [data]
         (LZFEncoder/encode ^bytes (nippy/freeze data nippy-opts))))))
@@ -661,15 +661,15 @@
   "Create a consumer that uncompresses the transferred data via LZF and uses nippy for de-serialization.
 
    For more details about consumers and producers please see create-consumer and create-producer."
-  ([server-url endpoint-description cb]
-    (create-nippy-lzf-consumer server-url endpoint-description cb 1))
-  ([server-url endpoint-description cb pool-size]
-    (create-nippy-lzf-consumer server-url endpoint-description cb pool-size {}))
-  ([server-url endpoint-description cb pool-size nippy-opts]
-    (println-err "Creating nippy lzf consumer for endpoint description:" endpoint-description)
+  ([broker-url destination-description cb]
+    (create-nippy-lzf-consumer broker-url destination-description cb 1))
+  ([broker-url destination-description cb pool-size]
+    (create-nippy-lzf-consumer broker-url destination-description cb pool-size {}))
+  ([broker-url destination-description cb pool-size nippy-opts]
+    (println-err "Creating nippy lzf consumer for destination description:" destination-description)
     (create-consumer
-      server-url
-      endpoint-description
+      broker-url
+      destination-description
       cb
       pool-size
       (fn [^bytes ba]
@@ -679,14 +679,14 @@
   "Create a producer that uses carbonite for serialization.
 
    For more details about producers please see create-producer."
-  ([server-url endpoint-description]
-    (create-carbonite-producer server-url endpoint-description 1))
-  ([server-url endpoint-description pool-size]
-    (println-err "Creating carbonite producer for endpoint description:" endpoint-description)
+  ([broker-url destination-description]
+    (create-carbonite-producer broker-url destination-description 1))
+  ([broker-url destination-description pool-size]
+    (println-err "Creating carbonite producer for destination description:" destination-description)
     (let [reg (carb-api/default-registry)]
       (create-producer
-        server-url
-        endpoint-description
+        broker-url
+        destination-description
         pool-size
         (fn [data]
           (carb-buf/write-bytes reg data))))))
@@ -695,14 +695,14 @@
   "Create a consumer that uses carbonite for de-serialization.
 
    For more details about consumers and producers please see create-consumer and create-producer."
-  ([server-url endpoint-description cb]
-    (create-carbonite-consumer server-url endpoint-description cb 1))
-  ([server-url endpoint-description cb pool-size]
-    (println-err "Creating carbonite consumer for endpoint description:" endpoint-description)
+  ([broker-url destination-description cb]
+    (create-carbonite-consumer broker-url destination-description cb 1))
+  ([broker-url destination-description cb pool-size]
+    (println-err "Creating carbonite consumer for destination description:" destination-description)
     (let [reg (carb-api/default-registry)]
       (create-consumer
-        server-url
-        endpoint-description
+        broker-url
+        destination-description
         cb
         pool-size
         (fn [ba]
@@ -712,14 +712,14 @@
   "Create a producer that uses carbonite for serialization and compresses the serialized data with LZF.
 
    For more details about producers please see create-producer."
-  ([server-url endpoint-description]
-    (create-carbonite-lzf-producer server-url endpoint-description 1))
-  ([server-url endpoint-description pool-size]
-    (println-err "Creating carbonite lzf producer for endpoint description:" endpoint-description)
+  ([broker-url destination-description]
+    (create-carbonite-lzf-producer broker-url destination-description 1))
+  ([broker-url destination-description pool-size]
+    (println-err "Creating carbonite lzf producer for destination description:" destination-description)
     (let [reg (carb-api/default-registry)]
       (create-producer
-        server-url
-        endpoint-description
+        broker-url
+        destination-description
         pool-size
         (fn [data]
           (LZFEncoder/encode ^bytes (carb-buf/write-bytes reg data)))))))
@@ -728,24 +728,24 @@
   "Create a consumer that decompresses the transferred data with LZF and uses carbonite for de-serialization.
 
    For more details about consumers and producers please see create-consumer and create-producer."
-  ([server-url endpoint-description cb]
-    (create-carbonite-lzf-consumer server-url endpoint-description cb 1))
-  ([server-url endpoint-description cb pool-size]
-    (println-err "Creating carbonite lzf consumer for endpoint description:" endpoint-description)
+  ([broker-url destination-description cb]
+    (create-carbonite-lzf-consumer broker-url destination-description cb 1))
+  ([broker-url destination-description cb pool-size]
+    (println-err "Creating carbonite lzf consumer for destination description:" destination-description)
     (let [reg (carb-api/default-registry)]
       (create-consumer
-        server-url
-        endpoint-description
+        broker-url
+        destination-description
         cb
         pool-size
         (fn [^bytes ba]
           (carb-buf/read-bytes reg (LZFDecoder/decode ^bytes ba)))))))
 
-;(defn create-pooled-bytes-message-producer [^String server-url ^String endpoint-description pool-size]
-;  (println-err "Creating pooled-bytes-message-producer for endpoint description:" endpoint-description)
-;  (with-endpoint server-url endpoint-description
+;(defn create-pooled-bytes-message-producer [^String broker-url ^String destination-description pool-size]
+;  (println-err "Creating pooled-bytes-message-producer for destination description:" destination-description)
+;  (with-destination broker-url destination-description
 ;    (let [producer (doto
-;                     (.createProducer session endpoint)
+;                     (.createProducer session destination)
 ;                     (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
 ;      (PooledBytesMessageProducer. producer session connection pool-size))))
 
