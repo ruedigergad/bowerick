@@ -78,7 +78,7 @@
         out-string))))
 
 (deftest broker-management-get-all-destinations-test
-  (let [test-cmd-input [(str "management \"" local-jms-server "\" get-all-destinations")]
+  (let [test-cmd-input [(str "management " local-jms-server " get-all-destinations")]
         out-string (test-cli-stdout (fn [] (-main "-c") (sleep 200)) test-cmd-input)]
     (is
       (=
