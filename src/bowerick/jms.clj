@@ -387,25 +387,27 @@
   ([^String broker-url ^String destination-description serialization-fn]
     (println-err "Creating producer for broker-url:" broker-url ", destination description:" destination-description)
     (cond
-      (.startsWith broker-url "ws") (let [session-map (create-ws-stomp-session broker-url)
-                                          session ^StompSession (:session session-map)
-                                          charset (Charset/forName "UTF-8")]
-                                      (->ProducerWrapper
-                                        (fn [data]
-                                          (let [serialized-data (serialization-fn data)
-                                                byte-array-data (condp instance? serialized-data
-                                                                  byte-array-type serialized-data
-                                                                  java.lang.String (.getBytes ^String serialized-data charset)
-                                                                  (.getBytes
-                                                                    ^String (cheshire.core/generate-string serialized-data)
-                                                                    charset))
-                                                stomp-headers (doto
-                                                                (StompHeaders.)
-                                                                (.setDestination ^String destination-description))]
-                                            (.send session stomp-headers byte-array-data)))
-                                        (fn []
-                                          (println-err "Closing producer for destination description:" destination-description)
-                                          (close-ws-stomp-session session-map))))
+      (.startsWith
+        broker-url
+        "ws") (let [session-map (create-ws-stomp-session broker-url)
+                    session ^StompSession (:session session-map)
+                    charset (Charset/forName "UTF-8")]
+                (->ProducerWrapper
+                  (fn [data]
+                    (let [serialized-data (serialization-fn data)
+                          byte-array-data (condp instance? serialized-data
+                                            byte-array-type serialized-data
+                                            java.lang.String (.getBytes ^String serialized-data charset)
+                                            (.getBytes
+                                              ^String (cheshire.core/generate-string serialized-data)
+                                              charset))
+                          stomp-headers (doto
+                                          (StompHeaders.)
+                                          (.setDestination ^String destination-description))]
+                      (.send session stomp-headers byte-array-data)))
+                  (fn []
+                    (println-err "Closing producer for destination description:" destination-description)
+                    (close-ws-stomp-session session-map))))
       :default (with-destination broker-url destination-description
                  (let [producer (doto
                                   (.createProducer session destination)
