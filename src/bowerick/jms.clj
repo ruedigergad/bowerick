@@ -35,6 +35,8 @@
     (org.apache.activemq.broker BrokerService)
     (org.apache.activemq.broker.region Destination)
     (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationMap AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
+    (org.eclipse.paho.client.mqttv3 MqttClient MqttConnectOptions MqttMessage)
+    (org.eclipse.paho.client.mqttv3.persist MemoryPersistence)
     (org.fusesource.stomp.jms StompJmsConnectionFactory)
     (org.springframework.messaging.converter ByteArrayMessageConverter SmartMessageConverter StringMessageConverter)
     (org.springframework.messaging.simp.stomp DefaultStompSession StompFrameHandler StompHeaders StompSession StompSessionHandler StompSessionHandlerAdapter)
