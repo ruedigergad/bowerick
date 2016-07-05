@@ -371,6 +371,15 @@
     (invoke [this data]
       (send-fn data)))
 
+(defn fallback-serialization
+  [data charset]
+    (condp instance? data
+      byte-array-type data
+      java.lang.String (.getBytes ^String data charset)
+      (.getBytes
+        ^String (cheshire.core/generate-string data)
+        charset)))
+
 (defn create-single-producer
   "Create a message producer for sending data to the specified destination and server/broker.
 
@@ -399,12 +408,7 @@
                 (->ProducerWrapper
                   (fn [data]
                     (let [serialized-data (serialization-fn data)
-                          byte-array-data (condp instance? serialized-data
-                                            byte-array-type serialized-data
-                                            java.lang.String (.getBytes ^String serialized-data charset)
-                                            (.getBytes
-                                              ^String (cheshire.core/generate-string serialized-data)
-                                              charset))
+                          byte-array-data (fallback-serialization serialized-data charset)
                           stomp-headers (doto
                                           (StompHeaders.)
                                           (.setDestination ^String destination-description))]
