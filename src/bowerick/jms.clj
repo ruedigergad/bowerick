@@ -274,6 +274,10 @@
   [brkr]
   ((:stop brkr)))
 
+(defn create-mqtt-client
+  [broker-url destination-description]
+  )
+
 (defn create-ws-stomp-session
   [broker-url]
   (let [ws-client (StandardWebSocketClient.)
@@ -406,8 +410,17 @@
                                           (.setDestination ^String destination-description))]
                       (.send session stomp-headers byte-array-data)))
                   (fn []
-                    (println-err "Closing producer for destination description:" destination-description)
+                    (println-err "Closing web socket producer for destination description:" destination-description)
                     (close-ws-stomp-session session-map))))
+      (.startsWith
+        broker-url
+        "mqtt") (let [mqtt-client (create-mqtt-client broker-url destination-description)]
+                  (->ProducerWrapper
+                    (fn [data]
+                      (println "FIXME: send via MQTT:" data))
+                    (fn []
+                      (println-err "Closing mqtt producer for destination description:" destination-description)
+                      (println "FIXME: close the producer."))))
       :default (with-destination broker-url destination-description
                  (let [producer (doto
                                   (.createProducer session destination)
