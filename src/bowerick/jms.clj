@@ -35,7 +35,7 @@
     (org.apache.activemq.broker BrokerService)
     (org.apache.activemq.broker.region Destination)
     (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationMap AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
-    (org.eclipse.paho.client.mqttv3 MqttClient MqttConnectOptions MqttMessage)
+    (org.eclipse.paho.client.mqttv3 MqttCallback MqttClient MqttConnectOptions MqttMessage)
     (org.eclipse.paho.client.mqttv3.persist MemoryPersistence)
     (org.fusesource.stomp.jms StompJmsConnectionFactory)
     (org.springframework.messaging.converter ByteArrayMessageConverter SmartMessageConverter StringMessageConverter)
@@ -502,8 +502,29 @@
                       (cb (de-serialization-fn payload)))))
                 (->ConsumerWrapper
                   (fn []
-                    (println-err "Closing consumer for destination description:" destination-description)
+                    (println-err "Closing websocket consumer for destination description:" destination-description)
                     (close-ws-stomp-session session-map))))
+      (.startsWith
+        broker-url
+        "mqtt") (let [^MqttClient mqtt-client (create-mqtt-client broker-url)
+                      dst-descrpt (->
+                                    destination-description
+                                    (.replaceFirst "(/)(topic|queue)(/)" "")
+                                    (.replace "." "/"))]
+                  (.setCallback
+                    mqtt-client
+                    (proxy [MqttCallback] []
+                      (connectionLost [cause]
+                        (println-err "Connection lost (" broker-url dst-descrpt "):" cause))
+                      (deliveryComplete [token]
+                        (println-err "Delivery complete (" broker-url dst-descrpt "):" token))
+                      (messageArrived [^String topic ^MqttMessage message]
+                        (cb (de-serialization-fn (.getPayload message))))))
+                  (.subscribe mqtt-client dst-descrpt)
+                  (->ConsumerWrapper
+                    (fn []
+                      (println-err "Closing mqtt consumer for destination description:" destination-description)
+                      (.disconnect mqtt-client))))
       :default (with-destination broker-url destination-description
                  (let [listener (proxy [MessageListener] []
                                   (onMessage [^Message m]
