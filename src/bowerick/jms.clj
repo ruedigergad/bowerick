@@ -55,6 +55,8 @@
 (def ^:dynamic *broker-management-command-topic* "/topic/bowerick.broker.management.command")
 (def ^:dynamic *broker-management-reply-topic* "/topic/bowerick.broker.management.reply")
 
+(def ^:dynamic *default-charset* (Charset/forName "UTF-8"))
+
 ; See also: http://activemq.apache.org/objectmessage.html
 (def ^:dynamic *serializable-packages*
   '("clojure.lang"
@@ -379,16 +381,14 @@
     (invoke [this data]
       (send-fn data)))
 
-(def ^:dynamic *charset* (Charset/forName "UTF-8"))
-
 (defn fallback-serialization
   [data]
     (condp instance? data
       byte-array-type data
-      java.lang.String (.getBytes ^String data *charset*)
+      java.lang.String (.getBytes ^String data *default-charset*)
       (.getBytes
         ^String (cheshire.core/generate-string data)
-        *charset*)))
+        *default-charset*)))
 
 (defn create-single-producer
   "Create a message producer for sending data to the specified destination and server/broker.
