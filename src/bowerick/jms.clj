@@ -489,23 +489,21 @@
   ([^String broker-url ^String destination-description cb de-serialization-fn]
     (println-err "Creating consumer for broker-url:" broker-url ", destination description:" destination-description)
     (cond
-      (.startsWith broker-url "ws") (let [session-map (create-ws-stomp-session broker-url)]
-                                      (println-err 0)
-                                      (.subscribe
-                                        (:session session-map)
-                                        destination-description
-                                        (proxy [StompFrameHandler] []
-                                          (getPayloadType [^StompHeaders stomp-headers]
-                                            (println-err 1)
-                                            java.lang.Object)
-                                          (handleFrame [^StompHeaders stomp-headers payload]
-                                            (println-err 2)
-                                            (cb (de-serialization-fn payload)))))
-                                      (println-err 3)
-                                      (->ConsumerWrapper
-                                        (fn []
-                                          (println-err "Closing consumer for destination description:" destination-description)
-                                          (close-ws-stomp-session session-map))))
+      (.startsWith
+        broker-url
+        "ws") (let [session-map (create-ws-stomp-session broker-url)]
+                (.subscribe
+                  (:session session-map)
+                  destination-description
+                  (proxy [StompFrameHandler] []
+                    (getPayloadType [^StompHeaders stomp-headers]
+                      java.lang.Object)
+                    (handleFrame [^StompHeaders stomp-headers payload]
+                      (cb (de-serialization-fn payload)))))
+                (->ConsumerWrapper
+                  (fn []
+                    (println-err "Closing consumer for destination description:" destination-description)
+                    (close-ws-stomp-session session-map))))
       :default (with-destination broker-url destination-description
                  (let [listener (proxy [MessageListener] []
                                   (onMessage [^Message m]
