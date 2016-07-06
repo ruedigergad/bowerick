@@ -277,8 +277,14 @@
   ((:stop brkr)))
 
 (defn create-mqtt-client
-  [broker-url destination-description]
-  )
+  [broker-url]
+  (let [url (condp #(.startsWith %2 %1) broker-url
+              "mqtt+ssl://" (.replaceFirst broker-url "mqtt+ssl://" "ssl://")
+              "mqtt://" (.replaceFirst broker-url "mqtt://" "tcp://"))
+        mqtt-client (MqttClient. url (MqttClient/generateClientId) (MemoryPersistence.))
+        conn-opts (doto (MqttConnectOptions.) (.setCleanSession true))]
+    (.connect mqtt-client conn-opts)
+    mqtt-client))
 
 (defn create-ws-stomp-session
   [broker-url]
@@ -373,14 +379,16 @@
     (invoke [this data]
       (send-fn data)))
 
+(def ^:dynamic *charset* (Charset/forName "UTF-8"))
+
 (defn fallback-serialization
-  [data charset]
+  [data]
     (condp instance? data
       byte-array-type data
-      java.lang.String (.getBytes ^String data charset)
+      java.lang.String (.getBytes ^String data *charset*)
       (.getBytes
         ^String (cheshire.core/generate-string data)
-        charset)))
+        *charset*)))
 
 (defn create-single-producer
   "Create a message producer for sending data to the specified destination and server/broker.
@@ -405,28 +413,31 @@
       (.startsWith
         broker-url
         "ws") (let [session-map (create-ws-stomp-session broker-url)
-                    session ^StompSession (:session session-map)
-                    charset (Charset/forName "UTF-8")]
+                    session ^StompSession (:session session-map)]
                 (->ProducerWrapper
                   (fn [data]
                     (let [serialized-data (serialization-fn data)
-                          byte-array-data (fallback-serialization serialized-data charset)
+                          byte-array-data (fallback-serialization serialized-data)
                           stomp-headers (doto
                                           (StompHeaders.)
                                           (.setDestination ^String destination-description))]
                       (.send session stomp-headers byte-array-data)))
                   (fn []
-                    (println-err "Closing web socket producer for destination description:" destination-description)
+                    (println-err "Closing websocket producer for destination description:" destination-description)
                     (close-ws-stomp-session session-map))))
       (.startsWith
         broker-url
-        "mqtt") (let [mqtt-client (create-mqtt-client broker-url destination-description)]
+        "mqtt") (let [^MqttClient mqtt-client (create-mqtt-client broker-url)
+                      dst-descrpt (->
+                                    destination-description
+                                    (.replaceFirst "(/)(topic|queue)(/)" "")
+                                    (.replace "." "/"))]
                   (->ProducerWrapper
                     (fn [data]
-                      (println "FIXME: send via MQTT:" data))
+                      (.publish mqtt-client dst-descrpt (MqttMessage. ^bytes (fallback-serialization data))))
                     (fn []
                       (println-err "Closing mqtt producer for destination description:" destination-description)
-                      (println "FIXME: close the producer."))))
+                      (.disconnect mqtt-client))))
       :default (with-destination broker-url destination-description
                  (let [producer (doto
                                   (.createProducer session destination)
