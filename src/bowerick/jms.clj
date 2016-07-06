@@ -434,7 +434,11 @@
                                     (.replace "." "/"))]
                   (->ProducerWrapper
                     (fn [data]
-                      (.publish mqtt-client dst-descrpt (MqttMessage. ^bytes (fallback-serialization data))))
+                      (.publish
+                        mqtt-client
+                        dst-descrpt
+                        (MqttMessage.
+                          ^bytes (-> data (serialization-fn) (fallback-serialization)))))
                     (fn []
                       (println-err "Closing mqtt producer for destination description:" destination-description)
                       (.disconnect mqtt-client))))
