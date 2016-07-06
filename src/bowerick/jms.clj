@@ -539,7 +539,7 @@
    sends the entire pool at once when the pool is filled.
   
    Optionally, a single argument function for customizing the serialization of the pooled-data can be given.
-   This defaults to idenitity such that the default serialization of the underlying JMS implementation is used.
+   This defaults to identity such that the default serialization of the underlying JMS implementation is used.
   
    This function is not intended to be used directly.
    It is recommended to use create-producer or the various create-XXXXXX-producer derivatives that employ
@@ -563,7 +563,7 @@
 (defn create-pooled-consumer
   "Create a consumer for receiving pooled data.
    
-   The calback function, cb, will be called for each data instance in the pool individually.
+   The callback function, cb, will be called for each data instance in the pool individually.
   
    Optionally, a single argument function for customizing the de-serialization of the transferred data can be given.
    Typically, this should be the inverse operation of the serialization function as used for the pooled producer and defaults to identity.
