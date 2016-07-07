@@ -278,6 +278,15 @@
   [brkr]
   ((:stop brkr)))
 
+(defn fallback-serialization
+  [data]
+    (condp instance? data
+      byte-array-type data
+      java.lang.String (.getBytes ^String data *default-charset*)
+      (.getBytes
+        ^String (cheshire.core/generate-string data)
+        *default-charset*)))
+
 (defn create-mqtt-client
   [broker-url]
   (let [url (condp #(.startsWith %2 %1) broker-url
@@ -380,15 +389,6 @@
   IFn
     (invoke [this data]
       (send-fn data)))
-
-(defn fallback-serialization
-  [data]
-    (condp instance? data
-      byte-array-type data
-      java.lang.String (.getBytes ^String data *default-charset*)
-      (.getBytes
-        ^String (cheshire.core/generate-string data)
-        *default-charset*)))
 
 (defn create-single-producer
   "Create a message producer for sending data to the specified destination and server/broker.
