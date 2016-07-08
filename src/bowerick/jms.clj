@@ -18,7 +18,7 @@
     [carbonite.buffer :as carb-buf]
     [cheshire.core :as cheshire]
     [clojure.java.io :as java-io]
-    [clj-assorted-utils.util :refer :all]
+    [clj-assorted-utils.util :as utils]
     [taoensso.nippy :as nippy])
   (:import
     (bowerick JmsProducer PooledBytesMessageProducer)
@@ -104,9 +104,9 @@
   []
   (when
     (and
-      (file-exists? *key-store-file*)
-      (file-exists? *trust-store-file*))
-    (println-err
+      (utils/file-exists? *key-store-file*)
+      (utils/file-exists? *trust-store-file*))
+    (utils/println-err
       "Setting default SSLContext to use key store file:"
       *key-store-file*
       "and trust store file:"
@@ -144,7 +144,7 @@
       (sort @dst-vector))))
 
 (defn send-error-msg [producer msg]
-  (println-err msg)
+  (utils/println-err msg)
   (producer (str "error " msg)))
 
 (defn setup-broker-with-auth
@@ -163,7 +163,7 @@
                                 (.setAnonymousGroup "anonymous"))
         authorization-entries (map
                                 (fn [perm]
-                                  (println-err "Setting permission:" perm)
+                                  (utils/println-err "Setting permission:" perm)
                                   (let [trgt (perm "target")
                                         adm (perm "admin")
                                         rd (perm "read")
@@ -236,7 +236,7 @@
                                (sequential? address) (first address)
                                :default address)
           producer (try
-                     (println-err "Info: Enabling management producer at:" *broker-management-reply-topic*)
+                     (utils/println-err "Info: Enabling management producer at:" *broker-management-reply-topic*)
                      (binding [*trust-store-file* *key-store-file*
                                *trust-store-password* *key-store-password*
                                *key-store-file* *trust-store-file*
@@ -246,9 +246,9 @@
                          *broker-management-reply-topic*
                          cheshire/generate-string))
                      (catch Exception e
-                       (println-err "Warning: Could not create management producer for:" *broker-management-reply-topic*)))
+                       (utils/println-err "Warning: Could not create management producer for:" *broker-management-reply-topic*)))
           consumer (try
-                     (println-err "Info: Enabling management consumer at:" *broker-management-command-topic*)
+                     (utils/println-err "Info: Enabling management consumer at:" *broker-management-command-topic*)
                      (binding [*trust-store-file* *key-store-file*
                                *trust-store-password* *key-store-password*
                                *key-store-file* *trust-store-file*
@@ -263,7 +263,7 @@
                              (send-error-msg producer (str "Unknown command: " cmd))))
                          cheshire/parse-string))
                      (catch Exception e
-                       (println-err "Warning: Could not create management consumer for:" *broker-management-command-topic*)))]
+                       (utils/println-err "Warning: Could not create management consumer for:" *broker-management-command-topic*)))]
       (.waitUntilStarted broker)
       {:broker broker
        :stop (fn []
@@ -281,7 +281,7 @@
 (defn fallback-serialization
   [data]
     (condp instance? data
-      byte-array-type data
+      utils/byte-array-type data
       java.lang.String (.getBytes ^String data *default-charset*)
       (.getBytes
         ^String (cheshire.core/generate-string data)
@@ -302,16 +302,16 @@
   (let [ws-client (StandardWebSocketClient.)
         ws-stomp-client (WebSocketStompClient. ws-client)
         session (atom nil)
-        flag (prepare-flag)]
+        flag (utils/prepare-flag)]
     (.connect
       ws-stomp-client
       broker-url
       (proxy [StompSessionHandlerAdapter] []
         (afterConnected [^StompSession new-session ^StompHeaders stomp-headers]
           (reset! session new-session)
-          (set-flag flag)))
+          (utils/set-flag flag)))
       (object-array 0))
-    (await-flag flag)
+    (utils/await-flag flag)
     {:ws-client ws-client
      :ws-stomp-client ws-stomp-client
      :session @session}))
@@ -360,10 +360,10 @@
          ~'connection (doto
                         (if (and (not (nil? *user-name*)) (not (nil? *user-password*)))
                           (do
-                            (println-err "Creating connection for user:" *user-name*)
+                            (utils/println-err "Creating connection for user:" *user-name*)
                             (.createConnection factory# *user-name* *user-password*))
                           (do
-                            (println-err "Creating connection.")
+                            (utils/println-err "Creating connection.")
                             (.createConnection factory#)))
                         (.start))
          ~'session ~(with-meta
@@ -372,11 +372,11 @@
          split-destination# (filter #(not= % "") (split ~destination-description #"/"))
          destination-type# (first split-destination#)
          destination-name# (join "/" (rest split-destination#))
-         _# (println-err "Creating destination. Type:" destination-type# "Name:" destination-name#)
+         _# (utils/println-err "Creating destination. Type:" destination-type# "Name:" destination-name#)
          ~'destination (condp = destination-type#
                       "topic" (.createTopic ~'session destination-name#)
                       "queue" (.createQueue ~'session destination-name#)
-                      (println-err "Could not create destination. Type:" destination-type# "Name:" destination-name#))]
+                      (utils/println-err "Could not create destination. Type:" destination-type# "Name:" destination-name#))]
      ~@body))
 
 (defrecord ProducerWrapper [send-fn close-fn]
@@ -408,7 +408,7 @@
   ([broker-url destination-description]
     (create-single-producer broker-url destination-description identity))
   ([^String broker-url ^String destination-description serialization-fn]
-    (println-err "Creating producer for broker-url:" broker-url ", destination description:" destination-description)
+    (utils/println-err "Creating producer for broker-url:" broker-url ", destination description:" destination-description)
     (cond
       (.startsWith
         broker-url
@@ -423,7 +423,7 @@
                                           (.setDestination ^String destination-description))]
                       (.send session stomp-headers byte-array-data)))
                   (fn []
-                    (println-err "Closing websocket producer for destination description:" destination-description)
+                    (utils/println-err "Closing websocket producer for destination description:" destination-description)
                     (close-ws-stomp-session session-map))))
       (.startsWith
         broker-url
@@ -440,7 +440,7 @@
                         (MqttMessage.
                           ^bytes (-> data (serialization-fn) (fallback-serialization)))))
                     (fn []
-                      (println-err "Closing mqtt producer for destination description:" destination-description)
+                      (utils/println-err "Closing mqtt producer for destination description:" destination-description)
                       (.disconnect mqtt-client))))
       :default (with-destination broker-url destination-description
                  (let [producer (doto
@@ -450,7 +450,7 @@
                      (fn [data]
                        (let [serialized-data (serialization-fn data)]
                          (condp instance? serialized-data
-                           byte-array-type (.send
+                           utils/byte-array-type (.send
                                              producer
                                              (doto
                                                (.createBytesMessage session)
@@ -464,7 +464,7 @@
                              producer
                              (.createObjectMessage session serialized-data)))))
                      (fn []
-                       (println-err "Closing producer for destination description:" destination-description)
+                       (utils/println-err "Closing producer for destination description:" destination-description)
                        (.close connection))))))))
 
 (defrecord ConsumerWrapper [close-fn]
@@ -487,7 +487,7 @@
   ([broker-url destination-description cb]
     (create-single-consumer broker-url destination-description cb identity))
   ([^String broker-url ^String destination-description cb de-serialization-fn]
-    (println-err "Creating consumer for broker-url:" broker-url ", destination description:" destination-description)
+    (utils/println-err "Creating consumer for broker-url:" broker-url ", destination description:" destination-description)
     (cond
       (.startsWith
         broker-url
@@ -502,7 +502,7 @@
                       (cb (de-serialization-fn payload)))))
                 (->ConsumerWrapper
                   (fn []
-                    (println-err "Closing websocket consumer for destination description:" destination-description)
+                    (utils/println-err "Closing websocket consumer for destination description:" destination-description)
                     (close-ws-stomp-session session-map))))
       (.startsWith
         broker-url
@@ -515,15 +515,15 @@
                     mqtt-client
                     (proxy [MqttCallback] []
                       (connectionLost [cause]
-                        (println-err "Connection lost (" broker-url dst-descrpt "):" cause))
+                        (utils/println-err "Connection lost (" broker-url dst-descrpt "):" cause))
                       (deliveryComplete [token]
-                        (println-err "Delivery complete (" broker-url dst-descrpt "):" token))
+                        (utils/println-err "Delivery complete (" broker-url dst-descrpt "):" token))
                       (messageArrived [^String topic ^MqttMessage message]
                         (cb (de-serialization-fn (.getPayload message))))))
                   (.subscribe mqtt-client dst-descrpt)
                   (->ConsumerWrapper
                     (fn []
-                      (println-err "Closing mqtt consumer for destination description:" destination-description)
+                      (utils/println-err "Closing mqtt consumer for destination description:" destination-description)
                       (.disconnect mqtt-client))))
       :default (with-destination broker-url destination-description
                  (let [listener (proxy [MessageListener] []
@@ -535,15 +535,15 @@
                                       ObjectMessage  (try
                                                        (cb (de-serialization-fn (.getObject ^ObjectMessage m)))
                                                        (catch javax.jms.JMSException e
-                                                         (println-err e)))
+                                                         (utils/println-err e)))
                                       TextMessage (cb (de-serialization-fn (.getText ^TextMessage m)))
-                                      (println-err "Unknown message type:" (type m)))))
+                                      (utils/println-err "Unknown message type:" (type m)))))
                        consumer (doto
                                   (.createConsumer session destination)
                                   (.setMessageListener listener))]
                    (->ConsumerWrapper
                      (fn []
-                       (println-err "Closing consumer for destination description:" destination-description)
+                       (utils/println-err "Closing consumer for destination description:" destination-description)
                        (.close connection))))))))
 
 (defn close
@@ -566,7 +566,7 @@
   ([broker-url destination-description pool-size]
     (create-pooled-producer broker-url destination-description pool-size identity))
   ([broker-url destination-description ^long pool-size serialization-fn]
-    (println-err "Creating pooled producer for destination description:" destination-description "; Pool size:" pool-size)
+    (utils/println-err "Creating pooled producer for destination description:" destination-description "; Pool size:" pool-size)
     (let [producer (create-single-producer broker-url destination-description serialization-fn)
           pool (ArrayList. pool-size)]
       (->ProducerWrapper
@@ -576,7 +576,7 @@
             (producer pool)
             (.clear pool)))
         (fn []
-          (println-err "Closing pooled producer for destination description:" destination-description)
+          (utils/println-err "Closing pooled producer for destination description:" destination-description)
           (.close producer))))))
 
 (defn create-pooled-consumer
@@ -593,14 +593,14 @@
   ([broker-url destination-description cb]
     (create-pooled-consumer broker-url destination-description cb identity))
   ([broker-url destination-description cb de-serialization-fn]
-    (println-err "Creating pooled consumer for destination description:" destination-description)
+    (utils/println-err "Creating pooled consumer for destination description:" destination-description)
     (let [pooled-cb (fn [^ArrayList lst]
                       (doseq [o lst]
                         (cb o)))
           consumer (create-single-consumer broker-url destination-description pooled-cb de-serialization-fn)]
       (->ConsumerWrapper
         (fn []
-          (println-err "Closing pooled consumer for destination description:" destination-description)
+          (utils/println-err "Closing pooled consumer for destination description:" destination-description)
           (close consumer))))))
 
 (defn create-producer
@@ -626,7 +626,7 @@
     (cond
       (= pool-size 1) (create-single-producer broker-url destination-description serialization-fn)
       (> pool-size 1) (create-pooled-producer broker-url destination-description pool-size serialization-fn)
-      :default (println-err "Error: Invalid pool size:" pool-size))))
+      :default (utils/println-err "Error: Invalid pool size:" pool-size))))
 
 (defn create-consumer
   "Create a message consumer for receiving data from the specified destination and server/broker.
@@ -647,7 +647,7 @@
     (cond
       (= pool-size 1) (create-single-consumer broker-url destination-description cb de-serialization-fn)
       (> pool-size 1) (create-pooled-consumer broker-url destination-description cb de-serialization-fn)
-      :default (println-err "Error: Invalid pool size:" pool-size))))
+      :default (utils/println-err "Error: Invalid pool size:" pool-size))))
 
 (defn create-nippy-producer
   "Create a producer that uses nippy for serialization.
@@ -665,7 +665,7 @@
     (create-nippy-producer
       broker-url destination-description pool-size {}))
   ([broker-url destination-description pool-size nippy-opts]
-    (println-err "Creating nippy producer for destination description:" destination-description
+    (utils/println-err "Creating nippy producer for destination description:" destination-description
              "with options:" nippy-opts)
     (create-producer
       broker-url
@@ -704,7 +704,7 @@
   ([broker-url destination-description pool-size]
      (create-nippy-lzf-producer broker-url destination-description pool-size {}))
   ([broker-url destination-description pool-size nippy-opts]
-    (println-err "Creating nippy lzf producer for destination description:" destination-description)
+    (utils/println-err "Creating nippy lzf producer for destination description:" destination-description)
     (create-producer
       broker-url
       destination-description
@@ -721,7 +721,7 @@
   ([broker-url destination-description cb pool-size]
     (create-nippy-lzf-consumer broker-url destination-description cb pool-size {}))
   ([broker-url destination-description cb pool-size nippy-opts]
-    (println-err "Creating nippy lzf consumer for destination description:" destination-description)
+    (utils/println-err "Creating nippy lzf consumer for destination description:" destination-description)
     (create-consumer
       broker-url
       destination-description
@@ -737,7 +737,7 @@
   ([broker-url destination-description]
     (create-carbonite-producer broker-url destination-description 1))
   ([broker-url destination-description pool-size]
-    (println-err "Creating carbonite producer for destination description:" destination-description)
+    (utils/println-err "Creating carbonite producer for destination description:" destination-description)
     (let [reg (carb-api/default-registry)]
       (create-producer
         broker-url
@@ -753,7 +753,7 @@
   ([broker-url destination-description cb]
     (create-carbonite-consumer broker-url destination-description cb 1))
   ([broker-url destination-description cb pool-size]
-    (println-err "Creating carbonite consumer for destination description:" destination-description)
+    (utils/println-err "Creating carbonite consumer for destination description:" destination-description)
     (let [reg (carb-api/default-registry)]
       (create-consumer
         broker-url
@@ -770,7 +770,7 @@
   ([broker-url destination-description]
     (create-carbonite-lzf-producer broker-url destination-description 1))
   ([broker-url destination-description pool-size]
-    (println-err "Creating carbonite lzf producer for destination description:" destination-description)
+    (utils/println-err "Creating carbonite lzf producer for destination description:" destination-description)
     (let [reg (carb-api/default-registry)]
       (create-producer
         broker-url
@@ -786,7 +786,7 @@
   ([broker-url destination-description cb]
     (create-carbonite-lzf-consumer broker-url destination-description cb 1))
   ([broker-url destination-description cb pool-size]
-    (println-err "Creating carbonite lzf consumer for destination description:" destination-description)
+    (utils/println-err "Creating carbonite lzf consumer for destination description:" destination-description)
     (let [reg (carb-api/default-registry)]
       (create-consumer
         broker-url
@@ -797,7 +797,7 @@
           (carb-buf/read-bytes reg (LZFDecoder/decode ^bytes ba)))))))
 
 ;(defn create-pooled-bytes-message-producer [^String broker-url ^String destination-description pool-size]
-;  (println-err "Creating pooled-bytes-message-producer for destination description:" destination-description)
+;  (utils/println-err "Creating pooled-bytes-message-producer for destination description:" destination-description)
 ;  (with-destination broker-url destination-description
 ;    (let [producer (doto
 ;                     (.createProducer session destination)
