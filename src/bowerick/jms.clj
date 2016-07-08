@@ -16,7 +16,7 @@
   (:require
     [carbonite.api :as carb-api]
     [carbonite.buffer :as carb-buf]
-    [cheshire.core :refer :all]
+    [cheshire.core :as cheshire]
     [clojure.java.io :refer :all]
     [clj-assorted-utils.util :refer :all]
     [taoensso.nippy :as nippy])
@@ -244,7 +244,7 @@
                        (create-single-producer
                          management-address
                          *broker-management-reply-topic*
-                         generate-string))
+                         cheshire/generate-string))
                      (catch Exception e
                        (println-err "Warning: Could not create management producer for:" *broker-management-reply-topic*)))
           consumer (try
@@ -261,7 +261,7 @@
                              "get-destinations" (producer (get-destinations broker false))
                              "get-all-destinations" (producer (get-destinations broker true))
                              (send-error-msg producer (str "Unknown command: " cmd))))
-                         parse-string))
+                         cheshire/parse-string))
                      (catch Exception e
                        (println-err "Warning: Could not create management consumer for:" *broker-management-command-topic*)))]
       (.waitUntilStarted broker)
