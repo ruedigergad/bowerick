@@ -231,6 +231,7 @@
                 (.addConnector broker addr))
               (.addConnector broker address))
           _ (.start broker)
+          _ (.waitUntilStarted broker)
           management-address (cond
                                (sequential? address) (first address)
                                :default address)
@@ -261,7 +262,6 @@
                              (send-error-msg producer (str "Unknown command: " cmd))))))
                      (catch Exception e
                        (utils/println-err "Warning: Could not create management consumer for:" *broker-management-command-topic*)))]
-      (.waitUntilStarted broker)
       {:broker broker
        :stop (fn []
                (if consumer
