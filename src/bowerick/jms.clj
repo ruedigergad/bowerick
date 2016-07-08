@@ -17,7 +17,7 @@
     [carbonite.api :as carb-api]
     [carbonite.buffer :as carb-buf]
     [cheshire.core :as cheshire]
-    [clojure.java.io :refer :all]
+    [clojure.java.io :as java-io]
     [clj-assorted-utils.util :refer :all]
     [taoensso.nippy :as nippy])
   (:import
@@ -79,7 +79,7 @@
                               (doto
                                 (KeyStore/getInstance "JKS")
                                 (.load
-                                  (input-stream *key-store-file*)
+                                  (java-io/input-stream *key-store-file*)
                                   (char-array *key-store-password*)))
                               (char-array *key-store-password*)))
         trustManagerFactory (doto
@@ -87,7 +87,7 @@
                               (.init
                                 (doto (KeyStore/getInstance "JKS")
                                   (.load
-                                    (input-stream *trust-store-file*)
+                                    (java-io/input-stream *trust-store-file*)
                                     (char-array *trust-store-password*)))))]
     (doto
       (SSLContext/getInstance "TLS")
