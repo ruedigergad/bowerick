@@ -11,8 +11,6 @@
   ^{:author "Ruediger Gad",
     :doc "Main class to start the bowerick stand-alone application."}
   bowerick.main
-  (:use
-    [cheshire.core :only [generate-string parse-string]])
   (:require
     [bowerick.jms :refer :all]
     [cli4clj.cli :refer :all]
@@ -96,16 +94,14 @@
                                      (create-cached-destination
                                        consumers
                                        (str broker-url ":" *broker-management-reply-topic*)
-                                       create-consumer
+                                       create-json-consumer
                                        (fn [reply]
                                          (binding [*out* out-binding]
                                            (println "Management Reply:" broker-url "->")
-                                           (pprint reply)))
-                                       1
-                                       cheshire.core/parse-string)
+                                           (pprint reply))))
                                      (let [cmd-destination (str broker-url ":" *broker-management-command-topic*)
                                            cmd-with-args (str command (reduce #(str %1 " " %2) "" args))]
-                                       (create-cached-destination producers cmd-destination create-producer 1 cheshire.core/generate-string)
+                                       (create-cached-destination producers cmd-destination create-json-producer)
                                        (println "Management Command:" cmd-destination "<-")
                                        (pprint cmd-with-args)
                                        ((@producers cmd-destination) cmd-with-args)))}

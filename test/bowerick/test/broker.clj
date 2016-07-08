@@ -72,17 +72,15 @@
   (let [brkr (start-broker local-jms-server)
         ret (atom nil)
         flag (prepare-flag)
-        producer (create-single-producer
+        producer (create-json-producer
                    local-jms-server
-                   broker-management-command-topic
-                   cheshire.core/generate-string)
-        consumer (create-single-consumer
+                   broker-management-command-topic)
+        consumer (create-json-consumer
                    local-jms-server
                    broker-management-reply-topic
                    (fn [data]
                      (reset! ret data)
-                     (set-flag flag))
-                   cheshire.core/parse-string)]
+                     (set-flag flag)))]
     (producer "get-destinations")
     (await-flag flag)
     (is (=
@@ -97,17 +95,15 @@
   (let [brkr (start-broker local-jms-server)
         ret (atom nil)
         flag (prepare-flag)
-        producer (create-single-producer
+        producer (create-json-producer
                    local-jms-server
-                   broker-management-command-topic
-                   cheshire.core/generate-string)
-        consumer (create-single-consumer
+                   broker-management-command-topic)
+        consumer (create-json-consumer
                    local-jms-server
                    broker-management-reply-topic
                    (fn [data]
                      (reset! ret data)
-                     (set-flag flag))
-                   cheshire.core/parse-string)]
+                     (set-flag flag)))]
     (producer "get-all-destinations")
     (await-flag flag)
     (is (=
@@ -130,17 +126,15 @@
   (let [brkr (start-broker local-jms-server)
         ret (atom nil)
         flag (prepare-flag)
-        producer (create-single-producer
+        producer (create-json-producer
                    local-jms-server
-                   broker-management-command-topic
-                   cheshire.core/generate-string)
-        consumer (create-single-consumer
+                   broker-management-command-topic)
+        consumer (create-json-consumer
                    local-jms-server
                    broker-management-reply-topic
                    (fn [data]
                      (reset! ret data)
-                     (set-flag flag))
-                   cheshire.core/parse-string)]
+                     (set-flag flag)))]
     (producer "foo_unknown_command_bar")
     (await-flag flag)
     (is (=

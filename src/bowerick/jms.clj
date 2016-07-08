@@ -194,8 +194,8 @@
                      [authentication-plugin authorization-plugin])))]
     broker))
 
-(declare create-single-producer)
-(declare create-single-consumer)
+(declare create-json-producer)
+(declare create-json-consumer)
 (declare close)
 
 (defn start-broker
@@ -240,10 +240,9 @@
                                *trust-store-password* *key-store-password*
                                *key-store-file* *trust-store-file*
                                *key-store-password* *trust-store-password*]
-                       (create-single-producer
+                       (create-json-producer
                          management-address
-                         *broker-management-reply-topic*
-                         cheshire/generate-string))
+                         *broker-management-reply-topic*))
                      (catch Exception e
                        (utils/println-err "Warning: Could not create management producer for:" *broker-management-reply-topic*)))
           consumer (try
@@ -252,15 +251,14 @@
                                *trust-store-password* *key-store-password*
                                *key-store-file* *trust-store-file*
                                *key-store-password* *trust-store-password*]
-                       (create-single-consumer
+                       (create-json-consumer
                          management-address
                          *broker-management-command-topic*
                          (fn [cmd]
                            (condp = cmd
                              "get-destinations" (producer (get-destinations broker false))
                              "get-all-destinations" (producer (get-destinations broker true))
-                             (send-error-msg producer (str "Unknown command: " cmd))))
-                         cheshire/parse-string))
+                             (send-error-msg producer (str "Unknown command: " cmd))))))
                      (catch Exception e
                        (utils/println-err "Warning: Could not create management consumer for:" *broker-management-command-topic*)))]
       (.waitUntilStarted broker)
