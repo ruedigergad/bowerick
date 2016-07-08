@@ -11,13 +11,12 @@
   ^{:author "Ruediger Gad",
     :doc "Functions for JMS interaction"} 
   bowerick.jms
-  (:use
-    [clojure.string :only (join split)])
   (:require
     [carbonite.api :as carb-api]
     [carbonite.buffer :as carb-buf]
     [cheshire.core :as cheshire]
     [clojure.java.io :as java-io]
+    [clojure.string :as str]
     [clj-assorted-utils.util :as utils]
     [taoensso.nippy :as nippy])
   (:import
@@ -369,9 +368,9 @@
          ~'session ~(with-meta
                       `(.createSession ~'connection false Session/AUTO_ACKNOWLEDGE)
                       {:tag 'javax.jms.Session})
-         split-destination# (filter #(not= % "") (split ~destination-description #"/"))
+         split-destination# (filter #(not= % "") (str/split ~destination-description #"/"))
          destination-type# (first split-destination#)
-         destination-name# (join "/" (rest split-destination#))
+         destination-name# (str/join "/" (rest split-destination#))
          _# (utils/println-err "Creating destination. Type:" destination-type# "Name:" destination-name#)
          ~'destination (condp = destination-type#
                       "topic" (.createTopic ~'session destination-name#)
