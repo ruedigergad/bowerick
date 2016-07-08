@@ -68,7 +68,7 @@
         out-binding *out*]
     (start-cli {:cmds
                  {:send {:fn (fn [destination-url data]
-                               (create-cached-destination producers destination-url create-producer)
+                               (create-cached-destination producers destination-url create-json-producer)
                                (println "Sending:" destination-url "<-")
                                (pprint data)
                                ((@producers destination-url) data))
@@ -80,7 +80,7 @@
                                   (create-cached-destination
                                     consumers
                                     destination-url
-                                    create-consumer
+                                    create-json-consumer
                                     (fn [rcvd]
                                       (binding [*out* out-binding]
                                         (println "Received:" destination-url "->")
