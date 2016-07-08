@@ -283,7 +283,7 @@
       utils/byte-array-type data
       java.lang.String (.getBytes ^String data *default-charset*)
       (.getBytes
-        ^String (cheshire.core/generate-string data)
+        ^String (cheshire/generate-string data)
         *default-charset*)))
 
 (defn create-mqtt-client
@@ -794,6 +794,64 @@
         pool-size
         (fn [^bytes ba]
           (carb-buf/read-bytes reg (LZFDecoder/decode ^bytes ba)))))))
+
+(defn create-json-producer
+  "Create a producer for exchanging data in JSON format.
+   
+   The passed data will be converted to JSON via Cheshire.
+   The JSON string will then be sent as byte array representation.
+   The default charset that is used is UTF-8.
+   
+   One aim of this producer is to enable effortless exchange between various transports, such as, OpenWire, STOMP, WS, or MQTT.
+
+   An optional post-process-fn can be used to further process the byte array data resulting from the serialization.
+   One use case for this is, e.g., to compress or encrypt the byte array data.
+   Typically, the post-process-fn is expected to accept and return a byte array and defaults to identity.
+
+   For more details about producers please see create-producer."
+  ([broker-url destination-description]
+    (create-json-producer broker-url destination-description 1))
+  ([broker-url destination-description pool-size]
+    (create-json-producer broker-url destination-description pool-size identity))
+  ([broker-url destination-description pool-size post-process-fn]
+    (utils/println-err "Creating JSON producer for destination description:" destination-description)
+    (create-producer
+      broker-url
+      destination-description
+      pool-size
+      (fn [data]
+        (post-process-fn
+          (.getBytes
+            ^String (cheshire/generate-string data)
+            ^Charset *default-charset*))))))
+
+(defn create-json-consumer
+  "Create a consumer for exchanging data in JSON format.
+   
+   The consumer expects to receive the byte array representation of a string of JSON encoded data.
+   The default charset that is used is UTF-8.
+   
+   One aim of this consumer is to enable effortless exchange between various transports, such as, OpenWire, STOMP, WS, or MQTT.
+
+   An optional pre-process-fn can be used to pre-process the received byte array data before its de-serialization.
+   One use case for this is, e.g., to uncompress or decrypt the received byte array data.
+   Typically, the pre-process-fn is expected to accept and return a byte array and defaults to identity.
+   The pre-process-fn is expected to be the inverse operation of the post-process-fn that was used for the JSON producer (See create-json-producer.).
+
+   For more details about consumers please see create-consumer."
+  ([broker-url destination-description cb]
+    (create-json-consumer broker-url destination-description cb 1))
+  ([broker-url destination-description cb pool-size]
+    (create-json-consumer broker-url destination-description cb 1 identity))
+  ([broker-url destination-description cb pool-size pre-process-fn]
+    (utils/println-err "Creating JSON consumer for destination description:" destination-description)
+    (create-consumer
+      broker-url
+      destination-description
+      cb
+      pool-size
+      (fn [^bytes ba]
+        (cheshire/parse-string (String. ^bytes (pre-process-fn ba) ^Charset *default-charset*))))))
 
 ;(defn create-pooled-bytes-message-producer [^String broker-url ^String destination-description pool-size]
 ;  (utils/println-err "Creating pooled-bytes-message-producer for destination description:" destination-description)
