@@ -28,40 +28,40 @@ Detailed test results are available as well:
 #### Minimal Working Example
 
     ; Can also be run in: lein repl
-    (require '[bowerick.jms :as b])
+    (require '[bowerick.jms :as jms])
     (def url "tcp://127.0.0.1:61616")
     (def destination "/topic/my.test.topic")
-    (def brkr (b/start-broker url))
-    (def consumer (b/create-json-consumer url destination (fn [data] (println "Received:" data))))
-    (def producer (b/create-json-producer url destination))
+    (def brkr (jms/start-broker url))
+    (def consumer (jms/create-json-consumer url destination (fn [data] (println "Received:" data))))
+    (def producer (jms/create-json-producer url destination))
     (producer "foo")
     ; nilReceived: foo
-    (producer [1 7 0 1])
-    ; nilReceived: [1 7 0 1]
-    (b/close producer)
-    (b/close consumer)
-    (b/stop brkr)
+    (producer '(1 7 0 1))
+    ; nilReceived: (1 7 0 1)
+    (jms/close producer)
+    (jms/close consumer)
+    (jms/stop brkr)
     ; (quit)
 
 #### Pooled Operation
 
     ; Can also be run in: lein repl
-    (require '[bowerick.jms :as b])
+    (require '[bowerick.jms :as jms])
     (def url "tcp://127.0.0.1:61616")
     (def destination "/topic/my.test.topic")
-    (def brkr (b/start-broker url))
+    (def brkr (jms/start-broker url))
     (def pool-size 3)
-    (def consumer (b/create-json-consumer url destination (fn [data] (println "Received:" data)) pool-size))
-    (def producer (b/create-json-producer url destination pool-size))
+    (def consumer (jms/create-json-consumer url destination (fn [data] (println "Received:" data)) pool-size))
+    (def producer (jms/create-json-producer url destination pool-size))
     (producer "foo")
     (producer [1 7 0 1])
     (producer 42.0)
     ; nilReceived: foo
     ; Received: [1 7 0 1]
     ; Received: 42.0
-    (b/close producer)
-    (b/close consumer)
-    (b/stop brkr)
+    (jms/close producer)
+    (jms/close consumer)
+    (jms/stop brkr)
     ; (quit)
 
 ### API Docs
