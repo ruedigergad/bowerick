@@ -27,41 +27,42 @@ Detailed test results are available as well:
 
 #### Minimal Working Example
 
-    lein repl
-    bowerick.main=> (def url "tcp://127.0.0.1:61616")
-    bowerick.main=> (def endpoint "/topic/my.test.topic")
-    bowerick.main=> (def brkr (start-broker url))
-    bowerick.main=> (def consumer (create-consumer url endpoint (fn [data] (println "Received:" data))))
-    bowerick.main=> (def producer (create-producer url endpoint))
-    bowerick.main=> (producer "foo")
-    nilReceived: foo
-    bowerick.main=> (producer [1 7 0 1])
-    nilReceived: [1 7 0 1]
-    bowerick.main=> (close producer)
-    bowerick.main=> (close consumer)
-    bowerick.main=> (.stop brkr)
-    bowerick.main=> (quit)
+    ; Can also be run in: lein repl
+    (require '[bowerick.jms :as b])
+    (def url "tcp://127.0.0.1:61616")
+    (def destination "/topic/my.test.topic")
+    (def brkr (b/start-broker url))
+    (def consumer (b/create-json-consumer url destination (fn [data] (println "Received:" data))))
+    (def producer (b/create-json-producer url destination))
+    (producer "foo")
+    ; nilReceived: foo
+    (producer [1 7 0 1])
+    ; nilReceived: [1 7 0 1]
+    (b/close producer)
+    (b/close consumer)
+    (b/stop brkr)
+    ; (quit)
 
-#### Pooled Operation with Compression   
+#### Pooled Operation
 
-    lein repl
-    bowerick.main=> (def url "tcp://127.0.0.1:61616")
-    bowerick.main=> (def endpoint "/topic/my.test.topic")
-    bowerick.main=> (def brkr (start-broker url))
-    bowerick.main=> (def consumer (create-pooled-carbonite-lzf-consumer url endpoint (fn [data] (println "Received:" data))))
-    bowerick.main=> (def pool-size 3)
-    bowerick.main=> (def producer (create-pooled-carbonite-lzf-producer url endpoint pool-size))
-    bowerick.main=> (producer "foo")
-    bowerick.main=> (producer [1 7 0 1])
-    bowerick.main=> (producer 42.0)
-    nilReceived: foo
-
-    Received: [1 7 0 1]
-    Received: 42.0
-    bowerick.main=> (close producer)
-    bowerick.main=> (close consumer)
-    bowerick.main=> (.stop brkr)
-    bowerick.main=> (quit)
+    ; Can also be run in: lein repl
+    (require '[bowerick.jms :as b])
+    (def url "tcp://127.0.0.1:61616")
+    (def destination "/topic/my.test.topic")
+    (def brkr (b/start-broker url))
+    (def pool-size 3)
+    (def consumer (b/create-json-consumer url destination (fn [data] (println "Received:" data)) pool-size))
+    (def producer (b/create-json-producer url destination pool-size))
+    (producer "foo")
+    (producer [1 7 0 1])
+    (producer 42.0)
+    ; nilReceived: foo
+    ; Received: [1 7 0 1]
+    ; Received: 42.0
+    (b/close producer)
+    (b/close consumer)
+    (b/stop brkr)
+    ; (quit)
 
 ### API Docs
 
