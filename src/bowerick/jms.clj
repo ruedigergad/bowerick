@@ -26,7 +26,7 @@
     (java.lang AutoCloseable)
     (java.nio.charset Charset)
     (java.security KeyStore)
-    (java.util ArrayList)
+    (java.util ArrayList List)
     (java.util.concurrent ArrayBlockingQueue)
     (javax.jms BytesMessage Connection DeliveryMode Message MessageProducer MessageListener ObjectMessage Session TextMessage Topic)
     (javax.net.ssl KeyManagerFactory SSLContext TrustManagerFactory)
@@ -591,7 +591,7 @@
     (create-pooled-consumer broker-url destination-description cb identity))
   ([broker-url destination-description cb de-serialization-fn]
     (utils/println-err "Creating pooled consumer for destination description:" destination-description)
-    (let [pooled-cb (fn [^ArrayList lst]
+    (let [pooled-cb (fn [^List lst]
                       (doseq [o lst]
                         (cb o)))
           consumer (create-single-consumer broker-url destination-description pooled-cb de-serialization-fn)]
@@ -840,7 +840,7 @@
   ([broker-url destination-description cb]
     (create-json-consumer broker-url destination-description cb 1))
   ([broker-url destination-description cb pool-size]
-    (create-json-consumer broker-url destination-description cb 1 identity))
+    (create-json-consumer broker-url destination-description cb pool-size identity))
   ([broker-url destination-description cb pool-size pre-process-fn]
     (utils/println-err "Creating JSON consumer for destination description:" destination-description)
     (create-consumer
