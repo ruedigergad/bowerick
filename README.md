@@ -95,7 +95,14 @@ http://ruedigergad.github.io/bowerick/doc/
       
       stomp://127.0.0.1:42422
 
-#### Pooling, Serialization, and Compression
+    * STOMP via WebSocket
+
+      ws://127.0.0.1:42428
+    * MQTT via TCP
+
+      mqtt://127.0.0.1:42430
+
+#### Serialization, Compression, and Pooling
 
 Placeholders Used in the Cheat Sheet Examples
 
