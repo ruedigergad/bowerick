@@ -100,50 +100,42 @@ http://ruedigergad.github.io/bowerick/doc/
 Placeholders Used in the Cheat Sheet Examples
 
     (def server-url "tcp://127.0.0.1:42424")
-    (def endpoint-description "/topic/my.topic.name")
+    (def destination-description "/topic/my.topic.name")
     (def pool-size 10)
     (defn callback-fn [data] (println data))
 
-* Single Message Operation
-  
-  (create-producer server-url endpoint-description)
-  
-  (create-consumer server-url endpoint-description callback-fn)
-* Pooled Operation
-   * Default Serialization
-     
-     (create-pooled-producer server-url endpoint-description pool-size)
-     
-     (create-pooled-consumer server-url endpoint-description callback-fn)
-   * Carbonite (Kryo) Serialization
-     
-     (create-carbonite-producer server-url endpoint-description pool-size)
-     
-     (create-carbonite-consumer server-url endpoint-description callback-fn pool-size)
-   * Carbonite (Kryo) Serialization with LZF Compression
-     
-     (create-carbonite-lzf-producer server-url endpoint-description pool-size)
-     
-     (create-carbonite-lzf-consumer server-url endpoint-description callback-fn pool-size)
-   * Nippy Serialization
-     
-     (create-pooled-nippy-producer server-url endpoint-description pool-size)
-     
-     (create-pooled-nippy-consumer server-url endpoint-description callback-fn)
-   * Nippy Serialization with Compression (LZ4, Snappy, LZMA2)
-     
-     (create-pooled-nippy-producer server-url endpoint-description pool-size {:compressor taoensso.nippy/lz4-compressor})
-     
-     (create-pooled-nippy-producer server-url endpoint-description pool-size {:compressor taoensso.nippy/snappy-compressor})
-     
-     (create-pooled-nippy-producer server-url endpoint-description pool-size {:compressor taoensso.nippy/lzma2-compressor})
-     
-     (create-pooled-nippy-consumer server-url endpoint-description callback-fn)
-   * Nippy Serialization with LZF Compression
-     
-     (create-pooled-nippy-lzf-producer server-url endpoint-description pool-size)
-     
-     (create-pooled-nippy-lzf-consumer server-url endpoint-description callback-fn)
+* Default Serialization
+ 
+ (create-producer server-url destination-description pool-size)
+ 
+ (create-consumer server-url destination-description callback-fn pool-size)
+* Carbonite (Kryo) Serialization
+ 
+ (create-carbonite-producer server-url destination-description pool-size)
+ 
+ (create-carbonite-consumer server-url destination-description callback-fn pool-size)
+* Carbonite (Kryo) Serialization with LZF Compression
+ 
+ (create-carbonite-lzf-producer server-url destination-description pool-size)
+ 
+ (create-carbonite-lzf-consumer server-url destination-description callback-fn pool-size)
+* Nippy Serialization
+ 
+ (create-nippy-producer server-url destination-description pool-size)
+ 
+ (create-nippy-consumer server-url destination-description callback-fn pool-size)
+* Nippy Serialization with Compression (LZ4, Snappy, LZMA2)
+ 
+ (create-nippy-producer server-url destination-description pool-size {:compressor taoensso.nippy/lz4-compressor})
+ 
+ (create-nippy-producer server-url destination-description pool-size {:compressor taoensso.nippy/snappy-compressor})
+ 
+ (create-nippy-producer server-url destination-description pool-size {:compressor taoensso.nippy/lzma2-compressor})
+* Nippy Serialization with LZF Compression
+ 
+ (create-nippy-lzf-producer server-url destination-description pool-size)
+ 
+ (create-nippy-lzf-consumer server-url destination-description callback-fn pool-size)
 
 ## License
 
