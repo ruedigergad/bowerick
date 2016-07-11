@@ -369,7 +369,7 @@
          split-destination# (filter #(not= % "") (str/split ~destination-description #"/"))
          destination-type# (first split-destination#)
          destination-name# (str/join "/" (rest split-destination#))
-         _# (utils/println-err "Creating destination. Type:" destination-type# "Name:" destination-name#)
+         _# (utils/println-err "Creating destination. ype:" destination-type# "Name:" destination-name#)
          ~'destination (condp = destination-type#
                       "topic" (.createTopic ~'session destination-name#)
                       "queue" (.createQueue ~'session destination-name#)
@@ -850,12 +850,4 @@
       pool-size
       (fn [^bytes ba]
         (cheshire/parse-string (String. ^bytes (pre-process-fn ba) ^Charset *default-charset*))))))
-
-;(defn create-pooled-bytes-message-producer [^String broker-url ^String destination-description pool-size]
-;  (utils/println-err "Creating pooled-bytes-message-producer for destination description:" destination-description)
-;  (with-destination broker-url destination-description
-;    (let [producer (doto
-;                     (.createProducer session destination)
-;                     (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
-;      (PooledBytesMessageProducer. producer session connection pool-size))))
 
