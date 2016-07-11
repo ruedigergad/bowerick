@@ -115,16 +115,16 @@ Placeholders Used in the Cheat Sheet Examples
      (create-pooled-producer server-url endpoint-description pool-size)
      
      (create-pooled-consumer server-url endpoint-description callback-fn)
-   * Criptonite (Kryo) Serialization
+   * Carbonite (Kryo) Serialization
      
-     (create-pooled-cryptonite-producer server-url endpoint-description pool-size)
+     (create-carbonite-producer server-url endpoint-description pool-size)
      
-     (create-pooled-cryptonite-consumer server-url endpoint-description callback-fn)
-   * Criptonite (Kryo) Serialization with LZF Compression
+     (create-carbonite-consumer server-url endpoint-description callback-fn pool-size)
+   * Carbonite (Kryo) Serialization with LZF Compression
      
-     (create-pooled-cryptonite-lzf-producer server-url endpoint-description pool-size)
+     (create-carbonite-lzf-producer server-url endpoint-description pool-size)
      
-     (create-pooled-cryptonite-lzf-consumer server-url endpoint-description callback-fn)
+     (create-carbonite-lzf-consumer server-url endpoint-description callback-fn pool-size)
    * Nippy Serialization
      
      (create-pooled-nippy-producer server-url endpoint-description pool-size)
