@@ -369,7 +369,7 @@
          split-destination# (filter #(not= % "") (str/split ~destination-description #"/"))
          destination-type# (first split-destination#)
          destination-name# (str/join "/" (rest split-destination#))
-         _# (utils/println-err "Creating destination. ype:" destination-type# "Name:" destination-name#)
+         _# (utils/println-err "Creating destination. Type:" destination-type# "Name:" destination-name#)
          ~'destination (condp = destination-type#
                       "topic" (.createTopic ~'session destination-name#)
                       "queue" (.createQueue ~'session destination-name#)
