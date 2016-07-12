@@ -28,7 +28,7 @@
                          *trust-store-password* "password"
                          *key-store-file* "test/ssl/broker.ks"
                          *key-store-password* "password"]
-                 (start-broker [url-openwire url-stomp url-mqtt url-mqtt-ssl]))]
+                 (start-broker [url-openwire url-stomp url-mqtt (str url-mqtt-ssl "?needClientAuth=true")]))]
     (t)
     (stop broker)))
 
