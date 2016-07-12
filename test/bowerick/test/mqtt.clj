@@ -20,7 +20,7 @@
 (def url-openwire "tcp://127.0.0.1:42423")
 (def url-stomp "stomp://127.0.0.1:42424")
 (def url-mqtt "mqtt://127.0.0.1:1883")
-(def url-mqtt-ssl "mqtt+ssl://127.0.0.1:1884")
+(def url-mqtt-ssl "mqtt+ssl://127.0.0.1:1884?needClientAuth=true")
 (def test-topic "/topic/testtopic.foo")
 
 (defn test-with-broker [t]
@@ -28,7 +28,7 @@
                          *trust-store-password* "password"
                          *key-store-file* "test/ssl/broker.ks"
                          *key-store-password* "password"]
-                 (start-broker [url-openwire url-stomp url-mqtt (str url-mqtt-ssl "?needClientAuth=true")]))]
+                 (start-broker [url-openwire url-stomp url-mqtt url-mqtt-ssl]))]
     (t)
     (stop broker)))
 

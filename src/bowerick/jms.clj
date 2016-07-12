@@ -275,6 +275,13 @@
   [brkr]
   ((:stop brkr)))
 
+(defn remove-url-options
+  [url]
+  (if
+    (.contains url "?")
+    (.substring url 0 (.indexOf url "?"))
+    url))
+
 (defn fallback-serialization
   [data]
     (condp instance? data
@@ -286,10 +293,10 @@
 
 (defn create-mqtt-client
   [broker-url]
-  (let [url (condp #(.startsWith %2 %1) broker-url
-              "mqtt+ssl://" (.replaceFirst broker-url "mqtt\\+ssl://" "ssl://")
-              "mqtt://" (.replaceFirst broker-url "mqtt://" "tcp://")
-              broker-url)
+  (let [url (-> broker-url
+              (.replaceFirst "mqtt\\+ssl://" "ssl://")
+              (.replaceFirst "mqtt://" "tcp://")
+              (remove-url-options))
         _ (println "Adjusted MQTT URL from" broker-url "to" url)
         mqtt-client (MqttClient. url (MqttClient/generateClientId) (MemoryPersistence.))
         conn-opts (doto (MqttConnectOptions.)
@@ -344,10 +351,7 @@
                         (.startsWith ~broker-url "tls:"))
                       (doto
                         (ActiveMQSslConnectionFactory.
-                          (if
-                            (.contains ~broker-url "?")
-                            (.substring ~broker-url 0 (.indexOf ~broker-url "?"))
-                            ~broker-url))
+                          (remove-url-options ~broker-url))
                         (.setTrustStore *trust-store-file*) (.setTrustStorePassword *trust-store-password*)
                         (.setKeyStore *key-store-file*) (.setKeyStorePassword *key-store-password*)
                         (.setTrustedPackages *serializable-packages*))
