@@ -287,10 +287,19 @@
 (defn create-mqtt-client
   [broker-url]
   (let [url (condp #(.startsWith %2 %1) broker-url
-              "mqtt+ssl://" (.replaceFirst broker-url "mqtt+ssl://" "ssl://")
-              "mqtt://" (.replaceFirst broker-url "mqtt://" "tcp://"))
+              "mqtt+ssl://" (.replaceFirst broker-url "mqtt\\+ssl://" "ssl://")
+              "mqtt://" (.replaceFirst broker-url "mqtt://" "tcp://")
+              broker-url)
+        _ (println "Adjusted MQTT URL from" broker-url "to" url)
         mqtt-client (MqttClient. url (MqttClient/generateClientId) (MemoryPersistence.))
-        conn-opts (doto (MqttConnectOptions.) (.setCleanSession true))]
+        conn-opts (doto (MqttConnectOptions.)
+                    (.setCleanSession true)
+                    (.setConnectionTimeout 180)
+                    (.setKeepAliveInterval 60))]
+    (when (.startsWith url "ssl://")
+      (utils/println-err "Setting socket factory for SSL connection, trust store:" *trust-store-file* "; key store:" *key-store-file*)
+      (.setSocketFactory conn-opts
+        (.getSocketFactory (get-adjusted-ssl-context))))
     (.connect mqtt-client conn-opts)
     mqtt-client))
 
