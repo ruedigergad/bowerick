@@ -33,58 +33,58 @@
 (defn -init [jms-url]
   [[] {:jms-url jms-url :broker (ref nil)}])
 
-(defn -createConsumer [this topic-identifier ^JmsConsumerCallback consumer-cb pool-size]
+(defn -createConsumer [this destination-description ^JmsConsumerCallback consumer-cb pool-size]
   (create-consumer
     (:jms-url (.state this))
-    topic-identifier
+    destination-description
     (fn [obj]
       (.processData consumer-cb obj))
     pool-size))
 
-(defn -createProducer [this topic-identifier pool-size]
+(defn -createProducer [this destination-description pool-size]
   (create-producer
     (:jms-url (.state this))
-    topic-identifier
+    destination-description
     pool-size))
 
-(defn -createJsonConsumer [this topic-identifier ^JmsConsumerCallback consumer-cb pool-size]
+(defn -createJsonConsumer [this destination-description ^JmsConsumerCallback consumer-cb pool-size]
   (create-json-consumer
     (:jms-url (.state this))
-    topic-identifier
+    destination-description
     (fn [obj]
       (.processData consumer-cb obj))
     pool-size))
 
-(defn -createJsonProducer [this topic-identifier pool-size]
+(defn -createJsonProducer [this destination-description pool-size]
   (create-json-producer
     (:jms-url (.state this))
-    topic-identifier
+    destination-description
     pool-size))
 
-(defn -createCarboniteProducer [this topic-identifier pool-size]
+(defn -createCarboniteProducer [this destination-description pool-size]
   (create-carbonite-producer
     (:jms-url (.state this))
-    topic-identifier
+    destination-description
     pool-size))
 
-(defn -createCarboniteConsumer [this topic-identifier ^JmsConsumerCallback consumer-cb pool-size]
+(defn -createCarboniteConsumer [this destination-description ^JmsConsumerCallback consumer-cb pool-size]
   (create-carbonite-consumer
     (:jms-url (.state this))
-    topic-identifier
+    destination-description
     (fn [obj]
       (.processData consumer-cb obj))
     pool-size))
 
-(defn -createCarboniteLzfProducer [this topic-identifier pool-size]
+(defn -createCarboniteLzfProducer [this destination-description pool-size]
   (create-carbonite-lzf-producer
     (:jms-url (.state this))
-    topic-identifier
+    destination-description
     pool-size))
 
-(defn -createCarboniteLzfConsumer [this topic-identifier ^JmsConsumerCallback consumer-cb pool-size]
+(defn -createCarboniteLzfConsumer [this destination-description ^JmsConsumerCallback consumer-cb pool-size]
   (create-carbonite-lzf-consumer
     (:jms-url (.state this))
-    topic-identifier
+    destination-description
     (fn [obj]
       (.processData consumer-cb obj))
     pool-size))
