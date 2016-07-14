@@ -145,6 +145,11 @@ Placeholders Used in the Cheat Sheet Examples
  (create-producer server-url destination-description pool-size)
  
  (create-consumer server-url destination-description callback-fn pool-size)
+* JSON Serialization (Using Cheshire)
+
+ (create-json-producer server-url destination-description pool-size)
+ 
+ (create-json-consumer server-url destination-description callback-fn pool-size)
 * Carbonite (Kryo) Serialization
  
  (create-carbonite-producer server-url destination-description pool-size)
