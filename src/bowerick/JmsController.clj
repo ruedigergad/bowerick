@@ -14,14 +14,14 @@
   (:gen-class
    :init init
    :constructors {[String] []}
-   :methods [[createConsumer [String bowerick.JmsConsumerCallback int] AutoCloseable]
-             [createProducer [String int] bowerick.JmsProducer]
-             [createJsonConsumer [String bowerick.JmsConsumerCallback int] AutoCloseable]
-             [createJsonProducer [String int] bowerick.JmsProducer]
-             [createCarboniteConsumer [String bowerick.JmsConsumerCallback int] AutoCloseable]
-             [createCarboniteProducer [String int] bowerick.JmsProducer]
-             [createCarboniteLzfConsumer [String bowerick.JmsConsumerCallback int] AutoCloseable]
-             [createCarboniteLzfProducer [String int] bowerick.JmsProducer]
+   :methods [^:static [createConsumer [String String bowerick.JmsConsumerCallback int] AutoCloseable]
+             ^:static [createProducer [String String int] bowerick.JmsProducer]
+             ^:static [createJsonConsumer [String String bowerick.JmsConsumerCallback int] AutoCloseable]
+             ^:static [createJsonProducer [String String int] bowerick.JmsProducer]
+             ^:static [createCarboniteConsumer [String String bowerick.JmsConsumerCallback int] AutoCloseable]
+             ^:static [createCarboniteProducer [String String int] bowerick.JmsProducer]
+             ^:static [createCarboniteLzfConsumer [String String bowerick.JmsConsumerCallback int] AutoCloseable]
+             ^:static [createCarboniteLzfProducer [String String int] bowerick.JmsProducer]
              [startEmbeddedBroker [] void]
              [stopEmbeddedBroker [] void]]
    :state state)
@@ -33,57 +33,57 @@
 (defn -init [broker-url]
   [[] {:broker-url broker-url :broker (ref nil)}])
 
-(defn -createConsumer [this destination-description ^JmsConsumerCallback consumer-cb pool-size]
+(defn -createConsumer [broker-url destination-description ^JmsConsumerCallback consumer-cb pool-size]
   (create-consumer
-    (:broker-url (.state this))
+    broker-url
     destination-description
     (fn [obj]
       (.processData consumer-cb obj))
     pool-size))
 
-(defn -createProducer [this destination-description pool-size]
+(defn -createProducer [broker-url destination-description pool-size]
   (create-producer
-    (:broker-url (.state this))
+    broker-url
     destination-description
     pool-size))
 
-(defn -createJsonConsumer [this destination-description ^JmsConsumerCallback consumer-cb pool-size]
+(defn -createJsonConsumer [broker-url destination-description ^JmsConsumerCallback consumer-cb pool-size]
   (create-json-consumer
-    (:broker-url (.state this))
+    broker-url
     destination-description
     (fn [obj]
       (.processData consumer-cb obj))
     pool-size))
 
-(defn -createJsonProducer [this destination-description pool-size]
+(defn -createJsonProducer [broker-url destination-description pool-size]
   (create-json-producer
-    (:broker-url (.state this))
+    broker-url
     destination-description
     pool-size))
 
-(defn -createCarboniteProducer [this destination-description pool-size]
+(defn -createCarboniteProducer [broker-url destination-description pool-size]
   (create-carbonite-producer
-    (:broker-url (.state this))
+    broker-url
     destination-description
     pool-size))
 
-(defn -createCarboniteConsumer [this destination-description ^JmsConsumerCallback consumer-cb pool-size]
+(defn -createCarboniteConsumer [broker-url destination-description ^JmsConsumerCallback consumer-cb pool-size]
   (create-carbonite-consumer
-    (:broker-url (.state this))
+    broker-url
     destination-description
     (fn [obj]
       (.processData consumer-cb obj))
     pool-size))
 
-(defn -createCarboniteLzfProducer [this destination-description pool-size]
+(defn -createCarboniteLzfProducer [broker-url destination-description pool-size]
   (create-carbonite-lzf-producer
-    (:broker-url (.state this))
+    broker-url
     destination-description
     pool-size))
 
-(defn -createCarboniteLzfConsumer [this destination-description ^JmsConsumerCallback consumer-cb pool-size]
+(defn -createCarboniteLzfConsumer [broker-url destination-description ^JmsConsumerCallback consumer-cb pool-size]
   (create-carbonite-lzf-consumer
-    (:broker-url (.state this))
+    broker-url
     destination-description
     (fn [obj]
       (.processData consumer-cb obj))
