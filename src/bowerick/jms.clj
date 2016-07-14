@@ -34,14 +34,15 @@
     (org.apache.activemq.broker BrokerService)
     (org.apache.activemq.broker.region Destination)
     (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationMap AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
+    (org.eclipse.jetty.util.ssl SslContextFactory)
+    (org.eclipse.jetty.websocket.client WebSocketClient)
     (org.eclipse.paho.client.mqttv3 MqttCallback MqttClient MqttConnectOptions MqttMessage)
     (org.eclipse.paho.client.mqttv3.persist MemoryPersistence)
     (org.fusesource.stomp.jms StompJmsConnectionFactory)
     (org.springframework.messaging.converter ByteArrayMessageConverter SmartMessageConverter StringMessageConverter)
     (org.springframework.messaging.simp.stomp DefaultStompSession StompFrameHandler StompHeaders StompSession StompSessionHandler StompSessionHandlerAdapter)
-    (org.springframework.web.socket.client WebSocketClient)
     (org.springframework.web.socket.messaging WebSocketStompClient)
-    (org.springframework.web.socket.client.standard StandardWebSocketClient)))
+    (org.springframework.web.socket.client.jetty JettyWebSocketClient)))
 
 (def ^:dynamic *user-name* nil)
 (def ^:dynamic *user-password* nil)
@@ -219,6 +220,10 @@
     (start-broker address nil nil nil))
   ([address allow-anon users permissions]
     (adjust-default-ssl-context)
+    (System/setProperty "javax.net.ssl.keyStore" *key-store-file*)
+    (System/setProperty "javax.net.ssl.keyStorePassword" *key-store-password*)
+    (System/setProperty "javax.net.ssl.trustStore" *trust-store-file*)
+    (System/setProperty "javax.net.ssl.trustStorePassword" *trust-store-password*)
     (let [broker (if
                    (and allow-anon users permissions)
                    (setup-broker-with-auth allow-anon users permissions)
@@ -312,7 +317,16 @@
 
 (defn create-ws-stomp-session
   [broker-url]
-  (let [ws-client (StandardWebSocketClient.)
+  (let [ws-client (doto
+                    (if (.startsWith broker-url "wss://")
+                      (JettyWebSocketClient.
+                        (WebSocketClient.
+                          (doto
+                            (SslContextFactory.)
+                            (.setSslContext
+                              (get-adjusted-ssl-context)))))
+                      (JettyWebSocketClient.))
+                    (.start))
         ws-stomp-client (WebSocketStompClient. ws-client)
         session (atom nil)
         flag (utils/prepare-flag)]

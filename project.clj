@@ -46,4 +46,6 @@
              :test
                {:dependencies [[criterium "0.4.4"]]
                 :test-paths ["test" "benchmark"]}}
-  :plugins [[lein-cloverage "1.0.6"]])
+  :plugins [[lein-cloverage "1.0.6"]]
+  ;:jvm-opts ["-Djavax.net.debug=all"]
+  )
