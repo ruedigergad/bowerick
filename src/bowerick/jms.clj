@@ -203,14 +203,34 @@
   "Start an embedded ActiveMQ broker.
    Examples for valid addresses are: 
   
-   tcp://127.0.0.1:42424 udp://127.0.0.1:42426
-   ssl://127.0.0.1:42425 ssl://127.0.0.1:42425?needClientAuth=true
-   stomp+ssl://127.0.0.1:42423 stomp+ssl://127.0.0.1:42423?needClientAuth=true
+   ssl://127.0.0.1:424
+   
+   ssl://127.0.0.1:42425?needClientAuth=true
+   
+   stomp+ssl://127.0.0.1:42423
+   
+   stomp+ssl://127.0.0.1:42423?needClientAuth=true
+   
+   wss://127.0.0.1:42427
+   
+   wss://127.0.0.1:42427?needClientAuth=true
+   
+   mqtt+ssl://127.0.0.1:42429
+   
+   mqtt+ssl://127.0.0.1:42429?needClientAuth=true
+   
+   tcp://127.0.0.1:42424
+   
+   udp://127.0.0.1:42426
+   
+   ws://127.0.0.1:42428
+   
+   mqtt://127.0.0.1:42430
    
    In addition to the address, it is possible to configure the access control:
    When allow-anon is true, anonymous access is allowed.
    The list of users is defined as a vector of maps, e.g.:
-
+   
    [{\"name\" \"test-user\", \"password\" \"secret\", \"groups\" \"test-group,admins,publishers,consumers\"}]
    
    Permissions are also defined as a vector of maps, e.g.:

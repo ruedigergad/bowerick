@@ -103,6 +103,11 @@ http://ruedigergad.github.io/bowerick/doc/
       stomp+ssl://127.0.0.1:42423
       
       stomp+ssl://127.0.0.1:42423?needClientAuth=true
+    * STOMP via WebSockets (with optional client authentication)
+      
+      wss://127.0.0.1:42427
+      
+      wss://127.0.0.1:42427?needClientAuth=true
     * MQTT via TCP (with optional client authentication)
 
       mqtt+ssl://127.0.0.1:42429
