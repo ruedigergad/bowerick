@@ -48,20 +48,18 @@
     pool-size))
 
 (defn -createJsonConsumer [this topic-identifier ^JmsConsumerCallback consumer-cb pool-size]
-  (create-consumer
+  (create-json-consumer
     (:jms-url (.state this))
     topic-identifier
     (fn [obj]
       (.processData consumer-cb obj))
-    pool-size
-    cheshire.core/parse-string))
+    pool-size))
 
 (defn -createJsonProducer [this topic-identifier pool-size]
-  (create-producer
+  (create-json-producer
     (:jms-url (.state this))
     topic-identifier
-    pool-size
-    cheshire.core/generate-string))
+    pool-size))
 
 (defn -createCarboniteProducer [this topic-identifier pool-size]
   (create-carbonite-producer
