@@ -31,7 +31,7 @@
     (javax.jms BytesMessage Connection DeliveryMode Message MessageProducer MessageListener ObjectMessage Session TextMessage Topic)
     (javax.net.ssl KeyManagerFactory SSLContext TrustManagerFactory)
     (org.apache.activemq ActiveMQConnectionFactory ActiveMQSslConnectionFactory)
-    (org.apache.activemq.broker BrokerService)
+    (org.apache.activemq.broker BrokerService SslContext)
     (org.apache.activemq.broker.region Destination)
     (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationMap AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
     (org.eclipse.jetty.util.ssl SslContextFactory)
@@ -95,23 +95,6 @@
         (.getKeyManagers keyManagerFactory)
         (.getTrustManagers trustManagerFactory)
         nil))))
-
-(defn adjust-default-ssl-context
-  "Set the default SSLContext to a context that is initialized with key and
-   trust stores based on the settings defined in the global dynamic vars:
-   *key-store-file* *key-store-password*
-   *trust-store-file* *trust-store-password*"
-  []
-  (when
-    (and
-      (utils/file-exists? *key-store-file*)
-      (utils/file-exists? *trust-store-file*))
-    (utils/println-err
-      "Setting default SSLContext to use key store file:"
-      *key-store-file*
-      "and trust store file:"
-      *trust-store-file*)
-    (SSLContext/setDefault (get-adjusted-ssl-context))))
 
 (defn get-destinations
   "Get a lexicographically sorted list of destinations that exist for the given borker-service
@@ -239,11 +222,6 @@
   ([address]
     (start-broker address nil nil nil))
   ([address allow-anon users permissions]
-    (adjust-default-ssl-context)
-    (System/setProperty "javax.net.ssl.keyStore" *key-store-file*)
-    (System/setProperty "javax.net.ssl.keyStorePassword" *key-store-password*)
-    (System/setProperty "javax.net.ssl.trustStore" *trust-store-file*)
-    (System/setProperty "javax.net.ssl.trustStorePassword" *trust-store-password*)
     (let [broker (if
                    (and allow-anon users permissions)
                    (setup-broker-with-auth allow-anon users permissions)
@@ -251,6 +229,21 @@
                      (BrokerService.)
                      (.setPersistent false)
                      (.setUseJmx false)))
+          _ (when
+              (and
+                (utils/file-exists? *key-store-file*)
+                (utils/file-exists? *trust-store-file*))
+              (utils/println-err
+                "Setting broker SSLContext to use key store file:"
+                *key-store-file*
+                "and trust store file:"
+                *trust-store-file*)
+              (.setSslContext
+                broker
+                (doto
+                  (SslContext.)
+                  (.setSSLContext
+                    (get-adjusted-ssl-context)))))
           _ (if (sequential? address)
               (doseq [addr address]
                 (.addConnector broker addr))
