@@ -15,7 +15,7 @@
                  [org.apache.activemq/activemq-stomp "5.13.4"]
                  [org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.cli "0.2.4"]
-                 [org.eclipse.jetty.websocket/javax-websocket-client-impl "9.2.17.v20160517"]
+                 [org.eclipse.jetty.websocket/javax-websocket-client-impl "9.2.18.v20160721"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.1.0"]
                  [org.springframework/spring-messaging "4.3.0.RELEASE"]
