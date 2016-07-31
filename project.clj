@@ -18,8 +18,8 @@
                  [org.eclipse.jetty.websocket/javax-websocket-client-impl "9.2.18.v20160721"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.1.0"]
-                 [org.springframework/spring-messaging "4.3.0.RELEASE"]
-                 [org.springframework/spring-websocket "4.3.0.RELEASE"]
+                 [org.springframework/spring-messaging "4.3.2.RELEASE"]
+                 [org.springframework/spring-websocket "4.3.2.RELEASE"]
                  [org.slf4j/slf4j-simple "1.7.10"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
