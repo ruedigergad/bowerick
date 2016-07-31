@@ -1,12 +1,12 @@
 (defproject bowerick "1.99.5-SNAPSHOT"
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
-                 [cheshire "5.6.1"]
+                 [cheshire "5.6.3"]
                  [cli4clj "1.2.0"]
                  [clj-assorted-utils "1.12.0"]
                  [com.ning/compress-lzf "1.0.3"]
-                 [com.taoensso/nippy "2.11.1"]
-                 [javax.servlet/javax.servlet-api "3.0.1"]
+                 [com.taoensso/nippy "2.12.1"]
+                 [javax.servlet/javax.servlet-api "3.1.0"]
                  [org.apache.activemq/activemq-broker "5.13.4"]
                  [org.apache.activemq/activemq-client "5.13.4"]
                  [org.apache.activemq/activemq-http "5.13.4"]
@@ -20,7 +20,7 @@
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.1.0"]
                  [org.springframework/spring-messaging "4.3.2.RELEASE"]
                  [org.springframework/spring-websocket "4.3.2.RELEASE"]
-                 [org.slf4j/slf4j-simple "1.7.10"]]
+                 [org.slf4j/slf4j-simple "1.7.21"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
             :distribution :repo
