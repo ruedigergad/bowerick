@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bowerick.test.broker" errors="0" failures="0" tests="2" time="0.2375" timestamp="2016-05-05_21:02:18+0200">
-    <testcase name="get-destinations-test" classname="bowerick.test.broker" time="0.1652">
+<testsuite name="bowerick.test.broker" errors="0" failures="0" tests="5" time="0.5922" timestamp="2016-08-06_23:51:47+0200">
+    <testcase name="send-unknown-command-test" classname="bowerick.test.broker" time="0.4528">
     </testcase>
-    <testcase name="get-destinations-with-producer-test" classname="bowerick.test.broker" time="0.0705">
+    <testcase name="get-all-destinations-via-jms-test" classname="bowerick.test.broker" time="0.0417">
+    </testcase>
+    <testcase name="get-destinations-test" classname="bowerick.test.broker" time="0.0218">
+    </testcase>
+    <testcase name="get-destinations-via-jms-test" classname="bowerick.test.broker" time="0.0407">
+    </testcase>
+    <testcase name="get-destinations-with-producer-test" classname="bowerick.test.broker" time="0.0311">
     </testcase>
 </testsuite>

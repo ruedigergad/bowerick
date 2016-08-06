@@ -1,185 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bowerick.test.jms" errors="0" failures="0" tests="91" time="9.7412" timestamp="2016-05-05_21:02:31+0200">
-    <testcase name="pooled-producer-pooled-consumer-nippy" classname="bowerick.test.jms" time="0.0182">
+<testsuite name="bowerick.test.jms" errors="0" failures="0" tests="12" time="0.2860" timestamp="2016-08-06_23:51:48+0200">
+    <testcase name="pooled-producer-pooled-consumer-nippy" classname="bowerick.test.jms" time="0.0207">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy" classname="bowerick.test.jms" time="0.0105">
+    <testcase name="pooled-producer-pooled-consumer-carbonite" classname="bowerick.test.jms" time="0.0106">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy" classname="bowerick.test.jms" time="0.0475">
+    <testcase name="pooled-producer-pooled-consumer-carbonite-lzf" classname="bowerick.test.jms" time="0.0110">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy" classname="bowerick.test.jms" time="0.1674">
+    <testcase name="test-create-topic" classname="bowerick.test.jms" time="0.0044">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy" classname="bowerick.test.jms" time="0.2069">
+    <testcase name="pooled-producer-pooled-consumer-nippy-snappy" classname="bowerick.test.jms" time="0.0190">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy" classname="bowerick.test.jms" time="0.1764">
+    <testcase name="custom-transformation-producer-consumer-cheshire" classname="bowerick.test.jms" time="0.0100">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy" classname="bowerick.test.jms" time="0.1759">
+    <testcase name="pooled-producer-pooled-consumer-nippy-lz4" classname="bowerick.test.jms" time="0.0104">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer-carbonite" classname="bowerick.test.jms" time="0.0104">
+    <testcase name="pooled-producer-pooled-consumer-nippy-lzf" classname="bowerick.test.jms" time="0.0120">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer-carbonite" classname="bowerick.test.jms" time="0.0108">
+    <testcase name="pooled-producer-normal-consumer" classname="bowerick.test.jms" time="0.0102">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer-carbonite" classname="bowerick.test.jms" time="0.0490">
+    <testcase name="pooled-producer-pooled-consumer" classname="bowerick.test.jms" time="0.0084">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer-carbonite" classname="bowerick.test.jms" time="0.1649">
+    <testcase name="pooled-producer-pooled-consumer-nippy-lzma2" classname="bowerick.test.jms" time="0.0345">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer-carbonite" classname="bowerick.test.jms" time="0.1976">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-carbonite" classname="bowerick.test.jms" time="0.1740">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-carbonite" classname="bowerick.test.jms" time="0.1763">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-carbonite-lzf" classname="bowerick.test.jms" time="0.0088">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-carbonite-lzf" classname="bowerick.test.jms" time="0.0091">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-carbonite-lzf" classname="bowerick.test.jms" time="0.0485">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-carbonite-lzf" classname="bowerick.test.jms" time="0.1641">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-carbonite-lzf" classname="bowerick.test.jms" time="0.1988">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-carbonite-lzf" classname="bowerick.test.jms" time="0.1746">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-carbonite-lzf" classname="bowerick.test.jms" time="0.1767">
-    </testcase>
-    <testcase name="test-create-topic" classname="bowerick.test.jms" time="0.0037">
-    </testcase>
-    <testcase name="test-create-topic" classname="bowerick.test.jms" time="0.0026">
-    </testcase>
-    <testcase name="test-create-topic" classname="bowerick.test.jms" time="0.0021">
-    </testcase>
-    <testcase name="test-create-topic" classname="bowerick.test.jms" time="0.0602">
-    </testcase>
-    <testcase name="test-create-topic" classname="bowerick.test.jms" time="0.0759">
-    </testcase>
-    <testcase name="test-create-topic" classname="bowerick.test.jms" time="0.0857">
-    </testcase>
-    <testcase name="test-create-topic" classname="bowerick.test.jms" time="0.0859">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-snappy" classname="bowerick.test.jms" time="0.0141">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-snappy" classname="bowerick.test.jms" time="0.0074">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-snappy" classname="bowerick.test.jms" time="0.0470">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-snappy" classname="bowerick.test.jms" time="0.1628">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-snappy" classname="bowerick.test.jms" time="0.1969">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-snappy" classname="bowerick.test.jms" time="0.1725">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-snappy" classname="bowerick.test.jms" time="0.1724">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lz4" classname="bowerick.test.jms" time="0.0089">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lz4" classname="bowerick.test.jms" time="0.0069">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lz4" classname="bowerick.test.jms" time="0.0463">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lz4" classname="bowerick.test.jms" time="0.1637">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lz4" classname="bowerick.test.jms" time="0.2058">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lz4" classname="bowerick.test.jms" time="0.1717">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lz4" classname="bowerick.test.jms" time="0.1732">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lzf" classname="bowerick.test.jms" time="0.0073">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lzf" classname="bowerick.test.jms" time="0.0060">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lzf" classname="bowerick.test.jms" time="0.0451">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lzf" classname="bowerick.test.jms" time="0.1627">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lzf" classname="bowerick.test.jms" time="0.1938">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lzf" classname="bowerick.test.jms" time="0.1711">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lzf" classname="bowerick.test.jms" time="0.1726">
-    </testcase>
-    <testcase name="pooled-producer-normal-consumer" classname="bowerick.test.jms" time="0.0063">
-    </testcase>
-    <testcase name="pooled-producer-normal-consumer" classname="bowerick.test.jms" time="0.0054">
-    </testcase>
-    <testcase name="pooled-producer-normal-consumer" classname="bowerick.test.jms" time="0.0445">
-    </testcase>
-    <testcase name="pooled-producer-normal-consumer" classname="bowerick.test.jms" time="0.1634">
-    </testcase>
-    <testcase name="pooled-producer-normal-consumer" classname="bowerick.test.jms" time="0.1929">
-    </testcase>
-    <testcase name="pooled-producer-normal-consumer" classname="bowerick.test.jms" time="0.1718">
-    </testcase>
-    <testcase name="pooled-producer-normal-consumer" classname="bowerick.test.jms" time="0.1737">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer" classname="bowerick.test.jms" time="0.0071">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer" classname="bowerick.test.jms" time="0.0085">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer" classname="bowerick.test.jms" time="0.0443">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer" classname="bowerick.test.jms" time="0.1626">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer" classname="bowerick.test.jms" time="0.1909">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer" classname="bowerick.test.jms" time="0.1716">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer" classname="bowerick.test.jms" time="0.1727">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lzma2" classname="bowerick.test.jms" time="0.0268">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lzma2" classname="bowerick.test.jms" time="0.0072">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lzma2" classname="bowerick.test.jms" time="0.0445">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lzma2" classname="bowerick.test.jms" time="0.1659">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lzma2" classname="bowerick.test.jms" time="0.1899">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lzma2" classname="bowerick.test.jms" time="0.1727">
-    </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lzma2" classname="bowerick.test.jms" time="0.1752">
-    </testcase>
-    <testcase name="send-byte-array" classname="bowerick.test.jms" time="0.0068">
-    </testcase>
-    <testcase name="send-byte-array" classname="bowerick.test.jms" time="0.0054">
-    </testcase>
-    <testcase name="send-byte-array" classname="bowerick.test.jms" time="0.0453">
-    </testcase>
-    <testcase name="send-byte-array" classname="bowerick.test.jms" time="0.1589">
-    </testcase>
-    <testcase name="send-byte-array" classname="bowerick.test.jms" time="0.1897">
-    </testcase>
-    <testcase name="send-byte-array" classname="bowerick.test.jms" time="0.1705">
-    </testcase>
-    <testcase name="send-byte-array" classname="bowerick.test.jms" time="0.1836">
-    </testcase>
-    <testcase name="send-list" classname="bowerick.test.jms" time="0.0119">
-    </testcase>
-    <testcase name="send-list" classname="bowerick.test.jms" time="0.0066">
-    </testcase>
-    <testcase name="send-list" classname="bowerick.test.jms" time="0.0452">
-    </testcase>
-    <testcase name="send-list" classname="bowerick.test.jms" time="0.1624">
-    </testcase>
-    <testcase name="send-list" classname="bowerick.test.jms" time="0.1930">
-    </testcase>
-    <testcase name="send-list" classname="bowerick.test.jms" time="0.1716">
-    </testcase>
-    <testcase name="send-list" classname="bowerick.test.jms" time="0.1720">
-    </testcase>
-    <testcase name="producer-consumer" classname="bowerick.test.jms" time="0.0058">
-    </testcase>
-    <testcase name="producer-consumer" classname="bowerick.test.jms" time="0.0042">
-    </testcase>
-    <testcase name="producer-consumer" classname="bowerick.test.jms" time="0.0442">
-    </testcase>
-    <testcase name="producer-consumer" classname="bowerick.test.jms" time="0.1581">
-    </testcase>
-    <testcase name="producer-consumer" classname="bowerick.test.jms" time="0.1923">
-    </testcase>
-    <testcase name="producer-consumer" classname="bowerick.test.jms" time="0.1701">
-    </testcase>
-    <testcase name="producer-consumer" classname="bowerick.test.jms" time="0.1699">
+    <testcase name="custom-transformation-producer-cheshire" classname="bowerick.test.jms" time="0.0081">
     </testcase>
 </testsuite>
