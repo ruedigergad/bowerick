@@ -1,6 +1,6 @@
 # bowerick
 
-Easing Simple JMS Tasks with Clojure (and Java)
+Easing Simple Message-oriented Middleware Tasks with Clojure (and Java)
 
 ## Status
 
@@ -43,6 +43,25 @@ Detailed test results are available as well:
     (jms/stop brkr)
     ; (quit)
 
+#### Multiple Transports
+
+    ; Can also be run in: lein repl
+    (require '[bowerick.jms :as jms])
+    (def urls ["tcp://127.0.0.1:61616" "stomp://127.0.0.1:61617" "ws://127.0.0.1:61618" "mqtt://127.0.0.1:61619"])
+    (def destination "/topic/my.test.topic")
+    (def brkr (jms/start-broker urls))
+    (def consumers (doall (map-indexed (fn [idx url] (jms/create-json-consumer url destination (fn [data] (Thread/sleep (* 100 idx)) (println "Received" url data)))) urls)))
+    (def producer (jms/create-json-producer (first urls) destination))
+    (producer "foo")
+    ; Received tcp://127.0.0.1:61616 foo
+    ; Received stomp://127.0.0.1:61617 foo
+    ; Received ws://127.0.0.1:61618 foo
+    ; Received mqtt://127.0.0.1:61619 foo
+    (jms/close producer)
+    (doseq [consumer consumers] (jms/close consumer))
+    (jms/stop brkr)
+    ; (quit)
+
 #### Pooled Operation
 
     ; Can also be run in: lein repl
@@ -61,25 +80,6 @@ Detailed test results are available as well:
     ; Received: 42.0
     (jms/close producer)
     (jms/close consumer)
-    (jms/stop brkr)
-    ; (quit)
-
-#### Multiple Transports
-
-    ; Can also be run in: lein repl
-    (require '[bowerick.jms :as jms])
-    (def urls ["tcp://127.0.0.1:61616" "stomp://127.0.0.1:61617" "ws://127.0.0.1:61618" "mqtt://127.0.0.1:61619"])
-    (def destination "/topic/my.test.topic")
-    (def brkr (jms/start-broker urls))
-    (def consumers (doall (map-indexed (fn [idx url] (jms/create-json-consumer url destination (fn [data] (Thread/sleep (* 100 idx)) (println "Received" url data)))) urls)))
-    (def producer (jms/create-json-producer (first urls) destination))
-    (producer "foo")
-    ; Received tcp://127.0.0.1:61616 foo
-    ; Received stomp://127.0.0.1:61617 foo
-    ; Received ws://127.0.0.1:61618 foo
-    ; Received mqtt://127.0.0.1:61619 foo
-    (jms/close producer)
-    (doseq [consumer consumers] (jms/close consumer))
     (jms/stop brkr)
     ; (quit)
 
