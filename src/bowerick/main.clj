@@ -39,7 +39,7 @@
 (def destination-url-format-help-string
   (str
     "The destination-url format is: <PROTOCOL>://<ADDRESS>:<PORT>:/[topic,queue]/<NAME>"
-    "\n\t<PROTOCOL> can be, e.g.: tcp, udp, stomp, ssl or stomp+ssl"
+    "\n\t<PROTOCOL> can be, e.g.: tcp, udp, stomp, ssl, or stomp+ssl"
     "\n\t<ADDRESS> is the IP address or name of the broker."
     "\n\t<PORT> is the port number on which the broker listens."
     "\n\t<NAME> is the name of the topic/queue to which the data will be sent."
