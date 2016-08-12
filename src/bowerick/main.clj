@@ -105,6 +105,7 @@
                                        (println "Management Command:" cmd-destination "<-")
                                        (pprint cmd-with-args)
                                        ((@producers cmd-destination) cmd-with-args)))}
+                  :m :management
                   }
                 :prompt-string "bowerick# "})))
 
