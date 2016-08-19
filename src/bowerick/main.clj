@@ -118,7 +118,7 @@
                        "URL to bind the broker to." 
                        :default "tcp://localhost:61616"
                        :parse-fn #(binding [*read-eval* false]
-                                    (read-string) %)])
+                                    (read-string %))])
         arg-map (cli-args 0)
         extra-args (cli-args 1)
         help-string (cli-args 2)]
