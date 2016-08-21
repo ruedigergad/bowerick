@@ -53,7 +53,7 @@
 (deftest simple-send-receive-test
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
                         (str "send " local-jms-server ":" test-topic " \"test-data\"")]
-        out-string (test-cli-stdout (fn [] (-main "-c") (sleep 200)) test-cmd-input)]
+        out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
     (is
       (=
         (expected-string
@@ -66,7 +66,7 @@
 
 (deftest broker-management-get-destinations-test
   (let [test-cmd-input [(str "management \"" local-jms-server "\" get-destinations")]
-        out-string (test-cli-stdout (fn [] (-main "-c") (sleep 200)) test-cmd-input)]
+        out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
     (is
       (=
         (expected-string
@@ -79,7 +79,7 @@
 
 (deftest broker-management-get-all-destinations-test
   (let [test-cmd-input [(str "management " local-jms-server " get-all-destinations")]
-        out-string (test-cli-stdout (fn [] (-main "-c") (sleep 200)) test-cmd-input)]
+        out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
     (is
       (=
         (expected-string
