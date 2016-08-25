@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="bowerick.test.client-cli" errors="0" failures="0" tests="5" time="1.0443" timestamp="2016-08-25_22:49:33+0200">
+    <testcase name="broker-management-get-destinations-test" classname="bowerick.test.client-cli" time="0.3461">
+    </testcase>
+    <testcase name="dummy-receive-test" classname="bowerick.test.client-cli" time="0.0117">
+    </testcase>
+    <testcase name="simple-send-receive-test" classname="bowerick.test.client-cli" time="0.3172">
+    </testcase>
+    <testcase name="broker-management-get-all-destinations-test" classname="bowerick.test.client-cli" time="0.3180">
+    </testcase>
+    <testcase name="dummy-send-test" classname="bowerick.test.client-cli" time="0.0093">
+    </testcase>
+</testsuite>

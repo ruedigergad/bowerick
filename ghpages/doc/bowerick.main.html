@@ -1,7 +1,26 @@
 <!DOCTYPE html><html><head><meta charset="utf-8" /><title>Namespace bowerick.main</title><style type="text/css">body { margin: 10px;
           padding: 10px;
-          background-color: #DFE9F5;
-          font-family: sans-serif; }
+          background-color: #F7F7F7;
+          font-family: serif; }
+
+  h1, h2, h3, h4 { color:#116275; }
+
+  code { font-size:12px;
+         font-family: monospace; }
+
+  pre { padding: 5px;
+        border: 2px dashed DarkGray;
+        background-color: #F7F7F7;
+        font-size:12px;
+        font-family: monospace; }
+
+  a { color: #116275; }
+  a:hover { background-color: #A8DFE6; }
+  a:visited { color: #276B86; }
+
+  td { padding-left: 5px; }
+
+  section, footer, header { float: left; }
 
   #top { width: 800px;
          padding: 10px;
@@ -9,26 +28,7 @@
          margin-right: auto;
          overflow: hidden;
          background-color: #FFFFFF;
-         color: #123154;
-         border: 3px solid #B4D3F5; }
-
-  pre { padding: 10px;
-        border: 2px dashed #B4D3F5;
-        background-color: #F0F6FD;
-        font-family: monospace; }
-
-  a { color: #4A6A8F; }
-  a:hover { background-color: #B4D3F5; }
-  a:visited { color: #425365; }
-
-  td, th { padding-left: 5px;
-           text-align: left; }
-
-  #ui-widget {
-    position: fixed;
-    top: 0em;
-    left: 0em;
-  }</style><link href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" /></head><body><div id="ui-widget"><input autofocus="autofocus" id="api-search" placeholder="API Search" tabindex="1" /></div><div id="top"><header><h1>Namespace bowerick.main</h1><p>Main class to start the bowerick stand-alone application.</p></header><section class="ns-toc" id="other-ns-toc"><h2>Other Namespaces</h2><details><summary>Show/Hide</summary><table><tr><td><a href="bowerick.JmsController.html">bowerick.JmsController</a></td><td><div>JMS controller for ActiveMQ.</div></td></tr><tr><td><a href="bowerick.java-interfaces.html">bowerick.java-interfaces</a></td><td><div>Interfaces for Java interop.</div></td></tr><tr><td><a href="bowerick.jms.html">bowerick.jms</a></td><td><div>Functions for JMS interaction</div></td></tr><tr><td><a href="index.html">Index Page</a></td><td></td></tr><tr><td><a href="var-index.html">Alphabetic Var Index</a></td><td></td></tr></table></details></section><section id="pubvars-toc"><h2>Public Vars</h2><nav><a href="#ID-main">-main</a>, <a href="#IDcreate-cached-destination">create-cached-destination</a>, <a href="#IDdestination-url-format-help-string">destination-url-format-help-string</a>, <a href="#IDstart-broker-mode">start-broker-mode</a>, <a href="#IDstart-client-mode">start-client-mode</a></nav></section><section><h2>Usage Documentation</h2><details open="open"><summary>Show/Hide</summary><pre>Main class to start the bowerick stand-alone application.</pre></details><a href="#top">Back to top</a></section><section id="details"><h2>Details of Public Vars</h2><div id="ID-main"><div><h4>Function: -main</h4><pre>Arglists:
+         border: 3px solid DarkGray; }</style></head><body><div id="top"><header><h1>Namspace bowerick.main</h1><h4>Main class to start the bowerick stand-alone application.</h4></header><section id="ns-toc"><h2>Other Namespaces</h2><table><tr><td><a href="bowerick.JmsController.html">bowerick.JmsController</a></td><td><div>JMS controller for ActiveMQ.</div></td></tr><tr><td><a href="bowerick.java-interfaces.html">bowerick.java-interfaces</a></td><td><div>Interfaces for Java interop.</div></td></tr><tr><td><a href="bowerick.jms.html">bowerick.jms</a></td><td><div>Functions for JMS interaction</div></td></tr><tr><td><a href="index.html">Back to Index</a></td><td></td></tr></table></section><section id="pubvars-toc"><h2>Public Vars</h2><nav><a href="#ID-main">-main</a>, <a href="#IDcreate-cached-destination">create-cached-destination</a>, <a href="#IDdestination-url-format-help-string">destination-url-format-help-string</a>, <a href="#IDstart-broker-mode">start-broker-mode</a>, <a href="#IDstart-client-mode">start-client-mode</a></nav></section><section><h2>Usage Documentation</h2><details open="open"><summary>Show/Hide</summary><pre>Main class to start the bowerick stand-alone application.</pre></details><a href="#top">Back to top</a></section><section id="details"><h2>Details of Public Vars</h2><div id="ID-main"><div><h3>Function: -main</h3><pre>Arglists:
 =========
 
   (-main &amp; args)
@@ -36,7 +36,7 @@
 Docstring:
 ==========
 
-  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/main.clj#L111">View Source</a></div><div id="IDcreate-cached-destination"><div><h4>Function: create-cached-destination</h4><pre>Arglists:
+  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/main.clj#L116">View Source</a></div><div id="IDcreate-cached-destination"><div><h3>Function: create-cached-destination</h3><pre>Arglists:
 =========
 
   (create-cached-destination
@@ -49,7 +49,7 @@ Docstring:
 Docstring:
 ==========
 
-  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/main.clj#L49">View Source</a></div><div id="IDdestination-url-format-help-string"><div><h4>Var: destination-url-format-help-string</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/main.clj#L39">View Source</a></div><div id="IDstart-broker-mode"><div><h4>Function: start-broker-mode</h4><pre>Arglists:
+  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/main.clj#L49">View Source</a></div><div id="IDdestination-url-format-help-string"><div><h3>Var: destination-url-format-help-string</h3><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/main.clj#L39">View Source</a></div><div id="IDstart-broker-mode"><div><h3>Function: start-broker-mode</h3><pre>Arglists:
 =========
 
   (start-broker-mode arg-map)
@@ -57,7 +57,7 @@ Docstring:
 Docstring:
 ==========
 
-  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/main.clj#L23">View Source</a></div><div id="IDstart-client-mode"><div><h4>Function: start-client-mode</h4><pre>Arglists:
+  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/main.clj#L23">View Source</a></div><div id="IDstart-client-mode"><div><h3>Function: start-client-mode</h3><pre>Arglists:
 =========
 
   (start-client-mode arg-map)
@@ -65,4 +65,4 @@ Docstring:
 Docstring:
 ==========
 
-  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/main.clj#L63">View Source</a></div></section></div><footer><p>These docs were generated by the <a href="https://github.com/tsdh/lein-html5-docs">Leiningen HTML5 Docs Plugin</a>, version 3.0.3.</p><a href="http://www.w3.org/html/logo/"><img alt="HTML5 Powered" height="64" src="http://www.w3.org/html/logo/badge/html5-badge-h-solo.png" title="HTML5 Powered" width="63" /></a><script src="http://code.jquery.com/jquery.min.js"></script><script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script><script src="api-search.js"></script></footer></body></html>
+  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/main.clj#L63">View Source</a></div></section><footer><p>These docs were generated by the <a href="https://github.com/tsdh/lein-html5-docs">Leiningen HTML5 Docs Plugin</a>.</p><a href="http://www.w3.org/html/logo/"><img alt="HTML5 Powered" height="64" src="http://www.w3.org/html/logo/badge/html5-badge-h-solo.png" title="HTML5 Powered" width="63" /></a></footer></div></body></html>

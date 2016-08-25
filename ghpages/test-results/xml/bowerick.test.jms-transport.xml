@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="bowerick.test.jms-transport" errors="0" failures="0" tests="28" time="4.8192" timestamp="2016-08-25_22:49:38+0200">
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.0074">
+    </testcase>
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.0064">
+    </testcase>
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.0501">
+    </testcase>
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.1789">
+    </testcase>
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.2086">
+    </testcase>
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.1843">
+    </testcase>
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.1850">
+    </testcase>
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.0159">
+    </testcase>
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.0104">
+    </testcase>
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.0540">
+    </testcase>
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.1700">
+    </testcase>
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.2009">
+    </testcase>
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.1884">
+    </testcase>
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.1832">
+    </testcase>
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.0146">
+    </testcase>
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.0091">
+    </testcase>
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.0479">
+    </testcase>
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.1649">
+    </testcase>
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.1952">
+    </testcase>
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.1760">
+    </testcase>
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.1774">
+    </testcase>
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.0073">
+    </testcase>
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.0088">
+    </testcase>
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.0473">
+    </testcase>
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.1659">
+    </testcase>
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.1959">
+    </testcase>
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.1748">
+    </testcase>
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.1742">
+    </testcase>
+</testsuite>

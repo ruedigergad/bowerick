@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="bowerick.test.multi-connector-exchange" errors="0" failures="0" tests="2" time="0.5882" timestamp="2016-08-25_22:49:40+0200">
+    <testcase name="test-string-exchange-json-producer-consumer" classname="bowerick.test.multi-connector-exchange" time="0.2865">
+    </testcase>
+    <testcase name="test-simple-data-structure-exchange-json-producer-consumer" classname="bowerick.test.multi-connector-exchange" time="0.2873">
+    </testcase>
+</testsuite>

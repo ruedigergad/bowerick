@@ -1,269 +1,269 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-  <testsuite errors="0" failures="0" id="0" name="benchmarks" package="bowerick" tests="0" time="0.0037" timestamp="2016-08-06_23:51:46+0200">
+  <testsuite errors="0" failures="0" id="0" name="benchmarks" package="bowerick" tests="0" time="0.0020" timestamp="2016-08-25_22:49:32+0200">
 </testsuite>
-  <testsuite errors="0" failures="0" id="1" name="broker" package="bowerick.test" tests="5" time="0.5922" timestamp="2016-08-06_23:51:47+0200">
-        <testcase classname="bowerick.test.broker" name="send-unknown-command-test" time="0.4528">
+  <testsuite errors="0" failures="0" id="1" name="broker" package="bowerick.test" tests="5" time="0.3868" timestamp="2016-08-25_22:49:32+0200">
+        <testcase classname="bowerick.test.broker" name="send-unknown-command-test" time="0.3142">
     </testcase>
 
-        <testcase classname="bowerick.test.broker" name="get-all-destinations-via-jms-test" time="0.0417">
+        <testcase classname="bowerick.test.broker" name="get-all-destinations-via-jms-test" time="0.0208">
     </testcase>
 
-        <testcase classname="bowerick.test.broker" name="get-destinations-test" time="0.0218">
+        <testcase classname="bowerick.test.broker" name="get-destinations-test" time="0.0102">
     </testcase>
 
-        <testcase classname="bowerick.test.broker" name="get-destinations-via-jms-test" time="0.0407">
+        <testcase classname="bowerick.test.broker" name="get-destinations-via-jms-test" time="0.0232">
     </testcase>
 
-        <testcase classname="bowerick.test.broker" name="get-destinations-with-producer-test" time="0.0311">
-    </testcase>
-
-  </testsuite>
-  <testsuite errors="0" failures="0" id="2" name="client-cli" package="bowerick.test" tests="5" time="0.8517" timestamp="2016-08-06_23:51:48+0200">
-        <testcase classname="bowerick.test.client-cli" name="broker-management-get-destinations-test" time="0.2839">
-    </testcase>
-
-        <testcase classname="bowerick.test.client-cli" name="dummy-receive-test" time="0.0172">
-    </testcase>
-
-        <testcase classname="bowerick.test.client-cli" name="simple-send-receive-test" time="0.2228">
-    </testcase>
-
-        <testcase classname="bowerick.test.client-cli" name="broker-management-get-all-destinations-test" time="0.2195">
-    </testcase>
-
-        <testcase classname="bowerick.test.client-cli" name="dummy-send-test" time="0.0144">
+        <testcase classname="bowerick.test.broker" name="get-destinations-with-producer-test" time="0.0158">
     </testcase>
 
   </testsuite>
-  <testsuite errors="0" failures="0" id="3" name="java-interop" package="bowerick.test" tests="9" time="0.3120" timestamp="2016-08-06_23:51:48+0200">
-        <testcase classname="bowerick.test.java-interop" name="test-pooled-producer-and-consumer" time="0.0237">
+  <testsuite errors="0" failures="0" id="2" name="client-cli" package="bowerick.test" tests="5" time="1.0443" timestamp="2016-08-25_22:49:33+0200">
+        <testcase classname="bowerick.test.client-cli" name="broker-management-get-destinations-test" time="0.3461">
     </testcase>
 
-        <testcase classname="bowerick.test.java-interop" name="test-create-producer" time="0.0051">
+        <testcase classname="bowerick.test.client-cli" name="dummy-receive-test" time="0.0117">
     </testcase>
 
-        <testcase classname="bowerick.test.java-interop" name="test-create-controller" time="0.0004">
+        <testcase classname="bowerick.test.client-cli" name="simple-send-receive-test" time="0.3172">
     </testcase>
 
-        <testcase classname="bowerick.test.java-interop" name="test-start-stop-embedded-broker" time="0.0161">
+        <testcase classname="bowerick.test.client-cli" name="broker-management-get-all-destinations-test" time="0.3180">
     </testcase>
 
-        <testcase classname="bowerick.test.java-interop" name="test-start-stop-embedded-broker-with-data-exchange" time="0.0245">
-    </testcase>
-
-        <testcase classname="bowerick.test.java-interop" name="test-pooled-carbonite-lzf-producer-and-consumer" time="0.0674">
-    </testcase>
-
-        <testcase classname="bowerick.test.java-interop" name="test-pooled-carbonite-producer-and-consumer" time="0.0142">
-    </testcase>
-
-        <testcase classname="bowerick.test.java-interop" name="test-json-producer-and-consumer" time="0.0258">
-    </testcase>
-
-        <testcase classname="bowerick.test.java-interop" name="test-producer-and-consumer" time="0.0106">
+        <testcase classname="bowerick.test.client-cli" name="dummy-send-test" time="0.0093">
     </testcase>
 
   </testsuite>
-  <testsuite errors="0" failures="0" id="4" name="jms-permissions-test" package="bowerick.test" tests="4" time="0.0661" timestamp="2016-08-06_23:51:48+0200">
-        <testcase classname="bowerick.test.jms-permissions-test" name="create-producer-without-permission-test" time="0.0130">
+  <testsuite errors="0" failures="0" id="3" name="java-interop" package="bowerick.test" tests="9" time="0.2159" timestamp="2016-08-25_22:49:33+0200">
+        <testcase classname="bowerick.test.java-interop" name="test-pooled-producer-and-consumer" time="0.0145">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-permissions-test" name="create-producer-with-permission-test" time="0.0086">
+        <testcase classname="bowerick.test.java-interop" name="test-create-producer" time="0.0031">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-permissions-test" name="test-selective-permissions-with-anonymous-test" time="0.0171">
+        <testcase classname="bowerick.test.java-interop" name="test-create-controller" time="0.0002">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-permissions-test" name="test-selective-permissions-with-anonymous-convenience-test" time="0.0253">
+        <testcase classname="bowerick.test.java-interop" name="test-start-stop-embedded-broker" time="0.0083">
+    </testcase>
+
+        <testcase classname="bowerick.test.java-interop" name="test-start-stop-embedded-broker-with-data-exchange" time="0.0132">
+    </testcase>
+
+        <testcase classname="bowerick.test.java-interop" name="test-pooled-carbonite-lzf-producer-and-consumer" time="0.0748">
+    </testcase>
+
+        <testcase classname="bowerick.test.java-interop" name="test-pooled-carbonite-producer-and-consumer" time="0.0089">
+    </testcase>
+
+        <testcase classname="bowerick.test.java-interop" name="test-json-producer-and-consumer" time="0.0176">
+    </testcase>
+
+        <testcase classname="bowerick.test.java-interop" name="test-producer-and-consumer" time="0.0066">
+    </testcase>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" id="4" name="jms-permissions-test" package="bowerick.test" tests="4" time="0.0554" timestamp="2016-08-25_22:49:34+0200">
+        <testcase classname="bowerick.test.jms-permissions-test" name="create-producer-without-permission-test" time="0.0094">
+    </testcase>
+
+        <testcase classname="bowerick.test.jms-permissions-test" name="create-producer-with-permission-test" time="0.0059">
+    </testcase>
+
+        <testcase classname="bowerick.test.jms-permissions-test" name="test-selective-permissions-with-anonymous-test" time="0.0213">
+    </testcase>
+
+        <testcase classname="bowerick.test.jms-permissions-test" name="test-selective-permissions-with-anonymous-convenience-test" time="0.0172">
     </testcase>
 
   </testsuite>
   <testsuite errors="0" failures="0" id="5" name="jms-test-base" package="bowerick.test" tests="0" time="0.0004" timestamp="2016-05-05_21:02:31+0200">
 </testsuite>
-  <testsuite errors="0" failures="0" id="6" name="jms-transport" package="bowerick.test" tests="28" time="11.6003" timestamp="2016-08-06_23:52:00+0200">
-        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.0122">
+  <testsuite errors="0" failures="0" id="6" name="jms-transport" package="bowerick.test" tests="28" time="4.8192" timestamp="2016-08-25_22:49:38+0200">
+        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.0074">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.0111">
+        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.0064">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.1230">
+        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.0501">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.3987">
+        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.1789">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.4266">
+        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.2086">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.4988">
+        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.1843">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.4781">
+        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.1850">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.0158">
+        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.0159">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.0091">
+        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.0104">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.1216">
+        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.0540">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.3903">
+        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.1700">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.4217">
+        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.2009">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.4783">
+        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.1884">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.4819">
+        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.1832">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.0180">
+        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.0146">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.0089">
+        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.0091">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.1123">
+        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.0479">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.3866">
+        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.1649">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.4247">
+        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.1952">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.4725">
+        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.1760">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.4771">
+        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.1774">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.0084">
+        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.0073">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.0079">
+        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.0088">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.1144">
+        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.0473">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.3843">
+        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.1659">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.4246">
+        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.1959">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.4712">
+        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.1748">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.4656">
-    </testcase>
-
-  </testsuite>
-  <testsuite errors="0" failures="0" id="7" name="jms" package="bowerick.test" tests="12" time="0.2860" timestamp="2016-08-06_23:51:48+0200">
-        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy" time="0.0207">
-    </testcase>
-
-        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-carbonite" time="0.0106">
-    </testcase>
-
-        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-carbonite-lzf" time="0.0110">
-    </testcase>
-
-        <testcase classname="bowerick.test.jms" name="test-create-topic" time="0.0044">
-    </testcase>
-
-        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy-snappy" time="0.0190">
-    </testcase>
-
-        <testcase classname="bowerick.test.jms" name="custom-transformation-producer-consumer-cheshire" time="0.0100">
-    </testcase>
-
-        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy-lz4" time="0.0104">
-    </testcase>
-
-        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy-lzf" time="0.0120">
-    </testcase>
-
-        <testcase classname="bowerick.test.jms" name="pooled-producer-normal-consumer" time="0.0102">
-    </testcase>
-
-        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer" time="0.0084">
-    </testcase>
-
-        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy-lzma2" time="0.0345">
-    </testcase>
-
-        <testcase classname="bowerick.test.jms" name="custom-transformation-producer-cheshire" time="0.0081">
+        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.1742">
     </testcase>
 
   </testsuite>
-  <testsuite errors="0" failures="0" id="8" name="mqtt" package="bowerick.test" tests="4" time="0.7314" timestamp="2016-08-06_23:52:01+0200">
-        <testcase classname="bowerick.test.mqtt" name="mqtt-string-test" time="0.1797">
+  <testsuite errors="0" failures="0" id="7" name="jms" package="bowerick.test" tests="12" time="0.1987" timestamp="2016-08-25_22:49:34+0200">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy" time="0.0147">
     </testcase>
 
-        <testcase classname="bowerick.test.mqtt" name="mqtt-ssl-to-stomp-string-test" time="0.3546">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-carbonite" time="0.0079">
     </testcase>
 
-        <testcase classname="bowerick.test.mqtt" name="mqtt-to-stomp-string-test" time="0.1123">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-carbonite-lzf" time="0.0078">
     </testcase>
 
-        <testcase classname="bowerick.test.mqtt" name="mqtt-to-openwire-string-test" time="0.0101">
+        <testcase classname="bowerick.test.jms" name="test-create-topic" time="0.0034">
     </testcase>
 
-  </testsuite>
-  <testsuite errors="0" failures="0" id="9" name="multi-connector-exchange" package="bowerick.test" tests="2" time="1.3816" timestamp="2016-08-06_23:52:02+0200">
-        <testcase classname="bowerick.test.multi-connector-exchange" name="test-string-exchange-json-producer-consumer" time="0.6805">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy-snappy" time="0.0129">
     </testcase>
 
-        <testcase classname="bowerick.test.multi-connector-exchange" name="test-simple-data-structure-exchange-json-producer-consumer" time="0.6833">
+        <testcase classname="bowerick.test.jms" name="custom-transformation-producer-consumer-cheshire" time="0.0068">
     </testcase>
 
-  </testsuite>
-  <testsuite errors="0" failures="0" id="10" name="multi-connector" package="bowerick.test" tests="8" time="0.4488" timestamp="2016-08-06_23:52:01+0200">
-        <testcase classname="bowerick.test.multi-connector" name="test-openwire-to-stomp-byte-array" time="0.1188">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy-lz4" time="0.0077">
     </testcase>
 
-        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-openwire-nippy-complexer-data" time="0.0199">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy-lzf" time="0.0083">
     </testcase>
 
-        <testcase classname="bowerick.test.multi-connector" name="test-openwire-to-openwire" time="0.0155">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-normal-consumer" time="0.0068">
     </testcase>
 
-        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-openwire-nippy" time="0.0153">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer" time="0.0069">
     </testcase>
 
-        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-openwire" time="0.0178">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy-lzma2" time="0.0289">
     </testcase>
 
-        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-openwire-byte-array" time="0.0143">
-    </testcase>
-
-        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-stomp" time="0.1237">
-    </testcase>
-
-        <testcase classname="bowerick.test.multi-connector" name="test-openwire-to-stomp" time="0.1211">
+        <testcase classname="bowerick.test.jms" name="custom-transformation-producer-cheshire" time="0.0063">
     </testcase>
 
   </testsuite>
-  <testsuite errors="0" failures="0" id="11" name="websocket" package="bowerick.test" tests="4" time="0.7367" timestamp="2016-08-06_23:52:03+0200">
-        <testcase classname="bowerick.test.websocket" name="websocket-ssl-to-stomp-string-test" time="0.3514">
+  <testsuite errors="0" failures="0" id="8" name="mqtt" package="bowerick.test" tests="4" time="0.3179" timestamp="2016-08-25_22:49:39+0200">
+        <testcase classname="bowerick.test.mqtt" name="mqtt-string-test" time="0.0938">
     </testcase>
 
-        <testcase classname="bowerick.test.websocket" name="websocket-string-test" time="0.0324">
+        <testcase classname="bowerick.test.mqtt" name="mqtt-ssl-to-stomp-string-test" time="0.1321">
     </testcase>
 
-        <testcase classname="bowerick.test.websocket" name="websocket-to-openwire-string-test" time="0.0149">
+        <testcase classname="bowerick.test.mqtt" name="mqtt-to-stomp-string-test" time="0.0473">
     </testcase>
 
-        <testcase classname="bowerick.test.websocket" name="websocket-to-stomp-string-test" time="0.1197">
+        <testcase classname="bowerick.test.mqtt" name="mqtt-to-openwire-string-test" time="0.0087">
+    </testcase>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" id="9" name="multi-connector-exchange" package="bowerick.test" tests="2" time="0.5882" timestamp="2016-08-25_22:49:40+0200">
+        <testcase classname="bowerick.test.multi-connector-exchange" name="test-string-exchange-json-producer-consumer" time="0.2865">
+    </testcase>
+
+        <testcase classname="bowerick.test.multi-connector-exchange" name="test-simple-data-structure-exchange-json-producer-consumer" time="0.2873">
+    </testcase>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" id="10" name="multi-connector" package="bowerick.test" tests="8" time="0.2548" timestamp="2016-08-25_22:49:39+0200">
+        <testcase classname="bowerick.test.multi-connector" name="test-openwire-to-stomp-byte-array" time="0.0535">
+    </testcase>
+
+        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-openwire-nippy-complexer-data" time="0.0205">
+    </testcase>
+
+        <testcase classname="bowerick.test.multi-connector" name="test-openwire-to-openwire" time="0.0134">
+    </testcase>
+
+        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-openwire-nippy" time="0.0147">
+    </testcase>
+
+        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-openwire" time="0.0150">
+    </testcase>
+
+        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-openwire-byte-array" time="0.0165">
+    </testcase>
+
+        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-stomp" time="0.0669">
+    </testcase>
+
+        <testcase classname="bowerick.test.multi-connector" name="test-openwire-to-stomp" time="0.0521">
+    </testcase>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" id="11" name="websocket" package="bowerick.test" tests="4" time="0.4171" timestamp="2016-08-25_22:49:40+0200">
+        <testcase classname="bowerick.test.websocket" name="websocket-ssl-to-stomp-string-test" time="0.1902">
+    </testcase>
+
+        <testcase classname="bowerick.test.websocket" name="websocket-string-test" time="0.0215">
+    </testcase>
+
+        <testcase classname="bowerick.test.websocket" name="websocket-to-openwire-string-test" time="0.0134">
+    </testcase>
+
+        <testcase classname="bowerick.test.websocket" name="websocket-to-stomp-string-test" time="0.0503">
     </testcase>
 
   </testsuite>

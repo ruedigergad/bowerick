@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="bowerick.test.mqtt" errors="0" failures="0" tests="4" time="0.3179" timestamp="2016-08-25_22:49:39+0200">
+    <testcase name="mqtt-string-test" classname="bowerick.test.mqtt" time="0.0938">
+    </testcase>
+    <testcase name="mqtt-ssl-to-stomp-string-test" classname="bowerick.test.mqtt" time="0.1321">
+    </testcase>
+    <testcase name="mqtt-to-stomp-string-test" classname="bowerick.test.mqtt" time="0.0473">
+    </testcase>
+    <testcase name="mqtt-to-openwire-string-test" classname="bowerick.test.mqtt" time="0.0087">
+    </testcase>
+</testsuite>

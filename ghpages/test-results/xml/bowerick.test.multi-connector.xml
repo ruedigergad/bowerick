@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="bowerick.test.multi-connector" errors="0" failures="0" tests="8" time="0.2548" timestamp="2016-08-25_22:49:39+0200">
+    <testcase name="test-openwire-to-stomp-byte-array" classname="bowerick.test.multi-connector" time="0.0535">
+    </testcase>
+    <testcase name="test-stomp-to-openwire-nippy-complexer-data" classname="bowerick.test.multi-connector" time="0.0205">
+    </testcase>
+    <testcase name="test-openwire-to-openwire" classname="bowerick.test.multi-connector" time="0.0134">
+    </testcase>
+    <testcase name="test-stomp-to-openwire-nippy" classname="bowerick.test.multi-connector" time="0.0147">
+    </testcase>
+    <testcase name="test-stomp-to-openwire" classname="bowerick.test.multi-connector" time="0.0150">
+    </testcase>
+    <testcase name="test-stomp-to-openwire-byte-array" classname="bowerick.test.multi-connector" time="0.0165">
+    </testcase>
+    <testcase name="test-stomp-to-stomp" classname="bowerick.test.multi-connector" time="0.0669">
+    </testcase>
+    <testcase name="test-openwire-to-stomp" classname="bowerick.test.multi-connector" time="0.0521">
+    </testcase>
+</testsuite>

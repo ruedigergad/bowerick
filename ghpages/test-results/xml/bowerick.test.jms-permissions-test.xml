@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bowerick.test.jms-permissions-test" errors="0" failures="0" tests="4" time="0.0661" timestamp="2016-08-06_23:51:48+0200">
-    <testcase name="create-producer-without-permission-test" classname="bowerick.test.jms-permissions-test" time="0.0130">
+<testsuite name="bowerick.test.jms-permissions-test" errors="0" failures="0" tests="4" time="0.0554" timestamp="2016-08-25_22:49:34+0200">
+    <testcase name="create-producer-without-permission-test" classname="bowerick.test.jms-permissions-test" time="0.0094">
     </testcase>
-    <testcase name="create-producer-with-permission-test" classname="bowerick.test.jms-permissions-test" time="0.0086">
+    <testcase name="create-producer-with-permission-test" classname="bowerick.test.jms-permissions-test" time="0.0059">
     </testcase>
-    <testcase name="test-selective-permissions-with-anonymous-test" classname="bowerick.test.jms-permissions-test" time="0.0171">
+    <testcase name="test-selective-permissions-with-anonymous-test" classname="bowerick.test.jms-permissions-test" time="0.0213">
     </testcase>
-    <testcase name="test-selective-permissions-with-anonymous-convenience-test" classname="bowerick.test.jms-permissions-test" time="0.0253">
+    <testcase name="test-selective-permissions-with-anonymous-convenience-test" classname="bowerick.test.jms-permissions-test" time="0.0172">
     </testcase>
 </testsuite>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="bowerick.test.websocket" errors="0" failures="0" tests="4" time="0.4171" timestamp="2016-08-25_22:49:40+0200">
+    <testcase name="websocket-ssl-to-stomp-string-test" classname="bowerick.test.websocket" time="0.1902">
+    </testcase>
+    <testcase name="websocket-string-test" classname="bowerick.test.websocket" time="0.0215">
+    </testcase>
+    <testcase name="websocket-to-openwire-string-test" classname="bowerick.test.websocket" time="0.0134">
+    </testcase>
+    <testcase name="websocket-to-stomp-string-test" classname="bowerick.test.websocket" time="0.0503">
+    </testcase>
+</testsuite>

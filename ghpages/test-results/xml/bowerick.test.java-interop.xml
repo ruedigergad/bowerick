@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bowerick.test.java-interop" errors="0" failures="0" tests="9" time="0.3120" timestamp="2016-08-06_23:51:48+0200">
-    <testcase name="test-pooled-producer-and-consumer" classname="bowerick.test.java-interop" time="0.0237">
+<testsuite name="bowerick.test.java-interop" errors="0" failures="0" tests="9" time="0.2159" timestamp="2016-08-25_22:49:33+0200">
+    <testcase name="test-pooled-producer-and-consumer" classname="bowerick.test.java-interop" time="0.0145">
     </testcase>
-    <testcase name="test-create-producer" classname="bowerick.test.java-interop" time="0.0051">
+    <testcase name="test-create-producer" classname="bowerick.test.java-interop" time="0.0031">
     </testcase>
-    <testcase name="test-create-controller" classname="bowerick.test.java-interop" time="0.0004">
+    <testcase name="test-create-controller" classname="bowerick.test.java-interop" time="0.0002">
     </testcase>
-    <testcase name="test-start-stop-embedded-broker" classname="bowerick.test.java-interop" time="0.0161">
+    <testcase name="test-start-stop-embedded-broker" classname="bowerick.test.java-interop" time="0.0083">
     </testcase>
-    <testcase name="test-start-stop-embedded-broker-with-data-exchange" classname="bowerick.test.java-interop" time="0.0245">
+    <testcase name="test-start-stop-embedded-broker-with-data-exchange" classname="bowerick.test.java-interop" time="0.0132">
     </testcase>
-    <testcase name="test-pooled-carbonite-lzf-producer-and-consumer" classname="bowerick.test.java-interop" time="0.0674">
+    <testcase name="test-pooled-carbonite-lzf-producer-and-consumer" classname="bowerick.test.java-interop" time="0.0748">
     </testcase>
-    <testcase name="test-pooled-carbonite-producer-and-consumer" classname="bowerick.test.java-interop" time="0.0142">
+    <testcase name="test-pooled-carbonite-producer-and-consumer" classname="bowerick.test.java-interop" time="0.0089">
     </testcase>
-    <testcase name="test-json-producer-and-consumer" classname="bowerick.test.java-interop" time="0.0258">
+    <testcase name="test-json-producer-and-consumer" classname="bowerick.test.java-interop" time="0.0176">
     </testcase>
-    <testcase name="test-producer-and-consumer" classname="bowerick.test.java-interop" time="0.0106">
+    <testcase name="test-producer-and-consumer" classname="bowerick.test.java-interop" time="0.0066">
     </testcase>
 </testsuite>
