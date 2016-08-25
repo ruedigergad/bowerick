@@ -107,7 +107,11 @@
                                        ((@producers cmd-destination) cmd-with-args)))}
                   :m :management
                   }
-                :prompt-string "bowerick# "})))
+                :prompt-string "bowerick# "})
+    (doseq [producer (vals @producers)]
+      (close producer))
+    (doseq [consumer (vals @consumers)]
+      (close consumer))))
 
 (defn -main [& args]
   (let [cli-args (cli args
