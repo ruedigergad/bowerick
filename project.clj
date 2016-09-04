@@ -1,11 +1,11 @@
-(defproject bowerick "1.99.7-SNAPSHOT"
+(defproject bowerick "1.99.8-SNAPSHOT"
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
                  [cheshire "5.6.3"]
                  [cli4clj "1.2.2"]
                  [clj-assorted-utils "1.12.0"]
                  [com.ning/compress-lzf "1.0.3"]
-                 [com.taoensso/nippy "2.12.1"]
+                 [com.taoensso/nippy "2.12.2"]
                  [javax.servlet/javax.servlet-api "3.1.0"]
                  [org.apache.activemq/activemq-broker "5.14.0"]
                  [org.apache.activemq/activemq-client "5.14.0"]
