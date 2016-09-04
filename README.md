@@ -21,6 +21,14 @@ Easing Simple Message-oriented Middleware Tasks with Clojure (and Java)
 Detailed test results are available as well:
 [http://ruedigergad.github.io/bowerick/test-results/html/](http://ruedigergad.github.io/bowerick/test-results/html/)
 
+## Blog Posts
+
+On my website, I wrote some blog posts about bowerick:
+
+[https://ruedigergad.com/category/libs/bowerick/](https://ruedigergad.com/category/libs/bowerick/)
+
+In these blog posts, I make announcements about bowerick and discuss selected aspects of bowerick in more detail.
+
 ## Documentation
 
 ### Examples
