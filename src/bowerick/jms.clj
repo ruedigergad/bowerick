@@ -244,10 +244,10 @@
                   (SslContext.)
                   (.setSSLContext
                     (get-adjusted-ssl-context)))))
-          _ (if (sequential? address)
-              (doseq [addr address]
-                (.addConnector broker addr))
-              (.addConnector broker address))
+          _ (if (string? address)
+              (.addConnector broker address)
+              (doseq [addr (seq address)]
+                (.addConnector broker addr)))
           _ (.start broker)
           _ (.waitUntilStarted broker)
           management-address (cond
