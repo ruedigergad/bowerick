@@ -13,7 +13,7 @@
   bowerick.JmsController
   (:gen-class
    :init init
-   :constructors {[String] []}
+   :constructors {[Object] []}
    :methods [^:static [createConsumer [String String bowerick.JmsConsumerCallback int] AutoCloseable]
              ^:static [createProducer [String String int] bowerick.JmsProducer]
              ^:static [createJsonConsumer [String String bowerick.JmsConsumerCallback int] AutoCloseable]
