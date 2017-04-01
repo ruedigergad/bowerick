@@ -10,7 +10,10 @@ Easing Simple Message-oriented Middleware Tasks with Clojure (and Java)
 
 ### Continuous Integration
 
-[![Build Status](https://travis-ci.org/ruedigergad/bowerick.svg?branch=master)](https://travis-ci.org/ruedigergad/bowerick)
+[![Build Status TravisCI](https://travis-ci.org/ruedigergad/bowerick.svg?branch=master)](https://travis-ci.org/ruedigergad/bowerick)
+
+[![Build Status CircleCI](https://circleci.com/gh/ruedigergad/bowerick.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/ruedigergad/bowerick.svg?style=shield&circle-token=:circle-token)
+
 
 ### Test Coverage
 
