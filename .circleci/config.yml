@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/bowerick
+    docker:
+      - image: openjdk:8
+    environment:
+      LEIN_ROOT=nbd
+    steps:
+      - checkout
+      - restore_cache:
+          key: << checksum "project.clj" >>
+      - run: .circleci/bin/lein deps
+      - save_cache:
+          paths:
+            - $HOME/.m2
+            - $HOME/.lein
+          key: << checksum "project.clj" >>
+      - run: bin/lein do test, uberjar
+      - store_artifacts:
+          path: target/uberjar/bowerick.jar
+destination: uberjar
