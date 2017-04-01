@@ -16,7 +16,7 @@ jobs:
             - $HOME/.m2
             - $HOME/.lein
           key: << checksum "project.clj" >>
-      - run: bin/lein do test, uberjar
+      - run: .circleci/bin/lein do test, uberjar
       - store_artifacts:
           path: target/uberjar/bowerick.jar
 destination: uberjar
