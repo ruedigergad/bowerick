@@ -2,24 +2,12 @@
 
 Easing Simple Message-oriented Middleware Tasks with Clojure (and Java)
 
-## Status
-
-### Latest Available Version
-
 [![Clojars Project](https://img.shields.io/clojars/v/bowerick.svg)](https://clojars.org/bowerick)
-
-### Continuous Integration
-
 [![Build Status TravisCI](https://travis-ci.org/ruedigergad/bowerick.svg?branch=master)](https://travis-ci.org/ruedigergad/bowerick)
-
 [![Build Status CircleCI](https://circleci.com/gh/ruedigergad/bowerick.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/ruedigergad/bowerick.svg?style=shield&circle-token=:circle-token)
-
-
-### Test Coverage
-
 [![Coverage Status](https://coveralls.io/repos/github/ruedigergad/bowerick/badge.svg?branch=master)](https://coveralls.io/github/ruedigergad/bowerick?branch=master)
 
-#### Detailed Test Results
+## Detailed Test Results
 
 Detailed test results are available as well:
 [http://ruedigergad.github.io/bowerick/test-results/html/](http://ruedigergad.github.io/bowerick/test-results/html/)
