@@ -31,6 +31,11 @@
 
 
 
+(deftest show-help-test
+  (let [out-string (test-cli-stdout #(-main "-h") "")]
+    (is
+      (.startsWith out-string "Bowerick help:"))))
+
 (deftest dummy-send-test
   (let [test-cmd-input [(str "send " local-jms-server ":" test-topic " \"test-data\"")]
         out-string (test-cli-stdout #(-main "-c") test-cmd-input)]

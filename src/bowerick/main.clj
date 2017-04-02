@@ -126,14 +126,16 @@
         arg-map (cli-args 0)
         extra-args (cli-args 1)
         help-string (cli-args 2)]
-    (when (arg-map :help)
-      (println help-string)
-      (System/exit 0))
-    (binding [*out* *err*]
-      (println "Starting bowerick using the following options:")
-      (pprint arg-map)
-      (pprint extra-args))
-    (if (:client arg-map)
-      (start-client-mode arg-map)
-      (start-broker-mode arg-map))))
+    (if (arg-map :help)
+      (do
+        (println "Bowerick help:")
+        (println help-string))
+      (do
+        (binding [*out* *err*]
+          (println "Starting bowerick using the following options:")
+          (pprint arg-map)
+          (pprint extra-args))
+        (if (:client arg-map)
+          (start-client-mode arg-map)
+          (start-broker-mode arg-map))))))
 
