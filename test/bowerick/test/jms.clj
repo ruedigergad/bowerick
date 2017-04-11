@@ -71,16 +71,42 @@
     (close producer)
     (close consumer)))
 
-(deftest failsafe-bytearray-producer-json-consumer
+(deftest json-producer-failsafe-json-consumer
+  (let [producer (create-json-producer local-jms-server test-topic)
+        was-run (prepare-flag)
+        received (atom nil)
+        consume-fn (fn [obj] (reset! received obj) (set-flag was-run))
+        consumer (create-failsafe-json-consumer local-jms-server test-topic consume-fn)]
+    (producer {"a" "b"})
+    (await-flag was-run)
+    (is (flag-set? was-run))
+    (is (= {"a" "b"} @received))
+    (close producer)
+    (close consumer)))
+
+(deftest string-producer-failsafe-json-consumer
   (let [producer (create-producer local-jms-server test-topic)
         was-run (prepare-flag)
         received (atom nil)
         consume-fn (fn [obj] (reset! received obj) (set-flag was-run))
-        consumer (create-json-consumer local-jms-server test-topic consume-fn)]
-    (producer (byte-array (map byte [0 0 0 0])))
+        consumer (create-failsafe-json-consumer local-jms-server test-topic consume-fn)]
+    (producer "foo")
     (await-flag was-run)
     (is (flag-set? was-run))
-    (is (= {"a" "b"} @received))
+    (is (= "foo" @received))
+    (close producer)
+    (close consumer)))
+
+(deftest object-producer-failsafe-json-consumer
+  (let [producer (create-producer local-jms-server test-topic)
+        was-run (prepare-flag)
+        received (atom nil)
+        consume-fn (fn [obj] (reset! received obj) (set-flag was-run))
+        consumer (create-failsafe-json-consumer local-jms-server test-topic consume-fn)]
+    (producer {"a" "b"})
+    (await-flag was-run)
+    (is (flag-set? was-run))
+    (is (= "{\"a\" \"b\"}" @received))
     (close producer)
     (close consumer)))
 

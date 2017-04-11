@@ -891,3 +891,27 @@
       (fn [^bytes ba]
         (cheshire/parse-string (String. ^bytes (pre-process-fn ba) ^Charset *default-charset*))))))
 
+(defn create-failsafe-json-consumer
+  ([broker-url destination-description cb]
+    (create-failsafe-json-consumer broker-url destination-description cb 1))
+  ([broker-url destination-description cb pool-size]
+    (create-failsafe-json-consumer broker-url destination-description cb pool-size identity))
+  ([broker-url destination-description cb pool-size pre-process-fn]
+    (utils/println-err "Creating failsafe JSON consumer:" broker-url destination-description pool-size)
+    (create-consumer
+      broker-url
+      destination-description
+      cb
+      pool-size
+      (fn [msg-payload]
+        (condp instance? msg-payload
+          utils/byte-array-type (try
+                                  (cheshire/parse-string
+                                    (String.
+                                      ^bytes (pre-process-fn ^bytes msg-payload)
+                                      ^Charset *default-charset*))
+                                  (catch Exception e
+                                    (str (vec msg-payload))))
+          java.lang.String msg-payload
+          (str msg-payload))))))
+
