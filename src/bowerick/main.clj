@@ -80,7 +80,7 @@
                                   (create-cached-destination
                                     consumers
                                     destination-url
-                                    create-json-consumer
+                                    create-failsafe-json-consumer
                                     (fn [rcvd]
                                       (binding [*out* out-binding]
                                         (println "Received:" destination-url "->")
@@ -94,7 +94,7 @@
                                      (create-cached-destination
                                        consumers
                                        (str broker-url ":" *broker-management-reply-topic*)
-                                       create-json-consumer
+                                       create-failsafe-json-consumer
                                        (fn [reply]
                                          (binding [*out* out-binding]
                                            (println "Management Reply:" broker-url "->")
