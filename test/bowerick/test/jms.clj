@@ -71,6 +71,19 @@
     (close producer)
     (close consumer)))
 
+(deftest failsafe-bytearray-producer-json-consumer
+  (let [producer (create-producer local-jms-server test-topic)
+        was-run (prepare-flag)
+        received (atom nil)
+        consume-fn (fn [obj] (reset! received obj) (set-flag was-run))
+        consumer (create-json-consumer local-jms-server test-topic consume-fn)]
+    (producer (byte-array (map byte [0 0 0 0])))
+    (await-flag was-run)
+    (is (flag-set? was-run))
+    (is (= {"a" "b"} @received))
+    (close producer)
+    (close consumer)))
+
 (deftest pooled-producer-normal-consumer
   (let [producer (create-producer local-jms-server test-topic 3)
         was-run (prepare-flag)
