@@ -917,6 +917,9 @@
                                         ^Charset *default-charset*)
                                       (catch Exception e2
                                         (str (vec msg-payload))))))
-          java.lang.String msg-payload
+          java.lang.String (try
+                             (cheshire/parse-string msg-payload)
+                             (catch Exception e
+                               msg-payload))
           (str msg-payload))))))
 
