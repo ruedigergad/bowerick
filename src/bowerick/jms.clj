@@ -910,8 +910,13 @@
                                     (String.
                                       ^bytes (pre-process-fn ^bytes msg-payload)
                                       ^Charset *default-charset*))
-                                  (catch Exception e
-                                    (str (vec msg-payload))))
+                                  (catch Exception e1
+                                    (try
+                                      (String.
+                                        ^bytes (pre-process-fn ^bytes msg-payload)
+                                        ^Charset *default-charset*)
+                                      (catch Exception e2
+                                        (str (vec msg-payload))))))
           java.lang.String msg-payload
           (str msg-payload))))))
 
