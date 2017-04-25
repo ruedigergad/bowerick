@@ -13,7 +13,7 @@
   (:require
     [bowerick.jms :refer :all]
     [clj-assorted-utils.util :refer :all]
-    [clojure.test :refer :all] clojure.test))
+    [clojure.test :refer :all]))
 
 
 
