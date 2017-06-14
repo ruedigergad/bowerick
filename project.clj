@@ -4,7 +4,7 @@
   :dependencies [[com.twitter/carbonite "1.5.0"]
                  [cheshire "5.7.1"]
                  [cli4clj "1.2.7"]
-                 [clj-assorted-utils "1.18.0"]
+                 [clj-assorted-utils "1.18.1"]
                  [com.ning/compress-lzf "1.0.4"]
                  [com.taoensso/nippy "2.13.0"]
                  [javax.servlet/javax.servlet-api "3.1.0"]
@@ -14,15 +14,15 @@
                  [org.apache.activemq/activemq-jaas "5.14.5" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.apache.activemq/activemq-openwire-legacy "5.14.5" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.apache.activemq/activemq-stomp "5.14.5" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.eclipse.jetty/jetty-server "9.4.5.v20170502"]
-                 [org.eclipse.jetty.websocket/websocket-client "9.4.5.v20170502"]
-                 [org.eclipse.jetty.websocket/websocket-server "9.4.5.v20170502"]
+                 [org.eclipse.jetty/jetty-server "9.4.6.v20170531"]
+                 [org.eclipse.jetty.websocket/websocket-client "9.4.6.v20170531"]
+                 [org.eclipse.jetty.websocket/websocket-server "9.4.6.v20170531"]
                  [org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.cli "0.3.5"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.1.1"]
-                 [org.springframework/spring-messaging "4.3.8.RELEASE"]
-                 [org.springframework/spring-websocket "4.3.8.RELEASE"]
+                 [org.springframework/spring-messaging "4.3.9.RELEASE"]
+                 [org.springframework/spring-websocket "4.3.9.RELEASE"]
                  [org.slf4j/slf4j-simple "1.7.25"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
@@ -45,7 +45,7 @@
   :html5-docs-ns-includes #"^bowerick.*"
   :html5-docs-repository-url "https://github.com/ruedigergad/bowerick/blob/master"
   :profiles {:repl
-               {:dependencies  [[jonase/eastwood "0.2.3" :exclusions  [org.clojure/clojure]]]}
+               {:dependencies  [[jonase/eastwood "0.2.4" :exclusions  [org.clojure/clojure]]]}
              :test
                {:dependencies [[criterium "0.4.4"]]
                 :test-paths ["test" "benchmark"]}}
