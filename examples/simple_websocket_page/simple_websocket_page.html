@@ -1,0 +1,65 @@
+<!--
+    This example is based on the example from:
+    https://github.com/jmesnil/stomp-websocket/blob/master/example/chat/index.html
+-->
+<html>
+    <head>
+        <title>Simple Websocket Page Example</title>
+    </head>
+    <body>
+        <div id="connection_settings">
+            <div id="connection_settings_header">
+                <h2>Connection Settings</h2>
+            </div>
+            <div id="connection_settings_body">
+                <p>Broker URL <input name=broker_url id="broker_url" value="ws://127.0.0.1:1864" type="text"></p>
+                <p>Topic Name <input name=topic_name id="topic_name" value="/topic/test" type="text"></p>
+            </div>
+        </div>
+        <div id="incoming_messages_part">
+            <div id="incoming_messages_header">
+                <h2>Incoming Messages</h2>
+            </div>
+            <div id="incoming_messages">
+            </div>
+        </div>
+        <div id="logging">
+            <div id="logging_header">
+                <h2>Log</h2>
+            </div>
+            <div id="logging_body">
+                <pre id="log_messages"></pre>
+            </div>
+        </div>
+        <!-- This is "http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" -->
+        <script src="./jquery.min.js"></script>
+        <!-- This is "https://raw.github.com/jmesnil/stomp-websocket/master/lib/stomp.js" -->
+        <script src="./stomp.js"></script>
+        <script>//<![CDATA[
+        $(document).ready(function() {
+            if(window.WebSocket) {
+                var broker_url = $("#broker_url").val();
+                var topic_name = $("#topic_name").val();
+                
+                var client = Stomp.client(broker_url);
+                client.log = function (log_message) {
+                    $("#log_messages").append(log_message + "\n");
+                };
+
+                client.log("Connecting to " + broker_url);
+                client.connect("", "", function(frame) {
+                    client.log("Connection established.");
+
+                    client.log("Subscribing to " + topic_name);
+                    client.subscribe(topic_name, function(message) {
+                        client.log("Received message: " + message);
+                        $("#incoming_messages").append("<p>" + message.body + "</p>");
+                   });
+                });
+            } else {
+                alert("Error: WebSockets not supported!");
+            }
+        });
+        //]]></script>
+    </body>
+</html>
