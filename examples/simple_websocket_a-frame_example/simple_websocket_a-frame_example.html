@@ -1,0 +1,79 @@
+<!--
+    This example is based on the example from:
+    https://github.com/jmesnil/stomp-websocket/blob/master/example/chat/index.html
+    and
+    https://aframe.io/examples/showcase/helloworld/
+-->
+<html>
+    <head>
+        <title>Simple Websocket A-Frame Example</title>
+        <!-- This is https://aframe.io/releases/0.6.0/aframe.min.js -->
+        <script src="./aframe.min.js"></script>
+    </head>
+    <body>
+        <div id="connection_settings">
+            <div id="connection_settings_header">
+                <h2>Connection Settings</h2>
+            </div>
+            <div id="connection_settings_body">
+                <p>Broker URL <input name=broker_url id="broker_url" value="ws://127.0.0.1:1864" type="text"></p>
+                <p>Topic Name <input name=topic_name id="topic_name" value="/topic/aframe" type="text"></p>
+            </div>
+        </div>
+        <div id="aframe_part">
+            <div id="aframe_header">
+                <h2>A-Frame Visualization</h2>
+            </div>
+            <div id="aframe-body" style="height: 400px; width: 400px;">
+                <a-scene embedded>
+                    <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+                    <a-sky color="#ECECEC"></a-sky>
+                </a-scene>
+            </div>
+        </div>
+        <div id="logging">
+            <div id="logging_header">
+                <h2>Log</h2>
+            </div>
+            <div id="logging_body">
+                <pre id="log_messages"></pre>
+            </div>
+        </div>
+        <!-- This is "http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" -->
+        <script src="./jquery.min.js"></script>
+        <!-- This is "https://raw.github.com/jmesnil/stomp-websocket/master/lib/stomp.js" -->
+        <script src="./stomp.js"></script>
+        <script>//<![CDATA[
+        $(document).ready(function() {
+            var sphere = document.createElement("a-sphere");
+            sphere.setAttribute("radius", 0.5);
+            sphere.setAttribute("position", "0 1 -5");
+            sphere.setAttribute("color", "#EF2D5E");
+            document.querySelector("a-scene").appendChild(sphere);
+
+            if(window.WebSocket) {
+                var broker_url = $("#broker_url").val();
+                var topic_name = $("#topic_name").val();
+                
+                var client = Stomp.client(broker_url);
+                client.log = function (log_message) {
+                    $("#log_messages").append(log_message + "\n");
+                };
+
+                client.log("Connecting to " + broker_url);
+                client.connect("", "", function(frame) {
+                    client.log("Connection established.");
+
+                    client.log("Subscribing to " + topic_name);
+                    client.subscribe(topic_name, function(message) {
+                        client.log("Received message: " + message);
+                        sphere.setAttribute("position", message.body.replace(/"/g,""));
+                   });
+                });
+            } else {
+                alert("Error: WebSockets not supported!");
+            }
+        });
+        //]]></script>
+    </body>
+</html>
