@@ -1,10 +1,10 @@
-(defproject bowerick "1.99.17-SNAPSHOT"
-;(defproject bowerick "1.99.16"
+;(defproject bowerick "1.99.17-SNAPSHOT"
+(defproject bowerick "1.99.17"
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
                  [cheshire "5.7.1"]
                  [cli4clj "1.2.7"]
-                 [clj-assorted-utils "1.18.1"]
+                 [clj-assorted-utils "1.18.2"]
                  [com.ning/compress-lzf "1.0.4"]
                  [com.taoensso/nippy "2.13.0"]
                  [javax.servlet/javax.servlet-api "3.1.0"]
