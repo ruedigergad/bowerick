@@ -41,6 +41,7 @@
     (org.fusesource.stomp.jms StompJmsConnectionFactory)
     (org.springframework.messaging.converter ByteArrayMessageConverter SmartMessageConverter StringMessageConverter)
     (org.springframework.messaging.simp.stomp DefaultStompSession StompFrameHandler StompHeaders StompSession StompSessionHandler StompSessionHandlerAdapter)
+    (org.springframework.scheduling.concurrent ThreadPoolTaskScheduler)
     (org.springframework.web.socket.messaging WebSocketStompClient)
     (org.springframework.web.socket.client.jetty JettyWebSocketClient)))
 
@@ -56,6 +57,9 @@
 (def ^:dynamic *broker-management-reply-topic* "/topic/bowerick.broker.management.reply")
 
 (def ^:dynamic *default-charset* (Charset/forName "UTF-8"))
+
+(def ^:dynamic *ws-client-ping-heartbeat* 10000)
+(def ^:dynamic *ws-client-pong-heartbeat* 10000)
 
 ; See also: http://activemq.apache.org/objectmessage.html
 (def ^:dynamic *serializable-packages*
@@ -340,7 +344,10 @@
                               (get-adjusted-ssl-context)))))
                       (JettyWebSocketClient.))
                     (.start))
-        ws-stomp-client (WebSocketStompClient. ws-client)
+        ws-stomp-client (doto
+                          (WebSocketStompClient. ws-client)
+                          (.setTaskScheduler (doto (ThreadPoolTaskScheduler.) .afterPropertiesSet))
+                          (.setDefaultHeartbeat (long-array [*ws-client-ping-heartbeat* *ws-client-pong-heartbeat*])))
         session (atom nil)
         flag (utils/prepare-flag)]
     (.connect
