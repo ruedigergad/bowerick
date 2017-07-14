@@ -7,6 +7,35 @@
         <title>Simple Websocket Page Example</title>
     </head>
     <body>
+        <div id="howto">
+            <div id="howto_header">
+                <h2>HowTo</h2>
+            </div>
+            <div id="howto_body">
+                <p>
+                    In order to use this example, you need a running broker with an WebSocket STOMP transport.
+                    Below is an example for starting such a broker with bowerick:
+                </p>
+                <pre>
+java -jar bowerick-1.99.17-standalone.jar -u "[\"ws://127.0.0.1:1864\"]"
+                </pre>
+                <p>
+                    Once the broker is started, you connect to it by pressing the &quot;Connect&quot; button.
+                </p>
+                <p>
+                    For sending messages, you can start another bowerick instance in client mode and use it for sending data as shown in the example below.
+                    Please note that the example also shows the corresponding console output.
+                </p>
+                <pre>
+java -jar bowerick-1.99.17-standalone.jar -c
+Starting bowerick using the following options:
+{:client true, :daemon false, :help false, :url "tcp://localhost:61616"}
+[]
+Starting bowerick in client mode.
+bowerick# s ws://127.0.0.1:1864:/topic/test "foo"
+                </pre>
+            </div>
+        </div>
         <div id="connection_settings">
             <div id="connection_settings_header">
                 <h2>Connection Settings</h2>
@@ -14,6 +43,7 @@
             <div id="connection_settings_body">
                 <p>Broker URL <input name=broker_url id="broker_url" value="ws://127.0.0.1:1864" type="text"></p>
                 <p>Topic Name <input name=topic_name id="topic_name" value="/topic/test" type="text"></p>
+                <p><button type="button" id="connect_button">Connect</button></p>
             </div>
         </div>
         <div id="incoming_messages_part">
@@ -36,7 +66,7 @@
         <!-- This is "https://raw.github.com/jmesnil/stomp-websocket/master/lib/stomp.js" -->
         <script src="./stomp.js"></script>
         <script>//<![CDATA[
-        $(document).ready(function() {
+        document.getElementById("connect_button").onclick = function() {
             if(window.WebSocket) {
                 var broker_url = $("#broker_url").val();
                 var topic_name = $("#topic_name").val();
@@ -59,7 +89,7 @@
             } else {
                 alert("Error: WebSockets not supported!");
             }
-        });
+        };
         //]]></script>
     </body>
 </html>
