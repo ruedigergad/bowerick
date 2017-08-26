@@ -23,11 +23,34 @@
 (defn start-broker-mode
   [arg-map]
   (println-err "Starting bowerick in broker mode.")
-  (let [url (arg-map :url)
+  (let [arg-url (arg-map :url)
+        af-demo-url "ws://127.0.0.1:1864"
+        url (if (arg-map :a-frame-demo)
+              (if (string? arg-url)
+                [arg-url af-demo-url]
+                (conj arg-url af-demo-url))
+              arg-url)
         broker-service (start-broker url)
         shutdown-fn (fn []
                       (stop broker-service))]
-    (if (:daemon arg-map)
+    (if (arg-map :a-frame-demo)
+      (let [af-topic-name "/topic/aframe"
+            af-prod (create-producer af-demo-url af-topic-name 1)]
+        (println "Starting producer for the A-Frame demo at:" (str af-demo-url ":" af-topic-name))
+        (doto (Thread. #(loop [angle 0.0]
+                          (let [x (Math/cos angle)
+                                y (Math/sin angle)
+                                max_angle (* 2.0 Math/PI)
+                                angle_increment (/ max_angle 100.0)]
+                            (af-prod {:x x, :y y, :z 0})
+                            (sleep 20)
+                            (let [new_angle (+ angle angle_increment)]
+                              (if (> new_angle max_angle)
+                                (recur (+ 0.0 (- max_angle new_angle)))
+                                (recur new_angle))))))
+          (.setDaemon true)
+          (.start))))
+    (if (arg-map :daemon)
       (-> (agent 0) (await))
       (do
         (println "Broker started... Type \"q\" followed by <Return> to quit: ")
@@ -124,6 +147,7 @@
 
 (defn -main [& args]
   (let [cli-args (cli args
+                   ["-A" "--a-frame-demo" "When in daemon mode, start a producer for the A-Frame demo." :flag true :default false]
                    ["-c" "--client" "Start in client mode." :flag true :default false]
                    ["-d" "--daemon" "Run as daemon." :flag true :default false]
                    ["-h" "--help" "Print this help." :flag true]
