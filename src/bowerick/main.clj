@@ -99,10 +99,15 @@
                                          (binding [*out* out-binding
                                                    *read-eval* false]
                                            (println "Management Reply:" broker-url "->")
-                                           (let [reply-obj (read-string reply-str)]
-                                             (if (instance? clojure.lang.Symbol reply-obj)
-                                               (println reply-str)
-                                               (pprint reply-obj))))))
+                                           (try
+                                             (let [reply-obj (read-string reply-str)]
+                                               (if (instance? clojure.lang.Symbol reply-obj)
+                                                 (println reply-str)
+                                                 (pprint reply-obj)))
+                                             (catch Exception e
+                                               (println "Error reading reply:" (.getMessage e))
+                                               (println "Printing raw reply below:")
+                                               (println reply-str))))))
                                      (let [cmd-destination (str broker-url ":" *broker-management-command-topic*)
                                            cmd-with-args (str command (reduce #(str %1 " " %2) "" args))]
                                        (create-cached-destination producers cmd-destination create-json-producer)

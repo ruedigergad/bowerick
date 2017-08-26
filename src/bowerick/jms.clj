@@ -287,9 +287,14 @@
                          management-address
                          *broker-management-command-topic*
                          (fn [cmd]
-                           (producer (mgmt-cli cmd)))))
+                           (try
+                             (let [ret (mgmt-cli cmd)]
+                               (producer ret))
+                             (catch Exception e
+                               (utils/println-err "Error while executing management command:" cmd)
+                               (utils/println-err (str e)))))))
                      (catch Exception e
-                       (utils/println-err "Warning: Could not create management consumer for:" *broker-management-command-topic*)))]
+                       (utils/println-err "Warning: Could not create management consumer for:" *broker-management-command-topic*)))]8
       {:broker broker
        :stop (fn []
                (if consumer
