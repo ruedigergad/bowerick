@@ -124,14 +124,14 @@
 
 (defn -main [& args]
   (let [cli-args (cli args
-                      ["-c" "--client" "Start in client mode." :flag true :default false]
-                      ["-d" "--daemon" "Run as daemon." :flag true :default false]
-                      ["-h" "--help" "Print this help." :flag true]
-                      ["-u" "--url" 
-                       "URL to bind the broker to." 
-                       :default "tcp://localhost:61616"
-                       :parse-fn #(binding [*read-eval* false]
-                                    (read-string %))])
+                   ["-c" "--client" "Start in client mode." :flag true :default false]
+                   ["-d" "--daemon" "Run as daemon." :flag true :default false]
+                   ["-h" "--help" "Print this help." :flag true]
+                   ["-u" "--url"
+                     "URL to bind the broker to."
+                     :default "tcp://localhost:61616"
+                     :parse-fn #(binding [*read-eval* false]
+                                  (read-string %))])
         arg-map (cli-args 0)
         extra-args (cli-args 1)
         help-string (cli-args 2)]
