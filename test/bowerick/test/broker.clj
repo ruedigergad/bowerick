@@ -79,7 +79,7 @@
                    local-jms-server
                    broker-management-reply-topic
                    (fn [data]
-                     (reset! ret data)
+                     (reset! ret (binding [*read-eval* false] (read-string data)))
                      (set-flag flag)))]
     (producer "get-destinations")
     (await-flag flag)
@@ -102,7 +102,7 @@
                    local-jms-server
                    broker-management-reply-topic
                    (fn [data]
-                     (reset! ret data)
+                     (reset! ret (binding [*read-eval* false] (read-string data)))
                      (set-flag flag)))]
     (producer "get-all-destinations")
     (await-flag flag)
@@ -138,7 +138,7 @@
     (producer "foo_unknown_command_bar")
     (await-flag flag)
     (is (=
-         "error Unknown command: foo_unknown_command_bar"
+         "ERROR: Invalid command: \"[foo_unknown_command_bar]\". Please type \"help\" to get an overview of commands."
          @ret))
     (close producer)
     (close consumer)
