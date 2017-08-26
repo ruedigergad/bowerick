@@ -15,6 +15,7 @@
     [carbonite.api :as carb-api]
     [carbonite.buffer :as carb-buf]
     [cheshire.core :as cheshire]
+    [cli4clj.cli :as cli]
     [clojure.java.io :as java-io]
     [clojure.string :as str]
     [clj-assorted-utils.util :as utils]
@@ -268,6 +269,14 @@
                          *broker-management-reply-topic*))
                      (catch Exception e
                        (utils/println-err "Warning: Could not create management producer for:" *broker-management-reply-topic*)))
+          mgmt-cli (cli/embedded-cli-fn {:cmds {:get-destinations {:fn (fn [] (get-destinations broker false))
+                                                                   :short-info "List topics with producers."
+                                                                   :long-info "Get a list of all topics for which producers are registered."}
+                                                :ls :get-destinations
+                                                :get-all-destinations {:fn (fn [] (get-destinations broker true))
+                                                                       :short-info "List all topics."
+                                                                       :long-info "Get a list of all topics, even those without producers."}
+                                                :la :get-all-destinations}})
           consumer (try
                      (utils/println-err "Info: Enabling management consumer at:" *broker-management-command-topic*)
                      (binding [*trust-store-file* *key-store-file*
@@ -278,10 +287,7 @@
                          management-address
                          *broker-management-command-topic*
                          (fn [cmd]
-                           (condp = cmd
-                             "get-destinations" (producer (get-destinations broker false))
-                             "get-all-destinations" (producer (get-destinations broker true))
-                             (send-error-msg producer (str "Unknown command: " cmd))))))
+                           (producer (mgmt-cli cmd)))))
                      (catch Exception e
                        (utils/println-err "Warning: Could not create management consumer for:" *broker-management-command-topic*)))]
       {:broker broker

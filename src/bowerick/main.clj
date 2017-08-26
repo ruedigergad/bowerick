@@ -95,10 +95,14 @@
                                        consumers
                                        (str broker-url ":" *broker-management-reply-topic*)
                                        create-failsafe-json-consumer
-                                       (fn [reply]
-                                         (binding [*out* out-binding]
+                                       (fn [reply-str]
+                                         (binding [*out* out-binding
+                                                   *read-eval* false]
                                            (println "Management Reply:" broker-url "->")
-                                           (pprint reply))))
+                                           (let [reply-obj (read-string reply-str)]
+                                             (if (instance? clojure.lang.Symbol reply-obj)
+                                               (println reply-str)
+                                               (pprint reply-obj))))))
                                      (let [cmd-destination (str broker-url ":" *broker-management-command-topic*)
                                            cmd-with-args (str command (reduce #(str %1 " " %2) "" args))]
                                        (create-cached-destination producers cmd-destination create-json-producer)
