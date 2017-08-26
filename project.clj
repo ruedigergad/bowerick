@@ -2,12 +2,12 @@
 ;(defproject bowerick "1.99.17"
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
-                 [cheshire "5.7.1"]
-                 [cli4clj "1.2.7"]
+                 [cheshire "5.8.0"]
+                 [cli4clj "1.3.0"]
                  [clj-assorted-utils "1.18.2"]
                  [com.ning/compress-lzf "1.0.4"]
                  [com.taoensso/nippy "2.13.0"]
-                 [javax.servlet/javax.servlet-api "3.1.0"]
+                 [javax.servlet/javax.servlet-api "4.0.0"]
                  [org.apache.activemq/activemq-broker "5.15.0" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.apache.activemq/activemq-client "5.15.0" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.apache.activemq/activemq-http "5.15.0" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
@@ -20,9 +20,9 @@
                  [org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.cli "0.3.5"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]
-                 [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.1.1"]
-                 [org.springframework/spring-messaging "4.3.9.RELEASE"]
-                 [org.springframework/spring-websocket "4.3.9.RELEASE"]
+                 [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.0"]
+                 [org.springframework/spring-messaging "4.3.10.RELEASE"]
+                 [org.springframework/spring-websocket "4.3.10.RELEASE"]
                  [org.slf4j/slf4j-simple "1.7.25"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
