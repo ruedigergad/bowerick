@@ -26,7 +26,11 @@
             </div>
             <div id="aframe-body" style="height: 400px; width: 400px;">
                 <a-scene embedded>
-                    <a-plane position="0 -1.5 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+                    <a-entity position="0 -1 4">
+                        <a-camera></a-camera>
+                    </a-entity>
+                    <a-entity light="type:point; castShadow:true;" position="3 8 4"></a-entity>
+                    <a-plane position="0 -1.6 0" rotation="-90 0 0" width="6" height="6" color="#7BC8A4" shadow></a-plane>
                     <a-sky color="#ECECEC"></a-sky>
                 </a-scene>
             </div>
@@ -47,8 +51,9 @@
         $(document).ready(function() {
             var sphere = document.createElement("a-sphere");
             sphere.setAttribute("radius", 0.5);
-            sphere.setAttribute("position", "0 1 -5");
+            sphere.setAttribute("position", "0 0 0");
             sphere.setAttribute("color", "#EF2D5E");
+            sphere.setAttribute("shadow", "");
             document.querySelector("a-scene").appendChild(sphere);
 
             if(window.WebSocket) {
@@ -60,13 +65,15 @@
                     $("#log_messages").append(log_message + "\n");
                 };
 
-                client.log("Connecting to " + broker_url);
+                client.log("Connecting to: " + broker_url);
                 client.connect("", "", function(frame) {
                     client.log("Connection established.");
 
-                    client.log("Subscribing to " + topic_name);
+                    client.log("Subscribing to: " + topic_name);
                     client.subscribe(topic_name, function(message) {
-                        sphere.setAttribute("position", message.body.replace(/"/g,""));
+                        var coordinates = JSON.parse(message.body);
+                        var newPosition = AFRAME.utils.coordinates.stringify(coordinates);
+                        sphere.setAttribute("position", newPosition);
                    });
                 });
             } else {
