@@ -5,5 +5,5 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [clj-assorted-utils "1.18.1"]
-                 [bowerick "1.99.17-SNAPSHOT"]]
+                 [bowerick "1.99.17"]]
   :main event-generator.main)

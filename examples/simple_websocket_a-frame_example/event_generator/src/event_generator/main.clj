@@ -22,18 +22,17 @@
 (defn -main [& args]
   (let [broker-url "ws://127.0.0.1:1864"
         topic-name "/topic/aframe"
-        prod (create-producer broker-url topic-name 1)
-        
-        ]
+        prod (create-producer broker-url topic-name 1)]
     (loop [angle 0.0]
       (let [x (Math/cos angle)
             y (Math/sin angle)
             max_angle (* 2.0 Math/PI)
             angle_increment (/ max_angle 100.0)]
         (println "x =" x "; y =" y)
-        (prod (str x " " y " -5"))
+        (prod {:x x, :y y, :z 0})
         (sleep 20)
         (let [new_angle (+ angle angle_increment)]
           (if (> new_angle max_angle)
             (recur (+ 0.0 (- max_angle new_angle)))
             (recur new_angle)))))))
+
