@@ -1,0 +1,85 @@
+<html xmlns:string="xalan://java.lang.String" xmlns:lxslt="http://xml.apache.org/xslt">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Standard Error from mqtt</title>
+</head>
+<body>
+<pre>
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: mqtt://127.0.0.1:1883 /topic/testtopic.foo
+Creating consumer: mqtt://127.0.0.1:1883 /topic/testtopic.foo
+Closing producer: mqtt://127.0.0.1:1883 /topic/testtopic.foo
+Closing consumer: mqtt://127.0.0.1:1883 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: mqtt+ssl://127.0.0.1:1884?needClientAuth=true /topic/testtopic.foo
+Setting socket factory for SSL connection, trust store: test/ssl/client.ts ; key store: test/ssl/client.ks
+Creating consumer: stomp://127.0.0.1:42424 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: mqtt+ssl://127.0.0.1:1884?needClientAuth=true /topic/testtopic.foo
+Closing consumer: stomp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: mqtt://127.0.0.1:1883 /topic/testtopic.foo
+Creating consumer: stomp://127.0.0.1:42424 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: mqtt://127.0.0.1:1883 /topic/testtopic.foo
+Closing consumer: stomp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: mqtt://127.0.0.1:1883 /topic/testtopic.foo
+Creating consumer: tcp://127.0.0.1:42423 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: mqtt://127.0.0.1:1883 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42423 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+    </pre>
+</body>
+</html>

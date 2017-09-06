@@ -1,5 +1,5 @@
-(defproject bowerick "1.99.18-SNAPSHOT"
-;(defproject bowerick "1.99.17"
+;(defproject bowerick "1.99.19-SNAPSHOT"
+(defproject bowerick "1.99.18"
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
                  [cheshire "5.8.0"]
@@ -49,6 +49,6 @@
              :test
                {:dependencies [[criterium "0.4.4"]]
                 :test-paths ["test" "benchmark"]}}
-  :plugins [[lein-cloverage "1.0.9"]]
+  :plugins [[lein-cloverage "1.0.9"] [test2junit "1.3.3"] [lein-html5-docs "3.0.3"]]
   ;:jvm-opts ["-Djavax.net.debug=all"]
   )

@@ -1,59 +1,1318 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bowerick.test.jms-transport" errors="0" failures="0" tests="28" time="4.8192" timestamp="2016-08-25_22:49:38+0200">
-    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.0074">
+<testsuite name="bowerick.test.jms-transport" errors="0" failures="0" tests="28" time="14.4886" timestamp="2017-09-06_21:11:36+0200">
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.0789">
     </testcase>
-    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.0064">
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.0596">
     </testcase>
-    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.0501">
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.1571">
     </testcase>
-    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.1789">
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.4486">
     </testcase>
-    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.2086">
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.5028">
     </testcase>
-    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.1843">
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.3700">
     </testcase>
-    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.1850">
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.4792">
     </testcase>
-    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.0159">
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.0708">
     </testcase>
-    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.0104">
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.0435">
     </testcase>
-    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.0540">
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.1299">
     </testcase>
-    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.1700">
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.4254">
     </testcase>
-    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.2009">
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.4388">
     </testcase>
-    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.1884">
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.3766">
     </testcase>
-    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.1832">
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.4685">
     </testcase>
-    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.0146">
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.0657">
     </testcase>
-    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.0091">
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.0558">
     </testcase>
-    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.0479">
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.0889">
     </testcase>
-    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.1649">
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.4091">
     </testcase>
-    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.1952">
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.5125">
     </testcase>
-    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.1760">
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.3349">
     </testcase>
-    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.1774">
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.4563">
     </testcase>
-    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.0073">
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.0516">
     </testcase>
-    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.0088">
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.0587">
     </testcase>
-    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.0473">
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.1166">
     </testcase>
-    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.1659">
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.4097">
     </testcase>
-    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.1959">
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.4455">
     </testcase>
-    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.1748">
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.3267">
     </testcase>
-    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.1742">
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.4411">
     </testcase>
+    <system-err>
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.reply 1
+Creating producer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.command 1
+Creating consumer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: udp://127.0.0.1:42426 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: udp://127.0.0.1:42426 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: udp://127.0.0.1:42426 /topic/testtopic.foo
+Closing consumer: udp://127.0.0.1:42426 /topic/testtopic.foo
+Closing consumer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.command
+Closing producer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.reply 1
+Creating producer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.command 1
+Creating consumer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: stomp://127.0.0.1:42422 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: stomp://127.0.0.1:42422 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: stomp://127.0.0.1:42422 /topic/testtopic.foo
+Closing consumer: stomp://127.0.0.1:42422 /topic/testtopic.foo
+Closing consumer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.command
+Closing producer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.reply 1
+Creating producer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.command 1
+Creating consumer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: stomp+ssl://127.0.0.1:42423 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: stomp+ssl://127.0.0.1:42423 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: stomp+ssl://127.0.0.1:42423 /topic/testtopic.foo
+Closing consumer: stomp+ssl://127.0.0.1:42423 /topic/testtopic.foo
+Closing consumer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Closing producer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/bowerick.broker.management.reply 1
+Creating producer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/bowerick.broker.management.reply
+Creating connection.
+Warning: Could not create management producer for: /topic/bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/bowerick.broker.management.command 1
+Creating consumer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/bowerick.broker.management.command
+Creating connection.
+Warning: Could not create management consumer for: /topic/bowerick.broker.management.command
+Creating producer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/testtopic.foo
+Closing consumer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/testtopic.foo
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply 1
+Creating producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command 1
+Creating consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Closing consumer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Closing consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command
+Closing producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: ssl://127.0.0.1:42425?needClientAuth=true /topic/bowerick.broker.management.reply 1
+Creating producer: ssl://127.0.0.1:42425?needClientAuth=true /topic/bowerick.broker.management.reply
+Creating connection.
+Warning: Could not create management producer for: /topic/bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: ssl://127.0.0.1:42425?needClientAuth=true /topic/bowerick.broker.management.command 1
+Creating consumer: ssl://127.0.0.1:42425?needClientAuth=true /topic/bowerick.broker.management.command
+Creating connection.
+Warning: Could not create management consumer for: /topic/bowerick.broker.management.command
+Creating producer: ssl://127.0.0.1:42425?needClientAuth=true /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: ssl://127.0.0.1:42425?needClientAuth=true /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: ssl://127.0.0.1:42425?needClientAuth=true /topic/testtopic.foo
+Closing consumer: ssl://127.0.0.1:42425?needClientAuth=true /topic/testtopic.foo
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.reply 1
+Creating producer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.command 1
+Creating consumer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: udp://127.0.0.1:42426 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: udp://127.0.0.1:42426 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: udp://127.0.0.1:42426 /topic/testtopic.foo
+Closing consumer: udp://127.0.0.1:42426 /topic/testtopic.foo
+Closing consumer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.command
+Closing producer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.reply 1
+Creating producer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.command 1
+Creating consumer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: stomp://127.0.0.1:42422 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: stomp://127.0.0.1:42422 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: stomp://127.0.0.1:42422 /topic/testtopic.foo
+Closing consumer: stomp://127.0.0.1:42422 /topic/testtopic.foo
+Closing consumer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.command
+Closing producer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.reply 1
+Creating producer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.command 1
+Creating consumer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: stomp+ssl://127.0.0.1:42423 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: stomp+ssl://127.0.0.1:42423 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: stomp+ssl://127.0.0.1:42423 /topic/testtopic.foo
+Closing consumer: stomp+ssl://127.0.0.1:42423 /topic/testtopic.foo
+Closing consumer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Closing producer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/bowerick.broker.management.reply 1
+Creating producer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/bowerick.broker.management.reply
+Creating connection.
+Warning: Could not create management producer for: /topic/bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/bowerick.broker.management.command 1
+Creating consumer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/bowerick.broker.management.command
+Creating connection.
+Warning: Could not create management consumer for: /topic/bowerick.broker.management.command
+Creating producer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/testtopic.foo
+Closing consumer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/testtopic.foo
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply 1
+Creating producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command 1
+Creating consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Closing consumer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Closing consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command
+Closing producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: ssl://127.0.0.1:42425?needClientAuth=true /topic/bowerick.broker.management.reply 1
+Creating producer: ssl://127.0.0.1:42425?needClientAuth=true /topic/bowerick.broker.management.reply
+Creating connection.
+Warning: Could not create management producer for: /topic/bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: ssl://127.0.0.1:42425?needClientAuth=true /topic/bowerick.broker.management.command 1
+Creating consumer: ssl://127.0.0.1:42425?needClientAuth=true /topic/bowerick.broker.management.command
+Creating connection.
+Warning: Could not create management consumer for: /topic/bowerick.broker.management.command
+Creating producer: ssl://127.0.0.1:42425?needClientAuth=true /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: ssl://127.0.0.1:42425?needClientAuth=true /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: ssl://127.0.0.1:42425?needClientAuth=true /topic/testtopic.foo
+Closing consumer: ssl://127.0.0.1:42425?needClientAuth=true /topic/testtopic.foo
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.reply 1
+Creating producer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.command 1
+Creating consumer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: udp://127.0.0.1:42426 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: udp://127.0.0.1:42426 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: udp://127.0.0.1:42426 /topic/testtopic.foo
+Closing consumer: udp://127.0.0.1:42426 /topic/testtopic.foo
+Closing consumer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.command
+Closing producer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.reply 1
+Creating producer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.command 1
+Creating consumer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: stomp://127.0.0.1:42422 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: stomp://127.0.0.1:42422 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: stomp://127.0.0.1:42422 /topic/testtopic.foo
+Closing consumer: stomp://127.0.0.1:42422 /topic/testtopic.foo
+Closing consumer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.command
+Closing producer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.reply 1
+Creating producer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.command 1
+Creating consumer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: stomp+ssl://127.0.0.1:42423 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: stomp+ssl://127.0.0.1:42423 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: stomp+ssl://127.0.0.1:42423 /topic/testtopic.foo
+Closing consumer: stomp+ssl://127.0.0.1:42423 /topic/testtopic.foo
+Closing consumer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Closing producer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/bowerick.broker.management.reply 1
+Creating producer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/bowerick.broker.management.reply
+Creating connection.
+Warning: Could not create management producer for: /topic/bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/bowerick.broker.management.command 1
+Creating consumer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/bowerick.broker.management.command
+Creating connection.
+Warning: Could not create management consumer for: /topic/bowerick.broker.management.command
+Creating producer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/testtopic.foo
+Closing consumer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/testtopic.foo
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply 1
+Creating producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command 1
+Creating consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Closing consumer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Closing consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command
+Closing producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: ssl://127.0.0.1:42425?needClientAuth=true /topic/bowerick.broker.management.reply 1
+Creating producer: ssl://127.0.0.1:42425?needClientAuth=true /topic/bowerick.broker.management.reply
+Creating connection.
+Warning: Could not create management producer for: /topic/bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: ssl://127.0.0.1:42425?needClientAuth=true /topic/bowerick.broker.management.command 1
+Creating consumer: ssl://127.0.0.1:42425?needClientAuth=true /topic/bowerick.broker.management.command
+Creating connection.
+Warning: Could not create management consumer for: /topic/bowerick.broker.management.command
+Creating producer: ssl://127.0.0.1:42425?needClientAuth=true /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: ssl://127.0.0.1:42425?needClientAuth=true /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: ssl://127.0.0.1:42425?needClientAuth=true /topic/testtopic.foo
+Closing consumer: ssl://127.0.0.1:42425?needClientAuth=true /topic/testtopic.foo
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.reply 1
+Creating producer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.command 1
+Creating consumer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: udp://127.0.0.1:42426 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: udp://127.0.0.1:42426 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: udp://127.0.0.1:42426 /topic/testtopic.foo
+Closing consumer: udp://127.0.0.1:42426 /topic/testtopic.foo
+Closing consumer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.command
+Closing producer: udp://127.0.0.1:42426 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.reply 1
+Creating producer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.command 1
+Creating consumer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: stomp://127.0.0.1:42422 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: stomp://127.0.0.1:42422 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: stomp://127.0.0.1:42422 /topic/testtopic.foo
+Closing consumer: stomp://127.0.0.1:42422 /topic/testtopic.foo
+Closing consumer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.command
+Closing producer: stomp://127.0.0.1:42422 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.reply 1
+Creating producer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.command 1
+Creating consumer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: stomp+ssl://127.0.0.1:42423 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: stomp+ssl://127.0.0.1:42423 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: stomp+ssl://127.0.0.1:42423 /topic/testtopic.foo
+Closing consumer: stomp+ssl://127.0.0.1:42423 /topic/testtopic.foo
+Closing consumer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Closing producer: stomp+ssl://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/bowerick.broker.management.reply 1
+Creating producer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/bowerick.broker.management.reply
+Creating connection.
+Warning: Could not create management producer for: /topic/bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/bowerick.broker.management.command 1
+Creating consumer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/bowerick.broker.management.command
+Creating connection.
+Warning: Could not create management consumer for: /topic/bowerick.broker.management.command
+Creating producer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/testtopic.foo
+Closing consumer: stomp+ssl://127.0.0.1:42423?needClientAuth=true /topic/testtopic.foo
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply 1
+Creating producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command 1
+Creating consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating producer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Closing consumer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Closing consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command
+Closing producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: ssl://127.0.0.1:42425?needClientAuth=true /topic/bowerick.broker.management.reply 1
+Creating producer: ssl://127.0.0.1:42425?needClientAuth=true /topic/bowerick.broker.management.reply
+Creating connection.
+Warning: Could not create management producer for: /topic/bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: ssl://127.0.0.1:42425?needClientAuth=true /topic/bowerick.broker.management.command 1
+Creating consumer: ssl://127.0.0.1:42425?needClientAuth=true /topic/bowerick.broker.management.command
+Creating connection.
+Warning: Could not create management consumer for: /topic/bowerick.broker.management.command
+Creating producer: ssl://127.0.0.1:42425?needClientAuth=true /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating consumer: ssl://127.0.0.1:42425?needClientAuth=true /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: ssl://127.0.0.1:42425?needClientAuth=true /topic/testtopic.foo
+Closing consumer: ssl://127.0.0.1:42425?needClientAuth=true /topic/testtopic.foo
+    </system-err>
+    <system-out>
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply321
+Creating producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.reply321
+Creating producer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.command321
+Creating consumer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32udp://127.0.0.1:4242632/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32udp://127.0.0.1:4242632/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32udp://127.0.0.1:4242632/topic/testtopic.foo
+Closing consumer:32udp://127.0.0.1:4242632/topic/testtopic.foo
+Closing consumer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.command
+Closing producer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.reply321
+Creating producer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.command321
+Creating consumer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32stomp://127.0.0.1:4242232/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32stomp://127.0.0.1:4242232/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32stomp://127.0.0.1:4242232/topic/testtopic.foo
+Closing consumer:32stomp://127.0.0.1:4242232/topic/testtopic.foo
+Closing consumer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.command
+Closing producer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.reply321
+Creating producer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.command321
+Creating consumer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32stomp+ssl://127.0.0.1:4242332/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32stomp+ssl://127.0.0.1:4242332/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32stomp+ssl://127.0.0.1:4242332/topic/testtopic.foo
+Closing consumer:32stomp+ssl://127.0.0.1:4242332/topic/testtopic.foo
+Closing consumer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.command
+Closing producer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/bowerick.broker.management.reply321
+Creating producer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/bowerick.broker.management.reply
+Creating connection.
+Warning: Could not create management producer for:32/topic/bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/bowerick.broker.management.command321
+Creating consumer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/bowerick.broker.management.command
+Creating connection.
+Warning: Could not create management consumer for:32/topic/bowerick.broker.management.command
+Creating producer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/testtopic.foo
+Closing consumer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/testtopic.foo
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.reply321
+Creating producer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.command321
+Creating consumer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32ssl://127.0.0.1:4242532/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32ssl://127.0.0.1:4242532/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32ssl://127.0.0.1:4242532/topic/testtopic.foo
+Closing consumer:32ssl://127.0.0.1:4242532/topic/testtopic.foo
+Closing consumer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.command
+Closing producer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/bowerick.broker.management.reply321
+Creating producer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/bowerick.broker.management.reply
+Creating connection.
+Warning: Could not create management producer for:32/topic/bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/bowerick.broker.management.command321
+Creating consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/bowerick.broker.management.command
+Creating connection.
+Warning: Could not create management consumer for:32/topic/bowerick.broker.management.command
+Creating producer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.foo
+Closing consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.foo
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply321
+Creating producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.reply321
+Creating producer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.command321
+Creating consumer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32udp://127.0.0.1:4242632/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32udp://127.0.0.1:4242632/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32udp://127.0.0.1:4242632/topic/testtopic.foo
+Closing consumer:32udp://127.0.0.1:4242632/topic/testtopic.foo
+Closing consumer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.command
+Closing producer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.reply321
+Creating producer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.command321
+Creating consumer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32stomp://127.0.0.1:4242232/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32stomp://127.0.0.1:4242232/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32stomp://127.0.0.1:4242232/topic/testtopic.foo
+Closing consumer:32stomp://127.0.0.1:4242232/topic/testtopic.foo
+Closing consumer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.command
+Closing producer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.reply321
+Creating producer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.command321
+Creating consumer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32stomp+ssl://127.0.0.1:4242332/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32stomp+ssl://127.0.0.1:4242332/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32stomp+ssl://127.0.0.1:4242332/topic/testtopic.foo
+Closing consumer:32stomp+ssl://127.0.0.1:4242332/topic/testtopic.foo
+Closing consumer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.command
+Closing producer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/bowerick.broker.management.reply321
+Creating producer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/bowerick.broker.management.reply
+Creating connection.
+Warning: Could not create management producer for:32/topic/bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/bowerick.broker.management.command321
+Creating consumer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/bowerick.broker.management.command
+Creating connection.
+Warning: Could not create management consumer for:32/topic/bowerick.broker.management.command
+Creating producer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/testtopic.foo
+Closing consumer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/testtopic.foo
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.reply321
+Creating producer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.command321
+Creating consumer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32ssl://127.0.0.1:4242532/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32ssl://127.0.0.1:4242532/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32ssl://127.0.0.1:4242532/topic/testtopic.foo
+Closing consumer:32ssl://127.0.0.1:4242532/topic/testtopic.foo
+Closing consumer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.command
+Closing producer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/bowerick.broker.management.reply321
+Creating producer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/bowerick.broker.management.reply
+Creating connection.
+Warning: Could not create management producer for:32/topic/bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/bowerick.broker.management.command321
+Creating consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/bowerick.broker.management.command
+Creating connection.
+Warning: Could not create management consumer for:32/topic/bowerick.broker.management.command
+Creating producer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.foo
+Closing consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.foo
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply321
+Creating producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.reply321
+Creating producer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.command321
+Creating consumer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32udp://127.0.0.1:4242632/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32udp://127.0.0.1:4242632/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32udp://127.0.0.1:4242632/topic/testtopic.foo
+Closing consumer:32udp://127.0.0.1:4242632/topic/testtopic.foo
+Closing consumer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.command
+Closing producer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.reply321
+Creating producer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.command321
+Creating consumer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32stomp://127.0.0.1:4242232/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32stomp://127.0.0.1:4242232/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32stomp://127.0.0.1:4242232/topic/testtopic.foo
+Closing consumer:32stomp://127.0.0.1:4242232/topic/testtopic.foo
+Closing consumer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.command
+Closing producer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.reply321
+Creating producer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.command321
+Creating consumer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32stomp+ssl://127.0.0.1:4242332/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32stomp+ssl://127.0.0.1:4242332/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32stomp+ssl://127.0.0.1:4242332/topic/testtopic.foo
+Closing consumer:32stomp+ssl://127.0.0.1:4242332/topic/testtopic.foo
+Closing consumer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.command
+Closing producer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/bowerick.broker.management.reply321
+Creating producer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/bowerick.broker.management.reply
+Creating connection.
+Warning: Could not create management producer for:32/topic/bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/bowerick.broker.management.command321
+Creating consumer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/bowerick.broker.management.command
+Creating connection.
+Warning: Could not create management consumer for:32/topic/bowerick.broker.management.command
+Creating producer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/testtopic.foo
+Closing consumer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/testtopic.foo
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.reply321
+Creating producer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.command321
+Creating consumer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32ssl://127.0.0.1:4242532/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32ssl://127.0.0.1:4242532/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32ssl://127.0.0.1:4242532/topic/testtopic.foo
+Closing consumer:32ssl://127.0.0.1:4242532/topic/testtopic.foo
+Closing consumer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.command
+Closing producer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/bowerick.broker.management.reply321
+Creating producer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/bowerick.broker.management.reply
+Creating connection.
+Warning: Could not create management producer for:32/topic/bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/bowerick.broker.management.command321
+Creating consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/bowerick.broker.management.command
+Creating connection.
+Warning: Could not create management consumer for:32/topic/bowerick.broker.management.command
+Creating producer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.foo
+Closing consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.foo
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply321
+Creating producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.reply321
+Creating producer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.command321
+Creating consumer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32udp://127.0.0.1:4242632/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32udp://127.0.0.1:4242632/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32udp://127.0.0.1:4242632/topic/testtopic.foo
+Closing consumer:32udp://127.0.0.1:4242632/topic/testtopic.foo
+Closing consumer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.command
+Closing producer:32udp://127.0.0.1:4242632/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.reply321
+Creating producer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.command321
+Creating consumer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32stomp://127.0.0.1:4242232/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32stomp://127.0.0.1:4242232/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32stomp://127.0.0.1:4242232/topic/testtopic.foo
+Closing consumer:32stomp://127.0.0.1:4242232/topic/testtopic.foo
+Closing consumer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.command
+Closing producer:32stomp://127.0.0.1:4242232/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.reply321
+Creating producer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.command321
+Creating consumer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32stomp+ssl://127.0.0.1:4242332/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32stomp+ssl://127.0.0.1:4242332/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32stomp+ssl://127.0.0.1:4242332/topic/testtopic.foo
+Closing consumer:32stomp+ssl://127.0.0.1:4242332/topic/testtopic.foo
+Closing consumer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.command
+Closing producer:32stomp+ssl://127.0.0.1:4242332/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/bowerick.broker.management.reply321
+Creating producer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/bowerick.broker.management.reply
+Creating connection.
+Warning: Could not create management producer for:32/topic/bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/bowerick.broker.management.command321
+Creating consumer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/bowerick.broker.management.command
+Creating connection.
+Warning: Could not create management consumer for:32/topic/bowerick.broker.management.command
+Creating producer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/testtopic.foo
+Closing consumer:32stomp+ssl://127.0.0.1:42423?needClientAuth=true32/topic/testtopic.foo
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.reply321
+Creating producer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.command321
+Creating consumer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.command
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating producer:32ssl://127.0.0.1:4242532/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32ssl://127.0.0.1:4242532/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32ssl://127.0.0.1:4242532/topic/testtopic.foo
+Closing consumer:32ssl://127.0.0.1:4242532/topic/testtopic.foo
+Closing consumer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.command
+Closing producer:32ssl://127.0.0.1:4242532/topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/bowerick.broker.management.reply321
+Creating producer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/bowerick.broker.management.reply
+Creating connection.
+Warning: Could not create management producer for:32/topic/bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/bowerick.broker.management.command321
+Creating consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/bowerick.broker.management.command
+Creating connection.
+Warning: Could not create management consumer for:32/topic/bowerick.broker.management.command
+Creating producer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.foo
+Closing consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.foo
+    </system-out>
+    <properties>
+        <property name="sun.os.patch.level" value="unknown">
+        </property>
+        <property name="sun.boot.class.path" value="/usr/lib/jvm/java-8-openjdk/jre/lib/resources.jar:/usr/lib/jvm/java-8-openjdk/jre/lib/rt.jar:/usr/lib/jvm/java-8-openjdk/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-8-openjdk/jre/lib/jsse.jar:/usr/lib/jvm/java-8-openjdk/jre/lib/jce.jar:/usr/lib/jvm/java-8-openjdk/jre/lib/charsets.jar:/usr/lib/jvm/java-8-openjdk/jre/lib/jfr.jar:/usr/lib/jvm/java-8-openjdk/jre/classes">
+        </property>
+        <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers">
+        </property>
+        <property name="java.vm.info" value="mixed mode">
+        </property>
+        <property name="clojure.debug" value="false">
+        </property>
+        <property name="sun.boot.library.path" value="/usr/lib/jvm/java-8-openjdk/jre/lib/amd64">
+        </property>
+        <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment">
+        </property>
+        <property name="path.separator" value=":">
+        </property>
+        <property name="user.dir" value="/home/rc/repositories/private/clojure/bowerick">
+        </property>
+        <property name="java.vm.specification.vendor" value="Oracle Corporation">
+        </property>
+        <property name="user.country" value="US">
+        </property>
+        <property name="java.vendor.url" value="http://java.oracle.com/">
+        </property>
+        <property name="java.specification.name" value="Java Platform API Specification">
+        </property>
+        <property name="line.separator" value="
+">
+        </property>
+        <property name="file.encoding.pkg" value="sun.io">
+        </property>
+        <property name="sun.cpu.endian" value="little">
+        </property>
+        <property name="java.vm.version" value="25.131-b11">
+        </property>
+        <property name="sun.java.launcher" value="SUN_STANDARD">
+        </property>
+        <property name="java.vendor" value="Oracle Corporation">
+        </property>
+        <property name="java.specification.vendor" value="Oracle Corporation">
+        </property>
+        <property name="awt.toolkit" value="sun.awt.X11.XToolkit">
+        </property>
+        <property name="clojure.compile.path" value="/home/rc/repositories/private/clojure/bowerick/target/classes">
+        </property>
+        <property name="java.vm.specification.version" value="1.8">
+        </property>
+        <property name="java.io.tmpdir" value="/tmp">
+        </property>
+        <property name="java.home" value="/usr/lib/jvm/java-8-openjdk/jre">
+        </property>
+        <property name="java.class.path" value="/home/rc/repositories/private/clojure/bowerick/test:/home/rc/repositories/private/clojure/bowerick/benchmark:/home/rc/repositories/private/clojure/bowerick/test:/home/rc/repositories/private/clojure/bowerick/src:/home/rc/repositories/private/clojure/bowerick/dev-resources:/home/rc/repositories/private/clojure/bowerick/resources:/home/rc/repositories/private/clojure/bowerick/target/classes:/home/rc/.m2/repository/org/springframework/spring-aop/4.3.9.RELEASE/spring-aop-4.3.9.RELEASE.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-openwire-legacy/5.15.0/activemq-openwire-legacy-5.15.0.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-spring/5.15.0/activemq-spring-5.15.0.jar:/home/rc/.m2/repository/javax/servlet/javax.servlet-api/4.0.0/javax.servlet-api-4.0.0.jar:/home/rc/.m2/repository/org/iq80/snappy/snappy/0.4/snappy-0.4.jar:/home/rc/.m2/repository/org/clojure/clojure/1.8.0/clojure-1.8.0.jar:/home/rc/.m2/repository/com/google/guava/guava/18.0/guava-18.0.jar:/home/rc/.m2/repository/org/apache/httpcomponents/httpclient/4.5.3/httpclient-4.5.3.jar:/home/rc/.m2/repository/org/slf4j/slf4j-simple/1.7.25/slf4j-simple-1.7.25.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-mqtt/5.15.0/activemq-mqtt-5.15.0.jar:/home/rc/.m2/repository/tigris/tigris/0.1.1/tigris-0.1.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-security/9.4.6.v20170531/jetty-security-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-jms_1.1_spec/1.1.1/geronimo-jms_1.1_spec-1.1.1.jar:/home/rc/.m2/repository/org/clojure/core.async/0.3.443/core.async-0.3.443.jar:/home/rc/.m2/repository/clj-assorted-utils/clj-assorted-utils/1.18.2/clj-assorted-utils-1.18.2.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-client/9.4.6.v20170531/websocket-client-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-j2ee-management_1.1_spec/1.0.1/geronimo-j2ee-management_1.1_spec-1.0.1.jar:/home/rc/.m2/repository/com/thoughtworks/xstream/xstream/1.4.10/xstream-1.4.10.jar:/home/rc/.m2/repository/net/jpountz/lz4/lz4/1.3/lz4-1.3.jar:/home/rc/.m2/repository/org/clojure/tools.cli/0.3.5/tools.cli-0.3.5.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-common/9.4.6.v20170531/websocket-common-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/springframework/spring-tx/4.3.9.RELEASE/spring-tx-4.3.9.RELEASE.jar:/home/rc/.m2/repository/jline/jline/2.14.2/jline-2.14.2.jar:/home/rc/.m2/repository/org/clojure/tools.analyzer/0.6.9/tools.analyzer-0.6.9.jar:/home/rc/.m2/repository/org/springframework/spring-beans/4.3.10.RELEASE/spring-beans-4.3.10.RELEASE.jar:/home/rc/.m2/repository/org/tukaani/xz/1.6/xz-1.6.jar:/home/rc/.m2/repository/org/clojure/tools.nrepl/0.2.12/tools.nrepl-0.2.12.jar:/home/rc/.m2/repository/rgad/stompjms-client/1.20-SNAPSHOT/stompjms-client-1.20-SNAPSHOT.jar:/home/rc/.m2/repository/com/twitter/carbonite/1.5.0/carbonite-1.5.0.jar:/home/rc/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-smile/2.9.0/jackson-dataformat-smile-2.9.0.jar:/home/rc/.m2/repository/org/clojure/tools.reader/0.10.0/tools.reader-0.10.0.jar:/home/rc/.m2/repository/org/springframework/spring-messaging/4.3.10.RELEASE/spring-messaging-4.3.10.RELEASE.jar:/home/rc/.m2/repository/org/fusesource/hawtdispatch/hawtdispatch-transport/1.20/hawtdispatch-transport-1.20.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-servlet/9.4.6.v20170531/jetty-servlet-9.4.6.v20170531.jar:/home/rc/.m2/repository/cli4clj/cli4clj/1.3.2/cli4clj-1.3.2.jar:/home/rc/.m2/repository/clojure-complete/clojure-complete/0.2.4/clojure-complete-0.2.4.jar:/home/rc/.m2/repository/robert/hooke/1.3.0/hooke-1.3.0.jar:/home/rc/.m2/repository/org/springframework/spring-context/4.3.9.RELEASE/spring-context-4.3.9.RELEASE.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-server/9.4.6.v20170531/websocket-server-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-util/9.4.6.v20170531/jetty-util-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-jms-pool/5.15.0/activemq-jms-pool-5.15.0.jar:/home/rc/.m2/repository/xmlpull/xmlpull/1.1.3.1/xmlpull-1.1.3.1.jar:/home/rc/.m2/repository/com/esotericsoftware/minlog/1.3.0/minlog-1.3.0.jar:/home/rc/.m2/repository/com/esotericsoftware/reflectasm/1.10.1/reflectasm-1.10.1.jar:/home/rc/.m2/repository/org/apache/httpcomponents/httpcore/4.4.6/httpcore-4.4.6.jar:/home/rc/.m2/repository/criterium/criterium/0.4.4/criterium-0.4.4.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.6.0/jackson-annotations-2.6.0.jar:/home/rc/.m2/repository/org/fusesource/hawtdispatch/hawtdispatch/1.20/hawtdispatch-1.20.jar:/home/rc/.m2/repository/org/clojure/core.memoize/0.5.9/core.memoize-0.5.9.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-http/9.4.6.v20170531/jetty-http-9.4.6.v20170531.jar:/home/rc/.m2/repository/com/twitter/chill-java/0.8.0/chill-java-0.8.0.jar:/home/rc/.m2/repository/test2junit/test2junit/1.3.3/test2junit-1.3.3.jar:/home/rc/.m2/repository/org/springframework/spring-core/4.3.10.RELEASE/spring-core-4.3.10.RELEASE.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-http/5.15.0/activemq-http-5.15.0.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-pool/5.15.0/activemq-pool-5.15.0.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-server/9.4.6.v20170531/jetty-server-9.4.6.v20170531.jar:/home/rc/.m2/repository/com/ning/compress-lzf/1.0.4/compress-lzf-1.0.4.jar:/home/rc/.m2/repository/org/apache/activemq/protobuf/activemq-protobuf/1.1/activemq-protobuf-1.1.jar:/home/rc/.m2/repository/com/esotericsoftware/kryo/3.0.3/kryo-3.0.3.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-client/9.4.6.v20170531/jetty-client-9.4.6.v20170531.jar:/home/rc/.m2/repository/com/taoensso/nippy/2.13.0/nippy-2.13.0.jar:/home/rc/.m2/repository/org/objenesis/objenesis/2.1/objenesis-2.1.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-stomp/5.15.0/activemq-stomp-5.15.0.jar:/home/rc/.m2/repository/org/eclipse/paho/org.eclipse.paho.client.mqttv3/1.2.0/org.eclipse.paho.client.mqttv3-1.2.0.jar:/home/rc/.m2/repository/org/clojure/tools.analyzer.jvm/0.7.0/tools.analyzer.jvm-0.7.0.jar:/home/rc/.m2/repository/org/springframework/spring-jms/4.3.9.RELEASE/spring-jms-4.3.9.RELEASE.jar:/home/rc/.m2/repository/cheshire/cheshire/5.8.0/cheshire-5.8.0.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-jaas/5.15.0/activemq-jaas-5.15.0.jar:/home/rc/.m2/repository/com/taoensso/truss/1.3.6/truss-1.3.6.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-api/9.4.6.v20170531/websocket-api-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/ow2/asm/asm-all/4.2/asm-all-4.2.jar:/home/rc/.m2/repository/org/springframework/spring-websocket/4.3.10.RELEASE/spring-websocket-4.3.10.RELEASE.jar:/home/rc/.m2/repository/org/clojure/data.priority-map/0.0.7/data.priority-map-0.0.7.jar:/home/rc/.m2/repository/org/apache/xbean/xbean-spring/4.2/xbean-spring-4.2.jar:/home/rc/.m2/repository/org/apache/commons/commons-pool2/2.4.2/commons-pool2-2.4.2.jar:/home/rc/.m2/repository/org/fusesource/mqtt-client/mqtt-client/1.14/mqtt-client-1.14.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.9.0/jackson-core-2.9.0.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-servlet/9.4.6.v20170531/websocket-servlet-9.4.6.v20170531.jar:/home/rc/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/home/rc/.m2/repository/commons-codec/commons-codec/1.9/commons-codec-1.9.jar:/home/rc/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.9.0/jackson-dataformat-cbor-2.9.0.jar:/home/rc/.m2/repository/org/fusesource/hawtbuf/hawtbuf/1.11/hawtbuf-1.11.jar:/home/rc/.m2/repository/org/springframework/spring-web/4.3.10.RELEASE/spring-web-4.3.10.RELEASE.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-jta_1.0.1B_spec/1.0.1/geronimo-jta_1.0.1B_spec-1.0.1.jar:/home/rc/.m2/repository/commons-net/commons-net/3.6/commons-net-3.6.jar:/home/rc/.m2/repository/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar:/home/rc/.m2/repository/com/esotericsoftware/kryo-shaded/3.0.3/kryo-shaded-3.0.3.jar:/home/rc/.m2/repository/com/taoensso/encore/2.89.0/encore-2.89.0.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-io/9.4.6.v20170531/jetty-io-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/clojure/core.cache/0.6.5/core.cache-0.6.5.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.6.7/jackson-databind-2.6.7.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-broker/5.15.0/activemq-broker-5.15.0.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-client/5.15.0/activemq-client-5.15.0.jar:/home/rc/.m2/repository/org/ow2/asm/asm/5.0.3/asm-5.0.3.jar:/home/rc/.m2/repository/org/springframework/spring-expression/4.3.9.RELEASE/spring-expression-4.3.9.RELEASE.jar">
+        </property>
+        <property name="java.runtime.version" value="1.8.0_131-b11">
+        </property>
+        <property name="bowerick.version" value="1.99.18">
+        </property>
+        <property name="java.vm.vendor" value="Oracle Corporation">
+        </property>
+        <property name="user.language" value="en">
+        </property>
+        <property name="java.vm.name" value="OpenJDK 64-Bit Server VM">
+        </property>
+        <property name="java.version" value="1.8.0_131">
+        </property>
+        <property name="os.arch" value="amd64">
+        </property>
+        <property name="user.home" value="/home/rc">
+        </property>
+        <property name="java.specification.version" value="1.8">
+        </property>
+        <property name="java.ext.dirs" value="/usr/lib/jvm/java-8-openjdk/jre/lib/ext:/usr/java/packages/lib/ext">
+        </property>
+        <property name="sun.jnu.encoding" value="UTF-8">
+        </property>
+        <property name="java.runtime.name" value="OpenJDK Runtime Environment">
+        </property>
+        <property name="sun.io.unicode.encoding" value="UnicodeLittle">
+        </property>
+        <property name="sun.arch.data.model" value="64">
+        </property>
+        <property name="java.class.version" value="52.0">
+        </property>
+        <property name="sun.cpu.isalist" value="">
+        </property>
+        <property name="file.encoding" value="UTF-8">
+        </property>
+        <property name="user.timezone" value="Europe/Berlin">
+        </property>
+        <property name="os.name" value="Linux">
+        </property>
+        <property name="os.version" value="4.11.6-ARCH">
+        </property>
+        <property name="file.separator" value="/">
+        </property>
+        <property name="java.vm.specification.name" value="Java Virtual Machine Specification">
+        </property>
+        <property name="java.awt.printerjob" value="sun.print.PSPrinterJob">
+        </property>
+        <property name="java.endorsed.dirs" value="/usr/lib/jvm/java-8-openjdk/jre/lib/endorsed">
+        </property>
+        <property name="java.library.path" value="/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib">
+        </property>
+        <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
+        </property>
+        <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+        </property>
+        <property name="user.name" value="rc">
+        </property>
+    </properties>
 </testsuite>

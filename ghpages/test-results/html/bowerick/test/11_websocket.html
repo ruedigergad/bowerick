@@ -6,7 +6,117 @@
 <script type="text/javascript" language="JavaScript">
         var TestCases = new Array();
         var cur;
-        </script><script type="text/javascript" language="JavaScript">
+        
+    cur = TestCases['bowerick.test.websocket'] = new Array();
+    
+        cur['awt.toolkit'] = 'sun.awt.X11.XToolkit';
+    
+        cur['bowerick.version'] = '1.99.18';
+    
+        cur['clojure.compile.path'] = '/home/rc/repositories/private/clojure/bowerick/target/classes';
+    
+        cur['clojure.debug'] = 'false';
+    
+        cur['file.encoding'] = 'UTF-8';
+    
+        cur['file.encoding.pkg'] = 'sun.io';
+    
+        cur['file.separator'] = '/';
+    
+        cur['java.awt.graphicsenv'] = 'sun.awt.X11GraphicsEnvironment';
+    
+        cur['java.awt.printerjob'] = 'sun.print.PSPrinterJob';
+    
+        cur['java.class.path'] = '/home/rc/repositories/private/clojure/bowerick/test:/home/rc/repositories/private/clojure/bowerick/benchmark:/home/rc/repositories/private/clojure/bowerick/test:/home/rc/repositories/private/clojure/bowerick/src:/home/rc/repositories/private/clojure/bowerick/dev-resources:/home/rc/repositories/private/clojure/bowerick/resources:/home/rc/repositories/private/clojure/bowerick/target/classes:/home/rc/.m2/repository/org/springframework/spring-aop/4.3.9.RELEASE/spring-aop-4.3.9.RELEASE.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-openwire-legacy/5.15.0/activemq-openwire-legacy-5.15.0.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-spring/5.15.0/activemq-spring-5.15.0.jar:/home/rc/.m2/repository/javax/servlet/javax.servlet-api/4.0.0/javax.servlet-api-4.0.0.jar:/home/rc/.m2/repository/org/iq80/snappy/snappy/0.4/snappy-0.4.jar:/home/rc/.m2/repository/org/clojure/clojure/1.8.0/clojure-1.8.0.jar:/home/rc/.m2/repository/com/google/guava/guava/18.0/guava-18.0.jar:/home/rc/.m2/repository/org/apache/httpcomponents/httpclient/4.5.3/httpclient-4.5.3.jar:/home/rc/.m2/repository/org/slf4j/slf4j-simple/1.7.25/slf4j-simple-1.7.25.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-mqtt/5.15.0/activemq-mqtt-5.15.0.jar:/home/rc/.m2/repository/tigris/tigris/0.1.1/tigris-0.1.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-security/9.4.6.v20170531/jetty-security-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-jms_1.1_spec/1.1.1/geronimo-jms_1.1_spec-1.1.1.jar:/home/rc/.m2/repository/org/clojure/core.async/0.3.443/core.async-0.3.443.jar:/home/rc/.m2/repository/clj-assorted-utils/clj-assorted-utils/1.18.2/clj-assorted-utils-1.18.2.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-client/9.4.6.v20170531/websocket-client-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-j2ee-management_1.1_spec/1.0.1/geronimo-j2ee-management_1.1_spec-1.0.1.jar:/home/rc/.m2/repository/com/thoughtworks/xstream/xstream/1.4.10/xstream-1.4.10.jar:/home/rc/.m2/repository/net/jpountz/lz4/lz4/1.3/lz4-1.3.jar:/home/rc/.m2/repository/org/clojure/tools.cli/0.3.5/tools.cli-0.3.5.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-common/9.4.6.v20170531/websocket-common-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/springframework/spring-tx/4.3.9.RELEASE/spring-tx-4.3.9.RELEASE.jar:/home/rc/.m2/repository/jline/jline/2.14.2/jline-2.14.2.jar:/home/rc/.m2/repository/org/clojure/tools.analyzer/0.6.9/tools.analyzer-0.6.9.jar:/home/rc/.m2/repository/org/springframework/spring-beans/4.3.10.RELEASE/spring-beans-4.3.10.RELEASE.jar:/home/rc/.m2/repository/org/tukaani/xz/1.6/xz-1.6.jar:/home/rc/.m2/repository/org/clojure/tools.nrepl/0.2.12/tools.nrepl-0.2.12.jar:/home/rc/.m2/repository/rgad/stompjms-client/1.20-SNAPSHOT/stompjms-client-1.20-SNAPSHOT.jar:/home/rc/.m2/repository/com/twitter/carbonite/1.5.0/carbonite-1.5.0.jar:/home/rc/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-smile/2.9.0/jackson-dataformat-smile-2.9.0.jar:/home/rc/.m2/repository/org/clojure/tools.reader/0.10.0/tools.reader-0.10.0.jar:/home/rc/.m2/repository/org/springframework/spring-messaging/4.3.10.RELEASE/spring-messaging-4.3.10.RELEASE.jar:/home/rc/.m2/repository/org/fusesource/hawtdispatch/hawtdispatch-transport/1.20/hawtdispatch-transport-1.20.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-servlet/9.4.6.v20170531/jetty-servlet-9.4.6.v20170531.jar:/home/rc/.m2/repository/cli4clj/cli4clj/1.3.2/cli4clj-1.3.2.jar:/home/rc/.m2/repository/clojure-complete/clojure-complete/0.2.4/clojure-complete-0.2.4.jar:/home/rc/.m2/repository/robert/hooke/1.3.0/hooke-1.3.0.jar:/home/rc/.m2/repository/org/springframework/spring-context/4.3.9.RELEASE/spring-context-4.3.9.RELEASE.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-server/9.4.6.v20170531/websocket-server-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-util/9.4.6.v20170531/jetty-util-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-jms-pool/5.15.0/activemq-jms-pool-5.15.0.jar:/home/rc/.m2/repository/xmlpull/xmlpull/1.1.3.1/xmlpull-1.1.3.1.jar:/home/rc/.m2/repository/com/esotericsoftware/minlog/1.3.0/minlog-1.3.0.jar:/home/rc/.m2/repository/com/esotericsoftware/reflectasm/1.10.1/reflectasm-1.10.1.jar:/home/rc/.m2/repository/org/apache/httpcomponents/httpcore/4.4.6/httpcore-4.4.6.jar:/home/rc/.m2/repository/criterium/criterium/0.4.4/criterium-0.4.4.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.6.0/jackson-annotations-2.6.0.jar:/home/rc/.m2/repository/org/fusesource/hawtdispatch/hawtdispatch/1.20/hawtdispatch-1.20.jar:/home/rc/.m2/repository/org/clojure/core.memoize/0.5.9/core.memoize-0.5.9.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-http/9.4.6.v20170531/jetty-http-9.4.6.v20170531.jar:/home/rc/.m2/repository/com/twitter/chill-java/0.8.0/chill-java-0.8.0.jar:/home/rc/.m2/repository/test2junit/test2junit/1.3.3/test2junit-1.3.3.jar:/home/rc/.m2/repository/org/springframework/spring-core/4.3.10.RELEASE/spring-core-4.3.10.RELEASE.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-http/5.15.0/activemq-http-5.15.0.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-pool/5.15.0/activemq-pool-5.15.0.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-server/9.4.6.v20170531/jetty-server-9.4.6.v20170531.jar:/home/rc/.m2/repository/com/ning/compress-lzf/1.0.4/compress-lzf-1.0.4.jar:/home/rc/.m2/repository/org/apache/activemq/protobuf/activemq-protobuf/1.1/activemq-protobuf-1.1.jar:/home/rc/.m2/repository/com/esotericsoftware/kryo/3.0.3/kryo-3.0.3.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-client/9.4.6.v20170531/jetty-client-9.4.6.v20170531.jar:/home/rc/.m2/repository/com/taoensso/nippy/2.13.0/nippy-2.13.0.jar:/home/rc/.m2/repository/org/objenesis/objenesis/2.1/objenesis-2.1.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-stomp/5.15.0/activemq-stomp-5.15.0.jar:/home/rc/.m2/repository/org/eclipse/paho/org.eclipse.paho.client.mqttv3/1.2.0/org.eclipse.paho.client.mqttv3-1.2.0.jar:/home/rc/.m2/repository/org/clojure/tools.analyzer.jvm/0.7.0/tools.analyzer.jvm-0.7.0.jar:/home/rc/.m2/repository/org/springframework/spring-jms/4.3.9.RELEASE/spring-jms-4.3.9.RELEASE.jar:/home/rc/.m2/repository/cheshire/cheshire/5.8.0/cheshire-5.8.0.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-jaas/5.15.0/activemq-jaas-5.15.0.jar:/home/rc/.m2/repository/com/taoensso/truss/1.3.6/truss-1.3.6.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-api/9.4.6.v20170531/websocket-api-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/ow2/asm/asm-all/4.2/asm-all-4.2.jar:/home/rc/.m2/repository/org/springframework/spring-websocket/4.3.10.RELEASE/spring-websocket-4.3.10.RELEASE.jar:/home/rc/.m2/repository/org/clojure/data.priority-map/0.0.7/data.priority-map-0.0.7.jar:/home/rc/.m2/repository/org/apache/xbean/xbean-spring/4.2/xbean-spring-4.2.jar:/home/rc/.m2/repository/org/apache/commons/commons-pool2/2.4.2/commons-pool2-2.4.2.jar:/home/rc/.m2/repository/org/fusesource/mqtt-client/mqtt-client/1.14/mqtt-client-1.14.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.9.0/jackson-core-2.9.0.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-servlet/9.4.6.v20170531/websocket-servlet-9.4.6.v20170531.jar:/home/rc/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/home/rc/.m2/repository/commons-codec/commons-codec/1.9/commons-codec-1.9.jar:/home/rc/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.9.0/jackson-dataformat-cbor-2.9.0.jar:/home/rc/.m2/repository/org/fusesource/hawtbuf/hawtbuf/1.11/hawtbuf-1.11.jar:/home/rc/.m2/repository/org/springframework/spring-web/4.3.10.RELEASE/spring-web-4.3.10.RELEASE.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-jta_1.0.1B_spec/1.0.1/geronimo-jta_1.0.1B_spec-1.0.1.jar:/home/rc/.m2/repository/commons-net/commons-net/3.6/commons-net-3.6.jar:/home/rc/.m2/repository/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar:/home/rc/.m2/repository/com/esotericsoftware/kryo-shaded/3.0.3/kryo-shaded-3.0.3.jar:/home/rc/.m2/repository/com/taoensso/encore/2.89.0/encore-2.89.0.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-io/9.4.6.v20170531/jetty-io-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/clojure/core.cache/0.6.5/core.cache-0.6.5.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.6.7/jackson-databind-2.6.7.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-broker/5.15.0/activemq-broker-5.15.0.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-client/5.15.0/activemq-client-5.15.0.jar:/home/rc/.m2/repository/org/ow2/asm/asm/5.0.3/asm-5.0.3.jar:/home/rc/.m2/repository/org/springframework/spring-expression/4.3.9.RELEASE/spring-expression-4.3.9.RELEASE.jar';
+    
+        cur['java.class.version'] = '52.0';
+    
+        cur['java.endorsed.dirs'] = '/usr/lib/jvm/java-8-openjdk/jre/lib/endorsed';
+    
+        cur['java.ext.dirs'] = '/usr/lib/jvm/java-8-openjdk/jre/lib/ext:/usr/java/packages/lib/ext';
+    
+        cur['java.home'] = '/usr/lib/jvm/java-8-openjdk/jre';
+    
+        cur['java.io.tmpdir'] = '/tmp';
+    
+        cur['java.library.path'] = '/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib';
+    
+        cur['java.runtime.name'] = 'OpenJDK Runtime Environment';
+    
+        cur['java.runtime.version'] = '1.8.0_131-b11';
+    
+        cur['java.specification.name'] = 'Java Platform API Specification';
+    
+        cur['java.specification.vendor'] = 'Oracle Corporation';
+    
+        cur['java.specification.version'] = '1.8';
+    
+        cur['java.vendor'] = 'Oracle Corporation';
+    
+        cur['java.vendor.url'] = 'http://java.oracle.com/';
+    
+        cur['java.vendor.url.bug'] = 'http://bugreport.sun.com/bugreport/';
+    
+        cur['java.version'] = '1.8.0_131';
+    
+        cur['java.vm.info'] = 'mixed mode';
+    
+        cur['java.vm.name'] = 'OpenJDK 64-Bit Server VM';
+    
+        cur['java.vm.specification.name'] = 'Java Virtual Machine Specification';
+    
+        cur['java.vm.specification.vendor'] = 'Oracle Corporation';
+    
+        cur['java.vm.specification.version'] = '1.8';
+    
+        cur['java.vm.vendor'] = 'Oracle Corporation';
+    
+        cur['java.vm.version'] = '25.131-b11';
+    
+        cur['line.separator'] = ' ';
+    
+        cur['os.arch'] = 'amd64';
+    
+        cur['os.name'] = 'Linux';
+    
+        cur['os.version'] = '4.11.6-ARCH';
+    
+        cur['path.separator'] = ':';
+    
+        cur['sun.arch.data.model'] = '64';
+    
+        cur['sun.boot.class.path'] = '/usr/lib/jvm/java-8-openjdk/jre/lib/resources.jar:/usr/lib/jvm/java-8-openjdk/jre/lib/rt.jar:/usr/lib/jvm/java-8-openjdk/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-8-openjdk/jre/lib/jsse.jar:/usr/lib/jvm/java-8-openjdk/jre/lib/jce.jar:/usr/lib/jvm/java-8-openjdk/jre/lib/charsets.jar:/usr/lib/jvm/java-8-openjdk/jre/lib/jfr.jar:/usr/lib/jvm/java-8-openjdk/jre/classes';
+    
+        cur['sun.boot.library.path'] = '/usr/lib/jvm/java-8-openjdk/jre/lib/amd64';
+    
+        cur['sun.cpu.endian'] = 'little';
+    
+        cur['sun.cpu.isalist'] = '';
+    
+        cur['sun.io.unicode.encoding'] = 'UnicodeLittle';
+    
+        cur['sun.java.command'] = 'clojure.main -i /tmp/form-init3792511661067481773.clj';
+    
+        cur['sun.java.launcher'] = 'SUN_STANDARD';
+    
+        cur['sun.jnu.encoding'] = 'UTF-8';
+    
+        cur['sun.management.compiler'] = 'HotSpot 64-Bit Tiered Compilers';
+    
+        cur['sun.os.patch.level'] = 'unknown';
+    
+        cur['user.country'] = 'US';
+    
+        cur['user.dir'] = '/home/rc/repositories/private/clojure/bowerick';
+    
+        cur['user.home'] = '/home/rc';
+    
+        cur['user.language'] = 'en';
+    
+        cur['user.name'] = 'rc';
+    
+        cur['user.timezone'] = 'Europe/Berlin';
+    </script><script type="text/javascript" language="JavaScript">
         function displayProperties (name) {
           var win = window.open('','JUnitSystemProperties','scrollbars=1,resizable=1');
           var doc = win.document;
@@ -50,7 +160,7 @@
 <th width="80%">Name</th><th>Tests</th><th>Errors</th><th>Failures</th><th>Skipped</th><th nowrap>Time(s)</th><th nowrap>Time Stamp</th><th>Host</th>
 </tr>
 <tr valign="top" class="Pass">
-<td><a title="Display all tests" href="11_websocket.html">websocket</a></td><td><a title="Display all tests" href="11_websocket.html">4</a></td><td>0</td><td>0</td><td></td><td>0.417</td><td>2016-08-25_22:49:40+0200</td><td></td>
+<td><a title="Display all tests" href="11_websocket.html">websocket</a></td><td><a title="Display all tests" href="11_websocket.html">4</a></td><td>0</td><td>0</td><td></td><td>2.942</td><td>2017-09-06_21:11:45+0200</td><td></td>
 </tr>
 </table>
 <h2>Tests</h2>
@@ -59,22 +169,32 @@
 <th>Name</th><th>Status</th><th width="80%">Type</th><th nowrap>Time(s)</th>
 </tr>
 <tr valign="top" class="TableRowColor">
-<td><a name="websocket-ssl-to-stomp-string-test"></a>websocket-ssl-to-stomp-string-test</td><td>Success</td><td></td><td>0.190</td>
+<td><a name="websocket-ssl-to-stomp-string-test"></a>websocket-ssl-to-stomp-string-test</td><td>Success</td><td></td><td>1.310</td>
 </tr>
 <tr valign="top" class="TableRowColor">
-<td><a name="websocket-string-test"></a>websocket-string-test</td><td>Success</td><td></td><td>0.021</td>
+<td><a name="websocket-string-test"></a>websocket-string-test</td><td>Success</td><td></td><td>0.369</td>
 </tr>
 <tr valign="top" class="TableRowColor">
-<td><a name="websocket-to-openwire-string-test"></a>websocket-to-openwire-string-test</td><td>Success</td><td></td><td>0.013</td>
+<td><a name="websocket-to-openwire-string-test"></a>websocket-to-openwire-string-test</td><td>Success</td><td></td><td>0.120</td>
 </tr>
 <tr valign="top" class="TableRowColor">
-<td><a name="websocket-to-stomp-string-test"></a>websocket-to-stomp-string-test</td><td>Success</td><td></td><td>0.050</td>
+<td><a name="websocket-to-stomp-string-test"></a>websocket-to-stomp-string-test</td><td>Success</td><td></td><td>0.147</td>
 </tr>
 </table>
 <div class="Properties">
 <a href="javascript:displayProperties('bowerick.test.websocket');">
                     Properties &raquo;
                 </a>
+</div>
+<div class="Properties">
+<a href="./11_websocket-out.html">
+                        System.out &raquo;
+                    </a>
+</div>
+<div class="Properties">
+<a href="./11_websocket-err.html">
+                        System.err &raquo;
+                    </a>
 </div>
 </body>
 </html>
