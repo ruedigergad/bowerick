@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bowerick.test.jms-transport" errors="0" failures="0" tests="28" time="14.4886" timestamp="2017-09-06_21:11:36+0200">
-    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.0789">
+<testsuite name="bowerick.test.jms-transport" errors="0" failures="0" tests="28" time="13.6927" timestamp="2017-09-08_14:04:03+0200">
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.0474">
     </testcase>
-    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.0596">
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.0602">
     </testcase>
-    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.1571">
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.1081">
     </testcase>
-    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.4486">
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.4530">
     </testcase>
-    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.5028">
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.4621">
     </testcase>
-    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.3700">
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.3254">
     </testcase>
-    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.4792">
+    <testcase name="send-byte-array-test" classname="bowerick.test.jms-transport" time="0.5232">
     </testcase>
-    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.0708">
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.0685">
     </testcase>
-    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.0435">
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.0509">
     </testcase>
-    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.1299">
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.1143">
     </testcase>
-    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.4254">
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.4095">
     </testcase>
-    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.4388">
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.4135">
     </testcase>
-    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.3766">
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.3086">
     </testcase>
-    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.4685">
+    <testcase name="send-vector-test" classname="bowerick.test.jms-transport" time="0.4467">
     </testcase>
-    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.0657">
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.1276">
     </testcase>
-    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.0558">
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.0561">
     </testcase>
-    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.0889">
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.0942">
     </testcase>
-    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.4091">
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.4155">
     </testcase>
-    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.5125">
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.4092">
     </testcase>
-    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.3349">
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.3056">
     </testcase>
-    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.4563">
+    <testcase name="send-list-test" classname="bowerick.test.jms-transport" time="0.4258">
     </testcase>
-    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.0516">
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.0440">
     </testcase>
-    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.0587">
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.0641">
     </testcase>
-    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.1166">
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.0917">
     </testcase>
-    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.4097">
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.3698">
     </testcase>
-    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.4455">
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.3973">
     </testcase>
-    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.3267">
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.3135">
     </testcase>
-    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.4411">
+    <testcase name="send-string-test" classname="bowerick.test.jms-transport" time="0.4376">
     </testcase>
     <system-err>
 Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
@@ -1260,7 +1260,7 @@ Closing consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.f
         </property>
         <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
-        <property name="bowerick.version" value="1.99.18">
+        <property name="bowerick.version" value="2.0.0">
         </property>
         <property name="java.vm.vendor" value="Oracle Corporation">
         </property>
@@ -1310,7 +1310,7 @@ Closing consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.f
         </property>
         <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
-        <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+        <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
         <property name="user.name" value="rc">
         </property>

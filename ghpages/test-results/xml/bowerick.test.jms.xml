@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bowerick.test.jms" errors="0" failures="0" tests="16" time="2.3621" timestamp="2017-09-06_21:11:21+0200">
-    <testcase name="pooled-producer-pooled-consumer-nippy" classname="bowerick.test.jms" time="0.1305">
+<testsuite name="bowerick.test.jms" errors="0" failures="0" tests="16" time="2.2547" timestamp="2017-09-08_14:03:49+0200">
+    <testcase name="pooled-producer-pooled-consumer-nippy" classname="bowerick.test.jms" time="0.1376">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer-carbonite" classname="bowerick.test.jms" time="0.0699">
+    <testcase name="pooled-producer-pooled-consumer-carbonite" classname="bowerick.test.jms" time="0.0632">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer-carbonite-lzf" classname="bowerick.test.jms" time="0.0726">
+    <testcase name="pooled-producer-pooled-consumer-carbonite-lzf" classname="bowerick.test.jms" time="0.0632">
     </testcase>
-    <testcase name="test-create-topic" classname="bowerick.test.jms" time="0.0192">
+    <testcase name="test-create-topic" classname="bowerick.test.jms" time="0.0224">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-snappy" classname="bowerick.test.jms" time="0.1288">
+    <testcase name="pooled-producer-pooled-consumer-nippy-snappy" classname="bowerick.test.jms" time="0.1089">
     </testcase>
-    <testcase name="json-producer-failsafe-json-consumer" classname="bowerick.test.jms" time="0.0780">
+    <testcase name="json-producer-failsafe-json-consumer" classname="bowerick.test.jms" time="0.0498">
     </testcase>
-    <testcase name="custom-transformation-producer-consumer-cheshire" classname="bowerick.test.jms" time="0.0454">
+    <testcase name="custom-transformation-producer-consumer-cheshire" classname="bowerick.test.jms" time="0.0505">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lz4" classname="bowerick.test.jms" time="0.1235">
+    <testcase name="pooled-producer-pooled-consumer-nippy-lz4" classname="bowerick.test.jms" time="0.1195">
     </testcase>
-    <testcase name="object-producer-failsafe-json-consumer" classname="bowerick.test.jms" time="0.0903">
+    <testcase name="object-producer-failsafe-json-consumer" classname="bowerick.test.jms" time="0.0633">
     </testcase>
-    <testcase name="json-producer-consumer" classname="bowerick.test.jms" time="0.0517">
+    <testcase name="json-producer-consumer" classname="bowerick.test.jms" time="0.0504">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lzf" classname="bowerick.test.jms" time="0.0864">
+    <testcase name="pooled-producer-pooled-consumer-nippy-lzf" classname="bowerick.test.jms" time="0.1169">
     </testcase>
-    <testcase name="pooled-producer-normal-consumer" classname="bowerick.test.jms" time="0.0461">
+    <testcase name="pooled-producer-normal-consumer" classname="bowerick.test.jms" time="0.0689">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer" classname="bowerick.test.jms" time="0.0578">
+    <testcase name="pooled-producer-pooled-consumer" classname="bowerick.test.jms" time="0.0604">
     </testcase>
-    <testcase name="string-producer-failsafe-json-consumer" classname="bowerick.test.jms" time="0.0766">
+    <testcase name="string-producer-failsafe-json-consumer" classname="bowerick.test.jms" time="0.0857">
     </testcase>
-    <testcase name="pooled-producer-pooled-consumer-nippy-lzma2" classname="bowerick.test.jms" time="0.2748">
+    <testcase name="pooled-producer-pooled-consumer-nippy-lzma2" classname="bowerick.test.jms" time="0.1763">
     </testcase>
-    <testcase name="custom-transformation-producer-cheshire" classname="bowerick.test.jms" time="0.0548">
+    <testcase name="custom-transformation-producer-cheshire" classname="bowerick.test.jms" time="0.0775">
     </testcase>
     <system-err>
 Info: Enabling management producer at: /topic/bowerick.broker.management.reply
@@ -137,7 +137,7 @@ Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.
 Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
-Creating nippy producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3 {:compressor #object[taoensso.nippy.compression.SnappyCompressor 0xa2b54e3 taoensso.nippy.compression.SnappyCompressor@a2b54e3]}
+Creating nippy producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3 {:compressor #object[taoensso.nippy.compression.SnappyCompressor 0x19b5214b taoensso.nippy.compression.SnappyCompressor@19b5214b]}
 Creating pooled producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3
 Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
 Creating connection.
@@ -205,7 +205,7 @@ Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.
 Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
-Creating nippy producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3 {:compressor #object[taoensso.nippy.compression.LZ4Compressor 0x67328bcb taoensso.nippy.compression.LZ4Compressor@67328bcb]}
+Creating nippy producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3 {:compressor #object[taoensso.nippy.compression.LZ4Compressor 0x511da44f taoensso.nippy.compression.LZ4Compressor@511da44f]}
 Creating pooled producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3
 Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
 Creating connection.
@@ -367,7 +367,7 @@ Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.
 Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
-Creating nippy producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3 {:compressor #object[taoensso.nippy.compression.LZMA2Compressor 0x2bd8f7db taoensso.nippy.compression.LZMA2Compressor@2bd8f7db]}
+Creating nippy producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3 {:compressor #object[taoensso.nippy.compression.LZMA2Compressor 0x70c29356 taoensso.nippy.compression.LZMA2Compressor@70c29356]}
 Creating pooled producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3
 Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
 Creating connection.
@@ -509,7 +509,7 @@ Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.managemen
 Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
-Creating nippy producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo32332{:compressor32#object[taoensso.nippy.compression.SnappyCompressor 0xa2b54e3 taoensso.nippy.compression.SnappyCompressor@a2b54e3]}
+Creating nippy producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo32332{:compressor32#object[taoensso.nippy.compression.SnappyCompressor 0x19b5214b taoensso.nippy.compression.SnappyCompressor@19b5214b]}
 Creating pooled producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo323
 Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
 Creating connection.
@@ -577,7 +577,7 @@ Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.managemen
 Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
-Creating nippy producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo32332{:compressor32#object[taoensso.nippy.compression.LZ4Compressor 0x67328bcb taoensso.nippy.compression.LZ4Compressor@67328bcb]}
+Creating nippy producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo32332{:compressor32#object[taoensso.nippy.compression.LZ4Compressor 0x511da44f taoensso.nippy.compression.LZ4Compressor@511da44f]}
 Creating pooled producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo323
 Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
 Creating connection.
@@ -739,7 +739,7 @@ Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.managemen
 Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
-Creating nippy producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo32332{:compressor32#object[taoensso.nippy.compression.LZMA2Compressor 0x2bd8f7db taoensso.nippy.compression.LZMA2Compressor@2bd8f7db]}
+Creating nippy producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo32332{:compressor32#object[taoensso.nippy.compression.LZMA2Compressor 0x70c29356 taoensso.nippy.compression.LZMA2Compressor@70c29356]}
 Creating pooled producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo323
 Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
 Creating connection.
@@ -832,7 +832,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </property>
         <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
-        <property name="bowerick.version" value="1.99.18">
+        <property name="bowerick.version" value="2.0.0">
         </property>
         <property name="java.vm.vendor" value="Oracle Corporation">
         </property>
@@ -882,7 +882,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </property>
         <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
-        <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+        <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
         <property name="user.name" value="rc">
         </property>

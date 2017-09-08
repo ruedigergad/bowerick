@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bowerick.test.multi-connector" errors="0" failures="0" tests="8" time="2.4705" timestamp="2017-09-06_21:11:40+0200">
-    <testcase name="test-openwire-to-stomp-byte-array" classname="bowerick.test.multi-connector" time="0.1196">
+<testsuite name="bowerick.test.multi-connector" errors="0" failures="0" tests="8" time="0.8601" timestamp="2017-09-08_14:04:06+0200">
+    <testcase name="test-openwire-to-stomp-byte-array" classname="bowerick.test.multi-connector" time="0.1239">
     </testcase>
-    <testcase name="test-stomp-to-openwire-nippy-complexer-data" classname="bowerick.test.multi-connector" time="1.6631">
+    <testcase name="test-stomp-to-openwire-nippy-complexer-data" classname="bowerick.test.multi-connector" time="0.1365">
     </testcase>
-    <testcase name="test-openwire-to-openwire" classname="bowerick.test.multi-connector" time="0.0894">
+    <testcase name="test-openwire-to-openwire" classname="bowerick.test.multi-connector" time="0.0760">
     </testcase>
-    <testcase name="test-stomp-to-openwire-nippy" classname="bowerick.test.multi-connector" time="0.0797">
+    <testcase name="test-stomp-to-openwire-nippy" classname="bowerick.test.multi-connector" time="0.0979">
     </testcase>
-    <testcase name="test-stomp-to-openwire" classname="bowerick.test.multi-connector" time="0.0867">
+    <testcase name="test-stomp-to-openwire" classname="bowerick.test.multi-connector" time="0.0852">
     </testcase>
-    <testcase name="test-stomp-to-openwire-byte-array" classname="bowerick.test.multi-connector" time="0.0852">
+    <testcase name="test-stomp-to-openwire-byte-array" classname="bowerick.test.multi-connector" time="0.0706">
     </testcase>
-    <testcase name="test-stomp-to-stomp" classname="bowerick.test.multi-connector" time="0.1594">
+    <testcase name="test-stomp-to-stomp" classname="bowerick.test.multi-connector" time="0.1318">
     </testcase>
-    <testcase name="test-openwire-to-stomp" classname="bowerick.test.multi-connector" time="0.1763">
+    <testcase name="test-openwire-to-stomp" classname="bowerick.test.multi-connector" time="0.1290">
     </testcase>
     <system-err>
 Info: Enabling management producer at: /topic/bowerick.broker.management.reply
@@ -404,7 +404,7 @@ Closing producer:32tcp://127.0.0.1:4411132/topic/bowerick.broker.management.repl
         </property>
         <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
-        <property name="bowerick.version" value="1.99.18">
+        <property name="bowerick.version" value="2.0.0">
         </property>
         <property name="java.vm.vendor" value="Oracle Corporation">
         </property>
@@ -454,7 +454,7 @@ Closing producer:32tcp://127.0.0.1:4411132/topic/bowerick.broker.management.repl
         </property>
         <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
-        <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+        <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
         <property name="user.name" value="rc">
         </property>

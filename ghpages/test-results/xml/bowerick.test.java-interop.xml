@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bowerick.test.java-interop" errors="0" failures="0" tests="9" time="1.4807" timestamp="2017-09-06_21:11:19+0200">
-    <testcase name="test-pooled-producer-and-consumer" classname="bowerick.test.java-interop" time="0.1127">
+<testsuite name="bowerick.test.java-interop" errors="0" failures="0" tests="9" time="1.5139" timestamp="2017-09-08_14:03:47+0200">
+    <testcase name="test-pooled-producer-and-consumer" classname="bowerick.test.java-interop" time="0.1422">
     </testcase>
-    <testcase name="test-create-producer" classname="bowerick.test.java-interop" time="0.0185">
+    <testcase name="test-create-producer" classname="bowerick.test.java-interop" time="0.0193">
     </testcase>
-    <testcase name="test-create-controller" classname="bowerick.test.java-interop" time="0.0010">
+    <testcase name="test-create-controller" classname="bowerick.test.java-interop" time="0.0011">
     </testcase>
-    <testcase name="test-start-stop-embedded-broker" classname="bowerick.test.java-interop" time="0.1411">
+    <testcase name="test-start-stop-embedded-broker" classname="bowerick.test.java-interop" time="0.1251">
     </testcase>
-    <testcase name="test-start-stop-embedded-broker-with-data-exchange" classname="bowerick.test.java-interop" time="0.1317">
+    <testcase name="test-start-stop-embedded-broker-with-data-exchange" classname="bowerick.test.java-interop" time="0.1351">
     </testcase>
-    <testcase name="test-pooled-carbonite-lzf-producer-and-consumer" classname="bowerick.test.java-interop" time="0.2645">
+    <testcase name="test-pooled-carbonite-lzf-producer-and-consumer" classname="bowerick.test.java-interop" time="0.3062">
     </testcase>
-    <testcase name="test-pooled-carbonite-producer-and-consumer" classname="bowerick.test.java-interop" time="0.0997">
+    <testcase name="test-pooled-carbonite-producer-and-consumer" classname="bowerick.test.java-interop" time="0.0660">
     </testcase>
-    <testcase name="test-json-producer-and-consumer" classname="bowerick.test.java-interop" time="0.0980">
+    <testcase name="test-json-producer-and-consumer" classname="bowerick.test.java-interop" time="0.0859">
     </testcase>
-    <testcase name="test-producer-and-consumer" classname="bowerick.test.java-interop" time="0.0549">
+    <testcase name="test-producer-and-consumer" classname="bowerick.test.java-interop" time="0.0565">
     </testcase>
     <system-err>
 Info: Enabling management producer at: /topic/bowerick.broker.management.reply
@@ -482,7 +482,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </property>
         <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
-        <property name="bowerick.version" value="1.99.18">
+        <property name="bowerick.version" value="2.0.0">
         </property>
         <property name="java.vm.vendor" value="Oracle Corporation">
         </property>
@@ -532,7 +532,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </property>
         <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
-        <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+        <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
         <property name="user.name" value="rc">
         </property>

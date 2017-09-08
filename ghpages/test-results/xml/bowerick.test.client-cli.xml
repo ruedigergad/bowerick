@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bowerick.test.client-cli" errors="0" failures="0" tests="8" time="3.1431" timestamp="2017-09-06_21:11:17+0200">
-    <testcase name="simple-send-receive-with-cli-broker-test" classname="bowerick.test.client-cli" time="0.6400">
+<testsuite name="bowerick.test.client-cli" errors="0" failures="0" tests="8" time="3.1345" timestamp="2017-09-08_14:03:45+0200">
+    <testcase name="simple-send-receive-with-cli-broker-test" classname="bowerick.test.client-cli" time="0.6545">
     </testcase>
-    <testcase name="broker-management-get-destinations-test" classname="bowerick.test.client-cli" time="0.4557">
+    <testcase name="broker-management-get-destinations-test" classname="bowerick.test.client-cli" time="0.4400">
     </testcase>
-    <testcase name="simple-send-receive-with-cli-daemon-broker-test" classname="bowerick.test.client-cli" time="0.4321">
+    <testcase name="simple-send-receive-with-cli-daemon-broker-test" classname="bowerick.test.client-cli" time="0.4245">
     </testcase>
-    <testcase name="dummy-receive-test" classname="bowerick.test.client-cli" time="0.0708">
+    <testcase name="dummy-receive-test" classname="bowerick.test.client-cli" time="0.1131">
     </testcase>
-    <testcase name="simple-send-receive-test" classname="bowerick.test.client-cli" time="0.4141">
+    <testcase name="simple-send-receive-test" classname="bowerick.test.client-cli" time="0.4043">
     </testcase>
-    <testcase name="broker-management-get-all-destinations-test" classname="bowerick.test.client-cli" time="0.3991">
+    <testcase name="broker-management-get-all-destinations-test" classname="bowerick.test.client-cli" time="0.4009">
     </testcase>
-    <testcase name="show-help-test" classname="bowerick.test.client-cli" time="0.0281">
+    <testcase name="show-help-test" classname="bowerick.test.client-cli" time="0.0203">
     </testcase>
-    <testcase name="dummy-send-test" classname="bowerick.test.client-cli" time="0.0584">
+    <testcase name="dummy-send-test" classname="bowerick.test.client-cli" time="0.0629">
     </testcase>
     <system-err>
 Info: Enabling management producer at: /topic/bowerick.broker.management.reply
@@ -486,7 +486,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </property>
         <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
-        <property name="bowerick.version" value="1.99.18">
+        <property name="bowerick.version" value="2.0.0">
         </property>
         <property name="java.vm.vendor" value="Oracle Corporation">
         </property>
@@ -536,7 +536,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </property>
         <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
-        <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+        <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
         <property name="user.name" value="rc">
         </property>

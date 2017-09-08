@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bowerick.test.websocket" errors="0" failures="0" tests="4" time="2.9419" timestamp="2017-09-06_21:11:45+0200">
-    <testcase name="websocket-ssl-to-stomp-string-test" classname="bowerick.test.websocket" time="1.3095">
+<testsuite name="bowerick.test.websocket" errors="0" failures="0" tests="4" time="2.8763" timestamp="2017-09-08_14:04:10+0200">
+    <testcase name="websocket-ssl-to-stomp-string-test" classname="bowerick.test.websocket" time="1.3021">
     </testcase>
-    <testcase name="websocket-string-test" classname="bowerick.test.websocket" time="0.3694">
+    <testcase name="websocket-string-test" classname="bowerick.test.websocket" time="0.4365">
     </testcase>
-    <testcase name="websocket-to-openwire-string-test" classname="bowerick.test.websocket" time="0.1202">
+    <testcase name="websocket-to-openwire-string-test" classname="bowerick.test.websocket" time="0.1152">
     </testcase>
-    <testcase name="websocket-to-stomp-string-test" classname="bowerick.test.websocket" time="0.1469">
+    <testcase name="websocket-to-stomp-string-test" classname="bowerick.test.websocket" time="0.1306">
     </testcase>
     <system-err>
 Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
@@ -216,7 +216,7 @@ Closing producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.repl
         </property>
         <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
-        <property name="bowerick.version" value="1.99.18">
+        <property name="bowerick.version" value="2.0.0">
         </property>
         <property name="java.vm.vendor" value="Oracle Corporation">
         </property>
@@ -266,7 +266,7 @@ Closing producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.repl
         </property>
         <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
-        <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+        <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
         <property name="user.name" value="rc">
         </property>

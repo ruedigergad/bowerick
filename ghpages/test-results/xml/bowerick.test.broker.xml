@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bowerick.test.broker" errors="0" failures="0" tests="5" time="2.4307" timestamp="2017-09-06_21:11:14+0200">
-    <testcase name="send-unknown-command-test" classname="bowerick.test.broker" time="1.6283">
+<testsuite name="bowerick.test.broker" errors="0" failures="0" tests="5" time="2.3177" timestamp="2017-09-08_14:03:42+0200">
+    <testcase name="send-unknown-command-test" classname="bowerick.test.broker" time="1.5132">
     </testcase>
-    <testcase name="get-all-destinations-via-jms-test" classname="bowerick.test.broker" time="0.3076">
+    <testcase name="get-all-destinations-via-jms-test" classname="bowerick.test.broker" time="0.3367">
     </testcase>
-    <testcase name="get-destinations-test" classname="bowerick.test.broker" time="0.1182">
+    <testcase name="get-destinations-test" classname="bowerick.test.broker" time="0.1067">
     </testcase>
-    <testcase name="get-destinations-via-jms-test" classname="bowerick.test.broker" time="0.2155">
+    <testcase name="get-destinations-via-jms-test" classname="bowerick.test.broker" time="0.2090">
     </testcase>
-    <testcase name="get-destinations-with-producer-test" classname="bowerick.test.broker" time="0.1502">
+    <testcase name="get-destinations-with-producer-test" classname="bowerick.test.broker" time="0.1404">
     </testcase>
     <system-err>
 Info: Enabling management producer at: /topic/bowerick.broker.management.reply
@@ -258,7 +258,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </property>
         <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
-        <property name="bowerick.version" value="1.99.18">
+        <property name="bowerick.version" value="2.0.0">
         </property>
         <property name="java.vm.vendor" value="Oracle Corporation">
         </property>
@@ -308,7 +308,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </property>
         <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
-        <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+        <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
         <property name="user.name" value="rc">
         </property>

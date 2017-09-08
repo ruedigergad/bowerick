@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bowerick.test.jms-permissions-test" errors="0" failures="0" tests="4" time="0.3196" timestamp="2017-09-06_21:11:21+0200">
-    <testcase name="create-producer-without-permission-test" classname="bowerick.test.jms-permissions-test" time="0.0566">
+<testsuite name="bowerick.test.jms-permissions-test" errors="0" failures="0" tests="4" time="0.3374" timestamp="2017-09-08_14:03:50+0200">
+    <testcase name="create-producer-without-permission-test" classname="bowerick.test.jms-permissions-test" time="0.0732">
     </testcase>
-    <testcase name="create-producer-with-permission-test" classname="bowerick.test.jms-permissions-test" time="0.0323">
+    <testcase name="create-producer-with-permission-test" classname="bowerick.test.jms-permissions-test" time="0.0351">
     </testcase>
-    <testcase name="test-selective-permissions-with-anonymous-test" classname="bowerick.test.jms-permissions-test" time="0.0821">
+    <testcase name="test-selective-permissions-with-anonymous-test" classname="bowerick.test.jms-permissions-test" time="0.0909">
     </testcase>
-    <testcase name="test-selective-permissions-with-anonymous-convenience-test" classname="bowerick.test.jms-permissions-test" time="0.1411">
+    <testcase name="test-selective-permissions-with-anonymous-convenience-test" classname="bowerick.test.jms-permissions-test" time="0.1301">
     </testcase>
     <system-err>
 Creating producer: tcp://127.0.0.1:31313 /topic/test.topic.a
@@ -152,7 +152,7 @@ Creating destination. Type:32topic32Name:32test.topic.a
         </property>
         <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
-        <property name="bowerick.version" value="1.99.18">
+        <property name="bowerick.version" value="2.0.0">
         </property>
         <property name="java.vm.vendor" value="Oracle Corporation">
         </property>
@@ -202,7 +202,7 @@ Creating destination. Type:32topic32Name:32test.topic.a
         </property>
         <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
-        <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+        <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
         <property name="user.name" value="rc">
         </property>

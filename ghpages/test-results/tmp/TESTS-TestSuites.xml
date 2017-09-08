@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-  <testsuite errors="0" failures="0" id="0" name="benchmarks" package="bowerick" tests="0" time="0.0073" timestamp="2017-09-06_21:11:11+0200">
+  <testsuite errors="0" failures="0" id="0" name="benchmarks" package="bowerick" tests="0" time="0.0069" timestamp="2017-09-08_14:03:40+0200">
         <system-err>
     </system-err>
 
@@ -89,7 +89,7 @@
               <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
 
-              <property name="bowerick.version" value="1.99.18">
+              <property name="bowerick.version" value="2.0.0">
         </property>
 
               <property name="java.vm.vendor" value="Oracle Corporation">
@@ -164,7 +164,7 @@
               <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
 
-              <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+              <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
 
               <property name="user.name" value="rc">
@@ -173,20 +173,20 @@
         </properties>
 
   </testsuite>
-  <testsuite errors="0" failures="0" id="1" name="broker" package="bowerick.test" tests="5" time="2.4307" timestamp="2017-09-06_21:11:14+0200">
-        <testcase classname="bowerick.test.broker" name="send-unknown-command-test" time="1.6283">
+  <testsuite errors="0" failures="0" id="1" name="broker" package="bowerick.test" tests="5" time="2.3177" timestamp="2017-09-08_14:03:42+0200">
+        <testcase classname="bowerick.test.broker" name="send-unknown-command-test" time="1.5132">
     </testcase>
 
-        <testcase classname="bowerick.test.broker" name="get-all-destinations-via-jms-test" time="0.3076">
+        <testcase classname="bowerick.test.broker" name="get-all-destinations-via-jms-test" time="0.3367">
     </testcase>
 
-        <testcase classname="bowerick.test.broker" name="get-destinations-test" time="0.1182">
+        <testcase classname="bowerick.test.broker" name="get-destinations-test" time="0.1067">
     </testcase>
 
-        <testcase classname="bowerick.test.broker" name="get-destinations-via-jms-test" time="0.2155">
+        <testcase classname="bowerick.test.broker" name="get-destinations-via-jms-test" time="0.2090">
     </testcase>
 
-        <testcase classname="bowerick.test.broker" name="get-destinations-with-producer-test" time="0.1502">
+        <testcase classname="bowerick.test.broker" name="get-destinations-with-producer-test" time="0.1404">
     </testcase>
 
         <system-err>
@@ -465,7 +465,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
               <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
 
-              <property name="bowerick.version" value="1.99.18">
+              <property name="bowerick.version" value="2.0.0">
         </property>
 
               <property name="java.vm.vendor" value="Oracle Corporation">
@@ -540,7 +540,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
               <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
 
-              <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+              <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
 
               <property name="user.name" value="rc">
@@ -549,29 +549,29 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </properties>
 
   </testsuite>
-  <testsuite errors="0" failures="0" id="2" name="client-cli" package="bowerick.test" tests="8" time="3.1431" timestamp="2017-09-06_21:11:17+0200">
-        <testcase classname="bowerick.test.client-cli" name="simple-send-receive-with-cli-broker-test" time="0.6400">
+  <testsuite errors="0" failures="0" id="2" name="client-cli" package="bowerick.test" tests="8" time="3.1345" timestamp="2017-09-08_14:03:45+0200">
+        <testcase classname="bowerick.test.client-cli" name="simple-send-receive-with-cli-broker-test" time="0.6545">
     </testcase>
 
-        <testcase classname="bowerick.test.client-cli" name="broker-management-get-destinations-test" time="0.4557">
+        <testcase classname="bowerick.test.client-cli" name="broker-management-get-destinations-test" time="0.4400">
     </testcase>
 
-        <testcase classname="bowerick.test.client-cli" name="simple-send-receive-with-cli-daemon-broker-test" time="0.4321">
+        <testcase classname="bowerick.test.client-cli" name="simple-send-receive-with-cli-daemon-broker-test" time="0.4245">
     </testcase>
 
-        <testcase classname="bowerick.test.client-cli" name="dummy-receive-test" time="0.0708">
+        <testcase classname="bowerick.test.client-cli" name="dummy-receive-test" time="0.1131">
     </testcase>
 
-        <testcase classname="bowerick.test.client-cli" name="simple-send-receive-test" time="0.4141">
+        <testcase classname="bowerick.test.client-cli" name="simple-send-receive-test" time="0.4043">
     </testcase>
 
-        <testcase classname="bowerick.test.client-cli" name="broker-management-get-all-destinations-test" time="0.3991">
+        <testcase classname="bowerick.test.client-cli" name="broker-management-get-all-destinations-test" time="0.4009">
     </testcase>
 
-        <testcase classname="bowerick.test.client-cli" name="show-help-test" time="0.0281">
+        <testcase classname="bowerick.test.client-cli" name="show-help-test" time="0.0203">
     </testcase>
 
-        <testcase classname="bowerick.test.client-cli" name="dummy-send-test" time="0.0584">
+        <testcase classname="bowerick.test.client-cli" name="dummy-send-test" time="0.0629">
     </testcase>
 
         <system-err>
@@ -1072,7 +1072,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
               <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
 
-              <property name="bowerick.version" value="1.99.18">
+              <property name="bowerick.version" value="2.0.0">
         </property>
 
               <property name="java.vm.vendor" value="Oracle Corporation">
@@ -1147,7 +1147,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
               <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
 
-              <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+              <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
 
               <property name="user.name" value="rc">
@@ -1156,32 +1156,32 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </properties>
 
   </testsuite>
-  <testsuite errors="0" failures="0" id="3" name="java-interop" package="bowerick.test" tests="9" time="1.4807" timestamp="2017-09-06_21:11:19+0200">
-        <testcase classname="bowerick.test.java-interop" name="test-pooled-producer-and-consumer" time="0.1127">
+  <testsuite errors="0" failures="0" id="3" name="java-interop" package="bowerick.test" tests="9" time="1.5139" timestamp="2017-09-08_14:03:47+0200">
+        <testcase classname="bowerick.test.java-interop" name="test-pooled-producer-and-consumer" time="0.1422">
     </testcase>
 
-        <testcase classname="bowerick.test.java-interop" name="test-create-producer" time="0.0185">
+        <testcase classname="bowerick.test.java-interop" name="test-create-producer" time="0.0193">
     </testcase>
 
-        <testcase classname="bowerick.test.java-interop" name="test-create-controller" time="0.0010">
+        <testcase classname="bowerick.test.java-interop" name="test-create-controller" time="0.0011">
     </testcase>
 
-        <testcase classname="bowerick.test.java-interop" name="test-start-stop-embedded-broker" time="0.1411">
+        <testcase classname="bowerick.test.java-interop" name="test-start-stop-embedded-broker" time="0.1251">
     </testcase>
 
-        <testcase classname="bowerick.test.java-interop" name="test-start-stop-embedded-broker-with-data-exchange" time="0.1317">
+        <testcase classname="bowerick.test.java-interop" name="test-start-stop-embedded-broker-with-data-exchange" time="0.1351">
     </testcase>
 
-        <testcase classname="bowerick.test.java-interop" name="test-pooled-carbonite-lzf-producer-and-consumer" time="0.2645">
+        <testcase classname="bowerick.test.java-interop" name="test-pooled-carbonite-lzf-producer-and-consumer" time="0.3062">
     </testcase>
 
-        <testcase classname="bowerick.test.java-interop" name="test-pooled-carbonite-producer-and-consumer" time="0.0997">
+        <testcase classname="bowerick.test.java-interop" name="test-pooled-carbonite-producer-and-consumer" time="0.0660">
     </testcase>
 
-        <testcase classname="bowerick.test.java-interop" name="test-json-producer-and-consumer" time="0.0980">
+        <testcase classname="bowerick.test.java-interop" name="test-json-producer-and-consumer" time="0.0859">
     </testcase>
 
-        <testcase classname="bowerick.test.java-interop" name="test-producer-and-consumer" time="0.0549">
+        <testcase classname="bowerick.test.java-interop" name="test-producer-and-consumer" time="0.0565">
     </testcase>
 
         <system-err>
@@ -1676,7 +1676,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
               <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
 
-              <property name="bowerick.version" value="1.99.18">
+              <property name="bowerick.version" value="2.0.0">
         </property>
 
               <property name="java.vm.vendor" value="Oracle Corporation">
@@ -1751,7 +1751,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
               <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
 
-              <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+              <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
 
               <property name="user.name" value="rc">
@@ -1760,17 +1760,17 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </properties>
 
   </testsuite>
-  <testsuite errors="0" failures="0" id="4" name="jms-permissions-test" package="bowerick.test" tests="4" time="0.3196" timestamp="2017-09-06_21:11:21+0200">
-        <testcase classname="bowerick.test.jms-permissions-test" name="create-producer-without-permission-test" time="0.0566">
+  <testsuite errors="0" failures="0" id="4" name="jms-permissions-test" package="bowerick.test" tests="4" time="0.3374" timestamp="2017-09-08_14:03:50+0200">
+        <testcase classname="bowerick.test.jms-permissions-test" name="create-producer-without-permission-test" time="0.0732">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-permissions-test" name="create-producer-with-permission-test" time="0.0323">
+        <testcase classname="bowerick.test.jms-permissions-test" name="create-producer-with-permission-test" time="0.0351">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-permissions-test" name="test-selective-permissions-with-anonymous-test" time="0.0821">
+        <testcase classname="bowerick.test.jms-permissions-test" name="test-selective-permissions-with-anonymous-test" time="0.0909">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-permissions-test" name="test-selective-permissions-with-anonymous-convenience-test" time="0.1411">
+        <testcase classname="bowerick.test.jms-permissions-test" name="test-selective-permissions-with-anonymous-convenience-test" time="0.1301">
     </testcase>
 
         <system-err>
@@ -1945,7 +1945,7 @@ Creating destination. Type:32topic32Name:32test.topic.a
               <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
 
-              <property name="bowerick.version" value="1.99.18">
+              <property name="bowerick.version" value="2.0.0">
         </property>
 
               <property name="java.vm.vendor" value="Oracle Corporation">
@@ -2020,7 +2020,7 @@ Creating destination. Type:32topic32Name:32test.topic.a
               <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
 
-              <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+              <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
 
               <property name="user.name" value="rc">
@@ -2031,89 +2031,89 @@ Creating destination. Type:32topic32Name:32test.topic.a
   </testsuite>
   <testsuite errors="0" failures="0" id="5" name="jms-test-base" package="bowerick.test" tests="0" time="0.0004" timestamp="2016-05-05_21:02:31+0200">
 </testsuite>
-  <testsuite errors="0" failures="0" id="6" name="jms-transport" package="bowerick.test" tests="28" time="14.4886" timestamp="2017-09-06_21:11:36+0200">
-        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.0789">
+  <testsuite errors="0" failures="0" id="6" name="jms-transport" package="bowerick.test" tests="28" time="13.6927" timestamp="2017-09-08_14:04:03+0200">
+        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.0474">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.0596">
+        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.0602">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.1571">
+        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.1081">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.4486">
+        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.4530">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.5028">
+        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.4621">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.3700">
+        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.3254">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.4792">
+        <testcase classname="bowerick.test.jms-transport" name="send-byte-array-test" time="0.5232">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.0708">
+        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.0685">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.0435">
+        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.0509">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.1299">
+        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.1143">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.4254">
+        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.4095">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.4388">
+        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.4135">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.3766">
+        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.3086">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.4685">
+        <testcase classname="bowerick.test.jms-transport" name="send-vector-test" time="0.4467">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.0657">
+        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.1276">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.0558">
+        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.0561">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.0889">
+        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.0942">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.4091">
+        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.4155">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.5125">
+        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.4092">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.3349">
+        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.3056">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.4563">
+        <testcase classname="bowerick.test.jms-transport" name="send-list-test" time="0.4258">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.0516">
+        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.0440">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.0587">
+        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.0641">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.1166">
+        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.0917">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.4097">
+        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.3698">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.4455">
+        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.3973">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.3267">
+        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.3135">
     </testcase>
 
-        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.4411">
+        <testcase classname="bowerick.test.jms-transport" name="send-string-test" time="0.4376">
     </testcase>
 
         <system-err>
@@ -3348,7 +3348,7 @@ Closing consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.f
               <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
 
-              <property name="bowerick.version" value="1.99.18">
+              <property name="bowerick.version" value="2.0.0">
         </property>
 
               <property name="java.vm.vendor" value="Oracle Corporation">
@@ -3423,7 +3423,7 @@ Closing consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.f
               <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
 
-              <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+              <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
 
               <property name="user.name" value="rc">
@@ -3432,53 +3432,53 @@ Closing consumer:32ssl://127.0.0.1:42425?needClientAuth=true32/topic/testtopic.f
         </properties>
 
   </testsuite>
-  <testsuite errors="0" failures="0" id="7" name="jms" package="bowerick.test" tests="16" time="2.3621" timestamp="2017-09-06_21:11:21+0200">
-        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy" time="0.1305">
+  <testsuite errors="0" failures="0" id="7" name="jms" package="bowerick.test" tests="16" time="2.2547" timestamp="2017-09-08_14:03:49+0200">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy" time="0.1376">
     </testcase>
 
-        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-carbonite" time="0.0699">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-carbonite" time="0.0632">
     </testcase>
 
-        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-carbonite-lzf" time="0.0726">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-carbonite-lzf" time="0.0632">
     </testcase>
 
-        <testcase classname="bowerick.test.jms" name="test-create-topic" time="0.0192">
+        <testcase classname="bowerick.test.jms" name="test-create-topic" time="0.0224">
     </testcase>
 
-        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy-snappy" time="0.1288">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy-snappy" time="0.1089">
     </testcase>
 
-        <testcase classname="bowerick.test.jms" name="json-producer-failsafe-json-consumer" time="0.0780">
+        <testcase classname="bowerick.test.jms" name="json-producer-failsafe-json-consumer" time="0.0498">
     </testcase>
 
-        <testcase classname="bowerick.test.jms" name="custom-transformation-producer-consumer-cheshire" time="0.0454">
+        <testcase classname="bowerick.test.jms" name="custom-transformation-producer-consumer-cheshire" time="0.0505">
     </testcase>
 
-        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy-lz4" time="0.1235">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy-lz4" time="0.1195">
     </testcase>
 
-        <testcase classname="bowerick.test.jms" name="object-producer-failsafe-json-consumer" time="0.0903">
+        <testcase classname="bowerick.test.jms" name="object-producer-failsafe-json-consumer" time="0.0633">
     </testcase>
 
-        <testcase classname="bowerick.test.jms" name="json-producer-consumer" time="0.0517">
+        <testcase classname="bowerick.test.jms" name="json-producer-consumer" time="0.0504">
     </testcase>
 
-        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy-lzf" time="0.0864">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy-lzf" time="0.1169">
     </testcase>
 
-        <testcase classname="bowerick.test.jms" name="pooled-producer-normal-consumer" time="0.0461">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-normal-consumer" time="0.0689">
     </testcase>
 
-        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer" time="0.0578">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer" time="0.0604">
     </testcase>
 
-        <testcase classname="bowerick.test.jms" name="string-producer-failsafe-json-consumer" time="0.0766">
+        <testcase classname="bowerick.test.jms" name="string-producer-failsafe-json-consumer" time="0.0857">
     </testcase>
 
-        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy-lzma2" time="0.2748">
+        <testcase classname="bowerick.test.jms" name="pooled-producer-pooled-consumer-nippy-lzma2" time="0.1763">
     </testcase>
 
-        <testcase classname="bowerick.test.jms" name="custom-transformation-producer-cheshire" time="0.0548">
+        <testcase classname="bowerick.test.jms" name="custom-transformation-producer-cheshire" time="0.0775">
     </testcase>
 
         <system-err>
@@ -3586,7 +3586,7 @@ Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.
 Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
-Creating nippy producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3 {:compressor #object[taoensso.nippy.compression.SnappyCompressor 0xa2b54e3 taoensso.nippy.compression.SnappyCompressor@a2b54e3]}
+Creating nippy producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3 {:compressor #object[taoensso.nippy.compression.SnappyCompressor 0x19b5214b taoensso.nippy.compression.SnappyCompressor@19b5214b]}
 Creating pooled producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3
 Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
 Creating connection.
@@ -3654,7 +3654,7 @@ Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.
 Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
-Creating nippy producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3 {:compressor #object[taoensso.nippy.compression.LZ4Compressor 0x67328bcb taoensso.nippy.compression.LZ4Compressor@67328bcb]}
+Creating nippy producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3 {:compressor #object[taoensso.nippy.compression.LZ4Compressor 0x511da44f taoensso.nippy.compression.LZ4Compressor@511da44f]}
 Creating pooled producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3
 Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
 Creating connection.
@@ -3816,7 +3816,7 @@ Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.
 Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
-Creating nippy producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3 {:compressor #object[taoensso.nippy.compression.LZMA2Compressor 0x2bd8f7db taoensso.nippy.compression.LZMA2Compressor@2bd8f7db]}
+Creating nippy producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3 {:compressor #object[taoensso.nippy.compression.LZMA2Compressor 0x70c29356 taoensso.nippy.compression.LZMA2Compressor@70c29356]}
 Creating pooled producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 3
 Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
 Creating connection.
@@ -3959,7 +3959,7 @@ Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.managemen
 Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
-Creating nippy producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo32332{:compressor32#object[taoensso.nippy.compression.SnappyCompressor 0xa2b54e3 taoensso.nippy.compression.SnappyCompressor@a2b54e3]}
+Creating nippy producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo32332{:compressor32#object[taoensso.nippy.compression.SnappyCompressor 0x19b5214b taoensso.nippy.compression.SnappyCompressor@19b5214b]}
 Creating pooled producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo323
 Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
 Creating connection.
@@ -4027,7 +4027,7 @@ Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.managemen
 Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
-Creating nippy producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo32332{:compressor32#object[taoensso.nippy.compression.LZ4Compressor 0x67328bcb taoensso.nippy.compression.LZ4Compressor@67328bcb]}
+Creating nippy producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo32332{:compressor32#object[taoensso.nippy.compression.LZ4Compressor 0x511da44f taoensso.nippy.compression.LZ4Compressor@511da44f]}
 Creating pooled producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo323
 Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
 Creating connection.
@@ -4189,7 +4189,7 @@ Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.managemen
 Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
-Creating nippy producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo32332{:compressor32#object[taoensso.nippy.compression.LZMA2Compressor 0x2bd8f7db taoensso.nippy.compression.LZMA2Compressor@2bd8f7db]}
+Creating nippy producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo32332{:compressor32#object[taoensso.nippy.compression.LZMA2Compressor 0x70c29356 taoensso.nippy.compression.LZMA2Compressor@70c29356]}
 Creating pooled producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo323
 Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
 Creating connection.
@@ -4309,7 +4309,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
               <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
 
-              <property name="bowerick.version" value="1.99.18">
+              <property name="bowerick.version" value="2.0.0">
         </property>
 
               <property name="java.vm.vendor" value="Oracle Corporation">
@@ -4384,7 +4384,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
               <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
 
-              <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+              <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
 
               <property name="user.name" value="rc">
@@ -4393,17 +4393,17 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </properties>
 
   </testsuite>
-  <testsuite errors="0" failures="0" id="8" name="mqtt" package="bowerick.test" tests="4" time="1.3514" timestamp="2017-09-06_21:11:38+0200">
-        <testcase classname="bowerick.test.mqtt" name="mqtt-string-test" time="0.6558">
+  <testsuite errors="0" failures="0" id="8" name="mqtt" package="bowerick.test" tests="4" time="1.1592" timestamp="2017-09-08_14:04:05+0200">
+        <testcase classname="bowerick.test.mqtt" name="mqtt-string-test" time="0.3773">
     </testcase>
 
-        <testcase classname="bowerick.test.mqtt" name="mqtt-ssl-to-stomp-string-test" time="0.3171">
+        <testcase classname="bowerick.test.mqtt" name="mqtt-ssl-to-stomp-string-test" time="0.3284">
     </testcase>
 
-        <testcase classname="bowerick.test.mqtt" name="mqtt-to-stomp-string-test" time="0.1045">
+        <testcase classname="bowerick.test.mqtt" name="mqtt-to-stomp-string-test" time="0.1095">
     </testcase>
 
-        <testcase classname="bowerick.test.mqtt" name="mqtt-to-openwire-string-test" time="0.0703">
+        <testcase classname="bowerick.test.mqtt" name="mqtt-to-openwire-string-test" time="0.0801">
     </testcase>
 
         <system-err>
@@ -4649,7 +4649,7 @@ Closing producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.repl
               <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
 
-              <property name="bowerick.version" value="1.99.18">
+              <property name="bowerick.version" value="2.0.0">
         </property>
 
               <property name="java.vm.vendor" value="Oracle Corporation">
@@ -4724,7 +4724,7 @@ Closing producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.repl
               <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
 
-              <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+              <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
 
               <property name="user.name" value="rc">
@@ -4733,11 +4733,11 @@ Closing producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.repl
         </properties>
 
   </testsuite>
-  <testsuite errors="0" failures="0" id="9" name="multi-connector-exchange" package="bowerick.test" tests="2" time="1.4806" timestamp="2017-09-06_21:11:42+0200">
-        <testcase classname="bowerick.test.multi-connector-exchange" name="test-string-exchange-json-producer-consumer" time="0.6820">
+  <testsuite errors="0" failures="0" id="9" name="multi-connector-exchange" package="bowerick.test" tests="2" time="1.5049" timestamp="2017-09-08_14:04:07+0200">
+        <testcase classname="bowerick.test.multi-connector-exchange" name="test-string-exchange-json-producer-consumer" time="0.6886">
     </testcase>
 
-        <testcase classname="bowerick.test.multi-connector-exchange" name="test-simple-data-structure-exchange-json-producer-consumer" time="0.6856">
+        <testcase classname="bowerick.test.multi-connector-exchange" name="test-simple-data-structure-exchange-json-producer-consumer" time="0.7237">
     </testcase>
 
         <system-err>
@@ -5218,7 +5218,7 @@ Closing producer:32tcp://127.0.0.1:5551132/topic/bowerick.broker.management.repl
               <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
 
-              <property name="bowerick.version" value="1.99.18">
+              <property name="bowerick.version" value="2.0.0">
         </property>
 
               <property name="java.vm.vendor" value="Oracle Corporation">
@@ -5293,7 +5293,7 @@ Closing producer:32tcp://127.0.0.1:5551132/topic/bowerick.broker.management.repl
               <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
 
-              <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+              <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
 
               <property name="user.name" value="rc">
@@ -5302,29 +5302,29 @@ Closing producer:32tcp://127.0.0.1:5551132/topic/bowerick.broker.management.repl
         </properties>
 
   </testsuite>
-  <testsuite errors="0" failures="0" id="10" name="multi-connector" package="bowerick.test" tests="8" time="2.4705" timestamp="2017-09-06_21:11:40+0200">
-        <testcase classname="bowerick.test.multi-connector" name="test-openwire-to-stomp-byte-array" time="0.1196">
+  <testsuite errors="0" failures="0" id="10" name="multi-connector" package="bowerick.test" tests="8" time="0.8601" timestamp="2017-09-08_14:04:06+0200">
+        <testcase classname="bowerick.test.multi-connector" name="test-openwire-to-stomp-byte-array" time="0.1239">
     </testcase>
 
-        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-openwire-nippy-complexer-data" time="1.6631">
+        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-openwire-nippy-complexer-data" time="0.1365">
     </testcase>
 
-        <testcase classname="bowerick.test.multi-connector" name="test-openwire-to-openwire" time="0.0894">
+        <testcase classname="bowerick.test.multi-connector" name="test-openwire-to-openwire" time="0.0760">
     </testcase>
 
-        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-openwire-nippy" time="0.0797">
+        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-openwire-nippy" time="0.0979">
     </testcase>
 
-        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-openwire" time="0.0867">
+        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-openwire" time="0.0852">
     </testcase>
 
-        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-openwire-byte-array" time="0.0852">
+        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-openwire-byte-array" time="0.0706">
     </testcase>
 
-        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-stomp" time="0.1594">
+        <testcase classname="bowerick.test.multi-connector" name="test-stomp-to-stomp" time="0.1318">
     </testcase>
 
-        <testcase classname="bowerick.test.multi-connector" name="test-openwire-to-stomp" time="0.1763">
+        <testcase classname="bowerick.test.multi-connector" name="test-openwire-to-stomp" time="0.1290">
     </testcase>
 
         <system-err>
@@ -5743,7 +5743,7 @@ Closing producer:32tcp://127.0.0.1:4411132/topic/bowerick.broker.management.repl
               <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
 
-              <property name="bowerick.version" value="1.99.18">
+              <property name="bowerick.version" value="2.0.0">
         </property>
 
               <property name="java.vm.vendor" value="Oracle Corporation">
@@ -5818,7 +5818,7 @@ Closing producer:32tcp://127.0.0.1:4411132/topic/bowerick.broker.management.repl
               <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
 
-              <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+              <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
 
               <property name="user.name" value="rc">
@@ -5827,17 +5827,17 @@ Closing producer:32tcp://127.0.0.1:4411132/topic/bowerick.broker.management.repl
         </properties>
 
   </testsuite>
-  <testsuite errors="0" failures="0" id="11" name="websocket" package="bowerick.test" tests="4" time="2.9419" timestamp="2017-09-06_21:11:45+0200">
-        <testcase classname="bowerick.test.websocket" name="websocket-ssl-to-stomp-string-test" time="1.3095">
+  <testsuite errors="0" failures="0" id="11" name="websocket" package="bowerick.test" tests="4" time="2.8763" timestamp="2017-09-08_14:04:10+0200">
+        <testcase classname="bowerick.test.websocket" name="websocket-ssl-to-stomp-string-test" time="1.3021">
     </testcase>
 
-        <testcase classname="bowerick.test.websocket" name="websocket-string-test" time="0.3694">
+        <testcase classname="bowerick.test.websocket" name="websocket-string-test" time="0.4365">
     </testcase>
 
-        <testcase classname="bowerick.test.websocket" name="websocket-to-openwire-string-test" time="0.1202">
+        <testcase classname="bowerick.test.websocket" name="websocket-to-openwire-string-test" time="0.1152">
     </testcase>
 
-        <testcase classname="bowerick.test.websocket" name="websocket-to-stomp-string-test" time="0.1469">
+        <testcase classname="bowerick.test.websocket" name="websocket-to-stomp-string-test" time="0.1306">
     </testcase>
 
         <system-err>
@@ -6076,7 +6076,7 @@ Closing producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.repl
               <property name="java.runtime.version" value="1.8.0_131-b11">
         </property>
 
-              <property name="bowerick.version" value="1.99.18">
+              <property name="bowerick.version" value="2.0.0">
         </property>
 
               <property name="java.vm.vendor" value="Oracle Corporation">
@@ -6151,7 +6151,7 @@ Closing producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.repl
               <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
         </property>
 
-              <property name="sun.java.command" value="clojure.main -i /tmp/form-init3792511661067481773.clj">
+              <property name="sun.java.command" value="clojure.main -i /tmp/form-init8373183234066649108.clj">
         </property>
 
               <property name="user.name" value="rc">
