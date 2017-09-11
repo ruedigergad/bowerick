@@ -434,16 +434,20 @@
                       (utils/println-err "Could not create destination. Type:" destination-type# "Name:" destination-name#))]
      ~@body))
 
-(defrecord ProducerWrapper [send-fn close-fn]
+(defrecord ProducerWrapper [send-fn send-fn-opt-args close-fn]
   AutoCloseable
     (close [this]
       (close-fn))
   JmsProducer
     (sendData [this data]
       (send-fn data))
+    (sendData [this data opt-args]
+      (send-fn-opt-args data opt-args))
   IFn
     (invoke [this data]
-      (send-fn data)))
+      (send-fn data))
+    (invoke [this data opt-args]
+      (send-fn data opt-args)))
 
 (defn create-single-producer
   "Create a message producer for sending data to the specified destination and server/broker.
@@ -468,15 +472,20 @@
       (.startsWith
         broker-url
         "ws") (let [session-map (create-ws-stomp-session broker-url)
-                    session ^StompSession (:session session-map)]
+                    session ^StompSession (:session session-map)
+                    send-fn (fn [data]
+                              (let [serialized-data (serialization-fn data)
+                                    byte-array-data (fallback-serialization serialized-data)
+                                    stomp-headers (doto
+                                                    (StompHeaders.)
+                                                    (.setDestination ^String destination-description))]
+                                (.send session stomp-headers byte-array-data)))
+                    send-fn-opt-args (fn [data _]
+                                       (utils/println-err "Sending with opt-args is not supported for ws://. Ignoring opt-args.")
+                                       (send-fn data))]
                 (->ProducerWrapper
-                  (fn [data]
-                    (let [serialized-data (serialization-fn data)
-                          byte-array-data (fallback-serialization serialized-data)
-                          stomp-headers (doto
-                                          (StompHeaders.)
-                                          (.setDestination ^String destination-description))]
-                      (.send session stomp-headers byte-array-data)))
+                  send-fn
+                  send-fn-opt-args
                   (fn []
                     (utils/println-err "Closing producer:" broker-url destination-description)
                     (close-ws-stomp-session session-map))))
@@ -486,38 +495,46 @@
                       dst-descrpt (->
                                     destination-description
                                     (.replaceFirst "(/)(topic|queue)(/)" "")
-                                    (.replace "." "/"))]
+                                    (.replace "." "/"))
+                      send-fn (fn [data]
+                                (.publish
+                                  mqtt-client
+                                  dst-descrpt
+                                  (MqttMessage.
+                                    ^bytes (-> data (serialization-fn) (fallback-serialization)))))
+                      send-fn-opt-args (fn [data _]
+                                         (utils/println-err "Sending with opt-args is not supported for mqtt://. Ignoring opt-args.")
+                                         (send-fn data))]
                   (->ProducerWrapper
-                    (fn [data]
-                      (.publish
-                        mqtt-client
-                        dst-descrpt
-                        (MqttMessage.
-                          ^bytes (-> data (serialization-fn) (fallback-serialization)))))
+                    send-fn
+                    send-fn-opt-args
                     (fn []
                       (utils/println-err "Closing producer:" broker-url destination-description)
                       (.disconnect mqtt-client))))
       :default (with-destination broker-url destination-description
                  (let [producer (doto
                                   (.createProducer session destination)
-                                  (.setDeliveryMode DeliveryMode/NON_PERSISTENT))]
+                                  (.setDeliveryMode DeliveryMode/NON_PERSISTENT))
+                       create-msg (fn [serialized-data]
+                                    (condp instance? serialized-data
+                                      utils/byte-array-type (doto
+                                                              (.createBytesMessage session)
+                                                              (.writeBytes ^bytes serialized-data))
+                                      java.lang.String (doto
+                                                         (.createTextMessage session ^String serialized-data)
+                                                         (.setStringProperty "transformation" "TEXT"))
+                                      (.createObjectMessage session serialized-data)))
+                       send-fn (fn [data]
+                                 (let [serialized-data (serialization-fn data)
+                                       ^Message msg (create-msg serialized-data)]
+                                   (.send producer msg)))
+                       send-fn-opt-args (fn [data opt-args]
+                                          (let [serialized-data (serialization-fn data)
+                                                ^Message msg (create-msg serialized-data)]
+                                            (.send producer msg)))]
                    (->ProducerWrapper
-                     (fn [data]
-                       (let [serialized-data (serialization-fn data)]
-                         (condp instance? serialized-data
-                           utils/byte-array-type (.send
-                                             producer
-                                             (doto
-                                               (.createBytesMessage session)
-                                               (.writeBytes ^bytes serialized-data)))
-                           java.lang.String (.send
-                                              producer
-                                              (doto
-                                                (.createTextMessage session ^String serialized-data)
-                                                (.setStringProperty "transformation" "TEXT")))
-                           (.send
-                             producer
-                             (.createObjectMessage session serialized-data)))))
+                     send-fn
+                     send-fn-opt-args
                      (fn []
                        (utils/println-err "Closing producer:" broker-url destination-description)
                        (.close connection))))))))
@@ -625,10 +642,15 @@
     (let [producer (create-single-producer broker-url destination-description serialization-fn)
           pool (ArrayList. pool-size)]
       (->ProducerWrapper
-        (fn [o]
-          (.add pool o)
+        (fn [data]
+          (.add pool data)
           (when (>= (.size pool) pool-size)
             (producer pool)
+            (.clear pool)))
+        (fn [data opt-args]
+          (.add pool data)
+          (when (>= (.size pool) pool-size)
+            (producer pool opt-args)
             (.clear pool)))
         (fn []
           (utils/println-err "Closing pooled producer.")

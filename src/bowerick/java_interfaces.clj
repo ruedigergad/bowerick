@@ -19,5 +19,6 @@
 (gen-interface
   :name bowerick.JmsProducer
   :extends [AutoCloseable]
-  :methods [[sendData [Object] void]])
+  :methods [[sendData [Object] void]
+            [sendData [Object Object] void]])
 
