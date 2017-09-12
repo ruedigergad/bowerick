@@ -28,7 +28,7 @@
 
 (deftest get-ws-stomp-headers-test
   (let [broker (start-broker [local-ws])
-        producer (create-producer local-ws test-topic)
+        producer (create-json-producer local-ws test-topic)
         received-data (atom nil)
         received-headers (atom nil)
         flag (prepare-flag)
@@ -36,13 +36,36 @@
                      (reset! received-data data)
                      (reset! received-headers hdrs)
                      (set-flag flag))
-        consumer (create-consumer local-ws test-topic consume-fn)]
+        consumer (create-failsafe-json-consumer local-ws test-topic consume-fn)]
     (producer "test-string")
     (await-flag flag)
-    (is (= "test-string" (String. @received-data)))
+    (is (= "test-string" @received-data))
+    (is (instance? org.springframework.messaging.simp.stomp.StompHeaders @received-headers))
     (is (= test-topic (.getDestination @received-headers)))
-    (is (= 11 (.getContentLength @received-headers)))
+    (is (= 13 (.getContentLength @received-headers)))
     (println "RECEIVED HEADERS:" (str @received-headers))
+    (close producer)
+    (close consumer)
+    (stop broker)))
+
+(deftest get-mqtt-message-test
+  (let [broker (start-broker [local-mqtt])
+        producer (create-json-producer local-mqtt test-topic)
+        received-data (atom nil)
+        received-msg (atom nil)
+        flag (prepare-flag)
+        consume-fn (fn [data msg]
+                     (reset! received-data data)
+                     (reset! received-msg msg)
+                     (set-flag flag))
+        consumer (create-failsafe-json-consumer local-mqtt test-topic consume-fn)]
+    (producer "test-string")
+    (await-flag flag)
+    (is (= "test-string" @received-data))
+    (is (instance? org.eclipse.paho.client.mqttv3.MqttMessage @received-msg))
+    (is (= 1 (.getQos @received-msg)))
+    (is (= 1 (.getId @received-msg)))
+    (is (= "\"test-string\"" (String. (.getPayload @received-msg))))
     (close producer)
     (close consumer)
     (stop broker)))
