@@ -560,18 +560,18 @@
     (create-single-consumer broker-url destination-description cb identity))
   ([^String broker-url ^String destination-description cb de-serialization-fn]
     (utils/println-err "Creating consumer:" broker-url destination-description)
-    (let [cb-args-count (-> cb class .getDeclaredMethods first .getParameterTypes count)]
+    (let [cb-args-count (-> cb class .getDeclaredMethods first .getParameterTypes count)
+          internal-cb (condp = cb-args-count
+                        1 (fn [data _]
+                            (cb data))
+                        2 (fn [data hdrs]
+                            (cb data hdrs))
+                        (utils/println-err "Invalid callback args count:" cb-args-count))]
       (utils/println-err "Consumer callback args count:" cb-args-count)
       (cond
         (.startsWith
           broker-url
-          "ws") (let [session-map (create-ws-stomp-session broker-url)
-                      handle-fn (condp = cb-args-count
-                                  1 (fn [data _]
-                                      (cb data))
-                                  2 (fn [data hdrs]
-                                      (cb data hdrs))
-                                  (utils/println-err "Invalid callback args count:" cb-args-count))]
+          "ws") (let [session-map (create-ws-stomp-session broker-url)]
                   (.subscribe
                     (:session session-map)
                     destination-description
@@ -579,7 +579,7 @@
                       (getPayloadType [^StompHeaders stomp-headers]
                         java.lang.Object)
                       (handleFrame [^StompHeaders stomp-headers payload]
-                        (handle-fn (de-serialization-fn payload) stomp-headers))))
+                        (internal-cb (de-serialization-fn payload) stomp-headers))))
                   (->ConsumerWrapper
                     (fn []
                       (utils/println-err "Closing consumer:" broker-url destination-description)
@@ -590,13 +590,7 @@
                         dst-descrpt (->
                                       destination-description
                                       (.replaceFirst "(/)(topic|queue)(/)" "")
-                                      (.replace "." "/"))
-                        msg-arrived-fn (condp = cb-args-count
-                                         1 (fn [data _]
-                                             (cb data))
-                                         2 (fn [data msg]
-                                             (cb data msg))
-                                         (utils/println-err "Invalid callback args count:" cb-args-count))]
+                                      (.replace "." "/"))]
                     (.setCallback
                       mqtt-client
                       (proxy [MqttCallback] []
@@ -605,30 +599,24 @@
                         (deliveryComplete [token]
                           (utils/println-err "Delivery complete (" broker-url dst-descrpt "):" token))
                         (messageArrived [^String topic ^MqttMessage message]
-                          (msg-arrived-fn (de-serialization-fn (.getPayload message)) message))))
+                          (internal-cb (de-serialization-fn (.getPayload message)) message))))
                     (.subscribe mqtt-client dst-descrpt)
                     (->ConsumerWrapper
                       (fn []
                         (utils/println-err "Closing consumer:" broker-url destination-description)
                         (.disconnect mqtt-client))))
         :default (with-destination broker-url destination-description
-                   (let [on-msg-cb (condp = cb-args-count
-                                     1 (fn [data _]
-                                         (cb data))
-                                     2 (fn [data msg]
-                                         (cb data msg))
-                                     (utils/println-err "Invalid callback args count:" cb-args-count))
-                         listener (proxy [MessageListener] []
+                   (let [listener (proxy [MessageListener] []
                                     (onMessage [^Message m]
                                       (condp instance? m
                                         BytesMessage (let [data (byte-array (.getBodyLength ^BytesMessage m))]
                                                        (.readBytes ^BytesMessage m data)
-                                                       (on-msg-cb (de-serialization-fn data) m))
+                                                       (internal-cb (de-serialization-fn data) m))
                                         ObjectMessage  (try
-                                                         (on-msg-cb (de-serialization-fn (.getObject ^ObjectMessage m)) m)
+                                                         (internal-cb (de-serialization-fn (.getObject ^ObjectMessage m)) m)
                                                          (catch javax.jms.JMSException e
                                                            (utils/println-err e)))
-                                        TextMessage (on-msg-cb (de-serialization-fn (.getText ^TextMessage m)) m)
+                                        TextMessage (internal-cb (de-serialization-fn (.getText ^TextMessage m)) m)
                                         (utils/println-err "Unknown message type (" broker-url destination-description "):" (type m)))))
                          consumer (doto
                                     (.createConsumer session destination)
