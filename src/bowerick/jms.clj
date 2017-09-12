@@ -62,6 +62,8 @@
 (def ^:dynamic *ws-client-ping-heartbeat* 10000)
 (def ^:dynamic *ws-client-pong-heartbeat* 10000)
 
+(def msg-prop-key :message-properties)
+
 ; See also: http://activemq.apache.org/objectmessage.html
 (def ^:dynamic *serializable-packages*
   '("clojure.lang"
@@ -447,7 +449,7 @@
     (invoke [this data]
       (send-fn data))
     (invoke [this data opt-args]
-      (send-fn data opt-args)))
+      (send-fn-opt-args data opt-args)))
 
 (defn create-single-producer
   "Create a message producer for sending data to the specified destination and server/broker.
@@ -530,7 +532,19 @@
                                    (.send producer msg)))
                        send-fn-opt-args (fn [data opt-args]
                                           (let [serialized-data (serialization-fn data)
-                                                ^Message msg (create-msg serialized-data)]
+                                                ^Message msg (create-msg serialized-data)
+                                                msg-properties (msg-prop-key opt-args)]
+                                            (doseq [[^String k v] msg-properties]
+                                              (condp instance? v
+                                                Boolean (.setBooleanProperty msg k v)
+                                                Byte (.setByteProperty msg k v)
+                                                Double (.setDoubleProperty msg k v)
+                                                Float (.setFloatProperty msg k v)
+                                                Integer (.setIntProperty msg k v)
+                                                Long (.setLongProperty msg k v)
+                                                Short (.setShortProperty msg k v)
+                                                String (.setStringProperty msg k v)
+                                                (.setObjectProperty msg k v)))
                                             (.send producer msg)))]
                    (->ProducerWrapper
                      send-fn
