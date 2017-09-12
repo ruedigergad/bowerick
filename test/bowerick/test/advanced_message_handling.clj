@@ -143,3 +143,36 @@
     (close consumer)
     (stop broker)))
 
+(deftest stomp-custom-message-properties-test
+  (let [broker (start-broker [local-stomp])
+        producer (create-json-producer local-stomp test-topic)
+        received-data (atom nil)
+        received-msg (atom nil)
+        flag (prepare-flag)
+        message-properties {"Some Boolean" false
+                            "Some Byte" (byte 21)
+                            "Some Double" 1.864
+                            "Some Float" (float 1.864)
+                            "Some Integer" (int 1864)
+                            "Some Long" 1864
+                            "Some Short" (short 1864)
+                            "Some String" "Reliant"}
+        consume-fn (fn [data msg]
+                     (reset! received-data data)
+                     (reset! received-msg msg)
+                     (set-flag flag))
+        consumer (create-failsafe-json-consumer local-stomp test-topic consume-fn)]
+    (producer "test-string" {msg-prop-key message-properties})
+    (await-flag flag)
+    (is (not (.getBooleanProperty @received-msg "Some Boolean")))
+    (is (= (byte 21) (.getByteProperty @received-msg "Some Byte")))
+    (is (= 1.864 (.getDoubleProperty @received-msg "Some Double")))
+    (is (= (float 1.864) (.getFloatProperty @received-msg "Some Float")))
+    (is (= (int 1864) (.getIntProperty @received-msg "Some Integer")))
+    (is (= 1864 (.getLongProperty @received-msg "Some Long")))
+    (is (= (short 1864) (.getShortProperty @received-msg "Some Short")))
+    (is (= "Reliant" (.getStringProperty @received-msg "Some String")))
+    (close producer)
+    (close consumer)
+    (stop broker)))
+
