@@ -1,187 +1,283 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bowerick.test.mqtt" errors="0" failures="0" tests="4" time="0.4600" timestamp="2017-09-12_18:19:05+0200">
-    <testcase name="mqtt-string-test" classname="bowerick.test.mqtt" time="0.0784">
+<testsuite name="bowerick.test.advanced-message-handling" errors="0" failures="0" tests="6" time="1.7103" timestamp="2017-09-12_18:18:53+0200">
+    <testcase name="openwire-custom-message-properties-test" classname="bowerick.test.advanced-message-handling" time="0.4766">
     </testcase>
-    <testcase name="mqtt-ssl-to-stomp-string-test" classname="bowerick.test.mqtt" time="0.1804">
+    <testcase name="stomp-custom-message-properties-test" classname="bowerick.test.advanced-message-handling" time="0.3005">
     </testcase>
-    <testcase name="mqtt-to-stomp-string-test" classname="bowerick.test.mqtt" time="0.0641">
+    <testcase name="get-openwire-message-test" classname="bowerick.test.advanced-message-handling" time="0.0902">
     </testcase>
-    <testcase name="mqtt-to-openwire-string-test" classname="bowerick.test.mqtt" time="0.0145">
+    <testcase name="get-stomp-message-test" classname="bowerick.test.advanced-message-handling" time="0.1053">
+    </testcase>
+    <testcase name="get-ws-stomp-headers-test" classname="bowerick.test.advanced-message-handling" time="0.5473">
+    </testcase>
+    <testcase name="get-mqtt-message-test" classname="bowerick.test.advanced-message-handling" time="0.1834">
     </testcase>
     <system-err>
-Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
 Info: Enabling management producer at: /topic/bowerick.broker.management.reply
-Creating JSON producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply 1
-Creating producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:33111 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:33111 /topic/bowerick.broker.management.reply
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.reply
 Info: Enabling management consumer at: /topic/bowerick.broker.management.command
-Creating JSON consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command 1
-Creating consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:33111 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:33111 /topic/bowerick.broker.management.command
 Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
-Creating producer: mqtt://127.0.0.1:1883 /topic/testtopic.foo
-Creating consumer: mqtt://127.0.0.1:1883 /topic/testtopic.foo
-Consumer callback args count: 1
-Closing producer: mqtt://127.0.0.1:1883 /topic/testtopic.foo
-Closing consumer: mqtt://127.0.0.1:1883 /topic/testtopic.foo
-Closing consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command
-Closing producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply
-Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
-Info: Enabling management producer at: /topic/bowerick.broker.management.reply
-Creating JSON producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply 1
-Creating producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply
-Creating connection.
-Creating destination. Type: topic Name: bowerick.broker.management.reply
-Info: Enabling management consumer at: /topic/bowerick.broker.management.command
-Creating JSON consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command 1
-Creating consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command
-Consumer callback args count: 1
-Creating connection.
-Creating destination. Type: topic Name: bowerick.broker.management.command
-Creating producer: mqtt+ssl://127.0.0.1:1884?needClientAuth=true /topic/testtopic.foo
-Setting socket factory for SSL connection, trust store: test/ssl/client.ts ; key store: test/ssl/client.ks
-Creating consumer: stomp://127.0.0.1:42424 /topic/testtopic.foo
-Consumer callback args count: 1
+Creating JSON producer: tcp://127.0.0.1:33111 /topic/testtopic.foo 1
+Creating producer: tcp://127.0.0.1:33111 /topic/testtopic.foo
 Creating connection.
 Creating destination. Type: topic Name: testtopic.foo
-Closing producer: mqtt+ssl://127.0.0.1:1884?needClientAuth=true /topic/testtopic.foo
-Closing consumer: stomp://127.0.0.1:42424 /topic/testtopic.foo
-Closing consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command
-Closing producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply
-Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Creating failsafe JSON consumer: tcp://127.0.0.1:33111 /topic/testtopic.foo 1
+Creating consumer: tcp://127.0.0.1:33111 /topic/testtopic.foo
+Consumer callback args count: 2
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: tcp://127.0.0.1:33111 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:33111 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:33111 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:33111 /topic/bowerick.broker.management.reply
 Info: Enabling management producer at: /topic/bowerick.broker.management.reply
-Creating JSON producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply 1
-Creating producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Creating JSON producer: stomp://127.0.0.1:33222 /topic/bowerick.broker.management.reply 1
+Creating producer: stomp://127.0.0.1:33222 /topic/bowerick.broker.management.reply
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.reply
 Info: Enabling management consumer at: /topic/bowerick.broker.management.command
-Creating JSON consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command 1
-Creating consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Creating JSON consumer: stomp://127.0.0.1:33222 /topic/bowerick.broker.management.command 1
+Creating consumer: stomp://127.0.0.1:33222 /topic/bowerick.broker.management.command
 Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
-Creating producer: mqtt://127.0.0.1:1883 /topic/testtopic.foo
-Creating consumer: stomp://127.0.0.1:42424 /topic/testtopic.foo
-Consumer callback args count: 1
+Creating JSON producer: stomp://127.0.0.1:33222 /topic/testtopic.foo 1
+Creating producer: stomp://127.0.0.1:33222 /topic/testtopic.foo
 Creating connection.
 Creating destination. Type: topic Name: testtopic.foo
-Closing producer: mqtt://127.0.0.1:1883 /topic/testtopic.foo
-Closing consumer: stomp://127.0.0.1:42424 /topic/testtopic.foo
-Closing consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command
-Closing producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply
-Setting broker SSLContext to use key store file: test/ssl/broker.ks and trust store file: test/ssl/broker.ts
+Creating failsafe JSON consumer: stomp://127.0.0.1:33222 /topic/testtopic.foo 1
+Creating consumer: stomp://127.0.0.1:33222 /topic/testtopic.foo
+Consumer callback args count: 2
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: stomp://127.0.0.1:33222 /topic/testtopic.foo
+Closing consumer: stomp://127.0.0.1:33222 /topic/testtopic.foo
+Closing consumer: stomp://127.0.0.1:33222 /topic/bowerick.broker.management.command
+Closing producer: stomp://127.0.0.1:33222 /topic/bowerick.broker.management.reply
 Info: Enabling management producer at: /topic/bowerick.broker.management.reply
-Creating JSON producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply 1
-Creating producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:33111 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:33111 /topic/bowerick.broker.management.reply
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.reply
 Info: Enabling management consumer at: /topic/bowerick.broker.management.command
-Creating JSON consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command 1
-Creating consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:33111 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:33111 /topic/bowerick.broker.management.command
 Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
-Creating producer: mqtt://127.0.0.1:1883 /topic/testtopic.foo
-Creating consumer: tcp://127.0.0.1:42423 /topic/testtopic.foo
-Consumer callback args count: 1
+Creating JSON producer: tcp://127.0.0.1:33111 /topic/testtopic.foo 1
+Creating producer: tcp://127.0.0.1:33111 /topic/testtopic.foo
 Creating connection.
 Creating destination. Type: topic Name: testtopic.foo
-Closing producer: mqtt://127.0.0.1:1883 /topic/testtopic.foo
-Closing consumer: tcp://127.0.0.1:42423 /topic/testtopic.foo
-Closing consumer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.command
-Closing producer: tcp://127.0.0.1:42423 /topic/bowerick.broker.management.reply
+Creating failsafe JSON consumer: tcp://127.0.0.1:33111 /topic/testtopic.foo 1
+Creating consumer: tcp://127.0.0.1:33111 /topic/testtopic.foo
+Consumer callback args count: 2
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: tcp://127.0.0.1:33111 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:33111 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:33111 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:33111 /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: stomp://127.0.0.1:33222 /topic/bowerick.broker.management.reply 1
+Creating producer: stomp://127.0.0.1:33222 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: stomp://127.0.0.1:33222 /topic/bowerick.broker.management.command 1
+Creating consumer: stomp://127.0.0.1:33222 /topic/bowerick.broker.management.command
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating JSON producer: stomp://127.0.0.1:33222 /topic/testtopic.foo 1
+Creating producer: stomp://127.0.0.1:33222 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating failsafe JSON consumer: stomp://127.0.0.1:33222 /topic/testtopic.foo 1
+Creating consumer: stomp://127.0.0.1:33222 /topic/testtopic.foo
+Consumer callback args count: 2
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: stomp://127.0.0.1:33222 /topic/testtopic.foo
+Closing consumer: stomp://127.0.0.1:33222 /topic/testtopic.foo
+Closing consumer: stomp://127.0.0.1:33222 /topic/bowerick.broker.management.command
+Closing producer: stomp://127.0.0.1:33222 /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: ws://127.0.0.1:33333 /topic/bowerick.broker.management.reply 1
+Creating producer: ws://127.0.0.1:33333 /topic/bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: ws://127.0.0.1:33333 /topic/bowerick.broker.management.command 1
+Creating consumer: ws://127.0.0.1:33333 /topic/bowerick.broker.management.command
+Consumer callback args count: 1
+Creating JSON producer: ws://127.0.0.1:33333 /topic/testtopic.foo 1
+Creating producer: ws://127.0.0.1:33333 /topic/testtopic.foo
+Creating failsafe JSON consumer: ws://127.0.0.1:33333 /topic/testtopic.foo 1
+Creating consumer: ws://127.0.0.1:33333 /topic/testtopic.foo
+Consumer callback args count: 2
+Closing producer: ws://127.0.0.1:33333 /topic/testtopic.foo
+Closing consumer: ws://127.0.0.1:33333 /topic/testtopic.foo
+Closing consumer: ws://127.0.0.1:33333 /topic/bowerick.broker.management.command
+Closing producer: ws://127.0.0.1:33333 /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: mqtt://127.0.0.1:33333 /topic/bowerick.broker.management.reply 1
+Creating producer: mqtt://127.0.0.1:33333 /topic/bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: mqtt://127.0.0.1:33333 /topic/bowerick.broker.management.command 1
+Creating consumer: mqtt://127.0.0.1:33333 /topic/bowerick.broker.management.command
+Consumer callback args count: 1
+Creating JSON producer: mqtt://127.0.0.1:33333 /topic/testtopic.foo 1
+Creating producer: mqtt://127.0.0.1:33333 /topic/testtopic.foo
+Creating failsafe JSON consumer: mqtt://127.0.0.1:33333 /topic/testtopic.foo 1
+Creating consumer: mqtt://127.0.0.1:33333 /topic/testtopic.foo
+Consumer callback args count: 2
+Closing producer: mqtt://127.0.0.1:33333 /topic/testtopic.foo
+Closing consumer: mqtt://127.0.0.1:33333 /topic/testtopic.foo
+Closing consumer: mqtt://127.0.0.1:33333 /topic/bowerick.broker.management.command
+Closing producer: mqtt://127.0.0.1:33333 /topic/bowerick.broker.management.reply
     </system-err>
     <system-out>
-Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
 Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
-Creating JSON producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.reply321
-Creating producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.reply
+Creating JSON producer:32tcp://127.0.0.1:3311132/topic/bowerick.broker.management.reply321
+Creating producer:32tcp://127.0.0.1:3311132/topic/bowerick.broker.management.reply
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
 Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
-Creating JSON consumer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.command321
-Creating consumer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.command
+Creating JSON consumer:32tcp://127.0.0.1:3311132/topic/bowerick.broker.management.command321
+Creating consumer:32tcp://127.0.0.1:3311132/topic/bowerick.broker.management.command
 Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
-Creating producer:32mqtt://127.0.0.1:188332/topic/testtopic.foo
-Adjusted MQTT URL from32mqtt://127.0.0.1:188332to32tcp://127.0.0.1:1883
-Creating consumer:32mqtt://127.0.0.1:188332/topic/testtopic.foo
-Consumer callback args count:321
-Adjusted MQTT URL from32mqtt://127.0.0.1:188332to32tcp://127.0.0.1:1883
-Closing producer:32mqtt://127.0.0.1:188332/topic/testtopic.foo
-Closing consumer:32mqtt://127.0.0.1:188332/topic/testtopic.foo
-Closing consumer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.command
-Closing producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.reply
-Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
-Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
-Creating JSON producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.reply321
-Creating producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.reply
-Creating connection.
-Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
-Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
-Creating JSON consumer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.command321
-Creating consumer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.command
-Consumer callback args count:321
-Creating connection.
-Creating destination. Type:32topic32Name:32bowerick.broker.management.command
-Creating producer:32mqtt+ssl://127.0.0.1:1884?needClientAuth=true32/topic/testtopic.foo
-Adjusted MQTT URL from32mqtt+ssl://127.0.0.1:1884?needClientAuth=true32to32ssl://127.0.0.1:1884
-Setting socket factory for SSL connection, trust store:32test/ssl/client.ts32; key store:32test/ssl/client.ks
-Creating consumer:32stomp://127.0.0.1:4242432/topic/testtopic.foo
-Consumer callback args count:321
+Creating JSON producer:32tcp://127.0.0.1:3311132/topic/testtopic.foo321
+Creating producer:32tcp://127.0.0.1:3311132/topic/testtopic.foo
 Creating connection.
 Creating destination. Type:32topic32Name:32testtopic.foo
-Closing producer:32mqtt+ssl://127.0.0.1:1884?needClientAuth=true32/topic/testtopic.foo
-Closing consumer:32stomp://127.0.0.1:4242432/topic/testtopic.foo
-Closing consumer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.command
-Closing producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.reply
-Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Creating failsafe JSON consumer:32tcp://127.0.0.1:3311132/topic/testtopic.foo321
+Creating consumer:32tcp://127.0.0.1:3311132/topic/testtopic.foo
+Consumer callback args count:322
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32tcp://127.0.0.1:3311132/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:3311132/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:3311132/topic/bowerick.broker.management.command
+Closing producer:32tcp://127.0.0.1:3311132/topic/bowerick.broker.management.reply
 Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
-Creating JSON producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.reply321
-Creating producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.reply
+Creating JSON producer:32stomp://127.0.0.1:3322232/topic/bowerick.broker.management.reply321
+Creating producer:32stomp://127.0.0.1:3322232/topic/bowerick.broker.management.reply
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
 Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
-Creating JSON consumer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.command321
-Creating consumer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.command
+Creating JSON consumer:32stomp://127.0.0.1:3322232/topic/bowerick.broker.management.command321
+Creating consumer:32stomp://127.0.0.1:3322232/topic/bowerick.broker.management.command
 Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
-Creating producer:32mqtt://127.0.0.1:188332/topic/testtopic.foo
-Adjusted MQTT URL from32mqtt://127.0.0.1:188332to32tcp://127.0.0.1:1883
-Creating consumer:32stomp://127.0.0.1:4242432/topic/testtopic.foo
-Consumer callback args count:321
+Creating JSON producer:32stomp://127.0.0.1:3322232/topic/testtopic.foo321
+Creating producer:32stomp://127.0.0.1:3322232/topic/testtopic.foo
 Creating connection.
 Creating destination. Type:32topic32Name:32testtopic.foo
-Closing producer:32mqtt://127.0.0.1:188332/topic/testtopic.foo
-Closing consumer:32stomp://127.0.0.1:4242432/topic/testtopic.foo
-Closing consumer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.command
-Closing producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.reply
-Setting broker SSLContext to use key store file:32test/ssl/broker.ks32and trust store file:32test/ssl/broker.ts
+Creating failsafe JSON consumer:32stomp://127.0.0.1:3322232/topic/testtopic.foo321
+Creating consumer:32stomp://127.0.0.1:3322232/topic/testtopic.foo
+Consumer callback args count:322
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32stomp://127.0.0.1:3322232/topic/testtopic.foo
+Closing consumer:32stomp://127.0.0.1:3322232/topic/testtopic.foo
+Closing consumer:32stomp://127.0.0.1:3322232/topic/bowerick.broker.management.command
+Closing producer:32stomp://127.0.0.1:3322232/topic/bowerick.broker.management.reply
 Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
-Creating JSON producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.reply321
-Creating producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.reply
+Creating JSON producer:32tcp://127.0.0.1:3311132/topic/bowerick.broker.management.reply321
+Creating producer:32tcp://127.0.0.1:3311132/topic/bowerick.broker.management.reply
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
 Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
-Creating JSON consumer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.command321
-Creating consumer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.command
+Creating JSON consumer:32tcp://127.0.0.1:3311132/topic/bowerick.broker.management.command321
+Creating consumer:32tcp://127.0.0.1:3311132/topic/bowerick.broker.management.command
 Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
-Creating producer:32mqtt://127.0.0.1:188332/topic/testtopic.foo
-Adjusted MQTT URL from32mqtt://127.0.0.1:188332to32tcp://127.0.0.1:1883
-Creating consumer:32tcp://127.0.0.1:4242332/topic/testtopic.foo
-Consumer callback args count:321
+Creating JSON producer:32tcp://127.0.0.1:3311132/topic/testtopic.foo321
+Creating producer:32tcp://127.0.0.1:3311132/topic/testtopic.foo
 Creating connection.
 Creating destination. Type:32topic32Name:32testtopic.foo
-Closing producer:32mqtt://127.0.0.1:188332/topic/testtopic.foo
-Closing consumer:32tcp://127.0.0.1:4242332/topic/testtopic.foo
-Closing consumer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.command
-Closing producer:32tcp://127.0.0.1:4242332/topic/bowerick.broker.management.reply
+Creating failsafe JSON consumer:32tcp://127.0.0.1:3311132/topic/testtopic.foo321
+Creating consumer:32tcp://127.0.0.1:3311132/topic/testtopic.foo
+Consumer callback args count:322
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+RECEIVED MESSAGE (OPENWIRE):32ActiveMQBytesMessage {commandId = 5, responseRequired = false, messageId = ID:localhost.localdomain-35161-1505233132214-23:1:1:1:1, originalDestination = null, originalTransactionId = null, producerId = ID:localhost.localdomain-35161-1505233132214-23:1:1:1, destination = topic://testtopic.foo, transactionId = null, expiration = 0, timestamp = 1505233133016, arrival = 0, brokerInTime = 1505233133017, brokerOutTime = 1505233133017, correlationId = null, replyTo = null, persistent = false, type = null, priority = 4, groupID = null, groupSequence = 0, targetConsumerId = null, compressed = false, userID = null, content = org.apache.activemq.util.ByteSequence@1b52699c, marshalledProperties = null, dataStructure = null, redeliveryCounter = 0, size = 0, properties = null, readOnlyProperties = true, readOnlyBody = true, droppable = false, jmsXGroupFirstForConsumer = false} ActiveMQBytesMessage{ bytesOut = null, dataOut = null, dataIn = java.io.DataInputStream@dbed7fd }
+Closing producer:32tcp://127.0.0.1:3311132/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:3311132/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:3311132/topic/bowerick.broker.management.command
+Closing producer:32tcp://127.0.0.1:3311132/topic/bowerick.broker.management.reply
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32stomp://127.0.0.1:3322232/topic/bowerick.broker.management.reply321
+Creating producer:32stomp://127.0.0.1:3322232/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32stomp://127.0.0.1:3322232/topic/bowerick.broker.management.command321
+Creating consumer:32stomp://127.0.0.1:3322232/topic/bowerick.broker.management.command
+Consumer callback args count:321
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Creating JSON producer:32stomp://127.0.0.1:3322232/topic/testtopic.foo321
+Creating producer:32stomp://127.0.0.1:3322232/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating failsafe JSON consumer:32stomp://127.0.0.1:3322232/topic/testtopic.foo321
+Creating consumer:32stomp://127.0.0.1:3322232/topic/testtopic.foo
+Consumer callback args count:322
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+RECEIVED MESSAGE (STOMP):32org.fusesource.stomp.jms.message.StompJmsBytesMessage@436744dd StompJmsBytesMessage{ bytesOut = null, dataIn = java.io.DataInputStream@291a4791 }
+Closing producer:32stomp://127.0.0.1:3322232/topic/testtopic.foo
+Closing consumer:32stomp://127.0.0.1:3322232/topic/testtopic.foo
+Closing consumer:32stomp://127.0.0.1:3322232/topic/bowerick.broker.management.command
+Closing producer:32stomp://127.0.0.1:3322232/topic/bowerick.broker.management.reply
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32ws://127.0.0.1:3333332/topic/bowerick.broker.management.reply321
+Creating producer:32ws://127.0.0.1:3333332/topic/bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32ws://127.0.0.1:3333332/topic/bowerick.broker.management.command321
+Creating consumer:32ws://127.0.0.1:3333332/topic/bowerick.broker.management.command
+Consumer callback args count:321
+Creating JSON producer:32ws://127.0.0.1:3333332/topic/testtopic.foo321
+Creating producer:32ws://127.0.0.1:3333332/topic/testtopic.foo
+Creating failsafe JSON consumer:32ws://127.0.0.1:3333332/topic/testtopic.foo321
+Creating consumer:32ws://127.0.0.1:3333332/topic/testtopic.foo
+Consumer callback args count:322
+RECEIVED HEADERS (WS/STOMP):32{content-length=[13], expires=[0], destination=[/topic/testtopic.foo], subscription=[0], priority=[4], message-id=[ID:localhost.localdomain-35161-1505233132214-12:11:-1:1:1], timestamp=[1505233133650]}
+Closing producer:32ws://127.0.0.1:3333332/topic/testtopic.foo
+Closing consumer:32ws://127.0.0.1:3333332/topic/testtopic.foo
+Closing consumer:32ws://127.0.0.1:3333332/topic/bowerick.broker.management.command
+Closing producer:32ws://127.0.0.1:3333332/topic/bowerick.broker.management.reply
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32mqtt://127.0.0.1:3333332/topic/bowerick.broker.management.reply321
+Creating producer:32mqtt://127.0.0.1:3333332/topic/bowerick.broker.management.reply
+Adjusted MQTT URL from32mqtt://127.0.0.1:3333332to32tcp://127.0.0.1:33333
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32mqtt://127.0.0.1:3333332/topic/bowerick.broker.management.command321
+Creating consumer:32mqtt://127.0.0.1:3333332/topic/bowerick.broker.management.command
+Consumer callback args count:321
+Adjusted MQTT URL from32mqtt://127.0.0.1:3333332to32tcp://127.0.0.1:33333
+Creating JSON producer:32mqtt://127.0.0.1:3333332/topic/testtopic.foo321
+Creating producer:32mqtt://127.0.0.1:3333332/topic/testtopic.foo
+Adjusted MQTT URL from32mqtt://127.0.0.1:3333332to32tcp://127.0.0.1:33333
+Creating failsafe JSON consumer:32mqtt://127.0.0.1:3333332/topic/testtopic.foo321
+Creating consumer:32mqtt://127.0.0.1:3333332/topic/testtopic.foo
+Consumer callback args count:322
+Adjusted MQTT URL from32mqtt://127.0.0.1:3333332to32tcp://127.0.0.1:33333
+Closing producer:32mqtt://127.0.0.1:3333332/topic/testtopic.foo
+Closing consumer:32mqtt://127.0.0.1:3333332/topic/testtopic.foo
+Closing consumer:32mqtt://127.0.0.1:3333332/topic/bowerick.broker.management.command
+Closing producer:32mqtt://127.0.0.1:3333332/topic/bowerick.broker.management.reply
     </system-out>
     <properties>
         <property name="sun.os.patch.level" value="unknown">

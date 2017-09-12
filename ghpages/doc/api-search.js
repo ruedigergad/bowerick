@@ -51,6 +51,7 @@ $(function() {
     {label: "bowerick.jms/get-destinations", value: "bowerick.jms.html#IDget-destinations"},
     {label: "bowerick.jms/map->ConsumerWrapper", value: "bowerick.jms.html#IDmap-GREATERConsumerWrapper"},
     {label: "bowerick.jms/map->ProducerWrapper", value: "bowerick.jms.html#IDmap-GREATERProducerWrapper"},
+    {label: "bowerick.jms/msg-prop-key", value: "bowerick.jms.html#IDmsg-prop-key"},
     {label: "bowerick.jms/remove-url-options", value: "bowerick.jms.html#IDremove-url-options"},
     {label: "bowerick.jms/send-error-msg", value: "bowerick.jms.html#IDsend-error-msg"},
     {label: "bowerick.jms/setup-broker-with-auth", value: "bowerick.jms.html#IDsetup-broker-with-auth"},
