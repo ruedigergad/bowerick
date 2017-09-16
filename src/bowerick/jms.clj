@@ -359,7 +359,7 @@
                     (.start))
         ws-stomp-client (doto
                           (WebSocketStompClient. ws-client)
-                          (.setTaskScheduler (doto (ThreadPoolTaskScheduler.) .afterPropertiesSet))
+                          (.setTaskScheduler (doto (ThreadPoolTaskScheduler.) (.setDaemon true) .afterPropertiesSet))
                           (.setDefaultHeartbeat (long-array [*ws-client-ping-heartbeat* *ws-client-pong-heartbeat*])))
         session (atom nil)
         flag (utils/prepare-flag)]
@@ -378,6 +378,7 @@
 
 (defn close-ws-stomp-session
   [session-map]
+  (println "Closing WebSocket session...")
   (.disconnect (:session session-map))
   (.stop (:ws-stomp-client session-map)))
 
