@@ -49,7 +49,11 @@
                                 (recur (+ 0.0 (- max_angle new_angle)))
                                 (recur new_angle))))))
           (.setDaemon true)
-          (.start))))
+          (.start))
+        (println "To view the example, open the following web page:")
+        (println "http://ruedigergad.github.io/bowerick/examples/simple_websocket_a-frame_example/simple_websocket_a-frame_example.html")
+        (println "Alternatively, if you have the bowerick source code repository, you can also open the page from the checked out repository:")
+        (println "examples/simple_websocket_a-frame_example/simple_websocket_a-frame_example.html")))
     (if (arg-map :daemon)
       (-> (agent 0) (await))
       (do
