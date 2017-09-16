@@ -31,7 +31,12 @@
                 (conj arg-url af-demo-url))
               arg-url)
         broker-service (start-broker url)
+        running (atom true)
         shutdown-fn (fn []
+                      (println "Shutting down...")
+                      (reset! running false)
+                      (sleep 500)
+                      (println "Stopping broker...")
                       (stop broker-service))]
     (if (arg-map :a-frame-demo)
       (let [af-topic-name "/topic/aframe"
@@ -45,9 +50,13 @@
                             (af-prod {:x x, :y y, :z 0})
                             (sleep 20)
                             (let [new_angle (+ angle angle_increment)]
-                              (if (> new_angle max_angle)
-                                (recur (+ 0.0 (- max_angle new_angle)))
-                                (recur new_angle))))))
+                              (if @running
+                                (if (> new_angle max_angle)
+                                  (recur (+ 0.0 (- max_angle new_angle)))
+                                  (recur new_angle))
+                                (do
+                                  (println "Stopping A-Frame producer...")
+                                  (close af-prod)))))))
           (.setDaemon true)
           (.start))
         (println "To view the example, open the following web page:")
@@ -60,7 +69,6 @@
         (println "Broker started... Type \"q\" followed by <Return> to quit: ")
         (while (not= "q" (read-line))
           (println "Type \"q\" followed by <Return> to quit: "))
-        (println "Shutting down...")
         (shutdown-fn)))))
 
 (def destination-url-format-help-string
