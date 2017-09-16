@@ -380,7 +380,8 @@
   [session-map]
   (println "Closing WebSocket session...")
   (.disconnect (:session session-map))
-  (.stop (:ws-stomp-client session-map)))
+  (.stop (:ws-stomp-client session-map))
+  (.stop (:ws-client session-map)))
 
 (defmacro with-destination
   "Execute body in a context for which connection, session, and destination are
