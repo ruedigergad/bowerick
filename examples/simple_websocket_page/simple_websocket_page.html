@@ -13,21 +13,21 @@
             </div>
             <div id="howto_body">
                 <p>
-                    In order to use this example, you need a running broker with an WebSocket STOMP transport.
+                    In order to use this example, you need a running broker with a WebSocket STOMP transport.
                     Below is an example for starting such a broker with bowerick:
                 </p>
                 <pre>
-java -jar bowerick-1.99.17-standalone.jar -u "[\"ws://127.0.0.1:1864\"]"
+java -jar bowerick-2.1.0-standalone.jar -u "[\"ws://127.0.0.1:1864\"]"
                 </pre>
                 <p>
-                    Once the broker is started, you connect to it by pressing the &quot;Connect&quot; button.
+                    Once the broker is started, you connect to it by pressing the &quot;Connect&quot; button on this page.
                 </p>
                 <p>
                     For sending messages, you can start another bowerick instance in client mode and use it for sending data as shown in the example below.
-                    Please note that the example also shows the corresponding console output.
+                    Please note that the example also shows some of the corresponding console output of starting bowerick in client mode.
                 </p>
                 <pre>
-java -jar bowerick-1.99.17-standalone.jar -c
+java -jar bowerick-2.1.0-standalone.jar -c
 Starting bowerick using the following options:
 {:client true, :daemon false, :help false, :url "tcp://localhost:61616"}
 []
