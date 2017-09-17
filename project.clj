@@ -1,5 +1,5 @@
-(defproject bowerick "2.1.1-SNAPSHOT"
-;(defproject bowerick "2.1.0"
+;(defproject bowerick "2.1.2-SNAPSHOT"
+(defproject bowerick "2.1.1"
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
                  [cheshire "5.8.0"]
@@ -21,8 +21,8 @@
                  [org.clojure/tools.cli "0.3.5"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.0"]
-                 [org.springframework/spring-messaging "4.3.10.RELEASE"]
-                 [org.springframework/spring-websocket "4.3.10.RELEASE"]
+                 [org.springframework/spring-messaging "4.3.11.RELEASE"]
+                 [org.springframework/spring-websocket "4.3.11.RELEASE"]
                  [org.slf4j/slf4j-simple "1.7.25"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
