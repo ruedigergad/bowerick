@@ -21,3 +21,10 @@
       (producer l)
       (delay-fn))))
 
+(defn txt-file-line-generator [producer delay-fn in-path]
+  (fn []
+    (with-open [rdr (java-io/reader in-path)]
+      (doseq [l (line-seq rdr)]
+        (producer l)
+        (delay-fn)))))
+

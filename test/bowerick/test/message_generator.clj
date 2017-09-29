@@ -66,3 +66,21 @@
     (close producer)
     (close consumer)))
 
+(deftest txt-file-line-generator-single-test
+  (let [producer (create-producer local-jms-server test-topic 1)
+        received (atom [])
+        flag (prepare-flag)
+        delay-fn #()
+        consume-fn (fn [obj]
+                     (let [s (String. obj)]
+                       (swap! received conj s)
+                       (if (= s "4,5,6,7")
+                         (set-flag flag))))
+        gen (txt-file-line-generator producer delay-fn "file:./test/data/csv_input_test_file.txt")
+        consumer (create-consumer local-jms-server test-topic consume-fn)]
+    (gen)
+    (await-flag flag)
+    (is (= ["1,2,3" "a,b" "4,5,6,7"] @received))
+    (close producer)
+    (close consumer)))
+
