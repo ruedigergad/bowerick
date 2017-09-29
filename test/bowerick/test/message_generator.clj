@@ -58,7 +58,7 @@
                        (swap! received conj s)
                        (if (= s "7")
                          (set-flag flag))))
-        gen (txt-file-generator producer delay-fn "file:./test/data/csv_input_test_file.txt" #"[\n,]")
+        gen (txt-file-generator producer delay-fn "test/data/csv_input_test_file.txt" #"[\n,]")
         consumer (create-consumer local-jms-server test-topic consume-fn)]
     (gen)
     (await-flag flag)
@@ -76,11 +76,39 @@
                        (swap! received conj s)
                        (if (= s "4,5,6,7")
                          (set-flag flag))))
-        gen (txt-file-line-generator producer delay-fn "file:./test/data/csv_input_test_file.txt")
+        gen (txt-file-line-generator producer delay-fn "test/data/csv_input_test_file.txt")
         consumer (create-consumer local-jms-server test-topic consume-fn)]
     (gen)
     (await-flag flag)
     (is (= ["1,2,3" "a,b" "4,5,6,7"] @received))
+    (close producer)
+    (close consumer)))
+
+(deftest binary-file-generator-pcap-single-test
+  (let [producer (create-producer local-jms-server test-topic 1)
+        received-sizes (atom [])
+        flag (prepare-flag)
+        delay-fn #()
+        consume-fn (fn [obj]
+                     (let [size (alength obj)]
+                       (swap! received-sizes conj size)
+                       (if (= size 80)
+                         (set-flag flag))))
+        initial-offset 24
+        length-field-offset 8
+        length-field-size 4
+        header-size 16
+        gen (binary-file-generator producer
+                                   delay-fn
+                                   "test/data/binary_pcap_data_input_test.pcap"
+                                   initial-offset
+                                   length-field-offset
+                                   length-field-size
+                                   header-size)
+        consumer (create-consumer local-jms-server test-topic consume-fn)]
+    (gen)
+    (await-flag flag)
+    (is (= [229 72 252 72 443 80] @received-sizes))
     (close producer)
     (close consumer)))
 
