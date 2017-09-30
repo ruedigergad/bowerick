@@ -130,3 +130,87 @@
     (close producer)
     (close consumer)))
 
+(deftest create-pcap-file-generator-with-string-args-single-test
+  (let [producer (create-producer local-jms-server test-topic 1)
+        received-sizes (atom [])
+        flag (prepare-flag)
+        delay-fn #()
+        consume-fn (fn [obj]
+                     (let [size (alength obj)]
+                       (swap! received-sizes conj size)
+                       (if (= size 80)
+                         (set-flag flag))))
+        gen (create-message-generator producer delay-fn "pcap-file" "test/data/binary_pcap_data_input_test.pcap")
+        consumer (create-consumer local-jms-server test-topic consume-fn)]
+    (gen)
+    (await-flag flag)
+    (is (= [229 72 252 72 443 80] @received-sizes))
+    (close producer)
+    (close consumer)))
+
+(deftest create-binary-file-generator-pcap-with-string-args-single-test
+  (let [producer (create-producer local-jms-server test-topic 1)
+        received-sizes (atom [])
+        flag (prepare-flag)
+        delay-fn #()
+        consume-fn (fn [obj]
+                     (let [size (alength obj)]
+                       (swap! received-sizes conj size)
+                       (if (= size 80)
+                         (set-flag flag))))
+        initial-offset 24
+        length-field-offset 8
+        length-field-size 4
+        header-size 16
+        gen (create-message-generator
+              producer
+              delay-fn
+              "binary-file"
+              "[\"test/data/binary_pcap_data_input_test.pcap\" 24 8 4 16]")
+        consumer (create-consumer local-jms-server test-topic consume-fn)]
+    (gen)
+    (await-flag flag)
+    (is (= [229 72 252 72 443 80] @received-sizes))
+    (close producer)
+    (close consumer)))
+
+(deftest create-txt-file-line-generator-with-string-args-single-test
+  (let [producer (create-producer local-jms-server test-topic 1)
+        received (atom [])
+        flag (prepare-flag)
+        delay-fn #()
+        consume-fn (fn [obj]
+                     (let [s (String. obj)]
+                       (swap! received conj s)
+                       (if (= s "4,5,6,7")
+                         (set-flag flag))))
+        gen (create-message-generator producer delay-fn "txt-file-line" "test/data/csv_input_test_file.txt")
+        consumer (create-consumer local-jms-server test-topic consume-fn)]
+    (gen)
+    (await-flag flag)
+    (is (= ["1,2,3" "a,b" "4,5,6,7"] @received))
+    (close producer)
+    (close consumer)))
+
+(deftest create-txt-file-generator-per-csv-with-string-single-test
+  (let [producer (create-producer local-jms-server test-topic 1)
+        received (atom [])
+        flag (prepare-flag)
+        delay-fn #()
+        consume-fn (fn [obj]
+                     (let [s (String. obj)]
+                       (swap! received conj s)
+                       (if (= s "7")
+                         (set-flag flag))))
+        gen (create-message-generator
+              producer
+              delay-fn
+              "txt-file"
+              "[\"test/data/csv_input_test_file.txt\" #\"[\\n,]\"]")
+        consumer (create-consumer local-jms-server test-topic consume-fn)]
+    (gen)
+    (await-flag flag)
+    (is (= ["1" "2" "3" "a" "b" "4" "5" "6" "7"] @received))
+    (close producer)
+    (close consumer)))
+

@@ -19,20 +19,41 @@
     (java.nio ByteOrder MappedByteBuffer)
     (java.nio.channels FileChannel FileChannel$MapMode)))
 
-(defn txt-file-generator [producer delay-fn in-path split-regex]
+(defn create-message-generator
+  [producer delay-fn generator-name generator-args-string]
+  (let [generator-construction-fn (ns-resolve
+                                    'bowerick.message-generator
+                                    (symbol (str generator-name "-generator")))
+        tmp-args (binding [*read-eval* false]
+                   (try
+                     (read-string generator-args-string)
+                     (catch Exception e
+                       generator-args-string)))
+        generator-args (if (vector? tmp-args)
+                         tmp-args
+                         (if (symbol? tmp-args)
+                           [(str tmp-args)]
+                           [tmp-args]))]
+    (if (not (nil? generator-construction-fn))
+      (apply generator-construction-fn  producer delay-fn generator-args))))
+
+(defn txt-file-generator
+  [producer delay-fn in-path split-regex]
   (fn []
     (doseq [l (str/split (slurp in-path) split-regex)]
       (producer l)
       (delay-fn))))
 
-(defn txt-file-line-generator [producer delay-fn in-path]
+(defn txt-file-line-generator
+  [producer delay-fn in-path]
   (fn []
     (with-open [rdr (java-io/reader in-path)]
       (doseq [l (line-seq rdr)]
         (producer l)
         (delay-fn)))))
 
-(defn binary-file-generator [producer delay-fn in-path initial-offset length-field-offset length-field-size header-size]
+(defn binary-file-generator
+  [producer delay-fn in-path initial-offset length-field-offset length-field-size header-size]
   (fn []
     (let [^File in-file (File. in-path)
           file-length (.length in-file)]
@@ -51,6 +72,7 @@
               (if (< (+ offset total-size) file-length)
                 (recur (+ offset total-size))))))))))
 
-(defn pcap-file-generator [producer delay-fn in-path]
+(defn pcap-file-generator
+  [producer delay-fn in-path]
   (binary-file-generator producer delay-fn in-path 24 8 4 16))
 
