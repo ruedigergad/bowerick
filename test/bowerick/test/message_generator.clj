@@ -112,3 +112,25 @@
     (close producer)
     (close consumer)))
 
+(deftest pcap-file-generator-single-test
+  (let [producer (create-producer local-jms-server test-topic 1)
+        received-sizes (atom [])
+        flag (prepare-flag)
+        delay-fn #()
+        consume-fn (fn [obj]
+                     (let [size (alength obj)]
+                       (swap! received-sizes conj size)
+                       (if (= size 80)
+                         (set-flag flag))))
+        initial-offset 24
+        length-field-offset 8
+        length-field-size 4
+        header-size 16
+        gen (pcap-file-generator producer delay-fn "test/data/binary_pcap_data_input_test.pcap")
+        consumer (create-consumer local-jms-server test-topic consume-fn)]
+    (gen)
+    (await-flag flag)
+    (is (= [229 72 252 72 443 80] @received-sizes))
+    (close producer)
+    (close consumer)))
+

@@ -51,3 +51,6 @@
               (if (< (+ offset total-size) file-length)
                 (recur (+ offset total-size))))))))))
 
+(defn pcap-file-generator [producer delay-fn in-path]
+  (binary-file-generator producer delay-fn in-path 24 8 4 16))
+
