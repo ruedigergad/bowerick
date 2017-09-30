@@ -13,6 +13,7 @@
   bowerick.main
   (:require
     [bowerick.jms :refer :all]
+    [bowerick.message-generator :refer :all]
     [cli4clj.cli :refer :all]
     [clj-assorted-utils.util :refer :all]
     [clojure.pprint :refer :all]
@@ -63,6 +64,47 @@
         (println "http://ruedigergad.github.io/bowerick/examples/simple_websocket_a-frame_example/simple_websocket_a-frame_example.html")
         (println "Alternatively, if you have the bowerick source code repository, you can also open the page from the checked out repository:")
         (println "examples/simple_websocket_a-frame_example/simple_websocket_a-frame_example.html")))
+    (if (string? (arg-map :embedded-message-generator))
+      (let [msg-gen-prod (create-producer
+                           (if (string? url)
+                             url
+                             (first url))
+                           (arg-map :generator-destination)
+                           (arg-map :generator-producer-pool-size))
+            msg-gen-prod-fn (fn [data] (if @running (msg-gen-prod data)))
+            msg-delay (arg-map :generator-interval)
+            msg-count (atom 0)
+            delay-fn (if (and (integer? msg-delay) (pos? msg-delay))
+                       #(do (swap! msg-count inc) (sleep msg-delay))
+                       #(swap! msg-count inc))
+            generator-name (arg-map :embedded-message-generator)
+            msg-gen (create-message-generator
+                      msg-gen-prod-fn
+                      delay-fn
+                      generator-name
+                      (arg-map :generator-arguments))]
+        (println "Starting message generation with:" generator-name
+                 ", sending to:" (arg-map :generator-destination)
+                 ", with args:" (arg-map :generator-arguments))
+        (doto
+          (Thread. #(loop []
+                      (msg-gen)
+                      (if @running
+                        (recur)
+                        (do
+                          (println "Stopping message-generator producer...")
+                          (close msg-gen-prod)))))
+          (.setDaemon true)
+          (.start))
+        (doto
+          (Thread. #(loop []
+                      (println "msg/sec:" @msg-count)
+                      (reset! msg-count 0)
+                      (sleep 1000)
+                      (if @running
+                        (recur))))
+          (.setDaemon true)
+          (.start))))
     (if (arg-map :daemon)
       (-> (agent 0) (await))
       (do
@@ -159,7 +201,6 @@
 
 (defn -main [& args]
   (let [cli-args (cli args
-                   ["-A" "--a-frame-demo" "When in daemon mode, start a producer for the A-Frame demo." :flag true :default false]
                    ["-c" "--client" "Start in client mode." :flag true :default false]
                    ["-d" "--daemon" "Run as daemon." :flag true :default false]
                    ["-h" "--help" "Print this help." :flag true]
@@ -167,7 +208,27 @@
                      "URL to bind the broker to."
                      :default "tcp://localhost:61616"
                      :parse-fn #(binding [*read-eval* false]
-                                  (read-string %))])
+                                  (read-string %))]
+                   ["-A" "--a-frame-demo"
+                     "When in daemon mode, start a producer for the A-Frame demo."
+                     :flag true :default false]
+                   ["-D" "--generator-destination"
+                     "The destination to which message generators will send messages."
+                     :default "/topic/bowerick.message.generator"]
+                   ["-G" "--embedded-message-generator"
+                     "When in daemon mode, start the specified embedded message generator."
+                     :default nil]
+                   ["-I" "--generator-interval"
+                     "The interval with which messages shall (roughly) be generated in milliseconds."
+                     :default 10
+                     :parse-fn #(Integer/decode %)]
+                   ["-P" "--generator-producer-pool-size"
+                     "The pool size for the message generator producer."
+                     :default 1
+                     :parse-fn #(Integer/decode %)]
+                   ["-X" "--generator-arguments"
+                     "Arguments for message generators that accept arguments."
+                     :default nil])
         arg-map (cli-args 0)
         extra-args (cli-args 1)
         help-string (cli-args 2)]
