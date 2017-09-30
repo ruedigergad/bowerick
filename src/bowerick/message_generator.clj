@@ -39,10 +39,11 @@
 
 (defn txt-file-generator
   [producer delay-fn in-path split-regex]
-  (fn []
-    (doseq [l (str/split (slurp in-path) split-regex)]
-      (producer l)
-      (delay-fn))))
+  (let [lines (str/split (slurp in-path) split-regex)]
+    (fn []
+      (doseq [l lines]
+        (producer l)
+        (delay-fn)))))
 
 (defn txt-file-line-generator
   [producer delay-fn in-path]
@@ -54,23 +55,25 @@
 
 (defn binary-file-generator
   [producer delay-fn in-path initial-offset length-field-offset length-field-size header-size]
-  (fn []
-    (let [^File in-file (File. in-path)
-          file-length (.length in-file)]
-      (with-open [^FileInputStream in-stream (FileInputStream. in-file)]
-        (let [^FileChannel file-channel (.getChannel in-stream)
-              ^MappedByteBuffer buffer (.map file-channel FileChannel$MapMode/READ_ONLY 0 file-length)]
-          (.order buffer ByteOrder/LITTLE_ENDIAN)
-          (loop [offset initial-offset]
-            (let [data-size (.getInt buffer (+ offset length-field-offset))
-                  total-size (+ data-size header-size)
-                  ba (byte-array total-size)]
-              (.position buffer offset)
-              (.get buffer ba 0 total-size)
-              (producer ba)
-              (delay-fn)
-              (if (< (+ offset total-size) file-length)
-                (recur (+ offset total-size))))))))))
+  (let [^File in-file (File. in-path)
+        file-length (.length in-file)
+        ^MappedByteBuffer buffer (with-open [^FileInputStream in-stream (FileInputStream. in-file)]
+                                   (let [^FileChannel file-channel (.getChannel in-stream)
+                                         ^MappedByteBuffer mbb (.map file-channel FileChannel$MapMode/READ_ONLY 0 file-length)]
+                                     (.order mbb ByteOrder/LITTLE_ENDIAN)
+                                     mbb))]
+    (fn []
+      (.rewind buffer)
+      (loop [offset initial-offset]
+        (let [data-size (.getInt buffer (+ offset length-field-offset))
+              total-size (+ data-size header-size)
+              ba (byte-array total-size)]
+          (.position buffer offset)
+          (.get buffer ba 0 total-size)
+          (producer ba)
+          (delay-fn)
+          (if (< (+ offset total-size) file-length)
+            (recur (+ offset total-size))))))))
 
 (defn pcap-file-generator
   [producer delay-fn in-path]
