@@ -122,10 +122,6 @@
                        (swap! received-sizes conj size)
                        (if (= size 80)
                          (set-flag flag))))
-        initial-offset 24
-        length-field-offset 8
-        length-field-size 4
-        header-size 16
         gen (pcap-file-generator producer delay-fn "test/data/binary_pcap_data_input_test.pcap")
         consumer (create-consumer local-jms-server test-topic consume-fn)]
     (gen)
