@@ -192,7 +192,7 @@
     (close producer)
     (close consumer)))
 
-(deftest create-txt-file-generator-per-csv-with-string-single-test
+(deftest create-txt-file-generator-per-csv-with-string-args-single-test
   (let [producer (create-producer local-jms-server test-topic 1)
         received (atom [])
         flag (prepare-flag)
