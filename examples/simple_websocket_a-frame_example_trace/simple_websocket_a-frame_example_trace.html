@@ -115,7 +115,6 @@
                     client.log("Subscribing to: " + topic_name);
                     client.subscribe(topic_name, function(message) {
                         var oldPosition = th.getAttribute("position");
-                        client.log(JSON.stringify(oldPosition));
                         if (oldPosition.x != 0 && oldPosition.y != 0) {
                             thTrace[0].setAttribute("position", oldPosition);
                         }

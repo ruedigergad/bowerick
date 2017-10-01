@@ -16,6 +16,7 @@
     [clj-assorted-utils.util :as utils])
   (:import
     (java.io File FileInputStream)
+    (java.lang Math)
     (java.nio ByteOrder MappedByteBuffer)
     (java.nio.channels FileChannel FileChannel$MapMode)))
 
@@ -78,4 +79,34 @@
 (defn pcap-file-generator
   [producer delay-fn in-path]
   (binary-file-generator producer delay-fn in-path 24 8 4 16))
+
+(defn heart4family-generator
+  [producer delay-fn _]
+  (let [increment 0.075]
+    (fn []
+      (loop [t (- Math/PI)]
+        (let [
+              ;r (-
+              ;    (/
+              ;      (* (Math/sin t)
+              ;         (-> (Math/cos t) (Math/abs) (Math/sqrt)))
+              ;      (+ (Math/sin t) (/ 7.0 5.0)))
+              ;    (+
+              ;      (* 2.0
+              ;         (Math/sin t))
+              ;      2.0))
+              ;x (* r (Math/cos t))
+              ;y (* r (Math/sin t))
+              x (* 0.15 (* 16.0 (Math/pow (Math/sin t) 3.0)))
+              y (+ 1.2
+                   (* 0.15
+                      (- (* 13.0 (Math/cos t))
+                      (* 5 (Math/cos (* 2 t)))
+                      (* 2 (Math/cos (* 3 t)))
+                      (Math/cos (* 4 t)))))]
+          (producer {"x" x, "y" y, "z" 0})
+          (delay-fn)
+          (if (> t Math/PI)
+            (recur (- Math/PI))
+            (recur (+ t increment))))))))
 
