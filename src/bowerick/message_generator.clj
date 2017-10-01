@@ -85,19 +85,7 @@
   (let [increment 0.075]
     (fn []
       (loop [t (- Math/PI)]
-        (let [
-              ;r (-
-              ;    (/
-              ;      (* (Math/sin t)
-              ;         (-> (Math/cos t) (Math/abs) (Math/sqrt)))
-              ;      (+ (Math/sin t) (/ 7.0 5.0)))
-              ;    (+
-              ;      (* 2.0
-              ;         (Math/sin t))
-              ;      2.0))
-              ;x (* r (Math/cos t))
-              ;y (* r (Math/sin t))
-              x (* 0.15 (* 16.0 (Math/pow (Math/sin t) 3.0)))
+        (let [x (* 0.15 (* 16.0 (Math/pow (Math/sin t) 3.0)))
               y (+ 1.2
                    (* 0.15
                       (- (* 13.0 (Math/cos t))
