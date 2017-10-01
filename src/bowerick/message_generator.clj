@@ -95,6 +95,6 @@
           (producer {"x" x, "y" y, "z" 0})
           (delay-fn)
           (if (> t Math/PI)
-            (recur (- Math/PI))
+            (recur (+ (- t (* 2.0 Math/PI)) increment))
             (recur (+ t increment))))))))
 
