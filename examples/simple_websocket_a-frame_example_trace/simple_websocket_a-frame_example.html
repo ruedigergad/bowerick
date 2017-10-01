@@ -1,0 +1,118 @@
+<!--
+    This example is based on the example from:
+    https://github.com/jmesnil/stomp-websocket/blob/master/example/chat/index.html
+    and
+    https://aframe.io/examples/showcase/helloworld/
+-->
+<html>
+    <head>
+        <title>Simple Websocket A-Frame Example</title>
+        <!-- This is https://aframe.io/releases/0.6.0/aframe.min.js -->
+        <script src="./aframe.min.js"></script>
+    </head>
+    <body>
+        <div id="left_part" style="float:left; width:50%">
+            <div id="howto">
+                <div id="howto_header">
+                    <h2>HowTo</h2>
+                </div>
+                <div id="howto_body">
+                    <p>
+                        For this example, you need a running broker with a WebSocket STOMP transport and an appropriate message/event generator.
+                        Since bowerick version 2.1.0, the bowerick standalone broker includes an appropriate message/event generator.
+                        Below is an example for starting bowerick broker instance, which includes a message/event generator:
+                    </p>
+                    <pre>
+    java -jar bowerick-2.1.1-standalone.jar -A
+                    </pre>
+                    <p>
+                        With this command, the broker will use a pre-defined default and open a WebSocket STOMP transport on localhost (127.0.0.1) on port 1864.
+                        If you want to connect to the broker from another computer/device you can start the examples as follows:
+                    </p>
+                    <pre>
+    java -jar bowerick-2.1.1-standalone.jar -A \
+        -u "[\"ws://0.0.0.0:1701\"]"
+                    </pre>
+                    <p>
+                        Once the broker is started, you connect to it by pressing the &quot;Connect&quot; button on this page.
+                    </p>
+                </div>
+            </div>
+            <div id="connection_settings">
+                <div id="connection_settings_header">
+                    <h2>Connection Settings</h2>
+                </div>
+                <div id="connection_settings_body">
+                    <p>Broker URL <input name=broker_url id="broker_url" value="ws://127.0.0.1:1864" type="text"></p>
+                    <p>Topic Name <input name=topic_name id="topic_name" value="/topic/aframe" type="text"></p>
+                    <p><button type="button" id="connect_button">Connect</button></p>
+                </div>
+            </div>
+        </div>
+        <div id="right_part" style="float:right; width:50%">
+            <div id="aframe_part">
+                <div id="aframe_header">
+                    <h2>A-Frame Visualization</h2>
+                </div>
+                <div id="aframe-body" style="height: 400px; width: 400px;">
+                    <a-scene embedded>
+                        <a-entity position="0 -1 4">
+                            <a-camera></a-camera>
+                        </a-entity>
+                        <a-entity light="type:point; castShadow:true;" position="3 8 4"></a-entity>
+                        <a-plane position="0 -1.6 0" rotation="-90 0 0" width="6" height="6" color="#7BC8A4" shadow></a-plane>
+                        <a-sky color="#ECECEC"></a-sky>
+                    </a-scene>
+                </div>
+            </div>
+            <div id="logging">
+                <div id="logging_header">
+                    <h2>Log</h2>
+                </div>
+                <div id="logging_body">
+                    <pre id="log_messages"></pre>
+                </div>
+            </div>
+        </div>
+        <!-- This is "http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" -->
+        <script src="./jquery.min.js"></script>
+        <!-- This is "https://raw.github.com/jmesnil/stomp-websocket/master/lib/stomp.js" -->
+        <script src="./stomp.js"></script>
+        <script>//<![CDATA[
+        var sphere;
+        $(document).ready(function() {
+            sphere = document.createElement("a-sphere");
+            sphere.setAttribute("radius", 0.5);
+            sphere.setAttribute("position", "0 0 0");
+            sphere.setAttribute("color", "#EF2D5E");
+            sphere.setAttribute("shadow", "");
+            document.querySelector("a-scene").appendChild(sphere);
+        });
+        document.getElementById("connect_button").onclick = function() {
+            if(window.WebSocket) {
+                var broker_url = $("#broker_url").val();
+                var topic_name = $("#topic_name").val();
+                
+                var client = Stomp.client(broker_url);
+                client.log = function (log_message) {
+                    $("#log_messages").append(log_message + "\n");
+                };
+
+                client.log("Connecting to: " + broker_url);
+                client.connect("", "", function(frame) {
+                    client.log("Connection established.");
+
+                    client.log("Subscribing to: " + topic_name);
+                    client.subscribe(topic_name, function(message) {
+                        var coordinates = JSON.parse(message.body);
+                        var newPosition = AFRAME.utils.coordinates.stringify(coordinates);
+                        sphere.setAttribute("position", newPosition);
+                   });
+                });
+            } else {
+                alert("Error: WebSockets not supported!");
+            }
+        };
+        //]]></script>
+    </body>
+</html>
