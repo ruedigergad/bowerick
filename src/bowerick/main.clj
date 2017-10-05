@@ -73,10 +73,10 @@
                            (arg-map :generator-producer-pool-size))
             msg-gen-prod-fn (fn [data] (if @running (msg-gen-prod data)))
             msg-delay (arg-map :generator-interval)
-            msg-count (atom 0)
+            counter (atom 0)
             delay-fn (if (and (integer? msg-delay) (pos? msg-delay))
-                       #(do (swap! msg-count inc) (sleep msg-delay))
-                       #(swap! msg-count inc))
+                       #(do (swap! counter inc) (sleep msg-delay))
+                       #(swap! counter inc))
             generator-name (arg-map :embedded-message-generator)
             msg-gen (create-message-generator
                       msg-gen-prod-fn
@@ -98,8 +98,8 @@
           (.start))
         (doto
           (Thread. #(loop []
-                      (println "msg/sec:" @msg-count)
-                      (reset! msg-count 0)
+                      (println "data instances per second:" @counter)
+                      (reset! counter 0)
                       (sleep 1000)
                       (if @running
                         (recur))))
@@ -199,11 +199,40 @@
     (doseq [consumer (vals @consumers)]
       (close consumer))))
 
+(defn start-benchmark-client-mode [arg-map]
+  (let [counter (atom 0)
+        consumer-fn (fn [_] (swap! counter inc))
+        running (atom true)
+        output-thread (doto (Thread. #(loop []
+                                        (println "data instances per second:" @counter)
+                                        (reset! counter 0)
+                                        (sleep 1000)
+                                        (if @running
+                                          (recur))))
+                        (.setDaemon true)
+                        (.start))
+        consumer (create-consumer (arg-map :url) (arg-map :benchmark-client) consumer-fn (arg-map :pool-size))
+        shutdown-fn (fn []
+                      (reset! running false)
+                      (close consumer))]
+      (do
+        (println "Benchmark client started... Type \"q\" followed by <Return> to quit: ")
+        (while (not= "q" (read-line))
+          (println "Type \"q\" followed by <Return> to quit: "))
+        (shutdown-fn))))
+
 (defn -main [& args]
   (let [cli-args (cli args
+                   ["-b" "--benchmark-client"
+                    "Start a benchmark client listening at the given destination."
+                    :default nil]
                    ["-c" "--client" "Start in client mode." :flag true :default false]
                    ["-d" "--daemon" "Run as daemon." :flag true :default false]
                    ["-h" "--help" "Print this help." :flag true]
+                   ["-p" "--pool-size"
+                    "The consumer pool size when using the benchmark client."
+                    :default 1
+                    :parse-fn #(Integer/decode %)]
                    ["-u" "--url"
                      "URL to bind the broker to."
                      :default "tcp://localhost:61616"
@@ -241,7 +270,8 @@
           (println "Starting bowerick using the following options:")
           (pprint arg-map)
           (pprint extra-args))
-        (if (:client arg-map)
-          (start-client-mode arg-map)
-          (start-broker-mode arg-map))))))
+        (cond
+          (arg-map :client) (start-client-mode arg-map)
+          (not (nil? (arg-map :benchmark-client))) (start-benchmark-client-mode arg-map)
+          :default (start-broker-mode arg-map))))))
 
