@@ -62,6 +62,10 @@
 (def ^:dynamic *ws-client-ping-heartbeat* 10000)
 (def ^:dynamic *ws-client-pong-heartbeat* 10000)
 
+(def ^:dynamic *force-sync-send* true)
+; Producer window size is in bytes.
+(def ^:dynamic *producer-window-size* (* 10 1024 1024))
+
 (def msg-prop-key :message-properties)
 
 ; See also: http://activemq.apache.org/objectmessage.html
@@ -403,7 +407,9 @@
                           (remove-url-options ~broker-url))
                         (.setTrustStore *trust-store-file*) (.setTrustStorePassword *trust-store-password*)
                         (.setKeyStore *key-store-file*) (.setKeyStorePassword *key-store-password*)
-                        (.setTrustedPackages *serializable-packages*))
+                        (.setTrustedPackages *serializable-packages*)
+                        (.setAlwaysSyncSend *force-sync-send*)
+                        (.setProducerWindowSize *producer-window-size*))
                     (.startsWith ~broker-url "stomp:")
                       (doto
                         (StompJmsConnectionFactory.)
@@ -415,7 +421,9 @@
                         (.setBrokerURI (.replaceFirst ~broker-url "stomp\\+ssl" "ssl")))
                     :default (doto
                                (ActiveMQConnectionFactory. ~broker-url)
-                               (.setTrustedPackages *serializable-packages*)))
+                               (.setTrustedPackages *serializable-packages*)
+                               (.setAlwaysSyncSend *force-sync-send*)
+                               (.setProducerWindowSize *producer-window-size*)))
          ~'connection (doto
                         (if (and (not (nil? *user-name*)) (not (nil? *user-password*)))
                           (do
