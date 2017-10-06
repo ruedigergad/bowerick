@@ -337,7 +337,7 @@
               (.replaceFirst "mqtt://" "tcp://")
               (remove-url-options))
         _ (println "Adjusted MQTT URL from" broker-url "to" url)
-        mqtt-client (MqttClient. url (MqttClient/generateClientId) (MemoryPersistence.))
+        mqtt-client (MqttClient. url (MqttClient/generateClientId) nil)
         conn-opts (doto (MqttConnectOptions.)
                     (.setCleanSession true)
                     (.setConnectionTimeout 180)
@@ -522,7 +522,8 @@
                     send-fn-opt-args
                     (fn []
                       (utils/println-err "Closing producer:" broker-url destination-description)
-                      (.disconnect mqtt-client))))
+                      (.disconnect mqtt-client)
+                      (.close mqtt-client))))
       :default (with-destination broker-url destination-description
                  (let [producer (doto
                                   (.createProducer session destination)
@@ -628,7 +629,8 @@
                     (->ConsumerWrapper
                       (fn []
                         (utils/println-err "Closing consumer:" broker-url destination-description)
-                        (.disconnect mqtt-client))))
+                        (.disconnect mqtt-client)
+                        (.close mqtt-client))))
         :default (with-destination broker-url destination-description
                    (let [listener (proxy [MessageListener] []
                                     (onMessage [^Message m]
