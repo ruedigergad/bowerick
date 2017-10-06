@@ -413,8 +413,7 @@
                     (.startsWith ~broker-url "stomp:")
                       (doto
                         (StompJmsConnectionFactory.)
-                        (.setBrokerURI (.replaceFirst ~broker-url "stomp" "tcp"))
-                        (.setForceAsyncSend false))
+                        (.setBrokerURI (.replaceFirst ~broker-url "stomp" "tcp")))
                     (.startsWith ~broker-url "stomp+ssl:")
                       (doto
                         (StompJmsConnectionFactory.)
@@ -527,7 +526,7 @@
       :default (with-destination broker-url destination-description
                  (let [producer (doto
                                   (.createProducer session destination)
-                                  (.setDeliveryMode DeliveryMode/PERSISTENT))
+                                  (.setDeliveryMode DeliveryMode/NON_PERSISTENT))
                        create-msg (fn [serialized-data]
                                     (condp instance? serialized-data
                                       utils/byte-array-type (doto
