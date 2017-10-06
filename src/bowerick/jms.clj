@@ -308,7 +308,8 @@
                (if producer
                  (close producer))
                (.stop broker)
-               (.waitUntilStopped broker))})))
+               (.waitUntilStopped broker)
+               (utils/sleep 100))})))
 
 (defn stop
   [brkr]
