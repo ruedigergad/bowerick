@@ -181,8 +181,6 @@
         authorization-plugin (AuthorizationPlugin. authorization-map)
         broker (doto
                  (BrokerService.)
-                 (.setPersistent false)
-                 (.setUseJmx false)
                  (.setPlugins
                    (into-array
                      org.apache.activemq.broker.BrokerPlugin
@@ -233,13 +231,13 @@
   ([address]
     (start-broker address nil nil nil))
   ([address allow-anon users permissions]
-    (let [broker (if
-                   (and allow-anon users permissions)
+    (let [broker (if (and allow-anon users permissions)
                    (setup-broker-with-auth allow-anon users permissions)
-                   (doto
-                     (BrokerService.)
-                     (.setPersistent false)
-                     (.setUseJmx false)))
+                   (BrokerService.))
+          _ (doto broker
+              (.setPersistent false)
+              (.setUseJmx false)
+              (.setStartAsync false))
           _ (when
               (and
                 (utils/file-exists? *key-store-file*)
