@@ -31,9 +31,10 @@
     (java.util.concurrent ArrayBlockingQueue)
     (javax.jms BytesMessage Connection DeliveryMode Message MessageProducer MessageListener ObjectMessage Session TextMessage Topic)
     (javax.net.ssl KeyManagerFactory SSLContext TrustManagerFactory)
-    (org.apache.activemq ActiveMQConnectionFactory ActiveMQSslConnectionFactory)
+    (org.apache.activemq ActiveMQConnectionFactory ActiveMQMessageConsumer ActiveMQSslConnectionFactory)
     (org.apache.activemq.broker BrokerService SslContext)
     (org.apache.activemq.broker.region Destination)
+    (org.apache.activemq.broker.region.policy PolicyEntry PolicyMap)
     (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationMap AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
     (org.eclipse.jetty.util.ssl SslContextFactory)
     (org.eclipse.jetty.websocket.client WebSocketClient)
@@ -237,7 +238,13 @@
           _ (doto broker
               (.setPersistent false)
               (.setUseJmx false)
-              (.setStartAsync false))
+              (.setStartAsync false)
+              (.setDestinationPolicy
+                (doto (PolicyMap.)
+                  (.setDefaultEntry
+                    (doto (PolicyEntry.)
+                      (.setProducerFlowControl *force-sync-send*)
+                      (.setMemoryLimit *producer-window-size*))))))
           _ (when
               (and
                 (utils/file-exists? *key-store-file*)
@@ -406,9 +413,7 @@
                           (remove-url-options ~broker-url))
                         (.setTrustStore *trust-store-file*) (.setTrustStorePassword *trust-store-password*)
                         (.setKeyStore *key-store-file*) (.setKeyStorePassword *key-store-password*)
-                        (.setTrustedPackages *serializable-packages*)
-                        (.setAlwaysSyncSend *force-sync-send*)
-                        (.setProducerWindowSize *producer-window-size*))
+                        (.setTrustedPackages *serializable-packages*))
                     (.startsWith ~broker-url "stomp:")
                       (doto
                         (StompJmsConnectionFactory.)
@@ -420,9 +425,7 @@
                         (.setBrokerURI (.replaceFirst ~broker-url "stomp\\+ssl" "ssl")))
                     :default (doto
                                (ActiveMQConnectionFactory. ~broker-url)
-                               (.setTrustedPackages *serializable-packages*)
-                               (.setAlwaysSyncSend *force-sync-send*)
-                               (.setProducerWindowSize *producer-window-size*)))
+                               (.setTrustedPackages *serializable-packages*)))
          ~'connection (doto
                         (if (and (not (nil? *user-name*)) (not (nil? *user-password*)))
                           (do
@@ -631,7 +634,8 @@
                         (.disconnect mqtt-client)
                         (.close mqtt-client))))
         :default (with-destination broker-url destination-description
-                   (let [listener (proxy [MessageListener] []
+                   (let [consumer (.createConsumer session destination)
+                         listener (proxy [MessageListener] []
                                     (onMessage [^Message m]
                                       (condp instance? m
                                         BytesMessage (let [data (byte-array (.getBodyLength ^BytesMessage m))]
@@ -642,10 +646,8 @@
                                                          (catch javax.jms.JMSException e
                                                            (utils/println-err e)))
                                         TextMessage (internal-cb (de-serialization-fn (.getText ^TextMessage m)) m)
-                                        (utils/println-err "Unknown message type (" broker-url destination-description "):" (type m)))))
-                         consumer (doto
-                                    (.createConsumer session destination)
-                                    (.setMessageListener listener))]
+                                        (utils/println-err "Unknown message type (" broker-url destination-description "):" (type m)))))]
+                     (.setMessageListener consumer listener)
                      (->ConsumerWrapper
                        (fn []
                          (utils/println-err "Closing consumer:" broker-url destination-description)
