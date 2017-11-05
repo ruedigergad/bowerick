@@ -28,7 +28,7 @@
     (java.nio.charset Charset)
     (java.security KeyStore)
     (java.util ArrayList List)
-    (java.util.concurrent ArrayBlockingQueue)
+    (java.util.concurrent.locks ReentrantLock)
     (javax.jms BytesMessage Connection DeliveryMode Message MessageProducer MessageListener ObjectMessage Session TextMessage Topic)
     (javax.net.ssl KeyManagerFactory SSLContext TrustManagerFactory)
     (org.apache.activemq ActiveMQConnectionFactory ActiveMQMessageConsumer ActiveMQSslConnectionFactory)
@@ -66,6 +66,8 @@
 (def ^:dynamic *force-sync-send* true)
 ; Producer window size is in bytes.
 (def ^:dynamic *producer-window-size* (* 10 1024 1024))
+
+(def ^:dynamic *pooled-producer-auto-transmit-interval* 100)
 
 (def msg-prop-key :message-properties)
 
@@ -675,7 +677,27 @@
   ([broker-url destination-description ^long pool-size serialization-fn]
     (utils/println-err "Creating pooled producer:" broker-url destination-description pool-size)
     (let [producer (create-single-producer broker-url destination-description serialization-fn)
-          pool (ArrayList. pool-size)]
+          pool (ArrayList. pool-size)
+          lock (ReentrantLock.)
+          add-fn (fn [d]
+                   (.lock lock)
+                   (try
+                     (.add pool d)
+                     (when (>= (.size pool) pool-size)
+                       (producer pool)
+                       (.clear pool))
+                     (finally
+                       (.unlock lock))))
+          auto-transmit-fn (fn []
+                             (.lock lock)
+                             (try
+                               (when (not (.isEmpty pool))
+                                 (producer pool)
+                                 (.clear pool))
+                               (finally
+                                 (.unlock lock))))
+          exec (utils/executor)]
+      (utils/run-repeat exec auto-transmit-fn *pooled-producer-auto-transmit-interval*)
       (->ProducerWrapper
         (fn [data]
           (.add pool data)
@@ -689,6 +711,7 @@
             (.clear pool)))
         (fn []
           (utils/println-err "Closing pooled producer.")
+          (.shutdownNow exec)
           (.close producer))))))
 
 (defn create-pooled-consumer

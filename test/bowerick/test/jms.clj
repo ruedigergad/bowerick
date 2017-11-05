@@ -257,3 +257,17 @@
     (close producer)
     (close consumer)))
 
+(deftest pooled-producer-scheduled-autotransmit
+  (let [producer (create-producer local-jms-server test-topic 3)
+        was-run (prepare-flag 2)
+        received (ref [])
+        consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
+        consumer (create-consumer local-jms-server test-topic consume-fn 3)]
+    (producer "a")
+    (producer "b")
+    (await-flag was-run)
+    (is (flag-set? was-run))
+    (is (= ["a" "b"] @received))
+    (close producer)
+    (close consumer)))
+
