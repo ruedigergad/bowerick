@@ -222,3 +222,11 @@
                  "test/data/custom-generator-fn-return-producer-value.txt")]
     (is (= "producer return value" (gen-fn)))))
 
+(deftest create-custom-fn-generator-delay-fn-return-test
+  (let [gen-fn (create-message-generator
+                 nil
+                 identity
+                 "custom-fn"
+                 "test/data/custom-generator-fn-return-delay-fn-value.txt")]
+    (is (= "delay-fn return value" (gen-fn)))))
+
