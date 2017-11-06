@@ -98,3 +98,8 @@
             (recur (+ (- t (* 2.0 Math/PI)) increment))
             (recur (+ t increment))))))))
 
+(defn custom-fn-generator
+  [producer delay-fn in-path]
+  (let [gen-fn (-> (slurp in-path) read-string eval)]
+    (gen-fn producer delay-fn)))
+

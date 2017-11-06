@@ -214,3 +214,11 @@
     (close producer)
     (close consumer)))
 
+(deftest create-custom-fn-generator-producer-return-test
+  (let [gen-fn (create-message-generator
+                 identity
+                 nil
+                 "custom-fn"
+                 "test/data/custom-generator-fn-return-producer-value.txt")]
+    (is (= "producer return value" (gen-fn)))))
+
