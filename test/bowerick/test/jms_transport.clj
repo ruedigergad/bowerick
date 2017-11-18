@@ -13,6 +13,7 @@
   bowerick.test.jms-transport
   (:require
     [bowerick.jms :refer :all]
+    [bowerick.test.test-helper :refer :all]
     [clj-assorted-utils.util :refer :all]
     [clojure.test :refer :all]))
 
@@ -26,7 +27,7 @@
                          *trust-store-password* "password"
                          *key-store-file* "test/ssl/broker.ks"
                          *key-store-password* "password"]
-                 (start-broker *local-jms-server*))]
+                 (start-test-broker *local-jms-server*))]
     (t)
     (stop broker)))
 

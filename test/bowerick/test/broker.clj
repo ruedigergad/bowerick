@@ -12,6 +12,7 @@
   bowerick.test.broker
   (:require
     [bowerick.jms :refer :all]
+    [bowerick.test.test-helper :refer :all]
     [clj-assorted-utils.util :refer :all]
     [clojure.test :refer :all]))
 
@@ -25,7 +26,7 @@
 
 
 (deftest get-destinations-test
-  (let [brkr (start-broker local-jms-server)
+  (let [brkr (start-test-broker local-jms-server)
         destinations-with-empty (get-destinations brkr)
         destinations-non-empty (get-destinations brkr false)]
     (is
@@ -43,7 +44,7 @@
     (stop brkr)))
 
 (deftest get-destinations-with-producer-test
-  (let [brkr (start-broker local-jms-server)
+  (let [brkr (start-test-broker local-jms-server)
         producer (create-single-producer local-jms-server test-topic)
         destinations-with-empty (get-destinations brkr)
         destinations-non-empty (get-destinations brkr false)]
@@ -69,7 +70,7 @@
     (stop brkr)))
 
 (deftest get-destinations-via-jms-test
-  (let [brkr (start-broker local-jms-server)
+  (let [brkr (start-test-broker local-jms-server)
         ret (atom nil)
         flag (prepare-flag)
         producer (create-json-producer
@@ -92,7 +93,7 @@
     (stop brkr)))
 
 (deftest get-all-destinations-via-jms-test
-  (let [brkr (start-broker local-jms-server)
+  (let [brkr (start-test-broker local-jms-server)
         ret (atom nil)
         flag (prepare-flag)
         producer (create-json-producer
@@ -123,7 +124,7 @@
     (stop brkr)))
 
 (deftest send-unknown-command-test
-  (let [brkr (start-broker local-jms-server)
+  (let [brkr (start-test-broker local-jms-server)
         ret (atom nil)
         flag (prepare-flag)
         producer (create-json-producer

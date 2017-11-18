@@ -12,6 +12,7 @@
   bowerick.test.advanced-message-handling
   (:require
     [bowerick.jms :refer :all]
+    [bowerick.test.test-helper :refer :all]
     [clj-assorted-utils.util :refer :all]
     [clojure.java.io :refer :all]
     [clojure.test :refer :all]))
@@ -27,7 +28,7 @@
 
 
 (deftest get-ws-stomp-headers-test
-  (let [broker (start-broker [local-ws])
+  (let [broker (start-test-broker [local-ws])
         producer (create-json-producer local-ws test-topic)
         received-data (atom nil)
         received-headers (atom nil)
@@ -49,7 +50,7 @@
     (stop broker)))
 
 (deftest get-mqtt-message-test
-  (let [broker (start-broker [local-mqtt])
+  (let [broker (start-test-broker [local-mqtt])
         producer (create-json-producer local-mqtt test-topic)
         received-data (atom nil)
         received-msg (atom nil)
@@ -71,7 +72,7 @@
     (stop broker)))
 
 (deftest get-openwire-message-test
-  (let [broker (start-broker [local-openwire])
+  (let [broker (start-test-broker [local-openwire])
         producer (create-json-producer local-openwire test-topic)
         received-data (atom nil)
         received-msg (atom nil)
@@ -91,7 +92,7 @@
     (stop broker)))
 
 (deftest get-stomp-message-test
-  (let [broker (start-broker [local-stomp])
+  (let [broker (start-test-broker [local-stomp])
         producer (create-json-producer local-stomp test-topic)
         received-data (atom nil)
         received-msg (atom nil)
@@ -111,7 +112,7 @@
     (stop broker)))
 
 (deftest openwire-custom-message-properties-test
-  (let [broker (start-broker [local-openwire])
+  (let [broker (start-test-broker [local-openwire])
         producer (create-json-producer local-openwire test-topic)
         received-data (atom nil)
         received-msg (atom nil)
@@ -144,7 +145,7 @@
     (stop broker)))
 
 (deftest stomp-custom-message-properties-test
-  (let [broker (start-broker [local-stomp])
+  (let [broker (start-test-broker [local-stomp])
         producer (create-json-producer local-stomp test-topic)
         received-data (atom nil)
         received-msg (atom nil)

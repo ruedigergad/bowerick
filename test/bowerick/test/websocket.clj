@@ -12,6 +12,7 @@
   bowerick.test.websocket
   (:require
     [bowerick.jms :refer :all]
+    [bowerick.test.test-helper :refer :all]
     [clj-assorted-utils.util :refer :all]
     [clojure.test :refer :all]))
 
@@ -28,7 +29,7 @@
                          *trust-store-password* "password"
                          *key-store-file* "test/ssl/broker.ks"
                          *key-store-password* "password"]
-                 (start-broker [url-openwire url-stomp url-websocket url-websocket-ssl]))]
+                 (start-test-broker [url-openwire url-stomp url-websocket url-websocket-ssl]))]
     (t)
     (stop broker)))
 

@@ -12,6 +12,7 @@
   bowerick.test.multi-connector-exchange
   (:require
     [bowerick.jms :refer :all]
+    [bowerick.test.test-helper :refer :all]
     [clj-assorted-utils.util :refer :all]
     [clojure.java.io :refer :all]
     [clojure.test :refer :all]))
@@ -27,7 +28,7 @@
 
 
 (defn test-with-broker [t]
-  (let [broker (start-broker urls)]
+  (let [broker (start-test-broker urls)]
     (t)
     (stop broker)))
 

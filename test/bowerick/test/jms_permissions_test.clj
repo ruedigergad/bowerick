@@ -11,6 +11,7 @@
     :doc "Tests for JMS permissions"}  
   (:require
     [bowerick.jms :refer :all]
+    [bowerick.test.test-helper :refer :all]
     [clj-assorted-utils.util :refer :all]
     [clojure.test :refer :all]
     [clojure.pprint :refer :all])
@@ -110,7 +111,7 @@
   (let [authorization-rules [{"target" ">", "type" "topic", "admin" "admins", "read" "consumers", "write" "publishers"}
                              {"target" "test.topic.a", "type" "topic", "write" "anonymous"}
                              {"target" "ActiveMQ.Advisory.TempQueue,ActiveMQ.Advisory.TempTopic", "type" "topic", "read" "anonymous"}]
-        broker-service (start-broker jms-server-addr true
+        broker-service (start-test-broker jms-server-addr true
                                      [{"name" "test-user", "password" "secret", "groups" "test-group,admins,publishers,consumers"}]
                                      authorization-rules)]
     (binding [*user-name* test-user-name *user-password* test-user-password] (create-single-producer jms-server-addr test-topic))

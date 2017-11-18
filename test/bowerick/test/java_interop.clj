@@ -14,7 +14,8 @@
   (:require
     [clojure.test :refer :all]
     [clj-assorted-utils.util :refer :all]
-    [bowerick.jms :refer :all])
+    [bowerick.jms :refer :all]
+    [bowerick.test.test-helper :refer :all])
   (:import
     (bowerick JmsConsumerCallback JmsController JmsProducer)))
 
@@ -24,7 +25,7 @@
 (def test-topic "/topic/testtopic.foo")
 
 (defn test-with-broker [t]
-  (let [broker (start-broker local-jms-server)]
+  (let [broker (start-test-broker local-jms-server)]
     (t)
     (stop broker)))
 

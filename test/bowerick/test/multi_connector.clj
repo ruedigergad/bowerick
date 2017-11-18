@@ -12,6 +12,7 @@
   bowerick.test.multi-connector
   (:require
     [bowerick.jms :refer :all]
+    [bowerick.test.test-helper :refer :all]
     [clj-assorted-utils.util :refer :all]
     [clojure.java.io :refer :all]
     [clojure.test :refer :all]))
@@ -27,7 +28,7 @@
 
 
 (deftest test-openwire-to-openwire
-  (let [broker (start-broker [local-openwire-1 local-openwire-2])
+  (let [broker (start-test-broker [local-openwire-1 local-openwire-2])
         producer (create-producer local-openwire-1 test-topic)
         received (atom nil)
         flag (prepare-flag)
@@ -41,7 +42,7 @@
     (stop broker)))
 
 (deftest test-stomp-to-stomp
-  (let [broker (start-broker [local-stomp-1 local-stomp-2])
+  (let [broker (start-test-broker [local-stomp-1 local-stomp-2])
         producer (create-producer local-stomp-1 test-topic)
         received (atom nil)
         flag (prepare-flag)
@@ -55,7 +56,7 @@
     (stop broker)))
 
 (deftest test-openwire-to-stomp
-  (let [broker (start-broker [local-openwire-1 local-stomp-1])
+  (let [broker (start-test-broker [local-openwire-1 local-stomp-1])
         producer (create-producer local-openwire-1 test-topic)
         received (atom nil)
         flag (prepare-flag)
@@ -70,7 +71,7 @@
     (stop broker)))
 
 (deftest test-stomp-to-openwire
-  (let [broker (start-broker [local-openwire-1 local-stomp-1])
+  (let [broker (start-test-broker [local-openwire-1 local-stomp-1])
         producer (create-producer local-stomp-1 test-topic)
         received (atom nil)
         flag (prepare-flag)
@@ -85,7 +86,7 @@
     (stop broker)))
 
 (deftest test-stomp-to-openwire-byte-array
-  (let [broker (start-broker [local-openwire-1 local-stomp-1])
+  (let [broker (start-test-broker [local-openwire-1 local-stomp-1])
         producer (create-producer local-stomp-1 test-topic)
         received (atom nil)
         data (byte-array (map byte [1 2 3 4 5]))
@@ -100,7 +101,7 @@
     (stop broker)))
 
 (deftest test-openwire-to-stomp-byte-array
-  (let [broker (start-broker [local-openwire-1 local-stomp-1])
+  (let [broker (start-test-broker [local-openwire-1 local-stomp-1])
         producer (create-producer local-openwire-1 test-topic)
         received (atom nil)
         data (byte-array (map byte [1 2 3 4 5]))
@@ -115,7 +116,7 @@
     (stop broker)))
 
 (deftest test-stomp-to-openwire-nippy
-  (let [broker (start-broker [local-openwire-1 local-stomp-1])
+  (let [broker (start-test-broker [local-openwire-1 local-stomp-1])
         producer (create-nippy-producer local-stomp-1 test-topic)
         received (atom nil)
         flag (prepare-flag)
@@ -129,7 +130,7 @@
     (stop broker)))
 
 (deftest test-stomp-to-openwire-nippy-complexer-data
-  (let [broker (start-broker [local-openwire-1 local-stomp-1])
+  (let [broker (start-test-broker [local-openwire-1 local-stomp-1])
         producer (create-nippy-producer local-stomp-1 test-topic)
         received (atom nil)
         flag (prepare-flag)

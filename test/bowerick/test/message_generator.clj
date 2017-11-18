@@ -13,6 +13,7 @@
   (:require
     [bowerick.jms :refer :all]
     [bowerick.message-generator :refer :all]
+    [bowerick.test.test-helper :refer :all]
     [clj-assorted-utils.util :refer :all]
     [clojure.test :refer :all]))
 
@@ -22,7 +23,7 @@
 (def test-topic "/topic/testtopic.foo")
 
 (defn test-with-broker [t]
-  (let [broker (start-broker local-jms-server)]
+  (let [broker (start-test-broker local-jms-server)]
     (t)
     (stop broker)))
 
