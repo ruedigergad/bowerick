@@ -571,7 +571,11 @@
 (defrecord ConsumerWrapper [close-fn]
   AutoCloseable
     (close [this]
-      (close-fn)))
+      (try
+        (close-fn)
+        (catch Exception e
+          (println "Caught exception while closing consumer.")
+          (.printStackTrace e)))))
 
 (defn create-single-consumer
   "Create a message consumer for receiving data from the specified destination and server/broker.
