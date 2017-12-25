@@ -20,7 +20,7 @@
                  [org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.cli "0.3.5"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]
-                 [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.0"]
+                 [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.1.1"]
                  [org.springframework/spring-messaging "5.0.2.RELEASE"]
                  [org.springframework/spring-websocket "5.0.2.RELEASE"]
                  [org.slf4j/slf4j-simple "1.7.25"]]
