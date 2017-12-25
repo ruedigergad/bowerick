@@ -369,43 +369,29 @@
                      (alter ws-scheduler-id inc)
                      current-value))
         ws-client (doto
-                    (if (.startsWith broker-url "wss://")
-                      (JettyWebSocketClient.
-                        (WebSocketClient.
-                          (doto
-                            (HttpClient.
-                              (doto
-                                (SslContextFactory.)
-                                (.setSslContext
-                                  (get-adjusted-ssl-context))))
-                            (.setExecutor
-                              (ScheduledThreadPoolExecutor.
-                                10
-                                (proxy [ThreadFactory] []
-                                  (newThread [r]
-                                    (doto (Thread. r)
-                                      (.setDaemon true))))))
-                            (.setScheduler
-                              (doto
-                                (ScheduledExecutorScheduler. (str "HttpClient-Scheduler-" broker-url "-" sched-id) true)
-                                (.start)))
-                            (.start))))
-                      (JettyWebSocketClient.
-                        (WebSocketClient.
-                          (doto
-                            (HttpClient.)
-                            (.setExecutor
-                              (ScheduledThreadPoolExecutor.
-                                10
-                                (proxy [ThreadFactory] []
-                                  (newThread [r]
-                                    (doto (Thread. r)
-                                      (.setDaemon true))))))
-                            (.setScheduler
-                              (doto
-                                (ScheduledExecutorScheduler. (str "HttpClient-Scheduler-" broker-url "-" sched-id) true)
-                                (.start)))
-                            (.start)))))
+                    (JettyWebSocketClient.
+                      (WebSocketClient.
+                        (doto
+                          (if (.startsWith broker-url "wss://")
+                            (doto
+                              (HttpClient.
+                                (doto
+                                  (SslContextFactory.)
+                                  (.setSslContext
+                                    (get-adjusted-ssl-context)))))
+                            (HttpClient.))
+                          (.setExecutor
+                            (ScheduledThreadPoolExecutor.
+                              10
+                              (proxy [ThreadFactory] []
+                                (newThread [r]
+                                  (doto (Thread. r)
+                                    (.setDaemon true))))))
+                          (.setScheduler
+                            (doto
+                              (ScheduledExecutorScheduler. (str "HttpClient-Scheduler-" broker-url "-" sched-id) true)
+                              (.start)))
+                          (.start))))
                     (.start))
         ws-stomp-client (doto
                           (WebSocketStompClient. ws-client)
