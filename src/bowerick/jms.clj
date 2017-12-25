@@ -636,14 +636,18 @@
         (.startsWith
           broker-url
           "ws") (let [session-map (create-ws-stomp-session broker-url)]
+                  (println "Subscribing to" destination-description)
                   (.subscribe
                     (:session session-map)
                     destination-description
                     (proxy [StompFrameHandler] []
                       (getPayloadType [^StompHeaders stomp-headers]
+                        (println "FOOOOOOO")
                         java.lang.Object)
                       (handleFrame [^StompHeaders stomp-headers payload]
+                        (println "BARRRRRR")
                         (internal-cb (de-serialization-fn payload) stomp-headers))))
+                  (println "Subscription succeeded.")
                   (->ConsumerWrapper
                     (fn []
                       (utils/println-err "Closing consumer:" broker-url destination-description)
