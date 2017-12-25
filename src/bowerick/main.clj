@@ -223,9 +223,6 @@
 
 (defn -main [& args]
   (let [cli-args (cli args
-                   ["-b" "--benchmark-client"
-                    "Start a benchmark client listening at the given destination."
-                    :default nil]
                    ["-c" "--client" "Start in client mode." :flag true :default false]
                    ["-d" "--daemon" "Run as daemon." :flag true :default false]
                    ["-h" "--help" "Print this help." :flag true]
@@ -241,6 +238,9 @@
                    ["-A" "--a-frame-demo"
                      "When in daemon mode, start a producer for the A-Frame demo."
                      :flag true :default false]
+                   ["-B" "--benchmark-client"
+                    "Start a benchmark client listening at the given destination."
+                    :default nil]
                    ["-D" "--generator-destination"
                      "The destination to which message generators will send messages."
                      :default "/topic/bowerick.message.generator"]
