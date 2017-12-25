@@ -103,3 +103,9 @@
   (let [gen-fn (-> (slurp in-path) read-string eval)]
     (gen-fn producer delay-fn)))
 
+(defn hello-world-generator
+  [producer delay-fn _]
+  (fn []
+    (producer "hello world")
+    (delay-fn)))
+
