@@ -70,7 +70,7 @@
                              url
                              (first url))
                            (arg-map :generator-destination)
-                           (arg-map :generator-producer-pool-size))
+                           (arg-map :pool-size))
             msg-gen-prod-fn (fn [data] (if @running (msg-gen-prod data)))
             msg-delay (arg-map :generator-interval)
             counter (atom 0)
@@ -226,10 +226,6 @@
                    ["-c" "--client" "Start in client mode." :flag true :default false]
                    ["-d" "--daemon" "Run as daemon." :flag true :default false]
                    ["-h" "--help" "Print this help." :flag true]
-                   ["-p" "--pool-size"
-                    "The consumer pool size when using the benchmark client."
-                    :default 1
-                    :parse-fn #(Integer/decode %)]
                    ["-u" "--url"
                      "URL to bind the broker to."
                      :default "tcp://localhost:61616"
@@ -251,8 +247,8 @@
                      "The interval with which messages shall (roughly) be generated in milliseconds."
                      :default 10
                      :parse-fn #(Integer/decode %)]
-                   ["-P" "--generator-producer-pool-size"
-                     "The pool size for the message generator producer."
+                   ["-P" "--pool-size"
+                     "The pool size used, e.g., for the benchmark client or the message generator producer."
                      :default 1
                      :parse-fn #(Integer/decode %)]
                    ["-X" "--generator-arguments"
