@@ -241,7 +241,7 @@
                      "The destination to which message generators will send messages."
                      :default "/topic/bowerick.message.generator"]
                    ["-G" "--embedded-message-generator"
-                     "When in daemon mode, start the specified embedded message generator."
+                     "When in non-client mode, start the specified embedded message generator."
                      :default nil]
                    ["-I" "--interval"
                      (str
