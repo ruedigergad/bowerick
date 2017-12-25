@@ -201,7 +201,10 @@
 
 (defn start-benchmark-client-mode [arg-map]
   (let [counter (atom 0)
-        consumer-fn (fn [_] (swap! counter inc))
+        reception-delay (arg-map :interval)
+        consumer-fn (if (and (integer? reception-delay) (pos? reception-delay))
+                      (fn [_] (swap! counter inc) (sleep reception-delay))
+                      (fn [_] (swap! counter inc)))
         running (atom true)
         output-thread (doto (Thread. #(loop []
                                         (println "data instances per second:" @counter)
