@@ -214,7 +214,10 @@
                                           (recur))))
                         (.setDaemon true)
                         (.start))
-        consumer (create-consumer (arg-map :url) (arg-map :destination) consumer-fn (arg-map :pool-size))
+        url (if (vector? (arg-map :url))
+              (first (arg-map :url))
+              (arg-map :url))
+        consumer (create-consumer url (arg-map :destination) consumer-fn (arg-map :pool-size))
         shutdown-fn (fn []
                       (reset! running false)
                       (close consumer))]
