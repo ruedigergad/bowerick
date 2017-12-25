@@ -400,6 +400,7 @@
         session (atom nil)
         flag (utils/prepare-flag)]
     (doto (Thread. #(while (not (utils/flag-set? flag))
+                      (println "Connecting WS STOMP client...")
                       (.connect
                         ws-stomp-client
                         broker-url
@@ -411,7 +412,9 @@
                       (utils/sleep 500)))
       (.setDaemon true)
       (.start))
+    (println "Waiting for WS STOMP client to connect...")
     (utils/await-flag flag)
+    (println "WS STOMP client connection succeeded.")
     {:ws-client ws-client
      :ws-stomp-client ws-stomp-client
      :session @session}))
