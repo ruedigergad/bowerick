@@ -28,6 +28,7 @@
     (java.nio.charset Charset)
     (java.security KeyStore)
     (java.util ArrayList List)
+    (java.util.concurrent ScheduledThreadPoolExecutor ThreadFactory)
     (java.util.concurrent.locks ReentrantLock)
     (javax.jms BytesMessage Connection DeliveryMode Message MessageProducer MessageListener ObjectMessage Session TextMessage Topic)
     (javax.net.ssl KeyManagerFactory SSLContext TrustManagerFactory)
@@ -36,7 +37,9 @@
     (org.apache.activemq.broker.region Destination)
     (org.apache.activemq.broker.region.policy PolicyEntry PolicyMap)
     (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationMap AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
+    (org.eclipse.jetty.client HttpClient)
     (org.eclipse.jetty.util.ssl SslContextFactory)
+    (org.eclipse.jetty.util.thread ScheduledExecutorScheduler)
     (org.eclipse.jetty.websocket.client WebSocketClient)
     (org.eclipse.paho.client.mqttv3 MqttCallback MqttClient MqttConnectOptions MqttMessage)
     (org.eclipse.paho.client.mqttv3.persist MemoryPersistence)
@@ -357,17 +360,52 @@
     (.connect mqtt-client conn-opts)
     mqtt-client))
 
+(def ws-scheduler-id (ref 0))
+
 (defn create-ws-stomp-session
   [broker-url]
-  (let [ws-client (doto
+  (let [sched-id (dosync
+                   (let [current-value @ws-scheduler-id]
+                     (alter ws-scheduler-id inc)
+                     current-value))
+        ws-client (doto
                     (if (.startsWith broker-url "wss://")
                       (JettyWebSocketClient.
                         (WebSocketClient.
                           (doto
-                            (SslContextFactory.)
-                            (.setSslContext
-                              (get-adjusted-ssl-context)))))
-                      (JettyWebSocketClient.))
+                            (HttpClient.
+                              (doto
+                                (SslContextFactory.)
+                                (.setSslContext
+                                  (get-adjusted-ssl-context))))
+                            (.setExecutor
+                              (ScheduledThreadPoolExecutor.
+                                10
+                                (proxy [ThreadFactory] []
+                                  (newThread [r]
+                                    (doto (Thread. r)
+                                      (.setDaemon true))))))
+                            (.setScheduler
+                              (doto
+                                (ScheduledExecutorScheduler. (str "HttpClient-Scheduler-" broker-url "-" sched-id) true)
+                                (.start)))
+                            (.start))))
+                      (JettyWebSocketClient.
+                        (WebSocketClient.
+                          (doto
+                            (HttpClient.)
+                            (.setExecutor
+                              (ScheduledThreadPoolExecutor.
+                                10
+                                (proxy [ThreadFactory] []
+                                  (newThread [r]
+                                    (doto (Thread. r)
+                                      (.setDaemon true))))))
+                            (.setScheduler
+                              (doto
+                                (ScheduledExecutorScheduler. (str "HttpClient-Scheduler-" broker-url "-" sched-id) true)
+                                (.start)))
+                            (.start)))))
                     (.start))
         ws-stomp-client (doto
                           (WebSocketStompClient. ws-client)
