@@ -235,8 +235,11 @@
                    ["-u" "--url"
                      "URL to bind the broker to."
                      :default "tcp://localhost:61616"
-                     :parse-fn #(binding [*read-eval* false]
-                                  (read-string %))]
+                     :parse-fn #(let [url (binding [*read-eval* false]
+                                            (read-string %))]
+                                  (if (vector? url)
+                                    (mapv str url)
+                                    (str url)))]
                    ["-A" "--a-frame-demo"
                      "When in daemon mode, start a producer for the A-Frame demo."
                      :flag true :default false]
