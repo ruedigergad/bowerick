@@ -273,6 +273,6 @@
           (pprint extra-args))
         (cond
           (arg-map :client) (start-client-mode arg-map)
-          (not (nil? (arg-map :benchmark-client))) (start-benchmark-client-mode arg-map)
+          (arg-map :benchmark-client) (start-benchmark-client-mode arg-map)
           :default (start-broker-mode arg-map))))))
 
