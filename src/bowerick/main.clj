@@ -69,7 +69,7 @@
                            (if (string? url)
                              url
                              (first url))
-                           (arg-map :generator-destination)
+                           (arg-map :destination)
                            (arg-map :pool-size))
             msg-gen-prod-fn (fn [data] (if @running (msg-gen-prod data)))
             msg-delay (arg-map :interval)
@@ -84,7 +84,7 @@
                       generator-name
                       (arg-map :generator-arguments))]
         (println "Starting message generation with:" generator-name
-                 ", sending to:" (arg-map :generator-destination)
+                 ", sending to:" (arg-map :destination)
                  ", with args:" (arg-map :generator-arguments))
         (doto
           (Thread. #(loop []
@@ -211,7 +211,7 @@
                                           (recur))))
                         (.setDaemon true)
                         (.start))
-        consumer (create-consumer (arg-map :url) (arg-map :benchmark-client) consumer-fn (arg-map :pool-size))
+        consumer (create-consumer (arg-map :url) (arg-map :destination) consumer-fn (arg-map :pool-size))
         shutdown-fn (fn []
                       (reset! running false)
                       (close consumer))]
@@ -235,10 +235,10 @@
                      "When in daemon mode, start a producer for the A-Frame demo."
                      :flag true :default false]
                    ["-B" "--benchmark-client"
-                    "Start a benchmark client listening at the given destination."
-                    :default nil]
-                   ["-D" "--generator-destination"
-                     "The destination to which message generators will send messages."
+                    "Start in benchmark client mode."
+                    :flag true :default false]
+                   ["-D" "--destination"
+                     "The destination to which message generators will send messages or from which the benchmark client retrieves messages."
                      :default "/topic/bowerick.message.generator"]
                    ["-G" "--embedded-message-generator"
                      "When in non-client mode, start the specified embedded message generator."
