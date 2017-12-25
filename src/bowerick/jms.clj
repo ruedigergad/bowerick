@@ -46,7 +46,7 @@
     (org.fusesource.stomp.jms StompJmsConnectionFactory)
     (org.springframework.messaging.converter ByteArrayMessageConverter SmartMessageConverter StringMessageConverter)
     (org.springframework.messaging.simp.stomp DefaultStompSession StompFrameHandler StompHeaders StompSession StompSessionHandler StompSessionHandlerAdapter)
-    (org.springframework.scheduling.concurrent ThreadPoolTaskScheduler)
+    (org.springframework.scheduling.concurrent DefaultManagedTaskScheduler ThreadPoolTaskScheduler)
     (org.springframework.web.socket.messaging WebSocketStompClient)
     (org.springframework.web.socket.client.jetty JettyWebSocketClient)))
 
@@ -395,7 +395,7 @@
                     (.start))
         ws-stomp-client (doto
                           (WebSocketStompClient. ws-client)
-                          (.setTaskScheduler (doto (ThreadPoolTaskScheduler.) (.setDaemon true) .afterPropertiesSet))
+                          (.setTaskScheduler (DefaultManagedTaskScheduler.))
                           (.setDefaultHeartbeat (long-array [*ws-client-ping-heartbeat* *ws-client-pong-heartbeat*])))
         session (atom nil)
         flag (utils/prepare-flag)]
