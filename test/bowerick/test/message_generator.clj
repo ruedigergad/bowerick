@@ -231,3 +231,60 @@
                  "test/data/custom-generator-fn-return-delay-fn-value.txt")]
     (is (= "delay-fn return value" (gen-fn)))))
 
+(deftest hello-world-generator-single-test
+  (let [producer (create-producer local-jms-server test-topic 1)
+        received (atom nil)
+        flag (prepare-flag)
+        delay-fn #()
+        consume-fn (fn [obj]
+                     (let [s (String. obj)]
+                       (reset! received s)
+                       (set-flag flag)))
+        gen (create-message-generator producer delay-fn "hello-world" nil)
+        consumer (create-consumer local-jms-server test-topic consume-fn)]
+    (gen)
+    (await-flag flag)
+    (is (= "hello world" @received))
+    (close producer)
+    (close consumer)))
+
+(deftest heart4family-single-test
+  (let [producer (create-producer local-jms-server test-topic 1)
+        received (atom nil)
+        flag (prepare-flag)
+        delay-fn #()
+        consume-fn (fn [obj]
+                     (reset! received obj)
+                     (set-flag flag))
+        gen (create-message-generator producer delay-fn "heart4family" nil)
+        consumer (create-consumer local-jms-server test-topic consume-fn)]
+    (run-once (executor) #(gen) 0)
+    (await-flag flag)
+    (is (= {"x" -0.0010096558118889592, "y" -1.336958745018994, "z" 0} @received))
+    (close producer)
+    (close consumer)))
+
+(deftest heart4family-sequence-test
+  (let [producer (create-producer local-jms-server test-topic 1)
+        received (atom [])
+        flag (prepare-flag)
+        delay-fn #(sleep 100)
+        consume-fn (fn [obj]
+                     (if (> (count @received) 5)
+                       (set-flag flag)
+                       (swap! received conj obj)))
+        gen (create-message-generator producer delay-fn "heart4family" nil)
+        consumer (create-consumer local-jms-server test-topic consume-fn)]
+    (run-once (executor) #(gen) 0)
+    (await-flag flag)
+    (is (=
+          [{"x" -4.408022441584257E-48, "y" -1.3499999999999999, "z" 0}
+           {"x" -0.0010096558118889592, "y" -1.336958745018994, "z" 0}
+           {"x" -0.008009317985740547, "y" -1.2982721803501354, "z" 0}
+           {"x" -0.02665306180052213, "y" -1.2352132454498113, "z" 0}
+           {"x" -0.06194022621392171, "y" -1.1497785376674912, "z" 0}
+           {"x" -0.11792999589542943, "y" -1.044514139594933, "z" 0}]
+          @received))
+    (close producer)
+    (close consumer)))
+
