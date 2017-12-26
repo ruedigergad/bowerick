@@ -642,10 +642,8 @@
                     destination-description
                     (proxy [StompFrameHandler] []
                       (getPayloadType [^StompHeaders stomp-headers]
-                        (println "FOOOOOOO")
                         java.lang.Object)
                       (handleFrame [^StompHeaders stomp-headers payload]
-                        (println "BARRRRRR")
                         (internal-cb (de-serialization-fn payload) stomp-headers))))
                   (println "Subscription succeeded.")
                   (->ConsumerWrapper
