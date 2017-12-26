@@ -2,20 +2,20 @@ version: 2
 jobs:
   build:
     working_directory: ~/bowerick
-    machine: true
+    docker:
+      - image: circleci/clojure:lein-2.7.1
     environment:
       LEIN_ROOT=nbd
     steps:
       - checkout
       - restore_cache:
           key: << checksum "project.clj" >>
-      - run: .circleci/bin/lein deps
+      - run: lein deps
       - save_cache:
           paths:
-            - $HOME/.m2
-            - $HOME/.lein
+            - ~/.m2
           key: << checksum "project.clj" >>
-      - run: .circleci/bin/lein do test, uberjar
+      - run: lein do test, uberjar
       - store_artifacts:
           path: target/uberjar/bowerick.jar
-destination: uberjar
+          destination: uberjar
