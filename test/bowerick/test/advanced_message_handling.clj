@@ -30,7 +30,6 @@
 (deftest get-ws-stomp-headers-test
   (System/setProperty "java.net.preferIPv4Stack" "true")
   (let [broker (start-test-broker [local-ws])
-        producer (create-json-producer local-ws test-topic)
         received-data (atom nil)
         received-headers (atom nil)
         flag (prepare-flag)
@@ -38,7 +37,8 @@
                      (reset! received-data data)
                      (reset! received-headers hdrs)
                      (set-flag flag))
-        consumer (create-failsafe-json-consumer local-ws test-topic consume-fn)]
+        consumer (create-failsafe-json-consumer local-ws test-topic consume-fn)
+        producer (create-json-producer local-ws test-topic)]
     (println "Sending test-string...")
     (producer "test-string")
     (await-flag flag)
