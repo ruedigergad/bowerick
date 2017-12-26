@@ -16,7 +16,10 @@
     [bowerick.test.test-helper :refer :all]
     [cli4clj.cli-tests :refer :all]
     [clj-assorted-utils.util :refer :all]
-    [clojure.test :refer :all]))
+    [clojure.test :refer :all]
+    [clojure.java.io :as io])
+  (:import
+    (java.io PipedReader PipedWriter)))
 
 
 
@@ -74,16 +77,55 @@
 
 (deftest simple-send-receive-with-cli-broker-test
   (let [started-string "Broker started... Type \"q\" followed by <Return> to quit:"
+        started-flag (prepare-flag)
+        stopped-string "Broker stopped."
+        stopped-flag (prepare-flag)
+        stop-wrtr (PipedWriter.)
+        stop-rdr (PipedReader. stop-wrtr)
+        main-thread (Thread. #(with-out-str-cb
+                                (fn [s]
+                                  (when (.contains s started-string)
+                                    (println-err "Test broker started.")
+                                    (set-flag started-flag))
+                                  (when (.contains s stopped-string)
+                                    (println-err "Test broker stopped.")
+                                    (set-flag stopped-flag)))
+                                (binding [*in* (io/reader stop-rdr)]
+                                  (-main "-u" (str "\"" local-cli-jms-server "\"")))))
+        _ (.setDaemon main-thread true)
+        _ (.start main-thread)
+        _ (println "Waiting for test broker to start up...")
+        _ (await-flag started-flag)
+        test-cmd-input [(str "receive " local-cli-jms-server ":" test-topic)
+                        (str "send " local-cli-jms-server ":" test-topic " \"test-data\"")
+                        "_sleep 500"]
+        out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
+    (is
+      (=
+        (expected-string
+          [(str "Set up consumer for: " local-cli-jms-server ":" test-topic)
+           (str "Sending: " local-cli-jms-server ":" test-topic " <-")
+           "\"test-data\""
+           (str "Received: " local-cli-jms-server ":" test-topic " ->")
+           "\"test-data\""])
+        out-string))
+    (println "Stopping test broker...")
+    (.write stop-wrtr "q\r")
+    (println "Waiting for test broker to stop...")
+    (await-flag stopped-flag)))
+
+(deftest simple-send-receive-with-cli-daemon-broker-test
+  (let [started-string "Broker started in daemon mode."
         flag (prepare-flag)
-        _ (run-once (executor)
-                    #(with-out-str-cb
-                       (fn [s]
-                         (when (.contains s started-string)
-                           (println-err "Broker started.")
-                           (set-flag flag)))
-                       (-main "-u" (str "\"" local-cli-jms-server "\"")))
-                    0)
-        _ (println "Waiting for broker to start up...")
+        main-thread (Thread. #(with-out-str-cb
+                                (fn [s]
+                                  (when (.contains s started-string)
+                                    (println-err "Test broker started.")
+                                    (set-flag flag)))
+                                (-main "-u" (str "\"" local-cli-jms-server "\"") "-d")))
+        _ (.setDaemon main-thread true)
+        _ (.start main-thread)
+        _ (println "Waiting for test broker to start up...")
         _ (await-flag flag)
         test-cmd-input [(str "receive " local-cli-jms-server ":" test-topic)
                         (str "send " local-cli-jms-server ":" test-topic " \"test-data\"")
@@ -98,22 +140,6 @@
            (str "Received: " local-cli-jms-server ":" test-topic " ->")
            "\"test-data\""])
         out-string))))
-
-;(deftest simple-send-receive-with-cli-daemon-broker-test
-;  (let [_ (run-once (executor) #(-main "-u" (str "\"" local-cli-jms-server "\"") "-d") 0)
-;        test-cmd-input [(str "receive " local-cli-jms-server ":" test-topic)
-;                        (str "send " local-cli-jms-server ":" test-topic " \"test-data\"")
-;                        "_sleep 300"]
-;        out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
-;    (is
-;      (=
-;        (expected-string
-;          [(str "Set up consumer for: " local-cli-jms-server ":" test-topic)
-;           (str "Sending: " local-cli-jms-server ":" test-topic " <-")
-;           "\"test-data\""
-;           (str "Received: " local-cli-jms-server ":" test-topic " ->")
-;           "\"test-data\""])
-;        out-string))))
 
 (deftest broker-management-get-destinations-test
   (let [test-cmd-input [(str "management \"" local-jms-server "\" get-destinations")

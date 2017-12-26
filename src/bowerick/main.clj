@@ -38,7 +38,8 @@
                       (reset! running false)
                       (sleep 500)
                       (println "Stopping broker...")
-                      (stop broker-service))]
+                      (stop broker-service)
+                      (println "Broker stopped."))]
     (if (arg-map :a-frame-demo)
       (let [af-topic-name "/topic/aframe"
             af-prod (create-producer af-demo-url af-topic-name 1)
@@ -106,7 +107,9 @@
           (.setDaemon true)
           (.start))))
     (if (arg-map :daemon)
-      (-> (agent 0) (await))
+      (do
+        (println "Broker started in daemon mode.")
+        (-> (agent 0) (await)))
       (do
         (println "Broker started... Type \"q\" followed by <Return> to quit: ")
         (while (not= "q" (read-line))
