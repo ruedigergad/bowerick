@@ -17,7 +17,7 @@
                  [org.eclipse.jetty/jetty-server "9.4.8.v20171121"]
                  [org.eclipse.jetty.websocket/websocket-client "9.4.8.v20171121"]
                  [org.eclipse.jetty.websocket/websocket-server "9.4.8.v20171121"]
-                 [org.clojure/clojure "1.8.0"]
+                 [org.clojure/clojure "1.9.0"]
                  [org.clojure/tools.cli "0.3.5"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.1.1"]
