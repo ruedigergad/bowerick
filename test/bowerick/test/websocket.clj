@@ -38,11 +38,11 @@
 
 
 (deftest websocket-string-test
-  (let [producer (create-producer url-websocket test-topic)
-        received (atom nil)
+  (let [received (atom nil)
         flag (prepare-flag)
         consume-fn (fn [obj] (reset! received obj) (set-flag flag))
-        consumer (create-consumer url-websocket test-topic consume-fn)]
+        consumer (create-consumer url-websocket test-topic consume-fn)
+        producer (create-producer url-websocket test-topic)]
     (producer "¿Qué pasa?")
     (await-flag flag)
     (is (instance? byte-array-type @received))
@@ -51,11 +51,11 @@
     (close consumer)))
 
 (deftest websocket-to-openwire-string-test
-  (let [producer (create-producer url-websocket test-topic)
-        received (atom nil)
+  (let [received (atom nil)
         flag (prepare-flag)
         consume-fn (fn [obj] (reset! received obj) (set-flag flag))
-        consumer (create-consumer url-openwire test-topic consume-fn)]
+        consumer (create-consumer url-openwire test-topic consume-fn)
+        producer (create-producer url-websocket test-topic)]
     (producer "¿Qué pasa?")
     (await-flag flag)
     (is (instance? byte-array-type @received))
@@ -64,11 +64,11 @@
     (close consumer)))
 
 (deftest websocket-to-stomp-string-test
-  (let [producer (create-producer url-websocket test-topic)
-        received (atom nil)
+  (let [received (atom nil)
         flag (prepare-flag)
         consume-fn (fn [obj] (reset! received obj) (set-flag flag))
-        consumer (create-consumer url-stomp test-topic consume-fn)]
+        consumer (create-consumer url-stomp test-topic consume-fn)
+        producer (create-producer url-websocket test-topic)]
     (producer "¿Cómo estás?")
     (await-flag flag)
     (is (instance? byte-array-type @received))
@@ -77,15 +77,15 @@
     (close consumer)))
 
 (deftest websocket-ssl-to-stomp-string-test
-  (let [producer (binding [*trust-store-file* "test/ssl/client.ts"
+  (let [received (atom nil)
+        flag (prepare-flag)
+        consume-fn (fn [obj] (reset! received obj) (set-flag flag))
+        consumer (create-consumer url-stomp test-topic consume-fn)
+        producer (binding [*trust-store-file* "test/ssl/client.ts"
                            *trust-store-password* "password"
                            *key-store-file* "test/ssl/client.ks"
                            *key-store-password* "password"]
-                   (create-producer url-websocket-ssl test-topic))
-        received (atom nil)
-        flag (prepare-flag)
-        consume-fn (fn [obj] (reset! received obj) (set-flag flag))
-        consumer (create-consumer url-stomp test-topic consume-fn)]
+                   (create-producer url-websocket-ssl test-topic))]
     (producer "¿Cómo estás?")
     (await-flag flag)
     (is (instance? byte-array-type @received))
