@@ -1,7 +1,8 @@
 language: clojure
 lein: lein
 after_script:
-      - bash -ex test/coveralls.sh
+  - bash -ex test/coveralls.sh
 jdk:
   - oraclejdk8
-sudo: false
+sudo: required
+dist: trusty
