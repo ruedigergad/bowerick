@@ -399,19 +399,15 @@
                           (.setDefaultHeartbeat (long-array [*ws-client-ping-heartbeat* *ws-client-pong-heartbeat*])))
         session (atom nil)
         flag (utils/prepare-flag)]
-    (doto (Thread. #(while (not (utils/flag-set? flag))
-                      (println "Connecting WS STOMP client...")
-                      (.connect
-                        ws-stomp-client
-                        broker-url
-                        (proxy [StompSessionHandlerAdapter] []
-                          (afterConnected [^StompSession new-session ^StompHeaders stomp-headers]
-                            (reset! session new-session)
-                            (utils/set-flag flag)))
-                        (object-array 0))
-                      (utils/sleep 500)))
-      (.setDaemon true)
-      (.start))
+    (println "Connecting WS STOMP client...")
+    (.connect
+      ws-stomp-client
+      broker-url
+      (proxy [StompSessionHandlerAdapter] []
+        (afterConnected [^StompSession new-session ^StompHeaders stomp-headers]
+          (reset! session new-session)
+          (utils/set-flag flag)))
+      (object-array 0))
     (println "Waiting for WS STOMP client to connect...")
     (utils/await-flag flag)
     (println "WS STOMP client connection succeeded.")
