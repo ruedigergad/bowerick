@@ -22,7 +22,7 @@
 (def local-openwire "tcp://127.0.0.1:33111")
 (def local-stomp "stomp://127.0.0.1:33222")
 (def local-mqtt "mqtt://127.0.0.1:33333")
-(def local-ws "ws://127.0.0.1:33333")
+(def local-ws "ws://127.0.0.1:33444")
 (def test-topic "/topic/testtopic.foo")
 
 
