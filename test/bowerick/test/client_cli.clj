@@ -72,37 +72,38 @@
            "\"test-data\""])
         out-string))))
 
-(deftest simple-send-receive-with-cli-broker-test
-  (let [_ (run-once (executor) #(-main "-u" (str "\"" local-cli-jms-server "\"")) 0)
-        test-cmd-input [(str "receive " local-cli-jms-server ":" test-topic)
-                        (str "send " local-cli-jms-server ":" test-topic " \"test-data\"")
-                        "_sleep 300"]
-        out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
-    (is
-      (=
-        (expected-string
-          [(str "Set up consumer for: " local-cli-jms-server ":" test-topic)
-           (str "Sending: " local-cli-jms-server ":" test-topic " <-")
-           "\"test-data\""
-           (str "Received: " local-cli-jms-server ":" test-topic " ->")
-           "\"test-data\""])
-        out-string))))
-
-(deftest simple-send-receive-with-cli-daemon-broker-test
-  (let [_ (run-once (executor) #(-main "-u" (str "\"" local-cli-jms-server "\"") "-d") 0)
-        test-cmd-input [(str "receive " local-cli-jms-server ":" test-topic)
-                        (str "send " local-cli-jms-server ":" test-topic " \"test-data\"")
-                        "_sleep 300"]
-        out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
-    (is
-      (=
-        (expected-string
-          [(str "Set up consumer for: " local-cli-jms-server ":" test-topic)
-           (str "Sending: " local-cli-jms-server ":" test-topic " <-")
-           "\"test-data\""
-           (str "Received: " local-cli-jms-server ":" test-topic " ->")
-           "\"test-data\""])
-        out-string))))
+;(deftest simple-send-receive-with-cli-broker-test
+;  (let [sl (string-latch ["Broker started... Type "q" followed by <Return> to quit:"])
+;        _ (run-once (executor) #(-main "-u" (str "\"" local-cli-jms-server "\"")) 0)
+;        test-cmd-input [(str "receive " local-cli-jms-server ":" test-topic)
+;                        (str "send " local-cli-jms-server ":" test-topic " \"test-data\"")
+;                        "_sleep 300"]
+;        out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
+;    (is
+;      (=
+;        (expected-string
+;          [(str "Set up consumer for: " local-cli-jms-server ":" test-topic)
+;           (str "Sending: " local-cli-jms-server ":" test-topic " <-")
+;           "\"test-data\""
+;           (str "Received: " local-cli-jms-server ":" test-topic " ->")
+;           "\"test-data\""])
+;        out-string))))
+;
+;(deftest simple-send-receive-with-cli-daemon-broker-test
+;  (let [_ (run-once (executor) #(-main "-u" (str "\"" local-cli-jms-server "\"") "-d") 0)
+;        test-cmd-input [(str "receive " local-cli-jms-server ":" test-topic)
+;                        (str "send " local-cli-jms-server ":" test-topic " \"test-data\"")
+;                        "_sleep 300"]
+;        out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
+;    (is
+;      (=
+;        (expected-string
+;          [(str "Set up consumer for: " local-cli-jms-server ":" test-topic)
+;           (str "Sending: " local-cli-jms-server ":" test-topic " <-")
+;           "\"test-data\""
+;           (str "Received: " local-cli-jms-server ":" test-topic " ->")
+;           "\"test-data\""])
+;        out-string))))
 
 (deftest broker-management-get-destinations-test
   (let [test-cmd-input [(str "management \"" local-jms-server "\" get-destinations")
