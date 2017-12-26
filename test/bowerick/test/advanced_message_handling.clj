@@ -28,6 +28,7 @@
 
 
 (deftest get-ws-stomp-headers-test
+  (System/setProperty "java.net.preferIPv4Stack" true)
   (let [broker (start-test-broker [local-ws])
         producer (create-json-producer local-ws test-topic)
         received-data (atom nil)
