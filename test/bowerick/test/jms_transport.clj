@@ -35,7 +35,7 @@
   (println "TEST RUN START: " (str t))
   (println "TESTING: tcp://127.0.0.1:42424")
   (run-test t)
-  (println "TESTING: udp://127.0.0.1:42426"
+  (println "TESTING: udp://127.0.0.1:42426")
   (binding [*local-jms-server* "udp://127.0.0.1:42426"]
     (run-test t))
   (println "TESTING: stomp://127.0.0.1:42422")
