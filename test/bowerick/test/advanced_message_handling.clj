@@ -38,8 +38,10 @@
                      (reset! received-headers hdrs)
                      (set-flag flag))
         consumer (create-failsafe-json-consumer local-ws test-topic consume-fn)]
+    (println "Sending test-string...")
     (producer "test-string")
     (await-flag flag)
+    (println "Received message. Comparing result...")
     (is (= "test-string" @received-data))
     (is (instance? org.springframework.messaging.simp.stomp.StompHeaders @received-headers))
     (is (= test-topic (.getDestination @received-headers)))
