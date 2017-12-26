@@ -223,7 +223,8 @@
            "\"test-data\""
            (str "Received: " local-cli-jms-server ":" test-topic " ->")
            "\"test-data\""])
-        out-string))))
+        out-string))
+    (.interrupt main-thread)))
 
 (deftest broker-management-get-destinations-test
   (let [test-cmd-input [(str "management \"" local-jms-server "\" get-destinations")
