@@ -114,6 +114,50 @@
     (println "Waiting for test broker to stop...")
     (await-flag stopped-flag)))
 
+(deftest simple-cli-broker-aframe-test
+  (let [started-string "Broker started... Type \"q\" followed by <Return> to quit:"
+        started-flag (prepare-flag)
+        stopped-string "Broker stopped."
+        stopped-flag (prepare-flag)
+        stop-wrtr (PipedWriter.)
+        stop-rdr (PipedReader. stop-wrtr)
+        main-thread (Thread. #(with-out-str-cb
+                                (fn [s]
+                                  (when (string? s)
+                                    (when (.contains s started-string)
+                                      (println-err "Test broker started.")
+                                      (set-flag started-flag))
+                                    (when (.contains s stopped-string)
+                                      (println-err "Test broker stopped.")
+                                      (set-flag stopped-flag))))
+                                (binding [*in* (io/reader stop-rdr)]
+                                  (-main "-u" (str "\"" local-cli-jms-server "\"") "-A"))))
+        _ (.setDaemon main-thread true)
+        _ (.start main-thread)
+        _ (println "Waiting for test broker to start up...")
+        _ (await-flag started-flag)
+        received (atom [])
+        received-flag (prepare-flag)
+        consumer (create-json-consumer
+                   local-cli-jms-server
+                   "/topic/aframe"
+                   (fn [data]
+                     (if (>= (count @received) 2)
+                       (set-flag received-flag)
+                       (swap! received conj data))))]
+    (println "Waiting to receive test data...")
+    (await-flag received-flag)
+    (is (map? (first @received)))
+    (is (contains? (first @received) "x"))
+    (is (contains? (first @received) "y"))
+    (is (contains? (first @received) "z"))
+    (is (> ((first @received) "x") ((second @received) "x")))
+    (is (< ((first @received) "y") ((second @received) "y")))
+    (println "Stopping test broker...")
+    (.write stop-wrtr "q\r")
+    (println "Waiting for test broker to stop...")
+    (await-flag stopped-flag)))
+
 (deftest simple-send-receive-with-cli-daemon-broker-test
   (let [started-string "Broker started in daemon mode."
         flag (prepare-flag)
