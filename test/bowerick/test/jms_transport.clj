@@ -32,29 +32,37 @@
     (stop broker)))
 
 (defn single-test-fixture [t]
+  (println "TEST RUN START: " (str t))
+  (println "TESTING: tcp://127.0.0.1:42424")
   (run-test t)
+  (println "TESTING: udp://127.0.0.1:42426"
   (binding [*local-jms-server* "udp://127.0.0.1:42426"]
     (run-test t))
+  (println "TESTING: stomp://127.0.0.1:42422")
   (binding [*local-jms-server* "stomp://127.0.0.1:42422"]
     (run-test t))
+  (println "TESTING: stomp+ssl://127.0.0.1:42423")
   (binding [*local-jms-server* "stomp+ssl://127.0.0.1:42423"
             *trust-store-file* "test/ssl/client.ts"
             *trust-store-password* "password"
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
     (run-test t))
+  (println "TESTING: stomp+ssl://127.0.0.1:42423?needClientAuth=true")
   (binding [*local-jms-server* "stomp+ssl://127.0.0.1:42423?needClientAuth=true"
             *trust-store-file* "test/ssl/client.ts"
             *trust-store-password* "password"
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
     (run-test t))
+  (println "TESTING: ssl://127.0.0.1:42425")
   (binding [*local-jms-server* "ssl://127.0.0.1:42425"
             *trust-store-file* "test/ssl/client.ts"
             *trust-store-password* "password"
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
     (run-test t))
+  (println "TESTING: ssl://127.0.0.1:42425?needClientAuth=true")
   (binding [*local-jms-server* "ssl://127.0.0.1:42425?needClientAuth=true"
             *trust-store-file* "test/ssl/client.ts"
             *trust-store-password* "password"
