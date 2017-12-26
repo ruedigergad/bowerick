@@ -3,6 +3,7 @@ lein: lein
 after_script:
   - bash -ex test/coveralls.sh
 jdk:
+  - openjdk8
   - oraclejdk8
 sudo: required
 dist: trusty
