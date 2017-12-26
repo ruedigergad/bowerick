@@ -4,5 +4,5 @@ after_script:
   - bash -ex test/coveralls.sh
 jdk:
   - openjdk8
-sudo: required
+sudo: false
 dist: trusty
