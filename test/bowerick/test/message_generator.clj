@@ -255,9 +255,9 @@
         consume-fn (fn [obj]
                      (reset! received obj)
                      (set-flag flag))
-        gen (create-message-generator producer delay-fn "heart4family" nil)
         consumer (create-consumer local-jms-server test-topic consume-fn)
-        producer (create-producer local-jms-server test-topic 1)]
+        producer (create-producer local-jms-server test-topic 1)
+        gen (create-message-generator producer delay-fn "heart4family" nil)]
     (run-once (executor) #(gen) 0)
     (await-flag flag)
     (is (= {"x" -0.0010096558118889592, "y" -1.336958745018994, "z" 0} @received))
@@ -272,9 +272,9 @@
                      (if (> (count @received) 5)
                        (set-flag flag)
                        (swap! received conj obj)))
-        gen (create-message-generator producer delay-fn "heart4family" nil)
         consumer (create-consumer local-jms-server test-topic consume-fn)
-        producer (create-producer local-jms-server test-topic 1)]
+        producer (create-producer local-jms-server test-topic 1)
+        gen (create-message-generator producer delay-fn "heart4family" nil)]
     (run-once (executor) #(gen) 0)
     (await-flag flag)
     (is (=
