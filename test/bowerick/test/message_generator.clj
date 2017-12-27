@@ -253,14 +253,15 @@
         flag (prepare-flag)
         delay-fn #()
         consume-fn (fn [obj]
-                     (reset! received obj)
-                     (set-flag flag))
+                     (when (not (flag-set? flag))
+                       (reset! received obj)
+                       (set-flag flag)))
         consumer (create-consumer local-jms-server test-topic consume-fn)
         producer (create-producer local-jms-server test-topic 1)
         gen (create-message-generator producer delay-fn "heart4family" nil)]
     (run-once (executor) #(gen) 0)
     (await-flag flag)
-    (is (= {"x" -0.0010096558118889592, "y" -1.336958745018994, "z" 0} @received))
+    (is (= {"x" -4.408022441584257E-48, "y" -1.3499999999999999, "z" 0} @received))
     (close producer)
     (close consumer)))
 
