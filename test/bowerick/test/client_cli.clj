@@ -153,6 +153,7 @@
     (is (contains? (first @received) "z"))
     (is (> ((first @received) "x") ((second @received) "x")))
     (is (< ((first @received) "y") ((second @received) "y")))
+    (is (= ((first @received) "z") ((second @received) "z")))
     (println "Stopping test broker...")
     (.write stop-wrtr "q\r")
     (println "Waiting for test broker to stop...")
