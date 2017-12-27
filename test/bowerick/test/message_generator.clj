@@ -249,15 +249,15 @@
     (close consumer)))
 
 (deftest heart4family-single-test
-  (let [producer (create-producer local-jms-server test-topic 1)
-        received (atom nil)
+  (let [received (atom nil)
         flag (prepare-flag)
         delay-fn #()
         consume-fn (fn [obj]
                      (reset! received obj)
                      (set-flag flag))
         gen (create-message-generator producer delay-fn "heart4family" nil)
-        consumer (create-consumer local-jms-server test-topic consume-fn)]
+        consumer (create-consumer local-jms-server test-topic consume-fn)
+        producer (create-producer local-jms-server test-topic 1)]
     (run-once (executor) #(gen) 0)
     (await-flag flag)
     (is (= {"x" -0.0010096558118889592, "y" -1.336958745018994, "z" 0} @received))
@@ -265,8 +265,7 @@
     (close consumer)))
 
 (deftest heart4family-sequence-test
-  (let [producer (create-producer local-jms-server test-topic 1)
-        received (atom [])
+  (let [received (atom [])
         flag (prepare-flag)
         delay-fn #(sleep 100)
         consume-fn (fn [obj]
@@ -274,7 +273,8 @@
                        (set-flag flag)
                        (swap! received conj obj)))
         gen (create-message-generator producer delay-fn "heart4family" nil)
-        consumer (create-consumer local-jms-server test-topic consume-fn)]
+        consumer (create-consumer local-jms-server test-topic consume-fn)
+        producer (create-producer local-jms-server test-topic 1)]
     (run-once (executor) #(gen) 0)
     (await-flag flag)
     (is (=
