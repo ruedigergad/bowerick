@@ -251,7 +251,7 @@
 (deftest heart4family-single-test
   (let [received (atom nil)
         flag (prepare-flag)
-        delay-fn #()
+        delay-fn #(sleep 100)
         consume-fn (fn [obj]
                      (when (not (flag-set? flag))
                        (reset! received obj)
