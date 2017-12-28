@@ -368,6 +368,16 @@
                    (let [current-value @ws-scheduler-id]
                      (alter ws-scheduler-id inc)
                      current-value))
+        stp-exec (ScheduledThreadPoolExecutor.
+                   10
+                   (proxy [ThreadFactory] []
+                     (newThread [r]
+                       (doto (Thread. r)
+                         (.setDaemon true)))))
+        se-sched (doto
+                   (ScheduledExecutorScheduler.
+                     (str "HttpClient-Scheduler-" broker-url "-" sched-id) true)
+                   (.start))
         ws-client (WebSocketClient.
                     (doto
                       (if (.startsWith broker-url "wss://")
@@ -378,17 +388,8 @@
                               (.setSslContext
                                 (get-adjusted-ssl-context)))))
                         (HttpClient.))
-                      (.setExecutor
-                        (ScheduledThreadPoolExecutor.
-                          10
-                          (proxy [ThreadFactory] []
-                            (newThread [r]
-                              (doto (Thread. r)
-                                (.setDaemon true))))))
-                      (.setScheduler
-                        (doto
-                          (ScheduledExecutorScheduler. (str "HttpClient-Scheduler-" broker-url "-" sched-id) true)
-                          (.start)))
+                      (.setExecutor stp-exec)
+                      (.setScheduler se-sched)
                       (.start)))
         jws-client (doto
                     (JettyWebSocketClient. ws-client)
@@ -414,7 +415,9 @@
     {:ws-client ws-client
      :jws-client jws-client
      :ws-stomp-client ws-stomp-client
-     :session @session}))
+     :session @session
+     :stp-exec stp-exec
+     :se-sched se-sched}))
 
 (defn close-ws-stomp-session
   [session-map]
@@ -422,7 +425,9 @@
   (.disconnect (:session session-map))
   (.stop (:ws-stomp-client session-map))
   (.stop (:jws-client session-map))
-  (doto (:ws-client session-map) .stop .destroy))
+  (doto (:ws-client session-map) .stop .destroy)
+  (.shutdownNow (:stp-exec session-map))
+  (.stop (:se-sched session-map)))
 
 (defmacro with-destination
   "Execute body in a context for which connection, session, and destination are
