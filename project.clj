@@ -3,7 +3,7 @@
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
                  [cheshire "5.8.0"]
-                 [cli4clj "1.3.2"]
+                 [cli4clj "1.4.0"]
                  [clj-assorted-utils "1.18.2"]
                  [com.ning/compress-lzf "1.0.4"]
                  [com.taoensso/nippy "2.13.0"]
@@ -22,8 +22,8 @@
                  [rgad/stompjms-client "1.20-SNAPSHOT"]
                  ; Staying with 1.1.1 until https://github.com/eclipse/paho.mqtt.java/issues/402 is fixed.
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.1.1"]
-                 [org.springframework/spring-messaging "5.0.2.RELEASE"]
-                 [org.springframework/spring-websocket "5.0.2.RELEASE"]
+                 [org.springframework/spring-messaging "5.0.3.RELEASE"]
+                 [org.springframework/spring-websocket "5.0.3.RELEASE"]
                  [org.slf4j/slf4j-simple "1.7.25"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
