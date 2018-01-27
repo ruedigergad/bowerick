@@ -368,33 +368,34 @@
                    (let [current-value @ws-scheduler-id]
                      (alter ws-scheduler-id inc)
                      current-value))
-        ws-client (doto
-                    (JettyWebSocketClient.
-                      (WebSocketClient.
+        stp-exec (ScheduledThreadPoolExecutor.
+                   10
+                   (proxy [ThreadFactory] []
+                     (newThread [r]
+                       (doto (Thread. r)
+                         (.setDaemon true)))))
+        se-sched (doto
+                   (ScheduledExecutorScheduler.
+                     (str "HttpClient-Scheduler-" broker-url "-" sched-id) true)
+                   (.start))
+        ws-client (WebSocketClient.
+                    (doto
+                      (if (.startsWith broker-url "wss://")
                         (doto
-                          (if (.startsWith broker-url "wss://")
+                          (HttpClient.
                             (doto
-                              (HttpClient.
-                                (doto
-                                  (SslContextFactory.)
-                                  (.setSslContext
-                                    (get-adjusted-ssl-context)))))
-                            (HttpClient.))
-                          (.setExecutor
-                            (ScheduledThreadPoolExecutor.
-                              10
-                              (proxy [ThreadFactory] []
-                                (newThread [r]
-                                  (doto (Thread. r)
-                                    (.setDaemon true))))))
-                          (.setScheduler
-                            (doto
-                              (ScheduledExecutorScheduler. (str "HttpClient-Scheduler-" broker-url "-" sched-id) true)
-                              (.start)))
-                          (.start))))
+                              (SslContextFactory.)
+                              (.setSslContext
+                                (get-adjusted-ssl-context)))))
+                        (HttpClient.))
+                      (.setExecutor stp-exec)
+                      (.setScheduler se-sched)
+                      (.start)))
+        jws-client (doto
+                    (JettyWebSocketClient. ws-client)
                     (.start))
         ws-stomp-client (doto
-                          (WebSocketStompClient. ws-client)
+                          (WebSocketStompClient. jws-client)
                           (.setTaskScheduler (DefaultManagedTaskScheduler.))
                           (.setDefaultHeartbeat (long-array [*ws-client-ping-heartbeat* *ws-client-pong-heartbeat*])))
         session (atom nil)
@@ -412,15 +413,21 @@
     (utils/await-flag flag)
     (println "WS STOMP client connection succeeded.")
     {:ws-client ws-client
+     :jws-client jws-client
      :ws-stomp-client ws-stomp-client
-     :session @session}))
+     :session @session
+     :stp-exec stp-exec
+     :se-sched se-sched}))
 
 (defn close-ws-stomp-session
   [session-map]
   (println "Closing WebSocket session...")
   (.disconnect (:session session-map))
   (.stop (:ws-stomp-client session-map))
-  (.stop (:ws-client session-map)))
+  (.stop (:jws-client session-map))
+  (doto (:ws-client session-map) .stop .destroy)
+  (.shutdownNow (:stp-exec session-map))
+  (.stop (:se-sched session-map)))
 
 (defmacro with-destination
   "Execute body in a context for which connection, session, and destination are
