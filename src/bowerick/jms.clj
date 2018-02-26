@@ -719,36 +719,42 @@
     (let [producer (create-single-producer broker-url destination-description serialization-fn)
           pool (ArrayList. pool-size)
           lock (ReentrantLock.)
-          add-fn (fn [d]
-                   (.lock lock)
-                   (try
-                     (.add pool d)
-                     (when (>= (.size pool) pool-size)
-                       (producer pool)
-                       (.clear pool))
-                     (finally
-                       (.unlock lock))))
+          opt-args (atom nil)
           auto-transmit-fn (fn []
                              (.lock lock)
                              (try
                                (when (not (.isEmpty pool))
-                                 (producer pool)
-                                 (.clear pool))
+                                 (if (not (nil? @opt-args))
+                                   (producer pool @opt-args)
+                                   (producer pool))
+                                 (.clear pool)
+                                 (reset! opt-args nil))
                                (finally
                                  (.unlock lock))))
           exec (utils/executor)]
       (utils/run-repeat exec auto-transmit-fn *pooled-producer-auto-transmit-interval*)
       (->ProducerWrapper
-        (fn [data]
-          (.add pool data)
-          (when (>= (.size pool) pool-size)
-            (producer pool)
-            (.clear pool)))
-        (fn [data opt-args]
-          (.add pool data)
-          (when (>= (.size pool) pool-size)
-            (producer pool opt-args)
-            (.clear pool)))
+        (fn [d]
+          (.lock lock)
+          (try
+            (.add pool d)
+            (reset! opt-args nil)
+            (when (>= (.size pool) pool-size)
+              (producer pool)
+              (.clear pool))
+            (finally
+              (.unlock lock))))
+        (fn [d oa]
+          (.lock lock)
+          (try
+            (.add pool d)
+            (reset! opt-args oa)
+            (when (>= (.size pool) pool-size)
+              (producer pool opt-args)
+              (.clear pool)
+              (reset! opt-args nil))
+            (finally
+              (.unlock lock))))
         (fn []
           (utils/println-err "Closing pooled producer.")
           (.shutdownNow exec)
