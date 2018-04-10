@@ -20,9 +20,10 @@
                  [org.clojure/clojure "1.9.0"]
                  [org.clojure/tools.cli "0.3.5"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]
+                 ; Staying with 1.1.1 until https://github.com/eclipse/paho.mqtt.java/issues/402 is fixed.
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.1.1"]
-                 [org.springframework/spring-messaging "5.0.2.RELEASE"]
-                 [org.springframework/spring-websocket "5.0.2.RELEASE"]
+                 [org.springframework/spring-messaging "5.0.3.RELEASE"]
+                 [org.springframework/spring-websocket "5.0.3.RELEASE"]
                  [org.slf4j/slf4j-simple "1.7.25"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
