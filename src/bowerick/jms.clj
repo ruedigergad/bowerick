@@ -743,7 +743,8 @@
           (.lock lock)
           (try
             (.add pool d)
-            (reset! opt-args nil)
+            (if (not (nil? @opt-args))
+              (reset! opt-args nil))
             (when (>= (.size pool) pool-size)
               (producer pool)
               (.clear pool)
