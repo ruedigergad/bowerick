@@ -720,17 +720,22 @@
           pool (ArrayList. pool-size)
           lock (ReentrantLock.)
           opt-args (atom nil)
+          last-sent (atom (System/nanoTime))
           auto-transmit-fn (fn []
-                             (.lock lock)
-                             (try
-                               (when (not (.isEmpty pool))
-                                 (if (not (nil? @opt-args))
-                                   (producer pool @opt-args)
-                                   (producer pool))
-                                 (.clear pool)
-                                 (reset! opt-args nil))
-                               (finally
-                                 (.unlock lock))))
+                             (when (>
+                                    (-> (System/nanoTime) (- @last-sent) (/ 1000000))
+                                    *pooled-producer-auto-transmit-interval*)
+                               (.lock lock)
+                               (try
+                                 (when (not (.isEmpty pool))
+                                   (if (not (nil? @opt-args))
+                                     (producer pool @opt-args)
+                                     (producer pool))
+                                   (.clear pool)
+                                   (reset! opt-args nil)
+                                   (reset! last-sent (System/nanoTime)))
+                                 (finally
+                                   (.unlock lock)))))
           exec (utils/executor)]
       (utils/run-repeat exec auto-transmit-fn *pooled-producer-auto-transmit-interval*)
       (->ProducerWrapper
@@ -741,7 +746,8 @@
             (reset! opt-args nil)
             (when (>= (.size pool) pool-size)
               (producer pool)
-              (.clear pool))
+              (.clear pool)
+              (reset! last-sent (System/nanoTime)))
             (finally
               (.unlock lock))))
         (fn [d oa]
@@ -752,7 +758,8 @@
             (when (>= (.size pool) pool-size)
               (producer pool opt-args)
               (.clear pool)
-              (reset! opt-args nil))
+              (reset! opt-args nil)
+              (reset! last-sent (System/nanoTime)))
             (finally
               (.unlock lock))))
         (fn []
