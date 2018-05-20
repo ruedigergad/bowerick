@@ -6,24 +6,24 @@
                  [cli4clj "1.4.0"]
                  [clj-assorted-utils "1.18.2"]
                  [com.ning/compress-lzf "1.0.4"]
-                 [com.taoensso/nippy "2.13.0"]
-                 [javax.servlet/javax.servlet-api "4.0.0"]
-                 [org.apache.activemq/activemq-broker "5.15.2" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.apache.activemq/activemq-client "5.15.2" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.apache.activemq/activemq-http "5.15.2" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.apache.activemq/activemq-jaas "5.15.2" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.apache.activemq/activemq-openwire-legacy "5.15.2" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.apache.activemq/activemq-stomp "5.15.2" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [com.taoensso/nippy "2.14.0"]
+                 [javax.servlet/javax.servlet-api "4.0.1"]
+                 [org.apache.activemq/activemq-broker "5.15.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [org.apache.activemq/activemq-client "5.15.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [org.apache.activemq/activemq-http "5.15.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [org.apache.activemq/activemq-jaas "5.15.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [org.apache.activemq/activemq-openwire-legacy "5.15.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [org.apache.activemq/activemq-stomp "5.15.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.eclipse.jetty/jetty-server "9.4.8.v20171121"]
                  [org.eclipse.jetty.websocket/websocket-client "9.4.8.v20171121"]
                  [org.eclipse.jetty.websocket/websocket-server "9.4.8.v20171121"]
                  [org.clojure/clojure "1.9.0"]
-                 [org.clojure/tools.cli "0.3.5"]
+                 [org.clojure/tools.cli "0.3.7"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]
                  ; Staying with 1.1.1 until https://github.com/eclipse/paho.mqtt.java/issues/402 is fixed.
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.1.1"]
-                 [org.springframework/spring-messaging "5.0.3.RELEASE"]
-                 [org.springframework/spring-websocket "5.0.3.RELEASE"]
+                 [org.springframework/spring-messaging "5.0.6.RELEASE"]
+                 [org.springframework/spring-websocket "5.0.6.RELEASE"]
                  [org.slf4j/slf4j-simple "1.7.25"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
@@ -46,7 +46,7 @@
   :html5-docs-ns-includes #"^bowerick.*"
   :html5-docs-repository-url "https://github.com/ruedigergad/bowerick/blob/master"
   :profiles {:repl
-               {:dependencies  [[jonase/eastwood "0.2.5" :exclusions  [org.clojure/clojure]]]}
+               {:dependencies  [[jonase/eastwood "0.2.6" :exclusions  [org.clojure/clojure]]]}
              :test
                {:dependencies [[criterium "0.4.4"]]
                 :test-paths ["test" "benchmark"]}}
