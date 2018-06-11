@@ -382,12 +382,11 @@
         ws-client (WebSocketClient.
                     (doto
                       (if (.startsWith broker-url "wss://")
-                        (doto
-                          (HttpClient.
-                            (doto
-                              (SslContextFactory.)
-                              (.setSslContext
-                                (get-adjusted-ssl-context)))))
+                        (HttpClient.
+                          (doto
+                            (SslContextFactory.)
+                            (.setSslContext
+                              (get-adjusted-ssl-context))))
                         (HttpClient.))
                       (.setExecutor stp-exec)
                       (.setScheduler se-sched)
@@ -552,7 +551,7 @@
                                   mqtt-client
                                   dst-descrpt
                                   (MqttMessage.
-                                    ^bytes (-> data (serialization-fn) (fallback-serialization)))))
+                                    ^bytes (-> data serialization-fn fallback-serialization))))
                       send-fn-opt-args (fn [data _]
                                          (utils/println-err "Sending with opt-args is not supported for mqtt://. Ignoring opt-args.")
                                          (send-fn data))]
