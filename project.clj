@@ -30,6 +30,8 @@
             :comments "This is the same license as used for Clojure."}
   :global-vars {*warn-on-reflection* true}
   :aot :all
+  :prep-tasks [["compile" "bowerick.java-interfaces"]
+               "compile"]
   :main bowerick.main
   :test-selectors {:default (complement :benchmark)
                    :benchmark :benchmark}
