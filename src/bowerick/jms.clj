@@ -44,6 +44,7 @@
     (org.eclipse.paho.client.mqttv3 MqttCallback MqttClient MqttConnectOptions MqttMessage)
     (org.eclipse.paho.client.mqttv3.persist MemoryPersistence)
     (org.fusesource.stomp.jms StompJmsConnectionFactory)
+    (org.iq80.snappy Snappy)
     (org.springframework.messaging.converter ByteArrayMessageConverter SmartMessageConverter StringMessageConverter)
     (org.springframework.messaging.simp.stomp DefaultStompSession StompFrameHandler StompHeaders StompSession StompSessionHandler StompSessionHandlerAdapter)
     (org.springframework.scheduling.concurrent DefaultManagedTaskScheduler ThreadPoolTaskScheduler)
@@ -1042,6 +1043,52 @@
       pool-size
       (fn [^bytes ba]
         (cheshire/parse-string (String. ^bytes (pre-process-fn ba) ^Charset *default-charset*))))))
+
+(defn create-json-lzf-producer
+  ([broker-url destination-description]
+    (create-json-lzf-producer broker-url destination-description 1))
+  ([broker-url destination-description pool-size]
+    (create-json-producer
+      broker-url
+      destination-description
+      pool-size
+      (fn [^bytes ba]
+        (LZFEncoder/encode ba)))))
+
+(defn create-json-lzf-consumer
+  ([broker-url destination-description cb]
+    (create-json-lzf-consumer broker-url destination-description cb 1))
+  ([broker-url destination-description cb pool-size]
+    (create-json-consumer
+      broker-url
+      destination-description
+      cb
+      pool-size
+      (fn [^bytes ba]
+        (LZFDecoder/decode ba)))))
+
+(defn create-json-snappy-producer
+  ([broker-url destination-description]
+    (create-json-snappy-producer broker-url destination-description 1))
+  ([broker-url destination-description pool-size]
+    (create-json-producer
+      broker-url
+      destination-description
+      pool-size
+      (fn [^bytes ba]
+        (Snappy/compress ba)))))
+
+(defn create-json-snappy-consumer
+  ([broker-url destination-description cb]
+    (create-json-snappy-consumer broker-url destination-description cb 1))
+  ([broker-url destination-description cb pool-size]
+    (create-json-consumer
+      broker-url
+      destination-description
+      cb
+      pool-size
+      (fn [^bytes ba]
+        (Snappy/uncompress ba 0 (alength ba))))))
 
 (defn create-failsafe-json-consumer
   ([broker-url destination-description cb]

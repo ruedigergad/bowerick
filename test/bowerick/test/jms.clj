@@ -72,6 +72,32 @@
     (close producer)
     (close consumer)))
 
+(deftest json-producer-consumer-lzf
+  (let [producer (create-json-lzf-producer local-jms-server test-topic)
+        was-run (prepare-flag)
+        received (atom nil)
+        consume-fn (fn [obj] (reset! received obj) (set-flag was-run))
+        consumer (create-json-lzf-consumer local-jms-server test-topic consume-fn)]
+    (producer {:a "b"})
+    (await-flag was-run)
+    (is (flag-set? was-run))
+    (is (= {"a" "b"} @received))
+    (close producer)
+    (close consumer)))
+
+(deftest json-producer-consumer-snappy
+  (let [producer (create-json-snappy-producer local-jms-server test-topic)
+        was-run (prepare-flag)
+        received (atom nil)
+        consume-fn (fn [obj] (reset! received obj) (set-flag was-run))
+        consumer (create-json-snappy-consumer local-jms-server test-topic consume-fn)]
+    (producer {:a "b"})
+    (await-flag was-run)
+    (is (flag-set? was-run))
+    (is (= {"a" "b"} @received))
+    (close producer)
+    (close consumer)))
+
 (deftest json-producer-failsafe-json-consumer
   (let [producer (create-json-producer local-jms-server test-topic)
         was-run (prepare-flag)
