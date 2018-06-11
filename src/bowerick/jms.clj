@@ -21,7 +21,7 @@
     [clj-assorted-utils.util :as utils]
     [taoensso.nippy :as nippy])
   (:import
-    (bowerick JmsProducer PooledBytesMessageProducer)
+    (bowerick JmsProducer)
     (clojure.lang IFn)
     (com.ning.compress.lzf LZFDecoder LZFEncoder)
     (java.lang AutoCloseable)

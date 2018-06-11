@@ -20,7 +20,6 @@
                  [org.clojure/clojure "1.9.0"]
                  [org.clojure/tools.cli "0.3.7"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]
-                 ; Staying with 1.1.1 until https://github.com/eclipse/paho.mqtt.java/issues/402 is fixed.
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.0"]
                  [org.springframework/spring-messaging "5.0.6.RELEASE"]
                  [org.springframework/spring-websocket "5.0.6.RELEASE"]
@@ -31,12 +30,6 @@
             :comments "This is the same license as used for Clojure."}
   :global-vars {*warn-on-reflection* true}
   :aot :all
-  :java-source-paths ["src-java"]
-  :prep-tasks [["compile" "bowerick.java-interfaces"]
-               ["javac" "src-java/bowerick/PooledBytesMessageProducer.java"]
-               ["compile" "bowerick.JmsController"]
-                "javac"
-                "compile"]
   :main bowerick.main
   :test-selectors {:default (complement :benchmark)
                    :benchmark :benchmark}
