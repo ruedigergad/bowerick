@@ -108,9 +108,9 @@
     (.stop broker-service)))
 
 (deftest test-selective-permissions-with-anonymous-convenience-test
-  (let [authorization-rules [{"target" ">", "type" "topic", "admin" "admins", "read" "consumers", "write" "publishers"}
-                             {"target" "test.topic.a", "type" "topic", "write" "anonymous"}
-                             {"target" "ActiveMQ.Advisory.TempQueue,ActiveMQ.Advisory.TempTopic", "type" "topic", "read" "anonymous"}]
+  (let [authorization-rules [{"target" "/topic/>", "admin" "admins", "read" "consumers", "write" "publishers"}
+                             {"target" "/topic/test.topic.a", "write" "anonymous"}
+                             {"target" "/topic/ActiveMQ.Advisory.TempQueue,ActiveMQ.Advisory.TempTopic", "read" "anonymous"}]
         broker-service (start-test-broker jms-server-addr true
                                      [{"name" "test-user", "password" "secret", "groups" "test-group,admins,publishers,consumers"}]
                                      authorization-rules)]

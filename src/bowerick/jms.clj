@@ -165,7 +165,9 @@
         authorization-entries (map
                                 (fn [perm]
                                   (utils/println-err "Setting permission:" perm)
-                                  (let [trgt (perm "target")
+                                  (let [split-trgt (filter #(not= % "") (str/split (perm "target") #"/"))
+                                        trgt-type (first split-trgt)
+                                        trgt (second split-trgt)
                                         adm (perm "admin")
                                         rd (perm "read")
                                         wrt (perm "write")
@@ -176,7 +178,7 @@
                                       (.setRead auth-entry rd))
                                     (if (not (nil? wrt))
                                       (.setWrite auth-entry wrt))
-                                    (condp = (perm "type")
+                                    (condp = trgt-type
                                       "topic" (.setTopic auth-entry trgt)
                                       "queue" (.setQueue auth-entry trgt)
                                       (.setDestination auth-entry trgt))
