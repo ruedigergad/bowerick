@@ -171,6 +171,14 @@
                               :long-info (str "Reads binary data from the given file and sends it. "
                                               "For information about the URL format, see the help for \"send\".")}
                   :sf :send-file
+                  :send-text-file {:fn (fn [destination-url file-name]
+                                         (create-cached-destination producers destination-url create-producer)
+                                         (println "Sending text file:" destination-url "<-" file-name)
+                                         ((@producers destination-url) (slurp file-name)))
+                              :short-info "Send the content of the given text file."
+                              :long-info (str "Reads the text data from the given file and sends it. "
+                                              "For information about the URL format, see the help for \"send\".")}
+                  :stf :send-text-file
                   :receive {:fn (fn [destination-url]
                                   (create-cached-destination
                                     json-consumers

@@ -27,6 +27,7 @@
 (def local-cli-jms-server "tcp://127.0.0.1:53847")
 (def test-topic "/topic/testtopic.foo")
 (def json-test-file-name "test/data/json-test-data.txt")
+(def csv-test-file-name "test/data/csv_input_test_file.txt")
 
 (defn test-with-broker [t]
   (let [broker (start-test-broker local-jms-server)]
@@ -86,6 +87,20 @@
         (expected-string
           [(str "Set up consumer for: " local-jms-server ":" test-topic)
            (str "Sending file: " local-jms-server ":" test-topic " <- " json-test-file-name)
+           (str "Received: " local-jms-server ":" test-topic " ->")
+           "{\"a\" \"A\", \"b\" \"B\", \"nested\" {\"x\" 123, \"y\" 1.23}}"])
+        out-string))))
+
+(deftest simple-send-text-file-receive-test
+  (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
+                        (str "send-text-file " local-jms-server ":" test-topic " \"" json-test-file-name "\"")
+                        "_sleep 300"]
+        out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
+    (is
+      (=
+        (expected-string
+          [(str "Set up consumer for: " local-jms-server ":" test-topic)
+           (str "Sending text file: " local-jms-server ":" test-topic " <- " json-test-file-name)
            (str "Received: " local-jms-server ":" test-topic " ->")
            "{\"a\" \"A\", \"b\" \"B\", \"nested\" {\"x\" 123, \"y\" 1.23}}"])
         out-string))))
