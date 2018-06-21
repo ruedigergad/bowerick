@@ -167,8 +167,8 @@
                                                 ba-out-stream (ByteArrayOutputStream.)]
                                       (jio/copy in-stream ba-out-stream)
                                       ((@producers destination-url) (.toByteArray ba-out-stream))))
-                              :short-info "Send the data from the given text file."
-                              :long-info (str "Reads text data from the given file using \"slurp\" and sends it. "
+                              :short-info "Send the data from the given file."
+                              :long-info (str "Reads binary data from the given file and sends it. "
                                               "For information about the URL format, see the help for \"send\".")}
                   :sf :send-file
                   :receive {:fn (fn [destination-url]
