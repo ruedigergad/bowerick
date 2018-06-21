@@ -16,9 +16,12 @@
     [bowerick.message-generator :refer :all]
     [cli4clj.cli :refer :all]
     [clj-assorted-utils.util :refer :all]
+    [clojure.java.io :as jio]
     [clojure.pprint :refer :all]
     [clojure.string :as s]
     [clojure.tools.cli :refer :all])
+  (:import
+    (java.io ByteArrayOutputStream))
   (:gen-class))
 
 (defn start-broker-mode
@@ -143,22 +146,34 @@
 (defn start-client-mode
   [arg-map]
   (println-err "Starting bowerick in client mode.")
-  (let [consumers (atom {})
+  (let [json-consumers (atom {})
+        json-producers (atom {})
         producers (atom {})
         out-binding *out*]
     (start-cli {:cmds
                  {:send {:fn (fn [destination-url data]
-                               (create-cached-destination producers destination-url create-json-producer)
+                               (create-cached-destination json-producers destination-url create-json-producer)
                                (println "Sending:" destination-url "<-")
                                (pprint data)
-                               ((@producers destination-url) data))
+                               ((@json-producers destination-url) data))
                          :short-info "Send data to destination."
                          :long-info (str
                                       destination-url-format-help-string)}
                   :s :send
+                  :send-file {:fn (fn [destination-url file-name]
+                                    (create-cached-destination producers destination-url create-producer)
+                                    (println "Sending file:" destination-url "<-" file-name)
+                                    (with-open [in-stream (jio/input-stream file-name)
+                                                ba-out-stream (ByteArrayOutputStream.)]
+                                      (jio/copy in-stream ba-out-stream)
+                                      ((@producers destination-url) (.toByteArray ba-out-stream))))
+                              :short-info "Send the data from the given text file."
+                              :long-info (str "Reads text data from the given file using \"slurp\" and sends it. "
+                                              "For information about the URL format, see the help for \"send\".")}
+                  :sf :send-file
                   :receive {:fn (fn [destination-url]
                                   (create-cached-destination
-                                    consumers
+                                    json-consumers
                                     destination-url
                                     create-failsafe-json-consumer
                                     (fn [rcvd]
@@ -172,7 +187,7 @@
                   :r :receive
                   :management {:fn (fn [broker-url command & args]
                                      (create-cached-destination
-                                       consumers
+                                       json-consumers
                                        (str broker-url ":" *broker-management-reply-topic*)
                                        create-failsafe-json-consumer
                                        (fn [reply-str]
@@ -190,16 +205,18 @@
                                                (println reply-str))))))
                                      (let [cmd-destination (str broker-url ":" *broker-management-command-topic*)
                                            cmd-with-args (str command (reduce #(str %1 " " %2) "" args))]
-                                       (create-cached-destination producers cmd-destination create-json-producer)
+                                       (create-cached-destination json-producers cmd-destination create-json-producer)
                                        (println "Management Command:" cmd-destination "<-")
                                        (pprint cmd-with-args)
-                                       ((@producers cmd-destination) cmd-with-args)))}
+                                       ((@json-producers cmd-destination) cmd-with-args)))}
                   :m :management
                   }
                 :prompt-string "bowerick# "})
     (doseq [producer (vals @producers)]
       (close producer))
-    (doseq [consumer (vals @consumers)]
+    (doseq [producer (vals @json-producers)]
+      (close producer))
+    (doseq [consumer (vals @json-consumers)]
       (close consumer))))
 
 (defn start-benchmark-client-mode [arg-map]
