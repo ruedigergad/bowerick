@@ -300,13 +300,13 @@
                         "_sleep 300"
                         (str "send " local-jms-server ":" test-topic " foo")
                         (str "send " local-jms-server ":" test-topic " bar")
-                        (str "send " local-jms-server ":" test-topic " baz")
+                        (str "send " local-jms-server ":" test-topic " 123")
                         "_sleep 300"
                         (str "stop " local-jms-server ":" test-topic)]
         out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
     (is (file-exists? record-test-output-file))
     (is
       (=
-        (str "\"foo\"" record-txt-delimiter "\"bar\"" record-txt-delimiter "\"baz\"" record-txt-delimiter)
+        (str "\"foo\"" record-txt-delimiter "\"bar\"" record-txt-delimiter "123" record-txt-delimiter)
         (slurp record-test-output-file)))))
 
