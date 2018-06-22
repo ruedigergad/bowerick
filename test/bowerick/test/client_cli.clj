@@ -28,8 +28,10 @@
 (def test-topic "/topic/testtopic.foo")
 (def json-test-file-name "test/data/json-test-data.txt")
 (def csv-test-file-name "test/data/csv_input_test_file.txt")
+(def record-test-output-file "record-test-output.txt")
 
 (defn test-with-broker [t]
+  (rm record-test-output-file)
   (let [broker (start-test-broker local-jms-server)]
     (t)
     (stop broker)))
@@ -291,4 +293,20 @@
            " \"/topic/bowerick.broker.management.command\""
            " \"/topic/bowerick.broker.management.reply\")"])
         out-string))))
+
+(deftest simple-record-test
+  (is (not (file-exists? record-test-output-file)))
+  (let [test-cmd-input [(str "record " local-jms-server ":" test-topic " " record-test-output-file)
+                        "_sleep 300"
+                        (str "send " local-jms-server ":" test-topic " foo")
+                        (str "send " local-jms-server ":" test-topic " bar")
+                        (str "send " local-jms-server ":" test-topic " baz")
+                        "_sleep 300"
+                        (str "stop " local-jms-server ":" test-topic)]
+        out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
+    (is (file-exists? record-test-output-file))
+    (is
+      (=
+        (str "\"foo\"" record-txt-delimiter "\"bar\"" record-txt-delimiter "\"baz\"" record-txt-delimiter)
+        (slurp record-test-output-file)))))
 

@@ -24,6 +24,8 @@
     (java.io ByteArrayOutputStream))
   (:gen-class))
 
+(def record-txt-delimiter "@bwrck#")
+
 (defn start-broker-mode
   [arg-map]
   (println-err "Starting bowerick in broker mode.")
@@ -148,6 +150,7 @@
   (println-err "Starting bowerick in client mode.")
   (let [json-consumers (atom {})
         json-producers (atom {})
+        consumers (atom {})
         producers (atom {})
         out-binding *out*]
     (start-cli {:cmds
@@ -193,6 +196,22 @@
                          :long-info (str
                                       destination-url-format-help-string)}
                   :r :receive
+                  :record {:fn (fn [source-url record-file]
+                                 (create-cached-destination
+                                   consumers
+                                   source-url
+                                   create-consumer
+                                   (fn [rcvd]
+                                     (spit (str record-file) (String. rcvd) :append true)
+                                     (spit (str record-file) record-txt-delimiter :append true))))
+                           :short-info "Record received data."
+                           :long-info (str
+                                        "Record data received from source-url in record-file.")}
+                  :stop {:fn (fn [url]
+                               (let [consumer (@consumers url)]
+                                 (if (not (nil? consumer))
+                                   (close consumer))))
+                         :short-info "Stop recording for the given url."}
                   :management {:fn (fn [broker-url command & args]
                                      (create-cached-destination
                                        json-consumers
@@ -220,6 +239,8 @@
                   :m :management
                   }
                 :prompt-string "bowerick# "})
+    (doseq [consumer (vals @consumers)]
+      (close consumer))
     (doseq [producer (vals @producers)]
       (close producer))
     (doseq [producer (vals @json-producers)]
