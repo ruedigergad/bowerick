@@ -203,10 +203,29 @@
                                    create-consumer
                                    (fn [rcvd]
                                      (spit (str record-file) (String. rcvd) :append true)
-                                     (spit (str record-file) record-txt-delimiter :append true))))
+                                     (spit (str record-file) record-txt-delimiter :append true)))
+                                 nil)
                            :short-info "Record received data."
                            :long-info (str
                                         "Record data received from source-url in record-file.")}
+                  :replay {:fn (fn [destination-url replay-file interval loop-send]
+                                (println "Replaying from file:" destination-url "<-" replay-file)
+                                (create-cached-destination producers destination-url create-producer)
+                                (doto (Thread. (fn []
+                                                 (let [replay-items (clojure.string/split (slurp (str replay-file)) (re-pattern record-txt-delimiter))]
+                                                   (loop []
+                                                     (doseq [itm replay-items]
+                                                       (when (and
+                                                               (not (nil? itm))
+                                                               (not= itm "\n"))
+                                                         ((@producers destination-url) itm)
+                                                         (sleep interval)))
+                                                     (when loop-send
+                                                       (recur))))))
+                                  (.setDaemon true)
+                                  (.start))
+                                 nil)
+                          :short-info "Replay previously recorded data."}
                   :stop {:fn (fn [url]
                                (let [consumer (@consumers url)]
                                  (if (not (nil? consumer))

@@ -29,6 +29,7 @@
 (def json-test-file-name "test/data/json-test-data.txt")
 (def csv-test-file-name "test/data/csv_input_test_file.txt")
 (def record-test-output-file "record-test-output.txt")
+(def replay-test-file-name "test/data/replay_test_input.txt")
 
 (defn test-with-broker [t]
   (rm record-test-output-file)
@@ -309,4 +310,23 @@
       (=
         (str "\"foo\"" record-txt-delimiter "\"bar\"" record-txt-delimiter "123" record-txt-delimiter)
         (slurp record-test-output-file)))))
+
+(deftest simple-replay-file-test
+  (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
+                        "_sleep 300"
+                        (str "replay " local-jms-server ":" test-topic " \"" replay-test-file-name "\" 100 false")
+                        "_sleep 600"]
+        out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
+    (is
+      (=
+        (expected-string
+          [(str "Set up consumer for: " local-jms-server ":" test-topic)
+           (str "Replaying from file: " local-jms-server ":" test-topic " <- " replay-test-file-name)
+           (str "Received: " local-jms-server ":" test-topic " ->")
+           "\"abc\""
+           (str "Received: " local-jms-server ":" test-topic " ->")
+           "\"def\""
+           (str "Received: " local-jms-server ":" test-topic " ->")
+           "\"789\""])
+        out-string))))
 
