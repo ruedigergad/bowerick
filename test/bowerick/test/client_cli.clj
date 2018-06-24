@@ -322,6 +322,32 @@
         expected-data
         (cheshire/parse-string (slurp record-test-output-file))))))
 
+(deftest simple-multi-destination-record-test
+  (is (not (file-exists? record-test-output-file)))
+  (let [test-cmd-input [(str "record " local-jms-server ":" test-topic " " record-test-output-file)
+                        "_sleep 300"
+                        (str "send " local-jms-server ":" test-topic "a foo")
+                        (str "send " local-jms-server ":" test-topic "b bar")
+                        (str "send " local-jms-server ":" test-topic "c 123")
+                        "_sleep 300"
+                        (str "stop " record-test-output-file)]
+        out-string (test-cli-stdout #(-main "-c") test-cmd-input)
+        expected-data [{"data" "\"foo\""
+                        "destination" (str local-jms-server ":" test-topic "a")}
+                       {"data" "\"bar\""
+                        "destination" (str local-jms-server ":" test-topic "b")}
+                       {"data" "123"
+                        "destination" (str local-jms-server ":" test-topic "c")}]]
+    (is (file-exists? record-test-output-file))
+    (doall
+      (map
+        (fn [exp act]
+          (is (= (exp "data") (act "data")))
+          (is (= (exp "destination") (act "destination")))
+          (is (contains? act "timestamp")))
+        expected-data
+        (cheshire/parse-string (slurp record-test-output-file))))))
+
 (deftest simple-replay-file-test
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
                         "_sleep 300"
