@@ -198,7 +198,7 @@
                   :r :receive
                   :record {:fn (fn [source-url record-file-name]
                                  (let [rec-file (if (contains? @recorders record-file-name)
-                                                  (get-in @recorders record-file-name :file)
+                                                  (get-in @recorders [record-file-name :file])
                                                   (let [f (jio/file (str record-file-name))]
                                                     (spit f "[\n")
                                                     f))
@@ -216,7 +216,7 @@
                                                               (spit rec-file ",\n" :append true))
                                                             (spit rec-file (cheshire/generate-string rec-itm) :append true)))))]
                                    (if (contains? @recorders record-file-name)
-                                     (swap! (get-in @recorders record-file-name :consumers) conj rec-consumer)
+                                     (swap! (get-in @recorders [record-file-name :consumers]) conj rec-consumer)
                                      (swap! recorders assoc record-file-name {:consumers (atom [rec-consumer]) :file rec-file}))
                                    nil))
                            :short-info "Record received data."
