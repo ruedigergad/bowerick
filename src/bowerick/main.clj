@@ -14,6 +14,7 @@
   (:require
     [bowerick.jms :refer :all]
     [bowerick.message-generator :refer :all]
+    [cheshire.core :as cheshire]
     [cli4clj.cli :refer :all]
     [clj-assorted-utils.util :refer :all]
     [clojure.java.io :as jio]
@@ -134,16 +135,14 @@
 (defn create-cached-destination
   [cache destination-url destination-factory-fn & args]
   (when (not (@cache destination-url))
-    (swap!
-      cache
-      assoc
-      destination-url
-      (apply
-        destination-factory-fn
-        (conj
-          args
-          (second (s/split (str destination-url) #":(?=/[^/])"))
-          (first (s/split (str destination-url) #":(?=/[^/])")))))))
+    (let [new-consumer (apply
+                         destination-factory-fn
+                         (conj
+                           args
+                           (second (s/split (str destination-url) #":(?=/[^/])"))
+                           (first (s/split (str destination-url) #":(?=/[^/])"))))]
+      (swap! cache assoc destination-url new-consumer)
+      new-consumer)))
 
 (defn start-client-mode
   [arg-map]
@@ -152,7 +151,8 @@
         json-producers (atom {})
         consumers (atom {})
         producers (atom {})
-        out-binding *out*]
+        out-binding *out*
+        recorders (atom {})]
     (start-cli {:cmds
                  {:send {:fn (fn [destination-url data]
                                (create-cached-destination json-producers destination-url create-json-producer)
@@ -196,15 +196,29 @@
                          :long-info (str
                                       destination-url-format-help-string)}
                   :r :receive
-                  :record {:fn (fn [source-url record-file]
-                                 (create-cached-destination
-                                   consumers
-                                   source-url
-                                   create-consumer
-                                   (fn [rcvd]
-                                     (spit (str record-file) (String. rcvd) :append true)
-                                     (spit (str record-file) record-txt-delimiter :append true)))
-                                 nil)
+                  :record {:fn (fn [source-url record-file-name]
+                                 (let [rec-file (if (contains? @recorders record-file-name)
+                                                  (get-in @recorders record-file-name :file)
+                                                  (let [f (jio/file (str record-file-name))]
+                                                    (spit f "[\n")
+                                                    f))
+                                       rec-consumer (create-cached-destination
+                                                      consumers
+                                                      source-url
+                                                      create-consumer
+                                                      (fn [rcvd]
+                                                        (let [rec-data (String. rcvd)
+                                                              rec-itm {"data" rec-data
+                                                                       "destination" source-url
+                                                                       "timestamp" (System/nanoTime)}]
+                                                          (locking rec-file
+                                                            (if (> (.length rec-file) 2)
+                                                              (spit rec-file ",\n" :append true))
+                                                            (spit rec-file (cheshire/generate-string rec-itm) :append true)))))]
+                                   (if (contains? @recorders record-file-name)
+                                     (swap! (get-in @recorders record-file-name :consumers) conj rec-consumer)
+                                     (swap! recorders assoc record-file-name {:consumers (atom [rec-consumer]) :file rec-file}))
+                                   nil))
                            :short-info "Record received data."
                            :long-info (str
                                         "Record data received from source-url in record-file.")}
@@ -227,9 +241,20 @@
                                  nil)
                           :short-info "Replay previously recorded data."}
                   :stop {:fn (fn [url]
-                               (let [consumer (@consumers url)]
-                                 (if (not (nil? consumer))
-                                   (close consumer))))
+                               (condp contains? url
+                                 @recorders (do
+                                              (println "Stopping recorder for:" url)
+                                              (doseq [consumer (deref (get-in @recorders [url :consumers]))]
+                                                (close consumer))
+                                              (let [f (get-in @recorders [url :file])]
+                                                (locking f
+                                                  (spit f "\n]" :append true))))
+                                 @json-consumers (do
+                                                   (println "Stopping JSON consumer for:" url)
+                                                   (close (@consumers url)))
+                                 @consumers (do
+                                              (println "Stopping consumer for:" url)
+                                              (close (@consumers url)))))
                          :short-info "Stop recording for the given url."}
                   :management {:fn (fn [broker-url command & args]
                                      (create-cached-destination

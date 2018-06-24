@@ -14,6 +14,7 @@
     [bowerick.jms :refer :all]
     [bowerick.main :refer :all]
     [bowerick.test.test-helper :refer :all]
+    [cheshire.core :as cheshire]
     [cli4clj.cli-tests :refer :all]
     [clj-assorted-utils.util :refer :all]
     [clojure.test :refer :all]
@@ -303,13 +304,23 @@
                         (str "send " local-jms-server ":" test-topic " bar")
                         (str "send " local-jms-server ":" test-topic " 123")
                         "_sleep 300"
-                        (str "stop " local-jms-server ":" test-topic)]
-        out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
+                        (str "stop " record-test-output-file)]
+        out-string (test-cli-stdout #(-main "-c") test-cmd-input)
+        expected-data [{"data" "\"foo\""
+                        "destination" (str local-jms-server ":" test-topic)}
+                       {"data" "\"bar\""
+                        "destination" (str local-jms-server ":" test-topic)}
+                       {"data" "123"
+                        "destination" (str local-jms-server ":" test-topic)}]]
     (is (file-exists? record-test-output-file))
-    (is
-      (=
-        (str "\"foo\"" record-txt-delimiter "\"bar\"" record-txt-delimiter "123" record-txt-delimiter)
-        (slurp record-test-output-file)))))
+    (doall
+      (map
+        (fn [exp act]
+          (is (= (exp "data") (act "data")))
+          (is (= (exp "destination") (act "destination")))
+          (is (contains? act "timestamp")))
+        expected-data
+        (cheshire/parse-string (slurp record-test-output-file))))))
 
 (deftest simple-replay-file-test
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
