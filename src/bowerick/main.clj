@@ -200,7 +200,12 @@
                                  (let [rec-file (if (contains? @recorders record-file-name)
                                                   (get-in @recorders [record-file-name :file])
                                                   (let [f (jio/file (str record-file-name))]
-                                                    (spit f "[\n")
+                                                    (spit f (str
+                                                              "{\"metadata\":{\"timestamp_millis\":"
+                                                              (System/currentTimeMillis)
+                                                              ",\"timestamp_nanos\":"
+                                                              (System/nanoTime) "},\n"
+                                                              "\"messages\":[\n"))
                                                     f))
                                        rec-consumer (create-cached-destination
                                                       consumers
@@ -212,12 +217,13 @@
                                                                        "destination" source-url
                                                                        "timestamp" (System/nanoTime)}]
                                                           (locking rec-file
-                                                            (if (> (.length rec-file) 2)
-                                                              (spit rec-file ",\n" :append true))
+                                                            (if-not (deref (get-in @recorders [record-file-name :first-message]))
+                                                              (spit rec-file ",\n" :append true)
+                                                              (reset! (get-in @recorders [record-file-name :first-message]) false))
                                                             (spit rec-file (cheshire/generate-string rec-itm) :append true)))))]
                                    (if (contains? @recorders record-file-name)
                                      (swap! (get-in @recorders [record-file-name :consumers]) conj rec-consumer)
-                                     (swap! recorders assoc record-file-name {:consumers (atom [rec-consumer]) :file rec-file}))
+                                     (swap! recorders assoc record-file-name {:consumers (atom [rec-consumer]) :file rec-file :first-message (atom true)}))
                                    nil))
                            :short-info "Record received data."
                            :long-info (str
@@ -248,7 +254,7 @@
                                                 (close consumer))
                                               (let [f (get-in @recorders [url :file])]
                                                 (locking f
-                                                  (spit f "\n]" :append true))))
+                                                  (spit f "\n]}" :append true))))
                                  @json-consumers (do
                                                    (println "Stopping JSON consumer for:" url)
                                                    (close (@consumers url)))

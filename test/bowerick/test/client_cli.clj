@@ -311,7 +311,8 @@
                        {"data" "\"bar\""
                         "destination" (str local-jms-server ":" test-topic)}
                        {"data" "123"
-                        "destination" (str local-jms-server ":" test-topic)}]]
+                        "destination" (str local-jms-server ":" test-topic)}]
+        recorded-data (cheshire/parse-string (slurp record-test-output-file))]
     (is (file-exists? record-test-output-file))
     (doall
       (map
@@ -320,7 +321,7 @@
           (is (= (exp "destination") (act "destination")))
           (is (contains? act "timestamp")))
         expected-data
-        (cheshire/parse-string (slurp record-test-output-file))))))
+        (recorded-data "messages")))))
 
 (deftest simple-multi-destination-record-test
   (is (not (file-exists? record-test-output-file)))
@@ -339,7 +340,8 @@
                        {"data" "\"bar\""
                         "destination" (str local-jms-server ":" test-topic ".b")}
                        {"data" "123"
-                        "destination" (str local-jms-server ":" test-topic ".c")}]]
+                        "destination" (str local-jms-server ":" test-topic ".c")}]
+        recorded-data (cheshire/parse-string (slurp record-test-output-file))]
     (is (file-exists? record-test-output-file))
     (doall
       (map
@@ -348,7 +350,9 @@
           (is (= (exp "destination") (act "destination")))
           (is (contains? act "timestamp")))
         expected-data
-        (cheshire/parse-string (slurp record-test-output-file))))))
+        (recorded-data "messages")))
+    (is (not (nil? (get-in recorded-data ["metadata" "timestamp_millis"]))))
+    (is (not (nil? (get-in recorded-data ["metadata" "timestamp_nanos"]))))))
 
 (deftest simple-replay-file-test
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
