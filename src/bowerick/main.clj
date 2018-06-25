@@ -196,35 +196,36 @@
                          :long-info (str
                                       destination-url-format-help-string)}
                   :r :receive
-                  :record {:fn (fn [source-url record-file-name]
-                                 (let [rec-file (if (contains? @recorders record-file-name)
-                                                  (get-in @recorders [record-file-name :file])
-                                                  (let [f (jio/file (str record-file-name))]
-                                                    (spit f (str
-                                                              "{\"metadata\":{\"timestamp_millis\":"
-                                                              (System/currentTimeMillis)
-                                                              ",\"timestamp_nanos\":"
-                                                              (System/nanoTime) "},\n"
-                                                              "\"messages\":[\n"))
-                                                    f))
-                                       rec-consumer (create-cached-destination
-                                                      consumers
-                                                      source-url
-                                                      create-consumer
-                                                      (fn [rcvd]
-                                                        (let [rec-data (String. rcvd)
-                                                              rec-itm {"data" rec-data
-                                                                       "destination" source-url
-                                                                       "timestamp" (System/nanoTime)}]
-                                                          (locking rec-file
-                                                            (if-not (deref (get-in @recorders [record-file-name :first-message]))
-                                                              (spit rec-file ",\n" :append true)
-                                                              (reset! (get-in @recorders [record-file-name :first-message]) false))
-                                                            (spit rec-file (cheshire/generate-string rec-itm) :append true)))))]
-                                   (if (contains? @recorders record-file-name)
-                                     (swap! (get-in @recorders [record-file-name :consumers]) conj rec-consumer)
-                                     (swap! recorders assoc record-file-name {:consumers (atom [rec-consumer]) :file rec-file :first-message (atom true)}))
-                                   nil))
+                  :record {:fn (fn [record-file-name & source-urls]
+                                 (doseq [source-url source-urls]
+                                   (let [rec-file (if (contains? @recorders record-file-name)
+                                                    (get-in @recorders [record-file-name :file])
+                                                    (let [f (jio/file (str record-file-name))]
+                                                      (spit f (str
+                                                                "{\"metadata\":{\"timestamp_millis\":"
+                                                                (System/currentTimeMillis)
+                                                                ",\"timestamp_nanos\":"
+                                                                (System/nanoTime) "},\n"
+                                                                "\"messages\":[\n"))
+                                                      f))
+                                         rec-consumer (create-cached-destination
+                                                        consumers
+                                                        source-url
+                                                        create-consumer
+                                                        (fn [rcvd]
+                                                          (let [rec-data (String. rcvd)
+                                                                rec-itm {"data" rec-data
+                                                                         "destination" source-url
+                                                                         "timestamp" (System/nanoTime)}]
+                                                            (locking rec-file
+                                                              (if-not (deref (get-in @recorders [record-file-name :first-message]))
+                                                                (spit rec-file ",\n" :append true)
+                                                                (reset! (get-in @recorders [record-file-name :first-message]) false))
+                                                              (spit rec-file (cheshire/generate-string rec-itm) :append true)))))]
+                                     (if (contains? @recorders record-file-name)
+                                       (swap! (get-in @recorders [record-file-name :consumers]) conj rec-consumer)
+                                       (swap! recorders assoc record-file-name {:consumers (atom [rec-consumer]) :file rec-file :first-message (atom true)}))))
+                                 nil)
                            :short-info "Record received data."
                            :long-info (str
                                         "Record data received from source-url in record-file.")}

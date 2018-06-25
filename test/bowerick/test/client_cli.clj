@@ -298,7 +298,7 @@
 
 (deftest simple-record-test
   (is (not (file-exists? record-test-output-file)))
-  (let [test-cmd-input [(str "record " local-jms-server ":" test-topic " " record-test-output-file)
+  (let [test-cmd-input [(str "record " record-test-output-file " " local-jms-server ":" test-topic)
                         "_sleep 300"
                         (str "send " local-jms-server ":" test-topic " foo")
                         (str "send " local-jms-server ":" test-topic " bar")
@@ -325,9 +325,43 @@
 
 (deftest simple-multi-destination-record-test
   (is (not (file-exists? record-test-output-file)))
-  (let [test-cmd-input [(str "record " local-jms-server ":" test-topic ".a " record-test-output-file)
-                        (str "record " local-jms-server ":" test-topic ".b " record-test-output-file)
-                        (str "record " local-jms-server ":" test-topic ".c " record-test-output-file)
+  (let [test-cmd-input [(str "record " record-test-output-file " " local-jms-server ":" test-topic ".a")
+                        (str "record " record-test-output-file " " local-jms-server ":" test-topic ".b")
+                        (str "record " record-test-output-file " " local-jms-server ":" test-topic ".c")
+                        "_sleep 300"
+                        (str "send " local-jms-server ":" test-topic ".a foo")
+                        (str "send " local-jms-server ":" test-topic ".b bar")
+                        (str "send " local-jms-server ":" test-topic ".c 123")
+                        "_sleep 300"
+                        (str "stop " record-test-output-file)]
+        out-string (test-cli-stdout #(-main "-c") test-cmd-input)
+        expected-data [{"data" "\"foo\""
+                        "destination" (str local-jms-server ":" test-topic ".a")}
+                       {"data" "\"bar\""
+                        "destination" (str local-jms-server ":" test-topic ".b")}
+                       {"data" "123"
+                        "destination" (str local-jms-server ":" test-topic ".c")}]
+        recorded-data (cheshire/parse-string (slurp record-test-output-file))]
+    (is (file-exists? record-test-output-file))
+    (doall
+      (map
+        (fn [exp act]
+          (is (= (exp "data") (act "data")))
+          (is (= (exp "destination") (act "destination")))
+          (is (contains? act "timestamp")))
+        expected-data
+        (recorded-data "messages")))
+    (is (not (nil? (get-in recorded-data ["metadata" "timestamp_millis"]))))
+    (is (not (nil? (get-in recorded-data ["metadata" "timestamp_nanos"]))))))
+
+(deftest multi-destination-multi-arg-record-test
+  (is (not (file-exists? record-test-output-file)))
+  (let [test-cmd-input [(str
+                          "record "
+                          record-test-output-file " "
+                          local-jms-server ":" test-topic ".a "
+                          local-jms-server ":" test-topic ".b "
+                          local-jms-server ":" test-topic ".c")
                         "_sleep 300"
                         (str "send " local-jms-server ":" test-topic ".a foo")
                         (str "send " local-jms-server ":" test-topic ".b bar")
