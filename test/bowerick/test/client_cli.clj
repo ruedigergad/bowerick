@@ -307,19 +307,22 @@
                         (str "stop " record-test-output-file)]
         out-string (test-cli-stdout #(-main "-c") test-cmd-input)
         expected-data [{"data" "\"foo\""
-                        "destination" (str local-jms-server ":" test-topic)}
+                        "metadata" {"destination" (str local-jms-server ":" test-topic)
+                                    "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}
                        {"data" "\"bar\""
-                        "destination" (str local-jms-server ":" test-topic)}
+                        "metadata" {"destination" (str local-jms-server ":" test-topic)
+                                    "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}
                        {"data" "123"
-                        "destination" (str local-jms-server ":" test-topic)}]
+                        "metadata" {"destination" (str local-jms-server ":" test-topic)
+                                    "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}]
         recorded-data (cheshire/parse-string (slurp record-test-output-file))]
     (is (file-exists? record-test-output-file))
     (doall
       (map
         (fn [exp act]
           (is (= (exp "data") (act "data")))
-          (is (= (exp "destination") (act "destination")))
-          (is (contains? act "timestamp")))
+          (is (= (get-in exp ["metadata" "destination"]) (get-in act ["metadata" "destination"])))
+          (is (not (nil? (get-in act ["metadata" "timestamp"])))))
         expected-data
         (recorded-data "messages")))))
 
@@ -336,19 +339,22 @@
                         (str "stop " record-test-output-file)]
         out-string (test-cli-stdout #(-main "-c") test-cmd-input)
         expected-data [{"data" "\"foo\""
-                        "destination" (str local-jms-server ":" test-topic ".a")}
+                        "metadata" {"destination" (str local-jms-server ":" test-topic ".a")
+                                    "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}
                        {"data" "\"bar\""
-                        "destination" (str local-jms-server ":" test-topic ".b")}
+                        "metadata" {"destination" (str local-jms-server ":" test-topic ".b")
+                                    "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}
                        {"data" "123"
-                        "destination" (str local-jms-server ":" test-topic ".c")}]
+                        "metadata" {"destination" (str local-jms-server ":" test-topic ".c")
+                                    "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}]
         recorded-data (cheshire/parse-string (slurp record-test-output-file))]
     (is (file-exists? record-test-output-file))
     (doall
       (map
         (fn [exp act]
           (is (= (exp "data") (act "data")))
-          (is (= (exp "destination") (act "destination")))
-          (is (contains? act "timestamp")))
+          (is (= (get-in exp ["metadata" "destination"]) (get-in act ["metadata" "destination"])))
+          (is (not (nil? (get-in act ["metadata" "timestamp"])))))
         expected-data
         (recorded-data "messages")))
     (is (not (nil? (get-in recorded-data ["metadata" "timestamp_millis"]))))
@@ -370,19 +376,22 @@
                         (str "stop " record-test-output-file)]
         out-string (test-cli-stdout #(-main "-c") test-cmd-input)
         expected-data [{"data" "\"foo\""
-                        "destination" (str local-jms-server ":" test-topic ".a")}
+                        "metadata" {"destination" (str local-jms-server ":" test-topic ".a")
+                                    "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}
                        {"data" "\"bar\""
-                        "destination" (str local-jms-server ":" test-topic ".b")}
+                        "metadata" {"destination" (str local-jms-server ":" test-topic ".b")
+                                    "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}
                        {"data" "123"
-                        "destination" (str local-jms-server ":" test-topic ".c")}]
+                        "metadata" {"destination" (str local-jms-server ":" test-topic ".c")
+                                    "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}]
         recorded-data (cheshire/parse-string (slurp record-test-output-file))]
     (is (file-exists? record-test-output-file))
     (doall
       (map
         (fn [exp act]
           (is (= (exp "data") (act "data")))
-          (is (= (exp "destination") (act "destination")))
-          (is (contains? act "timestamp")))
+          (is (= (get-in exp ["metadata" "destination"]) (get-in act ["metadata" "destination"])))
+          (is (not (nil? (get-in act ["metadata" "timestamp"])))))
         expected-data
         (recorded-data "messages")))
     (is (not (nil? (get-in recorded-data ["metadata" "timestamp_millis"]))))

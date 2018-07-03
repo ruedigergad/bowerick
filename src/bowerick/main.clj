@@ -212,11 +212,12 @@
                                                         consumers
                                                         source-url
                                                         create-consumer
-                                                        (fn [rcvd]
+                                                        (fn [rcvd msg]
                                                           (let [rec-data (String. rcvd)
                                                                 rec-itm {"data" rec-data
-                                                                         "destination" source-url
-                                                                         "timestamp" (System/nanoTime)}]
+                                                                         "metadata" {"destination" source-url
+                                                                                     "timestamp" (System/nanoTime)
+                                                                                     "msg-class" (str (class msg))}}]
                                                             (locking rec-file
                                                               (if-not (deref (get-in @recorders [record-file-name :first-message]))
                                                                 (spit rec-file ",\n" :append true)
