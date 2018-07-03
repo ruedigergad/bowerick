@@ -12,7 +12,7 @@
     :doc "Main class to start the bowerick stand-alone application."}
   bowerick.main
   (:require
-    [bowerick.jms :refer :all]
+    [bowerick.jms :as jms]
     [bowerick.message-generator :refer :all]
     [cheshire.core :as cheshire]
     [cli4clj.cli :refer :all]
@@ -37,18 +37,18 @@
                 [arg-url af-demo-url]
                 (conj arg-url af-demo-url))
               arg-url)
-        broker-service (start-broker url)
+        broker-service (jms/start-broker url)
         running (atom true)
         shutdown-fn (fn []
                       (println "Shutting down...")
                       (reset! running false)
                       (sleep 500)
                       (println "Stopping broker...")
-                      (stop broker-service)
+                      (jms/stop broker-service)
                       (println "Broker stopped."))]
     (if (arg-map :a-frame-demo)
       (let [af-topic-name "/topic/aframe"
-            af-prod (create-producer af-demo-url af-topic-name 1)
+            af-prod (jms/create-producer af-demo-url af-topic-name 1)
             max_angle (* 2.0 Math/PI)
             angle_increment (/ max_angle 100.0)]
         (println "Starting producer for the A-Frame demo at:" (str af-demo-url ":" af-topic-name))
@@ -64,7 +64,7 @@
                                   (recur new_angle))
                                 (do
                                   (println "Stopping A-Frame producer...")
-                                  (close af-prod)))))))
+                                  (jms/close af-prod)))))))
           (.setDaemon true)
           (.start))
         (println "To view the example, open the following web page:")
@@ -72,7 +72,7 @@
         (println "Alternatively, if you have the bowerick source code repository, you can also open the page from the checked out repository:")
         (println "examples/simple_websocket_a-frame_example/simple_websocket_a-frame_example.html")))
     (if (string? (arg-map :embedded-message-generator))
-      (let [msg-gen-prod (create-producer
+      (let [msg-gen-prod (jms/create-producer
                            (if (string? url)
                              url
                              (first url))
@@ -100,7 +100,7 @@
                         (recur)
                         (do
                           (println "Stopping message-generator producer...")
-                          (close msg-gen-prod)))))
+                          (jms/close msg-gen-prod)))))
           (.setDaemon true)
           (.start))
         (doto
@@ -155,7 +155,7 @@
         recorders (atom {})]
     (start-cli {:cmds
                  {:send {:fn (fn [destination-url data]
-                               (create-cached-destination json-producers destination-url create-json-producer)
+                               (create-cached-destination json-producers destination-url jms/create-json-producer)
                                (println "Sending:" destination-url "<-")
                                (pprint data)
                                ((@json-producers destination-url) data))
@@ -164,7 +164,7 @@
                                       destination-url-format-help-string)}
                   :s :send
                   :send-file {:fn (fn [destination-url file-name]
-                                    (create-cached-destination producers destination-url create-producer)
+                                    (create-cached-destination producers destination-url jms/create-producer)
                                     (println "Sending file:" destination-url "<-" file-name)
                                     (with-open [in-stream (jio/input-stream file-name)
                                                 ba-out-stream (ByteArrayOutputStream.)]
@@ -175,7 +175,7 @@
                                               "For information about the URL format, see the help for \"send\".")}
                   :sf :send-file
                   :send-text-file {:fn (fn [destination-url file-name]
-                                         (create-cached-destination producers destination-url create-producer)
+                                         (create-cached-destination producers destination-url jms/create-producer)
                                          (println "Sending text file:" destination-url "<-" file-name)
                                          ((@producers destination-url) (slurp file-name)))
                               :short-info "Send the content of the given text file."
@@ -186,7 +186,7 @@
                                   (create-cached-destination
                                     json-consumers
                                     destination-url
-                                    create-failsafe-json-consumer
+                                    jms/create-failsafe-json-consumer
                                     (fn [rcvd]
                                       (binding [*out* out-binding]
                                         (println "Received:" destination-url "->")
@@ -211,7 +211,7 @@
                                          rec-consumer (create-cached-destination
                                                         consumers
                                                         source-url
-                                                        create-consumer
+                                                        jms/create-consumer
                                                         (fn [rcvd msg]
                                                           (let [rec-data (String. rcvd)
                                                                 rec-itm {"data" rec-data
@@ -232,7 +232,7 @@
                                         "Record data received from source-url in record-file.")}
                   :replay {:fn (fn [destination-url replay-file interval loop-send]
                                 (println "Replaying from file:" destination-url "<-" replay-file)
-                                (create-cached-destination producers destination-url create-producer)
+                                (create-cached-destination producers destination-url jms/create-producer)
                                 (doto (Thread. (fn []
                                                  (let [replay-items (clojure.string/split (slurp (str replay-file)) (re-pattern record-txt-delimiter))]
                                                    (loop []
@@ -253,22 +253,22 @@
                                  @recorders (do
                                               (println "Stopping recorder for:" url)
                                               (doseq [consumer (deref (get-in @recorders [url :consumers]))]
-                                                (close consumer))
+                                                (jms/close consumer))
                                               (let [f (get-in @recorders [url :file])]
                                                 (locking f
                                                   (spit f "\n]}" :append true))))
                                  @json-consumers (do
                                                    (println "Stopping JSON consumer for:" url)
-                                                   (close (@consumers url)))
+                                                   (jms/close (@consumers url)))
                                  @consumers (do
                                               (println "Stopping consumer for:" url)
-                                              (close (@consumers url)))))
+                                              (jms/close (@consumers url)))))
                          :short-info "Stop recording for the given url."}
                   :management {:fn (fn [broker-url command & args]
                                      (create-cached-destination
                                        json-consumers
-                                       (str broker-url ":" *broker-management-reply-topic*)
-                                       create-failsafe-json-consumer
+                                       (str broker-url ":" jms/*broker-management-reply-topic*)
+                                       jms/create-failsafe-json-consumer
                                        (fn [reply-str]
                                          (binding [*out* out-binding
                                                    *read-eval* false]
@@ -282,9 +282,9 @@
                                                (println "Error reading reply:" (.getMessage e))
                                                (println "Printing raw reply below:")
                                                (println reply-str))))))
-                                     (let [cmd-destination (str broker-url ":" *broker-management-command-topic*)
+                                     (let [cmd-destination (str broker-url ":" jms/*broker-management-command-topic*)
                                            cmd-with-args (str command (reduce #(str %1 " " %2) "" args))]
-                                       (create-cached-destination json-producers cmd-destination create-json-producer)
+                                       (create-cached-destination json-producers cmd-destination jms/create-json-producer)
                                        (println "Management Command:" cmd-destination "<-")
                                        (pprint cmd-with-args)
                                        ((@json-producers cmd-destination) cmd-with-args)))}
@@ -292,13 +292,13 @@
                   }
                 :prompt-string "bowerick# "})
     (doseq [consumer (vals @consumers)]
-      (close consumer))
+      (jms/close consumer))
     (doseq [producer (vals @producers)]
-      (close producer))
+      (jms/close producer))
     (doseq [producer (vals @json-producers)]
-      (close producer))
+      (jms/close producer))
     (doseq [consumer (vals @json-consumers)]
-      (close consumer))))
+      (jms/close consumer))))
 
 (defn start-benchmark-client-mode [arg-map]
   (let [counter (atom 0)
@@ -318,10 +318,10 @@
         url (if (vector? (arg-map :url))
               (first (arg-map :url))
               (arg-map :url))
-        consumer (create-consumer url (arg-map :destination) consumer-fn (arg-map :pool-size))
+        consumer (jms/create-consumer url (arg-map :destination) consumer-fn (arg-map :pool-size))
         shutdown-fn (fn []
                       (reset! running false)
-                      (close consumer))]
+                      (jms/close consumer))]
       (do
         (println "Benchmark client started... Type \"q\" followed by <Return> to quit: ")
         (while (not= "q" (read-line))
