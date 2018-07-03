@@ -1,5 +1,5 @@
-;(defproject bowerick "2.5.3-SNAPSHOT"
-(defproject bowerick "2.5.2"
+;(defproject bowerick "2.5.4-SNAPSHOT"
+(defproject bowerick "2.5.3"
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
                  [cheshire "5.8.0"]
