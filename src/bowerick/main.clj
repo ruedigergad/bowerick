@@ -215,7 +215,7 @@
                                                         (fn [rcvd msg]
                                                           (let [rec-data (String. rcvd)
                                                                 rec-itm {"data" rec-data
-                                                                         "metadata" {"destination" source-url
+                                                                         "metadata" {"source" source-url
                                                                                      "timestamp" (System/nanoTime)
                                                                                      "msg-class" (str (class msg))}}]
                                                             (locking rec-file
