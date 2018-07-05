@@ -231,21 +231,50 @@
                            :long-info (str
                                         "Record data received from source-url in record-file.")}
                   :replay {:fn (fn [destination-url replay-file interval loop-send]
-                                (println "Replaying from file:" destination-url "<-" replay-file)
-                                (create-cached-destination producers destination-url jms/create-producer)
-                                (doto (Thread. (fn []
-                                                 (let [replay-items (clojure.string/split (slurp (str replay-file)) (re-pattern record-txt-delimiter))]
-                                                   (loop []
-                                                     (doseq [itm replay-items]
-                                                       (when (and
-                                                               (not (nil? itm))
-                                                               (not= itm "\n"))
-                                                         ((@producers destination-url) itm)
-                                                         (sleep interval)))
-                                                     (when loop-send
-                                                       (recur))))))
-                                  (.setDaemon true)
-                                  (.start))
+                                 (println "Replaying from file:" destination-url "<-" replay-file)
+                                 (let [replay-data (cheshire/parse-string (slurp (str replay-file)))
+                                       ref-time (get-in replay-data ["metadata" "timestamp_nanos"])
+                                       msgs-by-time (reduce (fn [msgs entry] (assoc msgs (get-in entry ["metadata" "timestamp"]) entry)) {} (replay-data "messages"))
+                                       timestamps (keys msgs-by-time)]
+                                   (println "Replaying" (count msgs-by-time) "messages using reference time:" ref-time)
+                                   (doto (Thread. (fn []
+                                                    (loop [next-send-ts (first timestamps)]
+                                                      (let [ts-to-send (if (nil? next-send-ts)
+                                                                         []
+                                                                         (filter
+                                                                           (fn [itm]
+                                                                             (and
+                                                                               (>= itm next-send-ts)
+                                                                               (<= itm (+ next-send-ts (* interval 1000000)))))
+                                                                           timestamps))]
+                                                        (doseq [ts ts-to-send]
+                                                          (let [msg (msgs-by-time ts)
+                                                                data (msg "data")
+                                                                dest (get-in msg ["metadata" "source"])]
+                                                            (when (not (contains? @producers dest))
+                                                              (create-cached-destination producers dest jms/create-producer))
+                                                            ((@producers dest) data)))
+                                                        (sleep interval)
+                                                        (if (and
+                                                              loop-send
+                                                              (= (last ts-to-send) (last timestamps)))
+                                                          (recur (first timestamps))
+                                                          (when (not= (last ts-to-send) (last timestamps))
+                                                            (let [next-send-ts-candidate (first
+                                                                                           (filter
+                                                                                             (fn [itm]
+                                                                                               (and
+                                                                                                 (> itm (last ts-to-send))
+                                                                                                 (<= itm (+ (last ts-to-send) (* interval 1000000)))))
+                                                                                             timestamps))
+                                                                  new-next-send-ts (if (not (nil? next-send-ts-candidate))
+                                                                                     next-send-ts-candidate
+                                                                                     (+
+                                                                                       (max (last ts-to-send) next-send-ts)
+                                                                                       (* interval 1000000)))]
+                                                              (recur new-next-send-ts))))))))
+                                     (.setDaemon true)
+                                     (.start)))
                                  nil)
                           :short-info "Replay previously recorded data."}
                   :stop {:fn (fn [url]

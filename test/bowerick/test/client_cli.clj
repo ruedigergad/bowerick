@@ -30,7 +30,7 @@
 (def json-test-file-name "test/data/json-test-data.txt")
 (def csv-test-file-name "test/data/csv_input_test_file.txt")
 (def record-test-output-file "record-test-output.txt")
-(def replay-test-file-name "test/data/replay_test_input.txt")
+(def replay-test-file-name "test/data/record_out.txt")
 
 (defn test-with-broker [t]
   (rm record-test-output-file)
@@ -408,11 +408,12 @@
         (expected-string
           [(str "Set up consumer for: " local-jms-server ":" test-topic)
            (str "Replaying from file: " local-jms-server ":" test-topic " <- " replay-test-file-name)
+           "Replaying 3 messages using reference time: 63103447065280"
            (str "Received: " local-jms-server ":" test-topic " ->")
            "\"abc\""
            (str "Received: " local-jms-server ":" test-topic " ->")
-           "\"def\""
+           "{\"a\" \"A\", \"b\" 123, \"c\" 1.23}"
            (str "Received: " local-jms-server ":" test-topic " ->")
-           "\"789\""])
+           "(\"a\" \"b\" 3 4.2)"])
         out-string))))
 
