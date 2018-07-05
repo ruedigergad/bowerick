@@ -417,3 +417,29 @@
            "(\"a\" \"b\" 3 4.2)"])
         out-string))))
 
+(deftest simple-looped-replay-file-test
+  (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
+                        "_sleep 300"
+                        (str "replay " local-jms-server ":" test-topic " \"" replay-test-file-name "\" 400 true")
+                        "_sleep 600"]
+        out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
+    (is
+      (=
+        (expected-string
+          [(str "Set up consumer for: " local-jms-server ":" test-topic)
+           (str "Replaying from file: " local-jms-server ":" test-topic " <- " replay-test-file-name)
+           "Replaying 3 messages using reference time: 63103447065280"
+           (str "Received: " local-jms-server ":" test-topic " ->")
+           "\"abc\""
+           (str "Received: " local-jms-server ":" test-topic " ->")
+           "{\"a\" \"A\", \"b\" 123, \"c\" 1.23}"
+           (str "Received: " local-jms-server ":" test-topic " ->")
+           "(\"a\" \"b\" 3 4.2)"
+           (str "Received: " local-jms-server ":" test-topic " ->")
+           "\"abc\""
+           (str "Received: " local-jms-server ":" test-topic " ->")
+           "{\"a\" \"A\", \"b\" 123, \"c\" 1.23}"
+           (str "Received: " local-jms-server ":" test-topic " ->")
+           "(\"a\" \"b\" 3 4.2)"])
+        out-string))))
+
