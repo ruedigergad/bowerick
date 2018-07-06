@@ -400,14 +400,14 @@
 (deftest simple-replay-file-test
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
                         "_sleep 300"
-                        (str "replay " local-jms-server ":" test-topic " \"" replay-test-file-name "\" 100 false")
+                        (str "replay \"" replay-test-file-name "\" 100 false")
                         "_sleep 600"]
         out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
     (is
       (=
         (expected-string
           [(str "Set up consumer for: " local-jms-server ":" test-topic)
-           (str "Replaying from file: " local-jms-server ":" test-topic " <- " replay-test-file-name)
+           (str "Replaying from file: " replay-test-file-name)
            "Replaying 3 messages using reference time: 63103447065280"
            (str "Received: " local-jms-server ":" test-topic " ->")
            "\"abc\""
@@ -420,14 +420,14 @@
 (deftest simple-looped-replay-file-test
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
                         "_sleep 300"
-                        (str "replay " local-jms-server ":" test-topic " \"" replay-test-file-name "\" 400 true")
+                        (str "replay \"" replay-test-file-name "\" 400 true")
                         "_sleep 600"]
         out-string (test-cli-stdout #(-main "-c") test-cmd-input)]
     (is
       (=
         (expected-string
           [(str "Set up consumer for: " local-jms-server ":" test-topic)
-           (str "Replaying from file: " local-jms-server ":" test-topic " <- " replay-test-file-name)
+           (str "Replaying from file: " replay-test-file-name)
            "Replaying 3 messages using reference time: 63103447065280"
            (str "Received: " local-jms-server ":" test-topic " ->")
            "\"abc\""

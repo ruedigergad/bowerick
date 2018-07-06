@@ -27,6 +27,28 @@
 
 
 
+(def destination-url-format-help-string
+  (str
+    "The destination-url format is: <PROTOCOL>://<ADDRESS>:<PORT>:/[topic,queue]/<NAME>"
+    "\n\t<PROTOCOL> can be, e.g.: tcp, udp, stomp, ssl, or stomp+ssl"
+    "\n\t<ADDRESS> is the IP address or name of the broker."
+    "\n\t<PORT> is the port number on which the broker listens."
+    "\n\t<NAME> is the name of the topic/queue to which the data will be sent."
+    "\n\tAn example of a destintation-url is: tcp://localhost:61616:/topic/test.topic.name"
+    ))
+
+(defn create-cached-destination
+  [cache destination-url destination-factory-fn & args]
+  (when (not (@cache destination-url))
+    (let [new-consumer (apply
+                         destination-factory-fn
+                         (conj
+                           args
+                           (second (s/split (str destination-url) #":(?=/[^/])"))
+                           (first (s/split (str destination-url) #":(?=/[^/])"))))]
+      (swap! cache assoc destination-url new-consumer)
+      new-consumer)))
+
 (defn start-broker-mode
   [arg-map]
   (println-err "Starting bowerick in broker mode.")
@@ -122,28 +144,6 @@
           (println "Type \"q\" followed by <Return> to quit: "))
         (shutdown-fn)))))
 
-(def destination-url-format-help-string
-  (str
-    "The destination-url format is: <PROTOCOL>://<ADDRESS>:<PORT>:/[topic,queue]/<NAME>"
-    "\n\t<PROTOCOL> can be, e.g.: tcp, udp, stomp, ssl, or stomp+ssl"
-    "\n\t<ADDRESS> is the IP address or name of the broker."
-    "\n\t<PORT> is the port number on which the broker listens."
-    "\n\t<NAME> is the name of the topic/queue to which the data will be sent."
-    "\n\tAn example of a destintation-url is: tcp://localhost:61616:/topic/test.topic.name"
-    ))
-
-(defn create-cached-destination
-  [cache destination-url destination-factory-fn & args]
-  (when (not (@cache destination-url))
-    (let [new-consumer (apply
-                         destination-factory-fn
-                         (conj
-                           args
-                           (second (s/split (str destination-url) #":(?=/[^/])"))
-                           (first (s/split (str destination-url) #":(?=/[^/])"))))]
-      (swap! cache assoc destination-url new-consumer)
-      new-consumer)))
-
 (defn start-client-mode
   [arg-map]
   (println-err "Starting bowerick in client mode.")
@@ -230,8 +230,8 @@
                            :short-info "Record received data."
                            :long-info (str
                                         "Record data received from source-url in record-file.")}
-                  :replay {:fn (fn [destination-url replay-file interval loop-send]
-                                 (println "Replaying from file:" destination-url "<-" replay-file)
+                  :replay {:fn (fn [replay-file interval loop-send]
+                                 (println "Replaying from file:" replay-file)
                                  (let [replay-data (cheshire/parse-string (slurp (str replay-file)))
                                        ref-time (get-in replay-data ["metadata" "timestamp_nanos"])
                                        msgs-by-time (reduce (fn [msgs entry] (assoc msgs (get-in entry ["metadata" "timestamp"]) entry)) {} (replay-data "messages"))
