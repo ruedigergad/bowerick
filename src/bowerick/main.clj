@@ -112,6 +112,8 @@
         shutdown-fn (fn []
                       (println "Shutting down...")
                       (reset! running false)
+                      (doseq [prod (vals @producers)]
+                        (jms/close prod))
                       (sleep 500)
                       (println "Stopping broker...")
                       (jms/stop broker-service)
