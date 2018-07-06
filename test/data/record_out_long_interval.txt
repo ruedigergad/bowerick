@@ -1,0 +1,6 @@
+{"metadata":{"timestamp_millis":1530770072092,"timestamp_nanos":63103447065280},
+"messages":[
+{"data":"\"abc\"","metadata":{"source":"tcp://127.0.0.1:42424:/topic/testtopic.foo","timestamp":63103448065280,"msg-class":"class org.apache.activemq.command.ActiveMQBytesMessage"}},
+{"data":"{\"a\":\"A\",\"b\":123,\"c\":1.23}","metadata":{"source":"tcp://127.0.0.1:42424:/topic/testtopic.foo","timestamp":63104449065280,"msg-class":"class org.apache.activemq.command.ActiveMQBytesMessage"}},
+{"data":"[\"a\",\"b\",3,4.2]","metadata":{"source":"tcp://127.0.0.1:42424:/topic/testtopic.foo","timestamp":63105450065280,"msg-class":"class org.apache.activemq.command.ActiveMQBytesMessage"}}
+]}
