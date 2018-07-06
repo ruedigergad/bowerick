@@ -79,18 +79,20 @@
                                (= (last ts-to-send) (last timestamps)))
                            (recur (first timestamps))
                            (when (not= (last ts-to-send) (last timestamps))
-                             (let [next-send-ts-candidate (first
-                                                            (filter
-                                                              (fn [itm]
-                                                                (and
-                                                                  (> itm (last ts-to-send))
-                                                                  (<= itm (+ (last ts-to-send) (* interval 1000000)))))
-                                                              timestamps))
+                             (let [next-send-ts-candidate (if (empty? ts-to-send)
+                                                            nil
+                                                            (first
+                                                              (filter
+                                                                (fn [itm]
+                                                                  (and
+                                                                    (> itm (last ts-to-send))
+                                                                    (<= itm (+ (last ts-to-send) (* interval 1000000)))))
+                                                                timestamps)))
                                    new-next-send-ts (if (not (nil? next-send-ts-candidate))
                                                       next-send-ts-candidate
-                                                      (+
-                                                        (max (last ts-to-send) next-send-ts)
-                                                        (* interval 1000000)))]
+                                                      (if (empty? ts-to-send)
+                                                        (+ next-send-ts (* interval 1000000))
+                                                        (+ (max (last ts-to-send) next-send-ts) (* interval 1000000))))]
                                (recur new-next-send-ts))))))))
       (.setDaemon true)
       (.start)))
