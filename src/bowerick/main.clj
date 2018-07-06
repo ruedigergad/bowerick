@@ -25,7 +25,7 @@
     (java.io ByteArrayOutputStream))
   (:gen-class))
 
-(def record-txt-delimiter "@bwrck#")
+
 
 (defn start-broker-mode
   [arg-map]
