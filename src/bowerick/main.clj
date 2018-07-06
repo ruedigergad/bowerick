@@ -49,6 +49,53 @@
       (swap! cache assoc destination-url new-consumer)
       new-consumer)))
 
+(defn replay [replay-file interval loop-send producers]
+  (println "Replaying from file:" replay-file)
+  (let [replay-data (cheshire/parse-string (slurp (str replay-file)))
+        ref-time (get-in replay-data ["metadata" "timestamp_nanos"])
+        msgs-by-time (reduce (fn [msgs entry] (assoc msgs (get-in entry ["metadata" "timestamp"]) entry)) {} (replay-data "messages"))
+        timestamps (keys msgs-by-time)]
+    (println "Replaying" (count msgs-by-time) "messages using reference time:" ref-time)
+    (doto (Thread. (fn []
+                     (loop [next-send-ts (first timestamps)]
+                       (let [ts-to-send (if (nil? next-send-ts)
+                                          []
+                                          (filter
+                                            (fn [itm]
+                                              (and
+                                                (>= itm next-send-ts)
+                                                (<= itm (+ next-send-ts (* interval 1000000)))))
+                                            timestamps))]
+                         (doseq [ts ts-to-send]
+                           (let [msg (msgs-by-time ts)
+                                 data (msg "data")
+                                 dest (get-in msg ["metadata" "source"])]
+                             (when (not (contains? @producers dest))
+                               (create-cached-destination producers dest jms/create-producer))
+                             ((@producers dest) data)))
+                         (sleep interval)
+                         (if (and
+                               loop-send
+                               (= (last ts-to-send) (last timestamps)))
+                           (recur (first timestamps))
+                           (when (not= (last ts-to-send) (last timestamps))
+                             (let [next-send-ts-candidate (first
+                                                            (filter
+                                                              (fn [itm]
+                                                                (and
+                                                                  (> itm (last ts-to-send))
+                                                                  (<= itm (+ (last ts-to-send) (* interval 1000000)))))
+                                                              timestamps))
+                                   new-next-send-ts (if (not (nil? next-send-ts-candidate))
+                                                      next-send-ts-candidate
+                                                      (+
+                                                        (max (last ts-to-send) next-send-ts)
+                                                        (* interval 1000000)))]
+                               (recur new-next-send-ts))))))))
+      (.setDaemon true)
+      (.start)))
+  nil)
+
 (defn start-broker-mode
   [arg-map]
   (println-err "Starting bowerick in broker mode.")
@@ -60,6 +107,7 @@
                 (conj arg-url af-demo-url))
               arg-url)
         broker-service (jms/start-broker url)
+        producers (atom {})
         running (atom true)
         shutdown-fn (fn []
                       (println "Shutting down...")
@@ -134,6 +182,8 @@
                         (recur))))
           (.setDaemon true)
           (.start))))
+    (if (arg-map :replay-file)
+      (replay (arg-map :replay-file) (arg-map :interval) (arg-map :loop-replay) producers))
     (if (arg-map :daemon)
       (do
         (println "Broker started in daemon mode.")
@@ -231,51 +281,7 @@
                            :long-info (str
                                         "Record data received from source-url in record-file.")}
                   :replay {:fn (fn [replay-file interval loop-send]
-                                 (println "Replaying from file:" replay-file)
-                                 (let [replay-data (cheshire/parse-string (slurp (str replay-file)))
-                                       ref-time (get-in replay-data ["metadata" "timestamp_nanos"])
-                                       msgs-by-time (reduce (fn [msgs entry] (assoc msgs (get-in entry ["metadata" "timestamp"]) entry)) {} (replay-data "messages"))
-                                       timestamps (keys msgs-by-time)]
-                                   (println "Replaying" (count msgs-by-time) "messages using reference time:" ref-time)
-                                   (doto (Thread. (fn []
-                                                    (loop [next-send-ts (first timestamps)]
-                                                      (let [ts-to-send (if (nil? next-send-ts)
-                                                                         []
-                                                                         (filter
-                                                                           (fn [itm]
-                                                                             (and
-                                                                               (>= itm next-send-ts)
-                                                                               (<= itm (+ next-send-ts (* interval 1000000)))))
-                                                                           timestamps))]
-                                                        (doseq [ts ts-to-send]
-                                                          (let [msg (msgs-by-time ts)
-                                                                data (msg "data")
-                                                                dest (get-in msg ["metadata" "source"])]
-                                                            (when (not (contains? @producers dest))
-                                                              (create-cached-destination producers dest jms/create-producer))
-                                                            ((@producers dest) data)))
-                                                        (sleep interval)
-                                                        (if (and
-                                                              loop-send
-                                                              (= (last ts-to-send) (last timestamps)))
-                                                          (recur (first timestamps))
-                                                          (when (not= (last ts-to-send) (last timestamps))
-                                                            (let [next-send-ts-candidate (first
-                                                                                           (filter
-                                                                                             (fn [itm]
-                                                                                               (and
-                                                                                                 (> itm (last ts-to-send))
-                                                                                                 (<= itm (+ (last ts-to-send) (* interval 1000000)))))
-                                                                                             timestamps))
-                                                                  new-next-send-ts (if (not (nil? next-send-ts-candidate))
-                                                                                     next-send-ts-candidate
-                                                                                     (+
-                                                                                       (max (last ts-to-send) next-send-ts)
-                                                                                       (* interval 1000000)))]
-                                                              (recur new-next-send-ts))))))))
-                                     (.setDaemon true)
-                                     (.start)))
-                                 nil)
+                                 (replay replay-file interval loop-send producers))
                           :short-info "Replay previously recorded data."}
                   :stop {:fn (fn [url]
                                (condp contains? url
@@ -388,10 +394,16 @@
                        " or the delay that is artificially added to the consumption fn of the benchmark client.")
                      :default 0
                      :parse-fn #(Integer/decode %)]
+                   ["-L" "--[no-]loop-replay"
+                     "Whether or not to loop the replayed file."
+                     :default true]
                    ["-P" "--pool-size"
                      "The pool size used, e.g., for the benchmark client or the message generator producer."
                      :default 1
                      :parse-fn #(Integer/decode %)]
+                   ["-R" "--replay-file"
+                     "Replay a recorded file."
+                     :default nil]
                    ["-X" "--generator-arguments"
                      "Arguments for message generators that accept arguments."
                      :default nil])
