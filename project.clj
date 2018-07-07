@@ -1,9 +1,9 @@
-;(defproject bowerick "2.5.5-SNAPSHOT"
-(defproject bowerick "2.5.4"
+;(defproject bowerick "2.5.6-SNAPSHOT"
+(defproject bowerick "2.5.5"
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
                  [cheshire "5.8.0"]
-                 [cli4clj "1.5.2"]
+                 [cli4clj "1.5.3"]
                  [clj-assorted-utils "1.18.2"]
                  [com.ning/compress-lzf "1.0.4"]
                  [com.taoensso/nippy "2.14.0"]
@@ -42,7 +42,7 @@
   :html5-docs-ns-includes #"^bowerick.*"
   :html5-docs-repository-url "https://github.com/ruedigergad/bowerick/blob/master"
   :profiles {:repl
-               {:dependencies  [[jonase/eastwood "0.2.6" :exclusions  [org.clojure/clojure]]]}
+               {:dependencies  [[jonase/eastwood "0.2.7" :exclusions  [org.clojure/clojure]]]}
              :test
                {:dependencies [[criterium "0.4.4"]]
                 :test-paths ["test" "benchmark"]}}
