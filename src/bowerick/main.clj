@@ -22,7 +22,7 @@
     [clojure.string :as s]
     [clojure.tools.cli :refer :all])
   (:import
-    (java.io ByteArrayOutputStream))
+    (java.nio.file Files Paths))
   (:gen-class))
 
 
@@ -220,10 +220,8 @@
                   :send-file {:fn (fn [destination-url file-name]
                                     (create-cached-destination producers destination-url jms/create-producer)
                                     (println "Sending file:" destination-url "<-" file-name)
-                                    (with-open [in-stream (jio/input-stream file-name)
-                                                ba-out-stream (ByteArrayOutputStream.)]
-                                      (jio/copy in-stream ba-out-stream)
-                                      ((@producers destination-url) (.toByteArray ba-out-stream))))
+                                    (let [ba (Files/readAllBytes (Paths/get file-name (into-array [""])))]
+                                      ((@producers destination-url) ba)))
                               :short-info "Send the data from the given file."
                               :long-info (str "Reads binary data from the given file and sends it. "
                                               "For information about the URL format, see the help for \"send\".")}
