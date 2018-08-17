@@ -206,7 +206,15 @@
         consumers (atom {})
         producers (atom {})
         out-binding *out*
-        recorders (atom {})]
+        recorders (atom {})
+        stop-rec-fn (fn [id]
+                      (do
+                        (println "Stopping recorder for:" id)
+                        (doseq [consumer (deref (get-in @recorders [id :consumers]))]
+                          (jms/close consumer))
+                        (let [f (get-in @recorders [id :file])]
+                          (locking f
+                            (spit f "\n]}" :append true)))))]
     (start-cli {:cmds
                  {:send {:fn (fn [destination-url data]
                                (create-cached-destination json-producers destination-url jms/create-json-producer)
@@ -285,21 +293,15 @@
                   :replay {:fn (fn [replay-file interval loop-send]
                                  (replay replay-file interval loop-send producers))
                           :short-info "Replay previously recorded data."}
-                  :stop {:fn (fn [url]
-                               (condp contains? url
-                                 @recorders (do
-                                              (println "Stopping recorder for:" url)
-                                              (doseq [consumer (deref (get-in @recorders [url :consumers]))]
-                                                (jms/close consumer))
-                                              (let [f (get-in @recorders [url :file])]
-                                                (locking f
-                                                  (spit f "\n]}" :append true))))
+                  :stop {:fn (fn [id]
+                               (condp contains? id
+                                 @recorders (stop-rec-fn id)
                                  @json-consumers (do
-                                                   (println "Stopping JSON consumer for:" url)
-                                                   (jms/close (@consumers url)))
+                                                   (println "Stopping JSON consumer for:" id)
+                                                   (jms/close (@consumers id)))
                                  @consumers (do
-                                              (println "Stopping consumer for:" url)
-                                              (jms/close (@consumers url)))))
+                                              (println "Stopping consumer for:" id)
+                                              (jms/close (@consumers id)))))
                          :short-info "Stop recording for the given url."}
                   :management {:fn (fn [broker-url command & args]
                                      (create-cached-destination
@@ -328,14 +330,12 @@
                   :m :management
                   }
                 :prompt-string "bowerick# "})
-    (doseq [consumer (vals @consumers)]
-      (jms/close consumer))
-    (doseq [producer (vals @producers)]
-      (jms/close producer))
-    (doseq [producer (vals @json-producers)]
-      (jms/close producer))
-    (doseq [consumer (vals @json-consumers)]
-      (jms/close consumer))))
+    (doseq [m [@producers @json-producers @consumers @json-consumers]]
+      (doseq [[id consumer] m]
+        (println "Closing" (type consumer) "for" id "...")
+        (jms/close consumer)))
+    (doseq [rec-id (keys @recorders)]
+      (stop-rec-fn rec-id))))
 
 (defn start-benchmark-client-mode [arg-map]
   (let [counter (atom 0)
