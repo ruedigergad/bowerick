@@ -3,7 +3,7 @@
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
                  [cheshire "5.8.0"]
-                 [cli4clj "1.5.3"]
+                 [cli4clj "1.6.1"]
                  [clj-assorted-utils "1.18.2"]
                  [com.ning/compress-lzf "1.0.4"]
                  [com.taoensso/nippy "2.14.0"]
@@ -30,7 +30,6 @@
             :distribution :repo
             :comments "This is the same license as used for Clojure."}
   :global-vars {*warn-on-reflection* true}
-  :aot :all
   :prep-tasks [["compile" "bowerick.java-interfaces"]
                "compile"]
   :main bowerick.main

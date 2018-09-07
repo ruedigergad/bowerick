@@ -205,7 +205,6 @@
         json-producers (atom {})
         consumers (atom {})
         producers (atom {})
-        out-binding *out*
         recorders (atom {})
         stop-rec-fn (fn [id]
                       (do
@@ -248,7 +247,7 @@
                                     destination-url
                                     jms/create-failsafe-json-consumer
                                     (fn [rcvd]
-                                      (binding [*out* out-binding]
+                                      (with-alt-scroll-out
                                         (println "Received:" destination-url "->")
                                         (pprint rcvd))))
                                   (println "Set up consumer for:" destination-url))
@@ -309,18 +308,18 @@
                                        (str broker-url ":" jms/*broker-management-reply-topic*)
                                        jms/create-failsafe-json-consumer
                                        (fn [reply-str]
-                                         (binding [*out* out-binding
-                                                   *read-eval* false]
-                                           (println "Management Reply:" broker-url "->")
-                                           (try
-                                             (let [reply-obj (read-string reply-str)]
-                                               (if (instance? clojure.lang.Symbol reply-obj)
-                                                 (println reply-str)
-                                                 (pprint reply-obj)))
-                                             (catch Exception e
-                                               (println "Error reading reply:" (.getMessage e))
-                                               (println "Printing raw reply below:")
-                                               (println reply-str))))))
+                                         (with-alt-scroll-out
+                                           (binding [*read-eval* false]
+                                             (println "Management Reply:" broker-url "->")
+                                             (try
+                                               (let [reply-obj (read-string reply-str)]
+                                                 (if (instance? clojure.lang.Symbol reply-obj)
+                                                   (println reply-str)
+                                                   (pprint reply-obj)))
+                                               (catch Exception e
+                                                 (println "Error reading reply:" (.getMessage e))
+                                                 (println "Printing raw reply below:")
+                                                 (println reply-str)))))))
                                      (let [cmd-destination (str broker-url ":" jms/*broker-management-command-topic*)
                                            cmd-with-args (str command (reduce #(str %1 " " %2) "" args))]
                                        (create-cached-destination json-producers cmd-destination jms/create-json-producer)
@@ -329,7 +328,9 @@
                                        ((@json-producers cmd-destination) cmd-with-args)))}
                   :m :management
                   }
-                :prompt-string "bowerick# "})
+                :prompt-string "bowerick# "
+                :alternate-scrolling true
+                :alternate-height 3})
     (doseq [m [@producers @json-producers @consumers @json-consumers]]
       (doseq [[id consumer] m]
         (println "Closing" (type consumer) "for" id "...")
