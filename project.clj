@@ -1,9 +1,9 @@
-;(defproject bowerick "2.6.1-SNAPSHOT"
-(defproject bowerick "2.6.0"
+;(defproject bowerick "2.6.2-SNAPSHOT"
+(defproject bowerick "2.6.1"
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
                  [cheshire "5.8.0"]
-                 [cli4clj "1.6.2"]
+                 [cli4clj "1.6.3"]
                  [clj-assorted-utils "1.18.2"]
                  [com.ning/compress-lzf "1.0.4"]
                  [com.taoensso/nippy "2.14.0"]
@@ -33,6 +33,7 @@
   :prep-tasks [["compile" "bowerick.java-interfaces" "bowerick.JmsController"]
                "compile"]
   :main bowerick.main
+  :aot :all
   :test-selectors {:default (complement :benchmark)
                    :benchmark :benchmark}
   :test2junit-output-dir "ghpages/test-results"
