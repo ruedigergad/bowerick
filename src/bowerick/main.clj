@@ -204,6 +204,7 @@
   (let [json-consumers (atom {})
         json-producers (atom {})
         consumers (atom {})
+        out-binding *out*
         producers (atom {})
         recorders (atom {})
         stop-rec-fn (fn [id]
@@ -247,9 +248,10 @@
                                     destination-url
                                     jms/create-failsafe-json-consumer
                                     (fn [rcvd]
-                                      (with-alt-scroll-out
-                                        (println "Received:" destination-url "->")
-                                        (pprint rcvd))))
+                                      (binding [*out* out-binding]
+                                        (with-alt-scroll-out
+                                          (println "Received:" destination-url "->")
+                                          (pprint rcvd)))))
                                   (println "Set up consumer for:" destination-url))
                          :short-info "Set up a consumer for receiving data from destintation."
                          :long-info (str
@@ -308,8 +310,9 @@
                                        (str broker-url ":" jms/*broker-management-reply-topic*)
                                        jms/create-failsafe-json-consumer
                                        (fn [reply-str]
-                                         (with-alt-scroll-out
-                                           (binding [*read-eval* false]
+                                         (binding [*out* out-binding
+                                                   *read-eval* false]
+                                           (with-alt-scroll-out
                                              (println "Management Reply:" broker-url "->")
                                              (try
                                                (let [reply-obj (read-string reply-str)]
