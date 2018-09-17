@@ -49,56 +49,56 @@
     (run-test t))
   (println "TESTING: stomp+ssl://127.0.0.1:42423")
   (binding [*local-jms-server* "stomp+ssl://127.0.0.1:42423"
-            *trust-store-file* "test/ssl/client.ts"
+            *trust-store-file* "test/ssl/client.ks"
             *trust-store-password* "password"
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
     (run-test t))
   (println "TESTING: stomp+ssl://127.0.0.1:42423?needClientAuth=true")
   (binding [*local-jms-server* "stomp+ssl://127.0.0.1:42423?needClientAuth=true"
-            *trust-store-file* "test/ssl/client.ts"
+            *trust-store-file* "test/ssl/client.ks"
             *trust-store-password* "password"
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
     (run-test t))
   (println "TESTING: mqtt+ssl://127.0.0.1:42430")
   (binding [*local-jms-server* "mqtt+ssl://127.0.0.1:42430"
-            *trust-store-file* "test/ssl/client.ts"
+            *trust-store-file* "test/ssl/client.ks"
             *trust-store-password* "password"
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
     (run-test t))
   (println "TESTING: mqtt+ssl://127.0.0.1:42430?needClientAuth=true")
   (binding [*local-jms-server* "mqtt+ssl://127.0.0.1:42430?needClientAuth=true"
-            *trust-store-file* "test/ssl/client.ts"
+            *trust-store-file* "test/ssl/client.ks"
             *trust-store-password* "password"
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
     (run-test t))
   (println "TESTING: wss://127.0.0.1:42428")
   (binding [*local-jms-server* "wss://127.0.0.1:42428"
-            *trust-store-file* "test/ssl/client.ts"
+            *trust-store-file* "test/ssl/client.ks"
             *trust-store-password* "password"
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
     (run-test t))
   (println "TESTING: wss://127.0.0.1:42428?needClientAuth=true")
   (binding [*local-jms-server* "wss://127.0.0.1:42428?needClientAuth=true"
-            *trust-store-file* "test/ssl/client.ts"
+            *trust-store-file* "test/ssl/client.ks"
             *trust-store-password* "password"
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
     (run-test t))
-  (println "TESTING: ssl://127.0.0.1:42425")
-  (binding [*local-jms-server* "ssl://127.0.0.1:42425"
-            *trust-store-file* "test/ssl/client.ts"
+  (println "TESTING: ssl://localhost:42425")
+  (binding [*local-jms-server* "ssl://localhost:42425"
+            *trust-store-file* "test/ssl/client.ks"
             *trust-store-password* "password"
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
     (run-test t))
-  (println "TESTING: ssl://127.0.0.1:42425?needClientAuth=true")
-  (binding [*local-jms-server* "ssl://127.0.0.1:42425?needClientAuth=true"
-            *trust-store-file* "test/ssl/client.ts"
+  (println "TESTING: ssl://localhost:42425?needClientAuth=true")
+  (binding [*local-jms-server* "ssl://localhost:42425?needClientAuth=true"
+            *trust-store-file* "test/ssl/client.ks"
             *trust-store-password* "password"
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
