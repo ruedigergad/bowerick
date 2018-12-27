@@ -44,7 +44,7 @@
  [[org.clojure/tools.nrepl "0.2.12"] "Eclipse Public License 1.0"]
  [[rgad/stompjms-client "1.20-20160615.212304-2"]
   "Common Development and Distribution License (CDDL)"]
- [[com.twitter/carbonite "1.5.0"] "unknown"]
+ [[com.twitter/carbonite "1.5.0"] "Apache License Version 2.0"]
  [[org.apache.httpcomponents/httpclient "4.5.6"]
   "Apache License, Version 2.0"]
  [[org.fusesource.hawtdispatch/hawtdispatch-transport "1.20"]
