@@ -4,7 +4,7 @@
   :dependencies [[com.twitter/carbonite "1.5.0"]
                  [cheshire "5.8.1"]
                  [cli4clj "1.7.0"]
-                 [clj-assorted-utils "1.18.2"]
+                 [clj-assorted-utils "1.18.3"]
                  [com.ning/compress-lzf "1.0.4"]
                  [com.taoensso/nippy "2.14.0"]
                  [javax.servlet/javax.servlet-api "4.0.1"]
