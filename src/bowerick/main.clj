@@ -27,6 +27,11 @@
 
 
 
+(def license-info (-> (jio/resource "licenses_edn.txt") slurp read-string))
+(def bowerick-license-text (str "Bowerick is licensed under the terms of the Eclipse Public License (EPL) 1.0.\n"
+                                "----------------------\n"
+                                "In addition, below, an overview of bowerick's (transitive) dependencies and their licenses is given:"))
+
 (def destination-url-format-help-string
   (str
     "The destination-url format is: <PROTOCOL>://<ADDRESS>:<PORT>:/[topic,queue]/<NAME>"
@@ -409,7 +414,8 @@
                     ["-R" "--replay-file FILE_NAME"
                       "Replay a recorded file."]
                     ["-X" "--generator-arguments GEN_ARGS"
-                      "Arguments for message generators that accept arguments."]])
+                      "Arguments for message generators that accept arguments."]
+                    [nil "--license-information" "Print information about the licenses of bowerick and its dependencies."]])
         arg-map (cli-args :options)
         extra-args (cli-args :arguments)
         help-string (cli-args :summary)]
@@ -420,8 +426,12 @@
           (println help-string))
       (arg-map :license-information)
         (do
-          (println "Bowerick is licensed under the terms of the Eclipse Public License (EPL) 1.0.")
-          )
+          (println bowerick-license-text)
+          (let [max-name-len (reduce max (map (fn [[[name version] license]] (-> name str count)) license-info))]
+            (doseq [[[name-sym version] license] license-info]
+              (let [name-str (str name-sym)
+                    name-len (count name-str)]
+                (println name-str (reduce str (repeat (- max-name-len name-len) " ")) license)))))
       :default
         (do
           (binding [*out* *err*]
