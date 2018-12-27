@@ -27,7 +27,7 @@
 
 
 
-(def license-info (-> (jio/resource "licenses_edn.txt") slurp read-string))
+(def license-info (->> (jio/resource "licenses_edn.txt") slurp read-string (sort-by (fn [[[name-sym _] _]] (str name-sym)))))
 (def bowerick-license-text (str "Bowerick is licensed under the terms of the Eclipse Public License (EPL) 1.0.\n"
                                 "----------------------\n"
                                 "In addition, below, an overview of bowerick's (transitive) dependencies and their licenses is given:"))
@@ -431,7 +431,10 @@
             (doseq [[[name-sym version] license] license-info]
               (let [name-str (str name-sym)
                     name-len (count name-str)]
-                (println name-str (reduce str (repeat (- max-name-len name-len) " ")) license)))))
+                (print name-str)
+                (dotimes [_ (- max-name-len name-len)]
+                  (print " "))
+                (println license)))))
       :default
         (do
           (binding [*out* *err*]
