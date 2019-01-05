@@ -31,6 +31,16 @@
 (def bowerick-license-text (str "Bowerick is licensed under the terms of the Eclipse Public License (EPL) 1.0.\n"
                                 "----------------------\n"
                                 "In addition, below, an overview of bowerick's (transitive) dependencies (not including Java) and their licenses is given:"))
+(def license-text-files
+  ["Apache_License_Version_2_0.txt"
+   "BSD_License_Thoghtworks_XStream.txt"
+   "BSD_License_Three-clause.txt"
+   "BSD_License_Two-clause.txt"
+   "Common_Development_and_Distribution_License_Version_1_0.txt"
+   "Eclipse_Public_License_Version_1_0.txt"
+   "Indiana_University_Extreme_Lab_Software_License_Vesion_1_1_1.txt"
+   "MIT_License.txt"
+   "javax-servlet-api_CDDL_plus_GPL_Licenses.txt"])
 
 (def destination-url-format-help-string
   (str
@@ -374,6 +384,17 @@
           (println "Type \"q\" followed by <Return> to quit: "))
         (shutdown-fn))))
 
+(defn print-license-overview []
+  (println bowerick-license-text)
+  (let [max-name-len (reduce max (map (fn [[[name version] license]] (-> name str count)) license-info))]
+    (doseq [[[name-sym version] license] license-info]
+      (let [name-str (str name-sym)
+            name-len (count name-str)]
+        (print name-str)
+        (dotimes [_ (- max-name-len name-len)]
+          (print " "))
+        (println license)))))
+
 (defn -main [& args]
   (let [cli-args (parse-opts
                    args
@@ -415,7 +436,8 @@
                       "Replay a recorded file."]
                     ["-X" "--generator-arguments GEN_ARGS"
                       "Arguments for message generators that accept arguments."]
-                    [nil "--license-information" "Print information about the licenses of bowerick and its dependencies."]])
+                    [nil "--license-information" "Print information about the licenses of bowerick and its dependencies."]
+                    [nil "--license-information-full" "Print information about the licenses of bowerick and its dependencies including the license full texts."]])
         arg-map (cli-args :options)
         extra-args (cli-args :arguments)
         help-string (cli-args :summary)]
@@ -424,17 +446,18 @@
         (do
           (println "Bowerick help:")
           (println help-string))
-      (arg-map :license-information)
+      (arg-map :license-information) (print-license-overview)
+      (arg-map :license-information-full)
         (do
-          (println bowerick-license-text)
-          (let [max-name-len (reduce max (map (fn [[[name version] license]] (-> name str count)) license-info))]
-            (doseq [[[name-sym version] license] license-info]
-              (let [name-str (str name-sym)
-                    name-len (count name-str)]
-                (print name-str)
-                (dotimes [_ (- max-name-len name-len)]
-                  (print " "))
-                (println license)))))
+          (print-license-overview)
+          (println "\n\n")
+          (doseq [f license-text-files]
+            (dotimes [_ (count f)] (print "#"))
+            (println "")
+            (println f)
+            (dotimes [_ (count f)] (print "#"))
+            (println "\n\n")
+            (println (->> (jio/resource (str "license_texts/" f)) slurp))))
       :default
         (do
           (binding [*out* *err*]
