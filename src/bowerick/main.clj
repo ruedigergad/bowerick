@@ -30,7 +30,7 @@
 (def license-info (->> (jio/resource "licenses_edn.txt") slurp read-string (sort-by (fn [[[name-sym _] _]] (str name-sym)))))
 (def bowerick-license-text (str "Bowerick is licensed under the terms of the Eclipse Public License (EPL) 1.0.\n"
                                 "----------------------\n"
-                                "In addition, below, an overview of bowerick's (transitive) dependencies and their licenses is given:"))
+                                "In addition, below, an overview of bowerick's (transitive) dependencies (not including Java) and their licenses is given:"))
 
 (def destination-url-format-help-string
   (str
