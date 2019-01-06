@@ -649,7 +649,10 @@
                       (getPayloadType [^StompHeaders stomp-headers]
                         java.lang.Object)
                       (handleFrame [^StompHeaders stomp-headers payload]
-                        (internal-cb (de-serialization-fn payload) stomp-headers))))
+                        (try
+                          (internal-cb (de-serialization-fn payload) stomp-headers)
+                          (catch Exception e
+                            (utils/println-err e))))))
                   (println "Subscription succeeded.")
                   (->ConsumerWrapper
                     (fn []
@@ -670,7 +673,10 @@
                         (deliveryComplete [token]
                           (utils/println-err "Delivery complete (" broker-url dst-descrpt "):" token))
                         (messageArrived [^String topic ^MqttMessage message]
-                          (internal-cb (de-serialization-fn (.getPayload message)) message))))
+                          (try
+                            (internal-cb (de-serialization-fn (.getPayload message)) message)
+                            (catch Exception e
+                              (utils/println-err e))))))
                     (.subscribe mqtt-client dst-descrpt)
                     (->ConsumerWrapper
                       (fn []
@@ -681,16 +687,16 @@
                    (let [consumer (.createConsumer session destination)
                          listener (proxy [MessageListener] []
                                     (onMessage [^Message m]
-                                      (condp instance? m
-                                        BytesMessage (let [data (byte-array (.getBodyLength ^BytesMessage m))]
-                                                       (.readBytes ^BytesMessage m data)
-                                                       (internal-cb (de-serialization-fn data) m))
-                                        ObjectMessage  (try
-                                                         (internal-cb (de-serialization-fn (.getObject ^ObjectMessage m)) m)
-                                                         (catch javax.jms.JMSException e
-                                                           (utils/println-err e)))
-                                        TextMessage (internal-cb (de-serialization-fn (.getText ^TextMessage m)) m)
-                                        (utils/println-err "Unknown message type (" broker-url destination-description "):" (type m)))))]
+                                      (try
+                                        (condp instance? m
+                                          BytesMessage (let [data (byte-array (.getBodyLength ^BytesMessage m))]
+                                                         (.readBytes ^BytesMessage m data)
+                                                         (internal-cb (de-serialization-fn data) m))
+                                          ObjectMessage  (internal-cb (de-serialization-fn (.getObject ^ObjectMessage m)) m)
+                                          TextMessage (internal-cb (de-serialization-fn (.getText ^TextMessage m)) m)
+                                          (utils/println-err "Unknown message type (" broker-url destination-description "):" (type m)))
+                                        (catch Exception e
+                                          (utils/println-err e)))))]
                      (.setMessageListener consumer listener)
                      (->ConsumerWrapper
                        (fn []
