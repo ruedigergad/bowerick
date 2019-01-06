@@ -379,7 +379,9 @@
                         (str "record " record-test-output-file " " local-jms-server ":" test-topic ".c")
                         "_sleep 300"
                         (str "send " local-jms-server ":" test-topic ".a foo")
+                        "_sleep 100"
                         (str "send " local-jms-server ":" test-topic ".b bar")
+                        "_sleep 100"
                         (str "send " local-jms-server ":" test-topic ".c 123")
                         "_sleep 300"
                         (str "stop " record-test-output-file)]
