@@ -437,7 +437,7 @@
                     ["-X" "--generator-arguments GEN_ARGS"
                       "Arguments for message generators that accept arguments."]
                     [nil "--license-information" "Print information about the licenses of bowerick and its dependencies."]
-                    [nil "--license-information-full" "Print information about the licenses of bowerick and its dependencies including the license full texts."]])
+                    [nil "--license-information-long" "Print information about the licenses of bowerick and its dependencies including the license full texts."]])
         arg-map (cli-args :options)
         extra-args (cli-args :arguments)
         help-string (cli-args :summary)]
@@ -447,7 +447,7 @@
           (println "Bowerick help:")
           (println help-string))
       (arg-map :license-information) (print-license-overview)
-      (arg-map :license-information-full)
+      (arg-map :license-information-long)
         (do
           (print-license-overview)
           (println "\n\n")
