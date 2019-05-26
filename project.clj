@@ -30,7 +30,8 @@
             :distribution :repo
             :comments "This is the same license as used for Clojure."}
   :global-vars {*warn-on-reflection* true}
-  :prep-tasks [["compile" "bowerick.java-interfaces" "bowerick.JmsController"]
+  :prep-tasks [["compile" "bowerick.java-interfaces"]
+               ["compile" "bowerick.JmsController"]
                "compile"]
   :main bowerick.main
   :aot :all
