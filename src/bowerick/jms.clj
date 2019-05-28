@@ -73,6 +73,8 @@
 
 (def ^:dynamic *pooled-producer-auto-transmit-interval* 100)
 
+(def ^:dynamic *mqtt-max-in-flight* (MqttConnectOptions/MAX_INFLIGHT_DEFAULT))
+
 (def msg-prop-key :message-properties)
 
 ; See also: http://activemq.apache.org/objectmessage.html
@@ -354,6 +356,7 @@
         mqtt-client (MqttClient. url (MqttClient/generateClientId) nil)
         conn-opts (doto (MqttConnectOptions.)
                     (.setCleanSession true)
+                    (.setMaxInflight *mqtt-max-in-flight*)
                     (.setConnectionTimeout 180)
                     (.setKeepAliveInterval 60))]
     (when (.startsWith url "ssl://")
