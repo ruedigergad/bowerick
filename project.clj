@@ -43,7 +43,7 @@
   :html5-docs-ns-includes #"^bowerick.*"
   :html5-docs-repository-url "https://github.com/ruedigergad/bowerick/blob/master"
   :profiles {:repl
-               {:dependencies  [[jonase/eastwood "0.3.5" :exclusions  [org.clojure/clojure]]]}
+               {:dependencies  [[jonase/eastwood "0.3.6" :exclusions  [org.clojure/clojure]]]}
              :test
                {:dependencies [[criterium "0.4.5"]]
                 :test-paths ["test" "benchmark"]}}
