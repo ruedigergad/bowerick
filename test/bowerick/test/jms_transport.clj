@@ -19,92 +19,41 @@
 
 
 
-(def ^:dynamic *local-jms-server* "tcp://127.0.0.1:42424")
+(def ^:dynamic *local-jms-server* nil)
 (def test-topic "/topic/testtopic.foo")
 
-(defn run-test [t]
+(defn run-test [t local-jms-server]
+  (println "TESTING:" local-jms-server)
   (let [broker (binding [*trust-store-file* "test/ssl/broker.ts"
                          *trust-store-password* "password"
                          *key-store-file* "test/ssl/broker.ks"
                          *key-store-password* "password"]
-                 (start-test-broker *local-jms-server*))]
-    (t)
+                 (start-test-broker local-jms-server))]
+    (binding [*local-jms-server* local-jms-server]
+      (t))
     (stop broker)))
 
-(defn single-test-fixture [t]
+(defn test-set-fixture [t]
   (println "TEST RUN START: " (str t))
-  (println "TESTING: tcp://127.0.0.1:42424")
-  (run-test t)
-  (println "TESTING: udp://127.0.0.1:42426")
-  (binding [*local-jms-server* "udp://127.0.0.1:42426"]
-    (run-test t))
-  (println "TESTING: ws://127.0.0.1:42427")
-  (binding [*local-jms-server* "ws://127.0.0.1:42427"]
-    (run-test t))
-  (println "TESTING: mqtt://127.0.0.1:42429")
-  (binding [*local-jms-server* "ws://127.0.0.1:42429"]
-    (run-test t))
-  (println "TESTING: stomp://127.0.0.1:42422")
-  (binding [*local-jms-server* "stomp://127.0.0.1:42422"]
-    (run-test t))
-  (println "TESTING: stomp+ssl://127.0.0.1:42423")
-  (binding [*local-jms-server* "stomp+ssl://127.0.0.1:42423"
-            *trust-store-file* "test/ssl/client.ks"
+  (run-test t "tcp://127.0.0.1:42424")
+  (run-test t "udp://127.0.0.1:42426")
+  (run-test t "ws://127.0.0.1:42427")
+  (run-test t "ws://127.0.0.1:42429")
+  (run-test t "stomp://127.0.0.1:42422")
+  (binding [*trust-store-file* "test/ssl/client.ks"
             *trust-store-password* "password"
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
-    (run-test t))
-  (println "TESTING: stomp+ssl://127.0.0.1:42423?needClientAuth=true")
-  (binding [*local-jms-server* "stomp+ssl://127.0.0.1:42423?needClientAuth=true"
-            *trust-store-file* "test/ssl/client.ks"
-            *trust-store-password* "password"
-            *key-store-file* "test/ssl/client.ks"
-            *key-store-password* "password"]
-    (run-test t))
-  (println "TESTING: mqtt+ssl://127.0.0.1:42430")
-  (binding [*local-jms-server* "mqtt+ssl://127.0.0.1:42430"
-            *trust-store-file* "test/ssl/client.ks"
-            *trust-store-password* "password"
-            *key-store-file* "test/ssl/client.ks"
-            *key-store-password* "password"]
-    (run-test t))
-  (println "TESTING: mqtt+ssl://127.0.0.1:42430?needClientAuth=true")
-  (binding [*local-jms-server* "mqtt+ssl://127.0.0.1:42430?needClientAuth=true"
-            *trust-store-file* "test/ssl/client.ks"
-            *trust-store-password* "password"
-            *key-store-file* "test/ssl/client.ks"
-            *key-store-password* "password"]
-    (run-test t))
-  (println "TESTING: wss://127.0.0.1:42428")
-  (binding [*local-jms-server* "wss://127.0.0.1:42428"
-            *trust-store-file* "test/ssl/client.ks"
-            *trust-store-password* "password"
-            *key-store-file* "test/ssl/client.ks"
-            *key-store-password* "password"]
-    (run-test t))
-  (println "TESTING: wss://127.0.0.1:42428?needClientAuth=true")
-  (binding [*local-jms-server* "wss://127.0.0.1:42428?needClientAuth=true"
-            *trust-store-file* "test/ssl/client.ks"
-            *trust-store-password* "password"
-            *key-store-file* "test/ssl/client.ks"
-            *key-store-password* "password"]
-    (run-test t))
-  (println "TESTING: ssl://localhost:42425")
-  (binding [*local-jms-server* "ssl://localhost:42425"
-            *trust-store-file* "test/ssl/client.ks"
-            *trust-store-password* "password"
-            *key-store-file* "test/ssl/client.ks"
-            *key-store-password* "password"]
-    (run-test t))
-  (println "TESTING: ssl://localhost:42425?needClientAuth=true")
-  (binding [*local-jms-server* "ssl://localhost:42425?needClientAuth=true"
-            *trust-store-file* "test/ssl/client.ks"
-            *trust-store-password* "password"
-            *key-store-file* "test/ssl/client.ks"
-            *key-store-password* "password"]
-    (run-test t)))
+    (run-test t "stomp+ssl://127.0.0.1:42423")
+    (run-test t "stomp+ssl://127.0.0.1:42423?needClientAuth=true")
+    (run-test t "mqtt+ssl://127.0.0.1:42430")
+    (run-test t "mqtt+ssl://127.0.0.1:42430?needClientAuth=true")
+    (run-test t "wss://127.0.0.1:42428")
+    (run-test t "wss://127.0.0.1:42428?needClientAuth=true")
+    (run-test t "ssl://localhost:42425")
+    (run-test t "ssl://localhost:42425?needClientAuth=true")))
 
-(use-fixtures :each single-test-fixture)
+(use-fixtures :each test-set-fixture)
 
 
 
