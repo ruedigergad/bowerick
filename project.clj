@@ -2,7 +2,7 @@
 ;(defproject bowerick "2.6.4"
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
-                 [cheshire "5.9.0"]
+                 [cheshire "5.10.0"]
                  [cli4clj "1.7.6"]
                  [clj-assorted-utils "1.18.5"]
                  [com.ning/compress-lzf "1.0.4"]
@@ -14,16 +14,16 @@
                  [org.apache.activemq/activemq-jaas "5.15.11" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.apache.activemq/activemq-openwire-legacy "5.15.11" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.apache.activemq/activemq-stomp "5.15.11" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.eclipse.jetty/jetty-server "9.4.24.v20191120"]
-                 [org.eclipse.jetty.websocket/websocket-client "9.4.24.v20191120"]
-                 [org.eclipse.jetty.websocket/websocket-server "9.4.24.v20191120"]
+                 [org.eclipse.jetty/jetty-server "9.4.26.v20200117"]
+                 [org.eclipse.jetty.websocket/websocket-client "9.4.26.v20200117"]
+                 [org.eclipse.jetty.websocket/websocket-server "9.4.26.v20200117"]
                  [org.clojure/clojure "1.10.1"]
-                 [org.clojure/tools.cli "0.4.2"]
+                 [org.clojure/tools.cli "1.0.194"]
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.2"]
                  [org.iq80.snappy/snappy "0.4"]
-                 [org.springframework/spring-messaging "5.2.2.RELEASE"]
-                 [org.springframework/spring-websocket "5.2.2.RELEASE"]
-                 [org.slf4j/slf4j-simple "1.7.29"]
+                 [org.springframework/spring-messaging "5.2.3.RELEASE"]
+                 [org.springframework/spring-websocket "5.2.3.RELEASE"]
+                 [org.slf4j/slf4j-simple "1.7.30"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
@@ -43,7 +43,7 @@
   :html5-docs-ns-includes #"^bowerick.*"
   :html5-docs-repository-url "https://github.com/ruedigergad/bowerick/blob/master"
   :profiles {:repl
-               {:dependencies  [[jonase/eastwood "0.3.6" :exclusions  [org.clojure/clojure]]]}
+               {:dependencies  [[jonase/eastwood "0.3.7" :exclusions  [org.clojure/clojure]]]}
              :test
                {:dependencies [[criterium "0.4.5"]]
                 :test-paths ["test" "benchmark"]}}
