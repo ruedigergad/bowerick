@@ -14,15 +14,15 @@
                  [org.apache.activemq/activemq-jaas "5.15.11" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.apache.activemq/activemq-openwire-legacy "5.15.11" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.apache.activemq/activemq-stomp "5.15.11" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.eclipse.jetty/jetty-server "9.4.26.v20200117"]
-                 [org.eclipse.jetty.websocket/websocket-client "9.4.26.v20200117"]
-                 [org.eclipse.jetty.websocket/websocket-server "9.4.26.v20200117"]
+                 [org.eclipse.jetty/jetty-server "9.4.27.v20200227"]
+                 [org.eclipse.jetty.websocket/websocket-client "9.4.27.v20200227"]
+                 [org.eclipse.jetty.websocket/websocket-server "9.4.27.v20200227"]
                  [org.clojure/clojure "1.10.1"]
                  [org.clojure/tools.cli "1.0.194"]
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.2"]
                  [org.iq80.snappy/snappy "0.4"]
-                 [org.springframework/spring-messaging "5.2.3.RELEASE"]
-                 [org.springframework/spring-websocket "5.2.3.RELEASE"]
+                 [org.springframework/spring-messaging "5.2.4.RELEASE"]
+                 [org.springframework/spring-websocket "5.2.4.RELEASE"]
                  [org.slf4j/slf4j-simple "1.7.30"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
@@ -43,7 +43,7 @@
   :html5-docs-ns-includes #"^bowerick.*"
   :html5-docs-repository-url "https://github.com/ruedigergad/bowerick/blob/master"
   :profiles {:repl
-               {:dependencies  [[jonase/eastwood "0.3.7" :exclusions  [org.clojure/clojure]]]}
+               {:dependencies  [[jonase/eastwood "0.3.10" :exclusions  [org.clojure/clojure]]]}
              :test
                {:dependencies [[criterium "0.4.5"]]
                 :test-paths ["test" "benchmark"]}}
