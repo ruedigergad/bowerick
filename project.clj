@@ -8,12 +8,12 @@
                  [com.ning/compress-lzf "1.0.4"]
                  [com.taoensso/nippy "2.14.0"]
                  [javax.servlet/javax.servlet-api "4.0.1"]
-                 [org.apache.activemq/activemq-broker "5.15.11" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.apache.activemq/activemq-client "5.15.11" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.apache.activemq/activemq-http "5.15.11" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.apache.activemq/activemq-jaas "5.15.11" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.apache.activemq/activemq-openwire-legacy "5.15.11" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.apache.activemq/activemq-stomp "5.15.11" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [org.apache.activemq/activemq-broker "5.15.12" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [org.apache.activemq/activemq-client "5.15.12" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [org.apache.activemq/activemq-http "5.15.12" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [org.apache.activemq/activemq-jaas "5.15.12" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [org.apache.activemq/activemq-openwire-legacy "5.15.12" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [org.apache.activemq/activemq-stomp "5.15.12" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.eclipse.jetty/jetty-server "9.4.27.v20200227"]
                  [org.eclipse.jetty.websocket/websocket-client "9.4.27.v20200227"]
                  [org.eclipse.jetty.websocket/websocket-server "9.4.27.v20200227"]
@@ -43,7 +43,7 @@
   :html5-docs-ns-includes #"^bowerick.*"
   :html5-docs-repository-url "https://github.com/ruedigergad/bowerick/blob/master"
   :profiles {:repl
-               {:dependencies  [[jonase/eastwood "0.3.10" :exclusions  [org.clojure/clojure]]]}
+               {:dependencies  [[jonase/eastwood "0.3.11" :exclusions  [org.clojure/clojure]]]}
              :test
                {:dependencies [[criterium "0.4.5"]]
                 :test-paths ["test" "benchmark"]}}
