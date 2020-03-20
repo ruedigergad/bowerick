@@ -3,6 +3,5 @@ lein: lein
 after_script:
       - bash -ex test/coveralls.sh
 jdk:
-  - openjdk8
   - openjdk11
 sudo: false
