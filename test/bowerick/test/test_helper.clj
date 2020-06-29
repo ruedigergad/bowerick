@@ -15,6 +15,10 @@
     [clj-assorted-utils.util :refer :all]))
 
 
+(defn handle-exception [e]
+  (println "Test broker start failed with" (str e))
+  (println "Retrying to start test broker...")
+  (sleep 100))
 
 (defn start-test-broker
   [& args]
@@ -23,8 +27,8 @@
       (try
         (reset! brkr (apply start-broker args))
         (catch java.net.BindException e
-          (println "Test broker start failed with" (str e))
-          (println "Retrying to start test broker...")
-          (sleep 100))))
+          (handle-exception e))
+        (catch java.io.IOException e
+          (handle-exception e))))
     @brkr))
 
