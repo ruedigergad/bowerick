@@ -72,6 +72,19 @@
     (close producer)
     (close consumer)))
 
+;(deftest json-producer-consumer-ratio
+;  (let [producer (create-json-producer local-jms-server test-topic)
+;        was-run (prepare-flag)
+;        received (atom nil)
+;        consume-fn (fn [obj] (reset! received obj) (set-flag was-run))
+;        consumer (create-json-consumer local-jms-server test-topic consume-fn)]
+;    (producer {:a 1/3})
+;    (await-flag was-run)
+;    (is (flag-set? was-run))
+;    (is (= {"a" 1/3} @received))
+;    (close producer)
+;    (close consumer)))
+
 (deftest json-producer-consumer-lzf
   (let [producer (create-json-lzf-producer local-jms-server test-topic)
         was-run (prepare-flag)
