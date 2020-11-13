@@ -405,11 +405,8 @@
                     ["-u" "--url URL"
                       "URL to bind the broker to."
                       :default "tcp://localhost:61616"
-                      :parse-fn #(let [url (binding [*read-eval* false]
-                                             (read-string %))]
-                                   (if (vector? url)
-                                     (mapv str url)
-                                     (str url)))]
+                      :parse-fn (fn [arg]
+                                  (vec (filter #(not (empty? %)) (s/split (s/replace arg "\"" "") #"[ \[\]]"))))]
                     ["-A" "--a-frame-demo"
                       "When in broker mode, start a producer for the A-Frame demo."]
                     ["-B" "--benchmark-client"
