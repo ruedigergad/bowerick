@@ -21,8 +21,8 @@
                  [org.clojure/tools.cli "1.0.194"]
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.5"]
                  [org.iq80.snappy/snappy "0.4"]
-                 [org.springframework/spring-messaging "5.3.0"]
-                 [org.springframework/spring-websocket "5.3.0"]
+                 [org.springframework/spring-messaging "5.3.1"]
+                 [org.springframework/spring-websocket "5.3.1"]
                  [org.slf4j/slf4j-simple "1.7.30"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
