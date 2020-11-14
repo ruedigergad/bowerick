@@ -26,7 +26,7 @@
              [stopEmbeddedBroker [] void]]
    :state state)
   (:require
-    [bowerick.jms :refer :all])
+    [bowerick.jms :as jms])
   (:import
     (bowerick JmsConsumerCallback JmsController JmsProducer)))
 
@@ -34,7 +34,7 @@
   [[] {:broker-url broker-url :broker (ref nil)}])
 
 (defn -createConsumer [broker-url destination-description ^JmsConsumerCallback consumer-cb pool-size]
-  (create-consumer
+  (jms/create-consumer
     broker-url
     destination-description
     (fn [obj]
@@ -42,13 +42,13 @@
     pool-size))
 
 (defn -createProducer [broker-url destination-description pool-size]
-  (create-producer
+  (jms/create-producer
     broker-url
     destination-description
     pool-size))
 
 (defn -createJsonConsumer [broker-url destination-description ^JmsConsumerCallback consumer-cb pool-size]
-  (create-json-consumer
+  (jms/create-json-consumer
     broker-url
     destination-description
     (fn [obj]
@@ -56,19 +56,19 @@
     pool-size))
 
 (defn -createJsonProducer [broker-url destination-description pool-size]
-  (create-json-producer
+  (jms/create-json-producer
     broker-url
     destination-description
     pool-size))
 
 (defn -createCarboniteProducer [broker-url destination-description pool-size]
-  (create-carbonite-producer
+  (jms/create-carbonite-producer
     broker-url
     destination-description
     pool-size))
 
 (defn -createCarboniteConsumer [broker-url destination-description ^JmsConsumerCallback consumer-cb pool-size]
-  (create-carbonite-consumer
+  (jms/create-carbonite-consumer
     broker-url
     destination-description
     (fn [obj]
@@ -76,13 +76,13 @@
     pool-size))
 
 (defn -createCarboniteLzfProducer [broker-url destination-description pool-size]
-  (create-carbonite-lzf-producer
+  (jms/create-carbonite-lzf-producer
     broker-url
     destination-description
     pool-size))
 
 (defn -createCarboniteLzfConsumer [broker-url destination-description ^JmsConsumerCallback consumer-cb pool-size]
-  (create-carbonite-lzf-consumer
+  (jms/create-carbonite-lzf-consumer
     broker-url
     destination-description
     (fn [obj]
@@ -92,12 +92,12 @@
 (defn -startEmbeddedBroker [this]
   (let [broker-ref (:broker (.state this))]
     (if (nil? @broker-ref)
-      (let [brkr (start-broker (:broker-url (.state this)))]
+      (let [brkr (jms/start-broker (:broker-url (.state this)))]
         (dosync (ref-set broker-ref brkr))))))
 
 (defn -stopEmbeddedBroker [this]
   (let [broker-ref (:broker (.state this))]
     (when (not (nil? @broker-ref))
-      (stop @broker-ref)
+      (jms/stop @broker-ref)
       (dosync (ref-set broker-ref nil)))))
 

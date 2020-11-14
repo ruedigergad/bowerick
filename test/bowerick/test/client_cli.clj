@@ -11,7 +11,7 @@
     :doc "Tests for the client CLI"}  
   bowerick.test.client-cli
   (:require
-    [bowerick.jms :refer :all]
+    [bowerick.jms :as jms]
     [bowerick.main :refer :all]
     [bowerick.test.test-helper :refer :all]
     [cheshire.core :as cheshire]
@@ -36,7 +36,7 @@
   (rm record-test-output-file)
   (let [broker (start-test-broker local-jms-server)]
     (t)
-    (stop broker)))
+    (jms/stop broker)))
 
 (use-fixtures :each test-with-broker)
 
@@ -182,7 +182,7 @@
         _ (await-flag started-flag)
         received (atom [])
         received-flag (prepare-flag)
-        consumer (create-json-consumer
+        consumer (jms/create-json-consumer
                    local-cli-jms-server
                    "/topic/aframe"
                    (fn [data]
@@ -227,7 +227,7 @@
         _ (await-flag started-flag)
         received (atom [])
         received-flag (prepare-flag)
-        consumer (create-single-consumer
+        consumer (jms/create-single-consumer
                    local-cli-jms-server
                    "/topic/bowerick.message.generator"
                    (fn [data]
