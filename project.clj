@@ -17,7 +17,7 @@
                  [org.eclipse.jetty/jetty-server "9.4.36.v20210114"]
                  [org.eclipse.jetty.websocket/websocket-client "9.4.36.v20210114"]
                  [org.eclipse.jetty.websocket/websocket-server "9.4.36.v20210114"]
-                 [org.clojure/clojure "1.10.1"]
+                 [org.clojure/clojure "1.10.2"]
                  [org.clojure/tools.cli "1.0.194"]
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.5"]
                  [org.iq80.snappy/snappy "0.4"]
