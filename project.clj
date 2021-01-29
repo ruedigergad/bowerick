@@ -6,7 +6,7 @@
                  [cli4clj "1.7.6"]
                  [clj-assorted-utils "1.18.5"]
                  [com.ning/compress-lzf "1.1"]
-                 [com.taoensso/nippy "2.15.2"]
+                 [com.taoensso/nippy "3.1.1"]
                  [javax.servlet/javax.servlet-api "4.0.1"]
                  [org.apache.activemq/activemq-broker "5.16.1" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.apache.activemq/activemq-client "5.16.1" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]

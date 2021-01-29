@@ -87,6 +87,15 @@
     "org.fusesource.hawtbuf"
     "com.thoughtworks.xstream.mapper"))
 
+(def ^:dynamic *serializable-allowlist*
+  #{"clojure.lang.*"
+    "java.lang.*"
+    "java.math.*"
+    "java.util.*"
+    "org.apache.activemq.*"
+    "org.fusesource.hawtbuf.*"
+    "com.thoughtworks.xstream.mapper.*"})
+
 (defn get-adjusted-ssl-context
   "Get an SSLContext for which the key and trust stores are initialized based
    on the settings defined in the global dynamic vars:
@@ -863,7 +872,7 @@
       broker-url destination-description 1))
   ([broker-url destination-description pool-size]
     (create-nippy-producer
-      broker-url destination-description pool-size {}))
+      broker-url destination-description pool-size {:serializable-allowlist *serializable-allowlist*}))
   ([broker-url destination-description pool-size nippy-opts]
     (utils/println-err "Creating nippy producer:" broker-url destination-description pool-size nippy-opts)
     (create-producer
@@ -884,7 +893,7 @@
   ([broker-url destination-description cb]
     (create-nippy-consumer broker-url destination-description cb 1))
   ([broker-url destination-description cb pool-size]
-    (create-nippy-consumer broker-url destination-description cb pool-size {}))
+    (create-nippy-consumer broker-url destination-description cb pool-size {:serializable-allowlist *serializable-allowlist*}))
   ([broker-url destination-description cb pool-size nippy-opts]
     (utils/println-err "Creating nippy consumer:" broker-url destination-description pool-size nippy-opts)
     (create-consumer
@@ -902,7 +911,7 @@
   ([broker-url destination-description]
      (create-nippy-lzf-producer broker-url destination-description 1))
   ([broker-url destination-description pool-size]
-     (create-nippy-lzf-producer broker-url destination-description pool-size {}))
+     (create-nippy-lzf-producer broker-url destination-description pool-size {:serializable-allowlist *serializable-allowlist*}))
   ([broker-url destination-description pool-size nippy-opts]
     (utils/println-err "Creating nippy LZF producer:" broker-url destination-description pool-size nippy-opts)
     (create-producer
@@ -919,7 +928,7 @@
   ([broker-url destination-description cb]
     (create-nippy-lzf-consumer broker-url destination-description cb 1))
   ([broker-url destination-description cb pool-size]
-    (create-nippy-lzf-consumer broker-url destination-description cb pool-size {}))
+    (create-nippy-lzf-consumer broker-url destination-description cb pool-size {:serializable-allowlist *serializable-allowlist*}))
   ([broker-url destination-description cb pool-size nippy-opts]
     (utils/println-err "Creating nippy LZF consumer:" broker-url destination-description pool-size nippy-opts)
     (create-consumer
