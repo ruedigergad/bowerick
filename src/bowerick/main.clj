@@ -471,7 +471,7 @@
                                   (cheshire/parse-string (slurp cfg-file-path))
                                   nil)]
               (when (not (nil? cfg-file-data))
-                (println "Applying configuration from config file:" cfg-file-path) 
+                (println "Applying configuration from config file:" cfg-file-path)
                 (doseq [[k v] cfg-file-data]
                   (when (arg-map :verbose)
                     (println "Setting" k ":" v))
