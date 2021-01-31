@@ -407,6 +407,8 @@
                       :default "tcp://localhost:61616"
                       :parse-fn (fn [arg]
                                   (vec (filter #(not (empty? %)) (s/split (s/replace arg "\"" "") #"[ \[\]]"))))]
+                    ["-v" "--verbose"
+                      "Increase output verbosity."]
                     ["-A" "--a-frame-demo"
                       "When in broker mode, start a producer for the A-Frame demo."]
                     ["-B" "--benchmark-client"
@@ -469,9 +471,10 @@
                                   (cheshire/parse-string (slurp cfg-file-path))
                                   nil)]
               (when (not (nil? cfg-file-data))
-                (println "Applying configuration from config file:" cfg-file-path)
+                (println "Applying configuration from config file:" cfg-file-path) 
                 (doseq [[k v] cfg-file-data]
-                  (println "Setting" k ":" v)
+                  (when (arg-map :verbose)
+                    (println "Setting" k ":" v))
                   (alter-var-root (ns-resolve 'bowerick.jms (symbol k)) (fn [_ x] x) v)))))
           (cond
             (arg-map :client) (start-client-mode arg-map)
