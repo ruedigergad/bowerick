@@ -411,6 +411,9 @@
                       "When in broker mode, start a producer for the A-Frame demo."]
                     ["-B" "--benchmark-client"
                      "Start in benchmark client mode."]
+                    ["-C" "--config-file FILE_NAME"
+                      "The location of the bowerick configuration file."
+                      :default "bowerick.cfg"]
                     ["-D" "--destination DESTINATION"
                       "The destination to which message generators will send messages or from which the benchmark client retrieves messages."
                       :default "/topic/bowerick.message.generator"]
@@ -460,7 +463,16 @@
           (binding [*out* *err*]
             (println "Starting bowerick using the following options:")
             (pprint arg-map)
-            (pprint extra-args))
+            (pprint extra-args)
+            (let [cfg-file-path (arg-map :config-file)
+                  cfg-file-data (if (is-file? cfg-file-path)
+                                  (cheshire/parse-string (slurp cfg-file-path))
+                                  nil)]
+              (when (not (nil? cfg-file-data))
+                (println "Applying configuration from config file:" cfg-file-path)
+                (doseq [[k v] cfg-file-data]
+                  (println "Setting" k ":" v)
+                  (alter-var-root (ns-resolve 'bowerick.jms (symbol k)) (fn [_ x] x) v)))))
           (cond
             (arg-map :client) (start-client-mode arg-map)
             (arg-map :benchmark-client) (start-benchmark-client-mode arg-map)
