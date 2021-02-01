@@ -14,7 +14,8 @@
   (:gen-class
    :init init
    :constructors {[Object] []}
-   :methods [^:static [createConsumer [String String bowerick.JmsConsumerCallback int] AutoCloseable]
+   :methods [^:static [configure [String] void]
+             ^:static [createConsumer [String String bowerick.JmsConsumerCallback int] AutoCloseable]
              ^:static [createProducer [String String int] bowerick.JmsProducer]
              ^:static [createJsonConsumer [String String bowerick.JmsConsumerCallback int] AutoCloseable]
              ^:static [createJsonProducer [String String int] bowerick.JmsProducer]
@@ -26,12 +27,23 @@
              [stopEmbeddedBroker [] void]]
    :state state)
   (:require
-    [bowerick.jms :as jms])
+    [bowerick.jms :as jms]
+    [cheshire.core :as cheshire]
+    [clj-assorted-utils.util :refer :all])
   (:import
     (bowerick JmsConsumerCallback JmsController JmsProducer)))
 
 (defn -init [broker-url]
   [[] {:broker-url broker-url :broker (ref nil)}])
+
+(defn -configure [config-file-path]
+  (let [cfg-file-data (if (is-file? config-file-path)
+                        (cheshire/parse-string (slurp config-file-path))
+                        nil)]
+    (when (not (nil? cfg-file-data))
+      (println "Applying configuration from config file:" config-file-path)
+      (doseq [[k v] cfg-file-data]
+        (alter-var-root (ns-resolve 'bowerick.jms (symbol k)) (fn [_ x] x) v)))))
 
 (defn -createConsumer [broker-url destination-description ^JmsConsumerCallback consumer-cb pool-size]
   (jms/create-consumer
