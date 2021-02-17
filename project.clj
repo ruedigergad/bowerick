@@ -21,8 +21,8 @@
                  [org.clojure/tools.cli "1.0.194"]
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.5"]
                  [org.iq80.snappy/snappy "0.4"]
-                 [org.springframework/spring-messaging "5.3.3"]
-                 [org.springframework/spring-websocket "5.3.3"]
+                 [org.springframework/spring-messaging "5.3.4"]
+                 [org.springframework/spring-websocket "5.3.4"]
                  [org.slf4j/slf4j-simple "1.7.30"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
@@ -43,7 +43,7 @@
   :html5-docs-ns-includes #"^bowerick.*"
   :html5-docs-repository-url "https://github.com/ruedigergad/bowerick/blob/master"
   :profiles {:repl
-               {:dependencies  [[jonase/eastwood "0.3.13" :exclusions  [org.clojure/clojure]]]}
+               {:dependencies  [[jonase/eastwood "0.3.14" :exclusions  [org.clojure/clojure]]]}
              :test
                {:dependencies [[criterium "0.4.6"]]
                 :test-paths ["test" "benchmark"]}}
