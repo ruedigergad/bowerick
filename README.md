@@ -12,7 +12,7 @@ Easing Simple Message-oriented Middleware Tasks with Clojure (and Java)
 ### Detailed Test Results
 
 Detailed test results are available as well:
-[http://ruedigergad.github.io/bowerick/test-results/html/](http://ruedigergad.github.io/bowerick/test-results/html/)
+[https://ruedigergad.github.io/bowerick/test-results/html/](http://ruedigergad.github.io/bowerick/test-results/html/)
 
 ### Blog Posts
 
@@ -25,7 +25,7 @@ In these blog posts, I make announcements about bowerick and discuss selected as
 ### API Docs
 
 API docs are available:
-[http://ruedigergad.github.io/bowerick/doc/](http://ruedigergad.github.io/bowerick/doc/)
+[https://ruedigergad.github.io/bowerick/doc/](http://ruedigergad.github.io/bowerick/doc/)
 
 ## Documentation
 
