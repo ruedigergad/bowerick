@@ -73,7 +73,7 @@ Creating consumer:32tcp://127.0.0.1:3311132/topic/testtopic.foo
 Consumer callback args count:322
 Creating connection.
 Creating destination. Type:32topic32Name:32testtopic.foo
-RECEIVED MESSAGE (OPENWIRE):32ActiveMQBytesMessage {commandId = 5, responseRequired = false, messageId = ID:localhost.localdomain-35161-1505233132214-23:1:1:1:1, originalDestination = null, originalTransactionId = null, producerId = ID:localhost.localdomain-35161-1505233132214-23:1:1:1, destination = topic://testtopic.foo, transactionId = null, expiration = 0, timestamp = 1505233133016, arrival = 0, brokerInTime = 1505233133017, brokerOutTime = 1505233133017, correlationId = null, replyTo = null, persistent = false, type = null, priority = 4, groupID = null, groupSequence = 0, targetConsumerId = null, compressed = false, userID = null, content = org.apache.activemq.util.ByteSequence@1b52699c, marshalledProperties = null, dataStructure = null, redeliveryCounter = 0, size = 0, properties = null, readOnlyProperties = true, readOnlyBody = true, droppable = false, jmsXGroupFirstForConsumer = false} ActiveMQBytesMessage{ bytesOut = null, dataOut = null, dataIn = java.io.DataInputStream@dbed7fd }
+RECEIVED MESSAGE (OPENWIRE):32ActiveMQBytesMessage {commandId = 5, responseRequired = false, messageId = ID:lcars-46261-1613717844723-20:1:1:1:1, originalDestination = null, originalTransactionId = null, producerId = ID:lcars-46261-1613717844723-20:1:1:1, destination = topic://testtopic.foo, transactionId = null, expiration = 0, timestamp = 1613717845883, arrival = 0, brokerInTime = 1613717845884, brokerOutTime = 1613717845885, correlationId = null, replyTo = null, persistent = false, type = null, priority = 4, groupID = null, groupSequence = 0, targetConsumerId = null, compressed = false, userID = null, content = org.apache.activemq.util.ByteSequence@96c840a, marshalledProperties = null, dataStructure = null, redeliveryCounter = 0, size = 0, properties = null, readOnlyProperties = true, readOnlyBody = true, droppable = false, jmsXGroupFirstForConsumer = false} ActiveMQBytesMessage{ bytesOut = null, dataOut = null, dataIn = java.io.DataInputStream@5c81ddab }
 Closing producer:32tcp://127.0.0.1:3311132/topic/testtopic.foo
 Closing consumer:32tcp://127.0.0.1:3311132/topic/testtopic.foo
 Closing consumer:32tcp://127.0.0.1:3311132/topic/bowerick.broker.management.command
@@ -98,28 +98,50 @@ Creating consumer:32stomp://127.0.0.1:3322232/topic/testtopic.foo
 Consumer callback args count:322
 Creating connection.
 Creating destination. Type:32topic32Name:32testtopic.foo
-RECEIVED MESSAGE (STOMP):32org.fusesource.stomp.jms.message.StompJmsBytesMessage@436744dd StompJmsBytesMessage{ bytesOut = null, dataIn = java.io.DataInputStream@291a4791 }
+RECEIVED MESSAGE (STOMP):32org.fusesource.stomp.jms.message.StompJmsBytesMessage@34a0c85d StompJmsBytesMessage{ bytesOut = null, dataIn = java.io.DataInputStream@74e175c7 }
 Closing producer:32stomp://127.0.0.1:3322232/topic/testtopic.foo
 Closing consumer:32stomp://127.0.0.1:3322232/topic/testtopic.foo
 Closing consumer:32stomp://127.0.0.1:3322232/topic/bowerick.broker.management.command
 Closing producer:32stomp://127.0.0.1:3322232/topic/bowerick.broker.management.reply
 Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
-Creating JSON producer:32ws://127.0.0.1:3333332/topic/bowerick.broker.management.reply321
-Creating producer:32ws://127.0.0.1:3333332/topic/bowerick.broker.management.reply
+Creating JSON producer:32ws://127.0.0.1:3344432/topic/bowerick.broker.management.reply321
+Creating producer:32ws://127.0.0.1:3344432/topic/bowerick.broker.management.reply
+Connecting WS STOMP client...
+Waiting for WS STOMP client to connect...
+WS STOMP client connection succeeded.
 Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
-Creating JSON consumer:32ws://127.0.0.1:3333332/topic/bowerick.broker.management.command321
-Creating consumer:32ws://127.0.0.1:3333332/topic/bowerick.broker.management.command
+Creating JSON consumer:32ws://127.0.0.1:3344432/topic/bowerick.broker.management.command321
+Creating consumer:32ws://127.0.0.1:3344432/topic/bowerick.broker.management.command
 Consumer callback args count:321
-Creating JSON producer:32ws://127.0.0.1:3333332/topic/testtopic.foo321
-Creating producer:32ws://127.0.0.1:3333332/topic/testtopic.foo
-Creating failsafe JSON consumer:32ws://127.0.0.1:3333332/topic/testtopic.foo321
-Creating consumer:32ws://127.0.0.1:3333332/topic/testtopic.foo
+Connecting WS STOMP client...
+Waiting for WS STOMP client to connect...
+WS STOMP client connection succeeded.
+Subscribing to32/topic/bowerick.broker.management.command
+Subscription succeeded.
+Creating failsafe JSON consumer:32ws://127.0.0.1:3344432/topic/testtopic.foo321
+Creating consumer:32ws://127.0.0.1:3344432/topic/testtopic.foo
 Consumer callback args count:322
-RECEIVED HEADERS (WS/STOMP):32{content-length=[13], expires=[0], destination=[/topic/testtopic.foo], subscription=[0], priority=[4], message-id=[ID:localhost.localdomain-35161-1505233132214-12:11:-1:1:1], timestamp=[1505233133650]}
-Closing producer:32ws://127.0.0.1:3333332/topic/testtopic.foo
-Closing consumer:32ws://127.0.0.1:3333332/topic/testtopic.foo
-Closing consumer:32ws://127.0.0.1:3333332/topic/bowerick.broker.management.command
-Closing producer:32ws://127.0.0.1:3333332/topic/bowerick.broker.management.reply
+Connecting WS STOMP client...
+Waiting for WS STOMP client to connect...
+WS STOMP client connection succeeded.
+Subscribing to32/topic/testtopic.foo
+Subscription succeeded.
+Creating JSON producer:32ws://127.0.0.1:3344432/topic/testtopic.foo321
+Creating producer:32ws://127.0.0.1:3344432/topic/testtopic.foo
+Connecting WS STOMP client...
+Waiting for WS STOMP client to connect...
+WS STOMP client connection succeeded.
+Sending test-string...
+Received message. Comparing result...
+RECEIVED HEADERS (WS/STOMP):32{content-length=[13], expires=[0], destination=[/topic/testtopic.foo], subscription=[0], priority=[4], message-id=[ID:lcars-46261-1613717844723-12:12:-1:1:1], timestamp=[1613717846883]}
+Closing producer:32ws://127.0.0.1:3344432/topic/testtopic.foo
+Closing WebSocket session...
+Closing consumer:32ws://127.0.0.1:3344432/topic/testtopic.foo
+Closing WebSocket session...
+Closing consumer:32ws://127.0.0.1:3344432/topic/bowerick.broker.management.command
+Closing WebSocket session...
+Closing producer:32ws://127.0.0.1:3344432/topic/bowerick.broker.management.reply
+Closing WebSocket session...
 Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
 Creating JSON producer:32mqtt://127.0.0.1:3333332/topic/bowerick.broker.management.reply321
 Creating producer:32mqtt://127.0.0.1:3333332/topic/bowerick.broker.management.reply

@@ -1,0 +1,58 @@
+<html xmlns:string="xalan://java.lang.String" xmlns:lxslt="http://xml.apache.org/xslt">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Standard Error from jms-permissions-test</title>
+</head>
+<body>
+<pre>
+Creating producer: tcp://127.0.0.1:31313 /topic/test.topic.a
+Creating connection.
+Creating producer: tcp://127.0.0.1:31313 /topic/test.topic.a
+Creating connection for user: test-user
+Creating destination. Type: topic Name: test.topic.a
+Creating producer: tcp://127.0.0.1:31313 /topic/test.topic.a
+Creating connection for user: test-user
+Creating destination. Type: topic Name: test.topic.a
+Creating consumer: tcp://127.0.0.1:31313 /topic/test.topic.a
+Consumer callback args count: 1
+Creating connection for user: test-user
+Creating destination. Type: topic Name: test.topic.a
+Creating producer: tcp://127.0.0.1:31313 /topic/test.topic.a
+Creating connection.
+Creating destination. Type: topic Name: test.topic.a
+Creating consumer: tcp://127.0.0.1:31313 /topic/test.topic.a
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: test.topic.a
+Setting permission: {target /topic/&gt;, admin admins, read consumers, write publishers}
+Setting permission: {target /topic/test.topic.a, write anonymous}
+Setting permission: {target /topic/ActiveMQ.Advisory.TempQueue,ActiveMQ.Advisory.TempTopic, read anonymous}
+Setting broker SSLContext to use key store file: test/cfg/blub_client.ks and trust store file: test/cfg/blub_client.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:31313 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:31313 /topic/bowerick.broker.management.reply
+Creating connection.
+Warning: Could not create management producer for: /topic/bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:31313 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:31313 /topic/bowerick.broker.management.command
+Consumer callback args count: 1
+Creating connection.
+Warning: Could not create management consumer for: /topic/bowerick.broker.management.command
+Creating producer: tcp://127.0.0.1:31313 /topic/test.topic.a
+Creating connection for user: test-user
+Creating destination. Type: topic Name: test.topic.a
+Creating consumer: tcp://127.0.0.1:31313 /topic/test.topic.a
+Consumer callback args count: 1
+Creating connection for user: test-user
+Creating destination. Type: topic Name: test.topic.a
+Creating producer: tcp://127.0.0.1:31313 /topic/test.topic.a
+Creating connection.
+Creating destination. Type: topic Name: test.topic.a
+Creating consumer: tcp://127.0.0.1:31313 /topic/test.topic.a
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: test.topic.a
+    </pre>
+</body>
+</html>

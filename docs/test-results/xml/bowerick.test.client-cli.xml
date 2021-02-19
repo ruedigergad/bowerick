@@ -1,20 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bowerick.test.client-cli" errors="0" failures="0" tests="8" time="2.0498" timestamp="2017-09-12_18:18:56+0200">
-    <testcase name="simple-send-receive-with-cli-broker-test" classname="bowerick.test.client-cli" time="0.4121">
+<testsuite name="bowerick.test.client-cli" errors="0" failures="0" tests="18" time="16.1323" timestamp="2021-02-19_07:57:45+0100">
+    <testcase name="simple-replay-file-test" classname="bowerick.test.client-cli" time="1.0834">
     </testcase>
-    <testcase name="broker-management-get-destinations-test" classname="bowerick.test.client-cli" time="0.3447">
+    <testcase name="simple-send-receive-with-cli-broker-test" classname="bowerick.test.client-cli" time="1.6542">
     </testcase>
-    <testcase name="simple-send-receive-with-cli-daemon-broker-test" classname="bowerick.test.client-cli" time="0.3431">
+    <testcase name="simple-cli-broker-aframe-test" classname="bowerick.test.client-cli" time="1.8120">
     </testcase>
-    <testcase name="dummy-receive-test" classname="bowerick.test.client-cli" time="0.0218">
+    <testcase name="simple-looped-replay-file-test" classname="bowerick.test.client-cli" time="0.9795">
     </testcase>
-    <testcase name="simple-send-receive-test" classname="bowerick.test.client-cli" time="0.3400">
+    <testcase name="broker-management-get-destinations-test" classname="bowerick.test.client-cli" time="0.4781">
     </testcase>
-    <testcase name="broker-management-get-all-destinations-test" classname="bowerick.test.client-cli" time="0.3367">
+    <testcase name="simple-record-test" classname="bowerick.test.client-cli" time="0.8639">
     </testcase>
-    <testcase name="show-help-test" classname="bowerick.test.client-cli" time="0.0088">
+    <testcase name="simple-send-file-receive-test" classname="bowerick.test.client-cli" time="0.6256">
     </testcase>
-    <testcase name="dummy-send-test" classname="bowerick.test.client-cli" time="0.0252">
+    <testcase name="record-stop-through-quit-test" classname="bowerick.test.client-cli" time="0.7240">
+    </testcase>
+    <testcase name="simple-cli-broker-embedded-generator-hello-world-test" classname="bowerick.test.client-cli" time="1.6478">
+    </testcase>
+    <testcase name="simple-multi-destination-record-test" classname="bowerick.test.client-cli" time="0.9508">
+    </testcase>
+    <testcase name="simple-send-receive-with-cli-daemon-broker-test" classname="bowerick.test.client-cli" time="0.6284">
+    </testcase>
+    <testcase name="multi-destination-multi-arg-record-test" classname="bowerick.test.client-cli" time="0.7668">
+    </testcase>
+    <testcase name="simple-send-text-file-receive-test" classname="bowerick.test.client-cli" time="0.4075">
+    </testcase>
+    <testcase name="dummy-receive-test" classname="bowerick.test.client-cli" time="0.0805">
+    </testcase>
+    <testcase name="simple-send-receive-test" classname="bowerick.test.client-cli" time="0.4305">
+    </testcase>
+    <testcase name="broker-management-get-all-destinations-test" classname="bowerick.test.client-cli" time="0.3980">
+    </testcase>
+    <testcase name="show-help-test" classname="bowerick.test.client-cli" time="0.0019">
+    </testcase>
+    <testcase name="dummy-send-test" classname="bowerick.test.client-cli" time="0.0713">
     </testcase>
     <system-err>
 Info: Enabling management producer at: /topic/bowerick.broker.management.reply
@@ -29,11 +49,45 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:a-frame-demo false,
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
  :client true,
- :daemon false,
- :help false,
- :url &quot;tcp://localhost:61616&quot;}
+ :old-scroll true}
+[]
+Starting bowerick in client mode.
+Creating failsafe JSON consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Starting bowerick using the following options:
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}
 []
 Starting bowerick in client mode.
 Creating failsafe JSON consumer: tcp://127.0.0.1:53847 /topic/testtopic.foo 1
@@ -60,12 +114,64 @@ Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.comma
 Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:53847 /topic/aframe 1
+Creating consumer: tcp://127.0.0.1:53847 /topic/aframe
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: aframe
+Closing consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:a-frame-demo false,
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
  :client true,
- :daemon false,
- :help false,
- :url &quot;tcp://localhost:61616&quot;}
+ :old-scroll true}
+[]
+Starting bowerick in client mode.
+Creating failsafe JSON consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Starting bowerick using the following options:
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}
 []
 Starting bowerick in client mode.
 Creating failsafe JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply 1
@@ -93,11 +199,197 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:a-frame-demo false,
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
  :client true,
- :daemon false,
- :help false,
- :url &quot;tcp://localhost:61616&quot;}
+ :old-scroll true}
+[]
+Starting bowerick in client mode.
+Creating consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Consumer callback args count: 2
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 1
+Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Starting bowerick using the following options:
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}
+[]
+Starting bowerick in client mode.
+Creating failsafe JSON consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Starting bowerick using the following options:
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}
+[]
+Starting bowerick in client mode.
+Creating consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Consumer callback args count: 2
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 1
+Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Wrong number of args (1) passed to: cli4clj.cli/get-cli-mandatory-default-options/fn--8196
+Closing producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Creating consumer: tcp://127.0.0.1:53847 /topic/bowerick.message.generator
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: bowerick.message.generator
+Closing consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Starting bowerick using the following options:
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}
+[]
+Starting bowerick in client mode.
+Creating consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.a
+Consumer callback args count: 2
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo.a
+Creating consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.b
+Consumer callback args count: 2
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo.b
+Creating consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.c
+Consumer callback args count: 2
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo.c
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.a 1
+Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.a
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo.a
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.b 1
+Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.b
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo.b
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.c 1
+Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.c
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo.c
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.a
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.b
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.c
+Closing producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.a
+Closing producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.b
+Closing producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.c
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.a
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.b
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.c
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.a
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.b
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.c
+Closing consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Starting bowerick using the following options:
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}
 []
 Starting bowerick in client mode.
 Creating failsafe JSON consumer: tcp://127.0.0.1:53847 /topic/testtopic.foo 1
@@ -125,11 +417,108 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:a-frame-demo false,
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
  :client true,
- :daemon false,
- :help false,
- :url &quot;tcp://localhost:61616&quot;}
+ :old-scroll true}
+[]
+Starting bowerick in client mode.
+Creating consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.a
+Consumer callback args count: 2
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo.a
+Creating consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.b
+Consumer callback args count: 2
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo.b
+Creating consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.c
+Consumer callback args count: 2
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo.c
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.a 1
+Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.a
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo.a
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.b 1
+Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.b
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo.b
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.c 1
+Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.c
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo.c
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.a
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.b
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.c
+Closing producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.a
+Closing producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.b
+Closing producer: tcp://127.0.0.1:42424 /topic/testtopic.foo.c
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.a
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.b
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.c
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.a
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.b
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo.c
+Closing consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Starting bowerick using the following options:
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}
+[]
+Starting bowerick in client mode.
+Creating failsafe JSON consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
+Closing consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Closing producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply 1
+Creating producer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command 1
+Creating consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.command
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Starting bowerick using the following options:
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}
 []
 Starting bowerick in client mode.
 Creating failsafe JSON consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo 1
@@ -152,11 +541,14 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:a-frame-demo false,
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
  :client true,
- :daemon false,
- :help false,
- :url &quot;tcp://localhost:61616&quot;}
+ :old-scroll true}
 []
 Starting bowerick in client mode.
 Creating failsafe JSON consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo 1
@@ -184,11 +576,14 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:a-frame-demo false,
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
  :client true,
- :daemon false,
- :help false,
- :url &quot;tcp://localhost:61616&quot;}
+ :old-scroll true}
 []
 Starting bowerick in client mode.
 Creating failsafe JSON consumer: tcp://127.0.0.1:42424 /topic/bowerick.broker.management.reply 1
@@ -229,11 +624,14 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:a-frame-demo false,
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
  :client true,
- :daemon false,
- :help false,
- :url &quot;tcp://localhost:61616&quot;}
+ :old-scroll true}
 []
 Starting bowerick in client mode.
 Creating JSON producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 1
@@ -257,11 +655,44 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:a-frame-demo false,
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
  :client true,
- :daemon false,
- :help false,
- :url &quot;tcp://localhost:61616&quot;}10[]10Starting bowerick in client mode.
+ :old-scroll true}10[]10Starting bowerick in client mode.
+Creating failsafe JSON consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Consumer callback args count:321
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply321
+Creating producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Consumer callback args count:321
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Waiting for test broker to start up...
+Starting bowerick using the following options:
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}10[]10Starting bowerick in client mode.
 Creating failsafe JSON consumer:32tcp://127.0.0.1:5384732/topic/testtopic.foo321
 Creating consumer:32tcp://127.0.0.1:5384732/topic/testtopic.foo
 Consumer callback args count:321
@@ -273,6 +704,30 @@ Creating connection.
 Creating destination. Type:32topic32Name:32testtopic.foo
 Closing producer:32tcp://127.0.0.1:5384732/topic/testtopic.foo
 Closing consumer:32tcp://127.0.0.1:5384732/topic/testtopic.foo
+Stopping test broker...
+Waiting for test broker to stop...
+Closing consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply321
+Creating producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Consumer callback args count:321
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Waiting for test broker to start up...
+Creating JSON consumer:32tcp://127.0.0.1:5384732/topic/aframe321
+Creating consumer:32tcp://127.0.0.1:5384732/topic/aframe
+Consumer callback args count:321
+Creating connection.
+Creating destination. Type:32topic32Name:32aframe
+Waiting to receive test data...
+Stopping test broker...
+Waiting for test broker to stop...
 Closing consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
 Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
 Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
@@ -287,11 +742,43 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:a-frame-demo false,
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
  :client true,
- :daemon false,
- :help false,
- :url &quot;tcp://localhost:61616&quot;}10[]10Starting bowerick in client mode.
+ :old-scroll true}10[]10Starting bowerick in client mode.
+Creating failsafe JSON consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Consumer callback args count:321
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply321
+Creating producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Consumer callback args count:321
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Starting bowerick using the following options:
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}10[]10Starting bowerick in client mode.
 Creating failsafe JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply321
 Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
 Consumer callback args count:321
@@ -317,11 +804,194 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:a-frame-demo false,
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
  :client true,
- :daemon false,
- :help false,
- :url &quot;tcp://localhost:61616&quot;}10[]10Starting bowerick in client mode.
+ :old-scroll true}10[]10Starting bowerick in client mode.
+Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Consumer callback args count:322
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo321
+Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply321
+Creating producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Consumer callback args count:321
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Starting bowerick using the following options:
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}10[]10Starting bowerick in client mode.
+Creating failsafe JSON consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Consumer callback args count:321
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply321
+Creating producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Consumer callback args count:321
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Starting bowerick using the following options:
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}10[]10Starting bowerick in client mode.
+Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Consumer callback args count:322
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo321
+Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Wrong number of args (1) passed to: cli4clj.cli/get-cli-mandatory-default-options/fn--8196
+Closing producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply321
+Creating producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Consumer callback args count:321
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Waiting for test broker to start up...
+Creating consumer:32tcp://127.0.0.1:5384732/topic/bowerick.message.generator
+Consumer callback args count:321
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.message.generator
+Waiting to receive test data...
+Stopping test broker...
+Waiting for test broker to stop...
+Closing consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply321
+Creating producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Consumer callback args count:321
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Starting bowerick using the following options:
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}10[]10Starting bowerick in client mode.
+Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.a
+Consumer callback args count:322
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo.a
+Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.b
+Consumer callback args count:322
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo.b
+Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.c
+Consumer callback args count:322
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo.c
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.a321
+Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.a
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo.a
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.b321
+Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.b
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo.b
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.c321
+Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.c
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo.c
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.a
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.b
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.c
+Closing producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.a
+Closing producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.b
+Closing producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.c
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.a
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.b
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.c
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.a
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.b
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.c
+Closing consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply321
+Creating producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Consumer callback args count:321
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Waiting for test broker to start up...
+Starting bowerick using the following options:
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}10[]10Starting bowerick in client mode.
 Creating failsafe JSON consumer:32tcp://127.0.0.1:5384732/topic/testtopic.foo321
 Creating consumer:32tcp://127.0.0.1:5384732/topic/testtopic.foo
 Consumer callback args count:321
@@ -347,11 +1017,104 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:a-frame-demo false,
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
  :client true,
- :daemon false,
- :help false,
- :url &quot;tcp://localhost:61616&quot;}10[]10Starting bowerick in client mode.
+ :old-scroll true}10[]10Starting bowerick in client mode.
+Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.a
+Consumer callback args count:322
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo.a
+Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.b
+Consumer callback args count:322
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo.b
+Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.c
+Consumer callback args count:322
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo.c
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.a321
+Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.a
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo.a
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.b321
+Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.b
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo.b
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.c321
+Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.c
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo.c
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.a
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.b
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.c
+Closing producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.a
+Closing producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.b
+Closing producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.c
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.a
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.b
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.c
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.a
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.b
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo.c
+Closing consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply321
+Creating producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Consumer callback args count:321
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Starting bowerick using the following options:
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}10[]10Starting bowerick in client mode.
+Creating failsafe JSON consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Consumer callback args count:321
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Creating connection.
+Creating destination. Type:32topic32Name:32testtopic.foo
+Closing producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
+Closing consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Info: Enabling management producer at:32/topic/bowerick.broker.management.reply
+Creating JSON producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply321
+Creating producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.reply
+Info: Enabling management consumer at:32/topic/bowerick.broker.management.command
+Creating JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command321
+Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.command
+Consumer callback args count:321
+Creating connection.
+Creating destination. Type:32topic32Name:32bowerick.broker.management.command
+Starting bowerick using the following options:
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}10[]10Starting bowerick in client mode.
 Creating failsafe JSON consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo321
 Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
 Consumer callback args count:321
@@ -372,11 +1135,14 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:a-frame-demo false,
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
  :client true,
- :daemon false,
- :help false,
- :url &quot;tcp://localhost:61616&quot;}10[]10Starting bowerick in client mode.
+ :old-scroll true}10[]10Starting bowerick in client mode.
 Creating failsafe JSON consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo321
 Creating consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
 Consumer callback args count:321
@@ -402,11 +1168,14 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:a-frame-demo false,
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
  :client true,
- :daemon false,
- :help false,
- :url &quot;tcp://localhost:61616&quot;}10[]10Starting bowerick in client mode.
+ :old-scroll true}10[]10Starting bowerick in client mode.
 Creating failsafe JSON consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply321
 Creating consumer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.reply
 Consumer callback args count:321
@@ -445,11 +1214,14 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:a-frame-demo false,
+{:url &quot;tcp://localhost:61616&quot;,
+ :config-file &quot;bowerick.cfg&quot;,
+ :destination &quot;/topic/bowerick.message.generator&quot;,
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
  :client true,
- :daemon false,
- :help false,
- :url &quot;tcp://localhost:61616&quot;}10[]10Starting bowerick in client mode.
+ :old-scroll true}10[]10Starting bowerick in client mode.
 Creating JSON producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo321
 Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
 Creating connection.
@@ -461,15 +1233,13 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
     <properties>
         <property name="sun.os.patch.level" value="unknown">
         </property>
-        <property name="sun.boot.class.path" value="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc25.x86_64/jre/lib/resources.jar:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc25.x86_64/jre/lib/rt.jar:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc25.x86_64/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc25.x86_64/jre/lib/jsse.jar:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc25.x86_64/jre/lib/jce.jar:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc25.x86_64/jre/lib/charsets.jar:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc25.x86_64/jre/lib/jfr.jar:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc25.x86_64/jre/classes">
-        </property>
         <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers">
         </property>
-        <property name="java.vm.info" value="mixed mode">
+        <property name="java.vm.info" value="mixed mode, sharing">
         </property>
         <property name="clojure.debug" value="false">
         </property>
-        <property name="sun.boot.library.path" value="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc25.x86_64/jre/lib/amd64">
+        <property name="sun.boot.library.path" value="/usr/lib/jvm/java-11-openjdk-11.0.9.11-0.fc31.x86_64/lib">
         </property>
         <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment">
         </property>
@@ -481,58 +1251,62 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </property>
         <property name="user.country" value="US">
         </property>
-        <property name="java.vendor.url" value="http://java.oracle.com/">
+        <property name="java.vendor.url" value="https://www.redhat.com/">
         </property>
         <property name="java.specification.name" value="Java Platform API Specification">
         </property>
         <property name="line.separator" value="
 ">
         </property>
-        <property name="file.encoding.pkg" value="sun.io">
-        </property>
         <property name="sun.cpu.endian" value="little">
         </property>
-        <property name="java.vm.version" value="25.131-b12">
+        <property name="java.vm.version" value="11.0.9+11">
+        </property>
+        <property name="java.net.preferIPv4Stack" value="true">
         </property>
         <property name="sun.java.launcher" value="SUN_STANDARD">
         </property>
-        <property name="java.vendor" value="Oracle Corporation">
+        <property name="java.vendor" value="Red Hat, Inc.">
         </property>
         <property name="java.specification.vendor" value="Oracle Corporation">
+        </property>
+        <property name="java.vm.compressedOopsMode" value="32-bit">
         </property>
         <property name="awt.toolkit" value="sun.awt.X11.XToolkit">
         </property>
         <property name="clojure.compile.path" value="/home/rc/repositories/private/clojure/bowerick/target/classes">
         </property>
-        <property name="java.vm.specification.version" value="1.8">
+        <property name="java.vm.specification.version" value="11">
         </property>
         <property name="java.io.tmpdir" value="/tmp">
         </property>
-        <property name="java.home" value="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc25.x86_64/jre">
+        <property name="java.home" value="/usr/lib/jvm/java-11-openjdk-11.0.9.11-0.fc31.x86_64">
         </property>
-        <property name="java.class.path" value="/home/rc/repositories/private/clojure/bowerick/test:/home/rc/repositories/private/clojure/bowerick/benchmark:/home/rc/repositories/private/clojure/bowerick/test:/home/rc/repositories/private/clojure/bowerick/src:/home/rc/repositories/private/clojure/bowerick/dev-resources:/home/rc/repositories/private/clojure/bowerick/resources:/home/rc/repositories/private/clojure/bowerick/target/classes:/home/rc/.m2/repository/org/springframework/spring-aop/4.3.9.RELEASE/spring-aop-4.3.9.RELEASE.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-openwire-legacy/5.15.0/activemq-openwire-legacy-5.15.0.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-spring/5.15.0/activemq-spring-5.15.0.jar:/home/rc/.m2/repository/javax/servlet/javax.servlet-api/4.0.0/javax.servlet-api-4.0.0.jar:/home/rc/.m2/repository/org/iq80/snappy/snappy/0.4/snappy-0.4.jar:/home/rc/.m2/repository/org/clojure/clojure/1.8.0/clojure-1.8.0.jar:/home/rc/.m2/repository/com/google/guava/guava/18.0/guava-18.0.jar:/home/rc/.m2/repository/org/apache/httpcomponents/httpclient/4.5.3/httpclient-4.5.3.jar:/home/rc/.m2/repository/org/slf4j/slf4j-simple/1.7.25/slf4j-simple-1.7.25.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-mqtt/5.15.0/activemq-mqtt-5.15.0.jar:/home/rc/.m2/repository/tigris/tigris/0.1.1/tigris-0.1.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-security/9.4.6.v20170531/jetty-security-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-jms_1.1_spec/1.1.1/geronimo-jms_1.1_spec-1.1.1.jar:/home/rc/.m2/repository/org/clojure/core.async/0.3.443/core.async-0.3.443.jar:/home/rc/.m2/repository/clj-assorted-utils/clj-assorted-utils/1.18.2/clj-assorted-utils-1.18.2.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-client/9.4.6.v20170531/websocket-client-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-j2ee-management_1.1_spec/1.0.1/geronimo-j2ee-management_1.1_spec-1.0.1.jar:/home/rc/.m2/repository/com/thoughtworks/xstream/xstream/1.4.10/xstream-1.4.10.jar:/home/rc/.m2/repository/net/jpountz/lz4/lz4/1.3/lz4-1.3.jar:/home/rc/.m2/repository/org/clojure/tools.cli/0.3.5/tools.cli-0.3.5.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-common/9.4.6.v20170531/websocket-common-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/springframework/spring-tx/4.3.9.RELEASE/spring-tx-4.3.9.RELEASE.jar:/home/rc/.m2/repository/jline/jline/2.14.2/jline-2.14.2.jar:/home/rc/.m2/repository/org/clojure/tools.analyzer/0.6.9/tools.analyzer-0.6.9.jar:/home/rc/.m2/repository/org/springframework/spring-beans/4.3.10.RELEASE/spring-beans-4.3.10.RELEASE.jar:/home/rc/.m2/repository/org/tukaani/xz/1.6/xz-1.6.jar:/home/rc/.m2/repository/org/clojure/tools.nrepl/0.2.12/tools.nrepl-0.2.12.jar:/home/rc/.m2/repository/rgad/stompjms-client/1.20-SNAPSHOT/stompjms-client-1.20-SNAPSHOT.jar:/home/rc/.m2/repository/com/twitter/carbonite/1.5.0/carbonite-1.5.0.jar:/home/rc/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-smile/2.9.0/jackson-dataformat-smile-2.9.0.jar:/home/rc/.m2/repository/org/clojure/tools.reader/0.10.0/tools.reader-0.10.0.jar:/home/rc/.m2/repository/org/springframework/spring-messaging/4.3.10.RELEASE/spring-messaging-4.3.10.RELEASE.jar:/home/rc/.m2/repository/org/fusesource/hawtdispatch/hawtdispatch-transport/1.20/hawtdispatch-transport-1.20.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-servlet/9.4.6.v20170531/jetty-servlet-9.4.6.v20170531.jar:/home/rc/.m2/repository/cli4clj/cli4clj/1.3.2/cli4clj-1.3.2.jar:/home/rc/.m2/repository/clojure-complete/clojure-complete/0.2.4/clojure-complete-0.2.4.jar:/home/rc/.m2/repository/robert/hooke/1.3.0/hooke-1.3.0.jar:/home/rc/.m2/repository/org/springframework/spring-context/4.3.9.RELEASE/spring-context-4.3.9.RELEASE.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-server/9.4.6.v20170531/websocket-server-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-util/9.4.6.v20170531/jetty-util-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-jms-pool/5.15.0/activemq-jms-pool-5.15.0.jar:/home/rc/.m2/repository/xmlpull/xmlpull/1.1.3.1/xmlpull-1.1.3.1.jar:/home/rc/.m2/repository/com/esotericsoftware/minlog/1.3.0/minlog-1.3.0.jar:/home/rc/.m2/repository/com/esotericsoftware/reflectasm/1.10.1/reflectasm-1.10.1.jar:/home/rc/.m2/repository/org/apache/httpcomponents/httpcore/4.4.6/httpcore-4.4.6.jar:/home/rc/.m2/repository/criterium/criterium/0.4.4/criterium-0.4.4.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.6.0/jackson-annotations-2.6.0.jar:/home/rc/.m2/repository/org/fusesource/hawtdispatch/hawtdispatch/1.20/hawtdispatch-1.20.jar:/home/rc/.m2/repository/org/clojure/core.memoize/0.5.9/core.memoize-0.5.9.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-http/9.4.6.v20170531/jetty-http-9.4.6.v20170531.jar:/home/rc/.m2/repository/com/twitter/chill-java/0.8.0/chill-java-0.8.0.jar:/home/rc/.m2/repository/org/springframework/spring-core/4.3.10.RELEASE/spring-core-4.3.10.RELEASE.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-http/5.15.0/activemq-http-5.15.0.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-pool/5.15.0/activemq-pool-5.15.0.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-server/9.4.6.v20170531/jetty-server-9.4.6.v20170531.jar:/home/rc/.m2/repository/com/ning/compress-lzf/1.0.4/compress-lzf-1.0.4.jar:/home/rc/.m2/repository/org/apache/activemq/protobuf/activemq-protobuf/1.1/activemq-protobuf-1.1.jar:/home/rc/.m2/repository/com/esotericsoftware/kryo/3.0.3/kryo-3.0.3.jar:/home/rc/.m2/repository/test2junit/test2junit/1.3.2/test2junit-1.3.2.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-client/9.4.6.v20170531/jetty-client-9.4.6.v20170531.jar:/home/rc/.m2/repository/com/taoensso/nippy/2.13.0/nippy-2.13.0.jar:/home/rc/.m2/repository/org/objenesis/objenesis/2.1/objenesis-2.1.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-stomp/5.15.0/activemq-stomp-5.15.0.jar:/home/rc/.m2/repository/org/eclipse/paho/org.eclipse.paho.client.mqttv3/1.2.0/org.eclipse.paho.client.mqttv3-1.2.0.jar:/home/rc/.m2/repository/org/clojure/tools.analyzer.jvm/0.7.0/tools.analyzer.jvm-0.7.0.jar:/home/rc/.m2/repository/org/springframework/spring-jms/4.3.9.RELEASE/spring-jms-4.3.9.RELEASE.jar:/home/rc/.m2/repository/cheshire/cheshire/5.8.0/cheshire-5.8.0.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-jaas/5.15.0/activemq-jaas-5.15.0.jar:/home/rc/.m2/repository/com/taoensso/truss/1.3.6/truss-1.3.6.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-api/9.4.6.v20170531/websocket-api-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/ow2/asm/asm-all/4.2/asm-all-4.2.jar:/home/rc/.m2/repository/org/springframework/spring-websocket/4.3.10.RELEASE/spring-websocket-4.3.10.RELEASE.jar:/home/rc/.m2/repository/org/clojure/data.priority-map/0.0.7/data.priority-map-0.0.7.jar:/home/rc/.m2/repository/org/apache/xbean/xbean-spring/4.2/xbean-spring-4.2.jar:/home/rc/.m2/repository/org/apache/commons/commons-pool2/2.4.2/commons-pool2-2.4.2.jar:/home/rc/.m2/repository/org/fusesource/mqtt-client/mqtt-client/1.14/mqtt-client-1.14.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.9.0/jackson-core-2.9.0.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-servlet/9.4.6.v20170531/websocket-servlet-9.4.6.v20170531.jar:/home/rc/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/home/rc/.m2/repository/commons-codec/commons-codec/1.9/commons-codec-1.9.jar:/home/rc/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.9.0/jackson-dataformat-cbor-2.9.0.jar:/home/rc/.m2/repository/org/fusesource/hawtbuf/hawtbuf/1.11/hawtbuf-1.11.jar:/home/rc/.m2/repository/org/springframework/spring-web/4.3.10.RELEASE/spring-web-4.3.10.RELEASE.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-jta_1.0.1B_spec/1.0.1/geronimo-jta_1.0.1B_spec-1.0.1.jar:/home/rc/.m2/repository/commons-net/commons-net/3.6/commons-net-3.6.jar:/home/rc/.m2/repository/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar:/home/rc/.m2/repository/com/esotericsoftware/kryo-shaded/3.0.3/kryo-shaded-3.0.3.jar:/home/rc/.m2/repository/com/taoensso/encore/2.89.0/encore-2.89.0.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-io/9.4.6.v20170531/jetty-io-9.4.6.v20170531.jar:/home/rc/.m2/repository/org/clojure/core.cache/0.6.5/core.cache-0.6.5.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.6.7/jackson-databind-2.6.7.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-broker/5.15.0/activemq-broker-5.15.0.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-client/5.15.0/activemq-client-5.15.0.jar:/home/rc/.m2/repository/org/ow2/asm/asm/5.0.3/asm-5.0.3.jar:/home/rc/.m2/repository/org/springframework/spring-expression/4.3.9.RELEASE/spring-expression-4.3.9.RELEASE.jar">
+        <property name="java.class.path" value="/home/rc/repositories/private/clojure/bowerick/test:/home/rc/repositories/private/clojure/bowerick/benchmark:/home/rc/repositories/private/clojure/bowerick/test:/home/rc/repositories/private/clojure/bowerick/src:/home/rc/repositories/private/clojure/bowerick/dev-resources:/home/rc/repositories/private/clojure/bowerick/resources:/home/rc/repositories/private/clojure/bowerick/target/classes:/home/rc/.m2/repository/org/apache/activemq/activemq-client/5.16.1/activemq-client-5.16.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-util-ajax/9.4.36.v20210114/jetty-util-ajax-9.4.36.v20210114.jar:/home/rc/.m2/repository/nrepl/nrepl/0.6.0/nrepl-0.6.0.jar:/home/rc/.m2/repository/com/taoensso/encore/3.9.2/encore-3.9.2.jar:/home/rc/.m2/repository/org/iq80/snappy/snappy/0.4/snappy-0.4.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-client/9.4.36.v20210114/websocket-client-9.4.36.v20210114.jar:/home/rc/.m2/repository/clojure-complete/clojure-complete/0.2.5/clojure-complete-0.2.5.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-server/9.4.36.v20210114/websocket-server-9.4.36.v20210114.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.9.10.8/jackson-databind-2.9.10.8.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-mqtt/5.16.1/activemq-mqtt-5.16.1.jar:/home/rc/.m2/repository/com/thoughtworks/xstream/xstream/1.4.15/xstream-1.4.15.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-api/9.4.36.v20210114/websocket-api-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-jms_1.1_spec/1.1.1/geronimo-jms_1.1_spec-1.1.1.jar:/home/rc/.m2/repository/com/taoensso/nippy/3.1.1/nippy-3.1.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-servlet/9.4.36.v20210114/websocket-servlet-9.4.36.v20210114.jar:/home/rc/.m2/repository/clj-assorted-utils/clj-assorted-utils/1.18.2/clj-assorted-utils-1.18.2.jar:/home/rc/.m2/repository/org/eclipse/paho/org.eclipse.paho.client.mqttv3/1.2.5/org.eclipse.paho.client.mqttv3-1.2.5.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-j2ee-management_1.1_spec/1.0.1/geronimo-j2ee-management_1.1_spec-1.0.1.jar:/home/rc/.m2/repository/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar:/home/rc/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-smile/2.10.2/jackson-dataformat-smile-2.10.2.jar:/home/rc/.m2/repository/jline/jline/2.14.6/jline-2.14.6.jar:/home/rc/.m2/repository/org/springframework/spring-websocket/5.3.4/spring-websocket-5.3.4.jar:/home/rc/.m2/repository/tigris/tigris/0.1.2/tigris-0.1.2.jar:/home/rc/.m2/repository/com/ning/compress-lzf/1.1/compress-lzf-1.1.jar:/home/rc/.m2/repository/org/springframework/spring-beans/5.3.4/spring-beans-5.3.4.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-openwire-legacy/5.16.1/activemq-openwire-legacy-5.16.1.jar:/home/rc/.m2/repository/org/clojure/tools.analyzer/0.6.9/tools.analyzer-0.6.9.jar:/home/rc/.m2/repository/rgad/stompjms-client/1.20-SNAPSHOT/stompjms-client-1.20-SNAPSHOT.jar:/home/rc/.m2/repository/com/twitter/carbonite/1.5.0/carbonite-1.5.0.jar:/home/rc/.m2/repository/org/springframework/spring-context/4.3.30.RELEASE/spring-context-4.3.30.RELEASE.jar:/home/rc/.m2/repository/org/fusesource/hawtdispatch/hawtdispatch-transport/1.20/hawtdispatch-transport-1.20.jar:/home/rc/.m2/repository/org/springframework/spring-tx/4.3.30.RELEASE/spring-tx-4.3.30.RELEASE.jar:/home/rc/.m2/repository/robert/hooke/1.3.0/hooke-1.3.0.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-pool/5.16.1/activemq-pool-5.16.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-server/9.4.36.v20210114/jetty-server-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-http/9.4.36.v20210114/jetty-http-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/springframework/spring-expression/4.3.30.RELEASE/spring-expression-4.3.30.RELEASE.jar:/home/rc/.m2/repository/test2junit/test2junit/1.4.2/test2junit-1.4.2.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-jaas/5.16.1/activemq-jaas-5.16.1.jar:/home/rc/.m2/repository/xmlpull/xmlpull/1.1.3.1/xmlpull-1.1.3.1.jar:/home/rc/.m2/repository/org/apache/httpcomponents/httpclient/4.5.13/httpclient-4.5.13.jar:/home/rc/.m2/repository/com/esotericsoftware/minlog/1.3.0/minlog-1.3.0.jar:/home/rc/.m2/repository/com/esotericsoftware/reflectasm/1.10.1/reflectasm-1.10.1.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-broker/5.16.1/activemq-broker-5.16.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-client/9.4.36.v20210114/jetty-client-9.4.36.v20210114.jar:/home/rc/.m2/repository/cheshire/cheshire/5.10.0/cheshire-5.10.0.jar:/home/rc/.m2/repository/org/fusesource/hawtdispatch/hawtdispatch/1.20/hawtdispatch-1.20.jar:/home/rc/.m2/repository/org/clojure/core.memoize/0.5.9/core.memoize-0.5.9.jar:/home/rc/.m2/repository/com/twitter/chill-java/0.8.0/chill-java-0.8.0.jar:/home/rc/.m2/repository/org/clojure/clojure/1.10.2/clojure-1.10.2.jar:/home/rc/.m2/repository/commons-codec/commons-codec/1.11/commons-codec-1.11.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-util/9.4.36.v20210114/jetty-util-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-servlet/9.4.36.v20210114/jetty-servlet-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/apache/commons/commons-pool2/2.9.0/commons-pool2-2.9.0.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.10.2/jackson-core-2.10.2.jar:/home/rc/.m2/repository/org/apache/activemq/protobuf/activemq-protobuf/1.1/activemq-protobuf-1.1.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-stomp/5.16.1/activemq-stomp-5.16.1.jar:/home/rc/.m2/repository/com/esotericsoftware/kryo/3.0.3/kryo-3.0.3.jar:/home/rc/.m2/repository/org/clojure/spec.alpha/0.2.194/spec.alpha-0.2.194.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-http/5.16.1/activemq-http-5.16.1.jar:/home/rc/.m2/repository/cli4clj/cli4clj/1.7.6/cli4clj-1.7.6.jar:/home/rc/.m2/repository/org/objenesis/objenesis/2.1/objenesis-2.1.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.9.10/jackson-annotations-2.9.10.jar:/home/rc/.m2/repository/org/fusesource/mqtt-client/mqtt-client/1.16/mqtt-client-1.16.jar:/home/rc/.m2/repository/org/clojure/tools.cli/1.0.194/tools.cli-1.0.194.jar:/home/rc/.m2/repository/org/ow2/asm/asm-all/4.2/asm-all-4.2.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-security/9.4.36.v20210114/jetty-security-9.4.36.v20210114.jar:/home/rc/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.10.2/jackson-dataformat-cbor-2.10.2.jar:/home/rc/.m2/repository/org/clojure/core.specs.alpha/0.2.56/core.specs.alpha-0.2.56.jar:/home/rc/.m2/repository/commons-net/commons-net/3.7.2/commons-net-3.7.2.jar:/home/rc/.m2/repository/org/clojure/data.priority-map/0.0.7/data.priority-map-0.0.7.jar:/home/rc/.m2/repository/org/springframework/spring-aop/4.3.30.RELEASE/spring-aop-4.3.30.RELEASE.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-io/9.4.36.v20210114/jetty-io-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/springframework/spring-core/5.3.4/spring-core-5.3.4.jar:/home/rc/.m2/repository/org/springframework/spring-jcl/5.3.4/spring-jcl-5.3.4.jar:/home/rc/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/home/rc/.m2/repository/org/fusesource/hawtbuf/hawtbuf/1.11/hawtbuf-1.11.jar:/home/rc/.m2/repository/org/springframework/spring-web/5.3.4/spring-web-5.3.4.jar:/home/rc/.m2/repository/com/taoensso/truss/1.6.0/truss-1.6.0.jar:/home/rc/.m2/repository/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-jms-pool/5.16.1/activemq-jms-pool-5.16.1.jar:/home/rc/.m2/repository/com/esotericsoftware/kryo-shaded/3.0.3/kryo-shaded-3.0.3.jar:/home/rc/.m2/repository/org/apache/xbean/xbean-spring/4.18/xbean-spring-4.18.jar:/home/rc/.m2/repository/org/slf4j/slf4j-simple/1.7.30/slf4j-simple-1.7.30.jar:/home/rc/.m2/repository/org/springframework/spring-jms/4.3.30.RELEASE/spring-jms-4.3.30.RELEASE.jar:/home/rc/.m2/repository/org/clojure/tools.reader/1.3.4/tools.reader-1.3.4.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1.jar:/home/rc/.m2/repository/org/lz4/lz4-java/1.7.1/lz4-java-1.7.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-common/9.4.36.v20210114/websocket-common-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/clojure/core.cache/0.6.5/core.cache-0.6.5.jar:/home/rc/.m2/repository/org/clojure/core.async/0.4.490/core.async-0.4.490.jar:/home/rc/.m2/repository/javax/servlet/javax.servlet-api/4.0.1/javax.servlet-api-4.0.1.jar:/home/rc/.m2/repository/org/ow2/asm/asm/5.0.3/asm-5.0.3.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-spring/5.16.1/activemq-spring-5.16.1.jar:/home/rc/.m2/repository/org/clojure/tools.analyzer.jvm/0.7.2/tools.analyzer.jvm-0.7.2.jar:/home/rc/.m2/repository/org/springframework/spring-messaging/5.3.4/spring-messaging-5.3.4.jar:/home/rc/.m2/repository/criterium/criterium/0.4.6/criterium-0.4.6.jar:/home/rc/.m2/repository/org/apache/httpcomponents/httpcore/4.4.13/httpcore-4.4.13.jar:/home/rc/.m2/repository/org/tukaani/xz/1.8/xz-1.8.jar">
         </property>
-        <property name="java.runtime.version" value="1.8.0_131-b12">
+        <property name="java.runtime.version" value="11.0.9+11">
         </property>
-        <property name="bowerick.version" value="2.1.0">
+        <property name="bowerick.version" value="2.7.0">
         </property>
-        <property name="java.vm.vendor" value="Oracle Corporation">
+        <property name="java.vm.vendor" value="Red Hat, Inc.">
         </property>
         <property name="user.language" value="en">
         </property>
+        <property name="jetty.git.hash" value="238ec6997c7806b055319a6d11f8ae7564adc0de">
+        </property>
         <property name="java.vm.name" value="OpenJDK 64-Bit Server VM">
         </property>
-        <property name="java.version" value="1.8.0_131">
+        <property name="java.version" value="11.0.9">
         </property>
         <property name="os.arch" value="amd64">
         </property>
         <property name="user.home" value="/home/rc">
         </property>
-        <property name="java.specification.version" value="1.8">
+        <property name="java.specification.version" value="11">
         </property>
-        <property name="java.ext.dirs" value="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc25.x86_64/jre/lib/ext:/usr/java/packages/lib/ext">
+        <property name="sun.jnu.encoding" value="ANSI_X3.4-1968">
         </property>
-        <property name="sun.jnu.encoding" value="UTF-8">
+        <property name="java.vendor.version" value="18.9">
         </property>
         <property name="java.runtime.name" value="OpenJDK Runtime Environment">
         </property>
@@ -540,17 +1314,19 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </property>
         <property name="sun.arch.data.model" value="64">
         </property>
-        <property name="java.class.version" value="52.0">
+        <property name="java.class.version" value="55.0">
         </property>
         <property name="sun.cpu.isalist" value="">
         </property>
         <property name="file.encoding" value="UTF-8">
         </property>
+        <property name="jdk.debug" value="release">
+        </property>
         <property name="user.timezone" value="Europe/Berlin">
         </property>
         <property name="os.name" value="Linux">
         </property>
-        <property name="os.version" value="4.11.5-200.fc25.x86_64+debug">
+        <property name="os.version" value="5.8.8-100.fc31.x86_64">
         </property>
         <property name="file.separator" value="/">
         </property>
@@ -558,13 +1334,13 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </property>
         <property name="java.awt.printerjob" value="sun.print.PSPrinterJob">
         </property>
-        <property name="java.endorsed.dirs" value="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-1.b12.fc25.x86_64/jre/lib/endorsed">
+        <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib">
         </property>
-        <property name="java.library.path" value="/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib">
+        <property name="java.version.date" value="2020-10-20">
         </property>
-        <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/">
+        <property name="java.vendor.url.bug" value="https://bugzilla.redhat.com/enter_bug.cgi?product=Fedora&amp;component=java-11-openjdk&amp;version=31">
         </property>
-        <property name="sun.java.command" value="clojure.main -i /tmp/form-init3399853364078084033.clj">
+        <property name="sun.java.command" value="clojure.main -i /tmp/form-init3233757256758383475.clj">
         </property>
         <property name="user.name" value="rc">
         </property>

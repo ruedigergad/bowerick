@@ -1,0 +1,249 @@
+<html xmlns:string="xalan://java.lang.String" xmlns:lxslt="http://xml.apache.org/xslt">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Unit Test Results: bowerick.test.jms</title>
+<link rel="stylesheet" type="text/css" title="Style" href="../../stylesheet.css">
+<script type="text/javascript" language="JavaScript">
+        var TestCases = new Array();
+        var cur;
+        
+    cur = TestCases['bowerick.test.jms'] = new Array();
+    
+        cur['awt.toolkit'] = 'sun.awt.X11.XToolkit';
+    
+        cur['bowerick.version'] = '2.7.0';
+    
+        cur['clojure.compile.path'] = '/home/rc/repositories/private/clojure/bowerick/target/classes';
+    
+        cur['clojure.debug'] = 'false';
+    
+        cur['file.encoding'] = 'UTF-8';
+    
+        cur['file.separator'] = '/';
+    
+        cur['java.awt.graphicsenv'] = 'sun.awt.X11GraphicsEnvironment';
+    
+        cur['java.awt.printerjob'] = 'sun.print.PSPrinterJob';
+    
+        cur['java.class.path'] = '/home/rc/repositories/private/clojure/bowerick/test:/home/rc/repositories/private/clojure/bowerick/benchmark:/home/rc/repositories/private/clojure/bowerick/test:/home/rc/repositories/private/clojure/bowerick/src:/home/rc/repositories/private/clojure/bowerick/dev-resources:/home/rc/repositories/private/clojure/bowerick/resources:/home/rc/repositories/private/clojure/bowerick/target/classes:/home/rc/.m2/repository/org/apache/activemq/activemq-client/5.16.1/activemq-client-5.16.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-util-ajax/9.4.36.v20210114/jetty-util-ajax-9.4.36.v20210114.jar:/home/rc/.m2/repository/nrepl/nrepl/0.6.0/nrepl-0.6.0.jar:/home/rc/.m2/repository/com/taoensso/encore/3.9.2/encore-3.9.2.jar:/home/rc/.m2/repository/org/iq80/snappy/snappy/0.4/snappy-0.4.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-client/9.4.36.v20210114/websocket-client-9.4.36.v20210114.jar:/home/rc/.m2/repository/clojure-complete/clojure-complete/0.2.5/clojure-complete-0.2.5.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-server/9.4.36.v20210114/websocket-server-9.4.36.v20210114.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.9.10.8/jackson-databind-2.9.10.8.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-mqtt/5.16.1/activemq-mqtt-5.16.1.jar:/home/rc/.m2/repository/com/thoughtworks/xstream/xstream/1.4.15/xstream-1.4.15.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-api/9.4.36.v20210114/websocket-api-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-jms_1.1_spec/1.1.1/geronimo-jms_1.1_spec-1.1.1.jar:/home/rc/.m2/repository/com/taoensso/nippy/3.1.1/nippy-3.1.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-servlet/9.4.36.v20210114/websocket-servlet-9.4.36.v20210114.jar:/home/rc/.m2/repository/clj-assorted-utils/clj-assorted-utils/1.18.2/clj-assorted-utils-1.18.2.jar:/home/rc/.m2/repository/org/eclipse/paho/org.eclipse.paho.client.mqttv3/1.2.5/org.eclipse.paho.client.mqttv3-1.2.5.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-j2ee-management_1.1_spec/1.0.1/geronimo-j2ee-management_1.1_spec-1.0.1.jar:/home/rc/.m2/repository/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar:/home/rc/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-smile/2.10.2/jackson-dataformat-smile-2.10.2.jar:/home/rc/.m2/repository/jline/jline/2.14.6/jline-2.14.6.jar:/home/rc/.m2/repository/org/springframework/spring-websocket/5.3.4/spring-websocket-5.3.4.jar:/home/rc/.m2/repository/tigris/tigris/0.1.2/tigris-0.1.2.jar:/home/rc/.m2/repository/com/ning/compress-lzf/1.1/compress-lzf-1.1.jar:/home/rc/.m2/repository/org/springframework/spring-beans/5.3.4/spring-beans-5.3.4.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-openwire-legacy/5.16.1/activemq-openwire-legacy-5.16.1.jar:/home/rc/.m2/repository/org/clojure/tools.analyzer/0.6.9/tools.analyzer-0.6.9.jar:/home/rc/.m2/repository/rgad/stompjms-client/1.20-SNAPSHOT/stompjms-client-1.20-SNAPSHOT.jar:/home/rc/.m2/repository/com/twitter/carbonite/1.5.0/carbonite-1.5.0.jar:/home/rc/.m2/repository/org/springframework/spring-context/4.3.30.RELEASE/spring-context-4.3.30.RELEASE.jar:/home/rc/.m2/repository/org/fusesource/hawtdispatch/hawtdispatch-transport/1.20/hawtdispatch-transport-1.20.jar:/home/rc/.m2/repository/org/springframework/spring-tx/4.3.30.RELEASE/spring-tx-4.3.30.RELEASE.jar:/home/rc/.m2/repository/robert/hooke/1.3.0/hooke-1.3.0.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-pool/5.16.1/activemq-pool-5.16.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-server/9.4.36.v20210114/jetty-server-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-http/9.4.36.v20210114/jetty-http-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/springframework/spring-expression/4.3.30.RELEASE/spring-expression-4.3.30.RELEASE.jar:/home/rc/.m2/repository/test2junit/test2junit/1.4.2/test2junit-1.4.2.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-jaas/5.16.1/activemq-jaas-5.16.1.jar:/home/rc/.m2/repository/xmlpull/xmlpull/1.1.3.1/xmlpull-1.1.3.1.jar:/home/rc/.m2/repository/org/apache/httpcomponents/httpclient/4.5.13/httpclient-4.5.13.jar:/home/rc/.m2/repository/com/esotericsoftware/minlog/1.3.0/minlog-1.3.0.jar:/home/rc/.m2/repository/com/esotericsoftware/reflectasm/1.10.1/reflectasm-1.10.1.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-broker/5.16.1/activemq-broker-5.16.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-client/9.4.36.v20210114/jetty-client-9.4.36.v20210114.jar:/home/rc/.m2/repository/cheshire/cheshire/5.10.0/cheshire-5.10.0.jar:/home/rc/.m2/repository/org/fusesource/hawtdispatch/hawtdispatch/1.20/hawtdispatch-1.20.jar:/home/rc/.m2/repository/org/clojure/core.memoize/0.5.9/core.memoize-0.5.9.jar:/home/rc/.m2/repository/com/twitter/chill-java/0.8.0/chill-java-0.8.0.jar:/home/rc/.m2/repository/org/clojure/clojure/1.10.2/clojure-1.10.2.jar:/home/rc/.m2/repository/commons-codec/commons-codec/1.11/commons-codec-1.11.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-util/9.4.36.v20210114/jetty-util-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-servlet/9.4.36.v20210114/jetty-servlet-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/apache/commons/commons-pool2/2.9.0/commons-pool2-2.9.0.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.10.2/jackson-core-2.10.2.jar:/home/rc/.m2/repository/org/apache/activemq/protobuf/activemq-protobuf/1.1/activemq-protobuf-1.1.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-stomp/5.16.1/activemq-stomp-5.16.1.jar:/home/rc/.m2/repository/com/esotericsoftware/kryo/3.0.3/kryo-3.0.3.jar:/home/rc/.m2/repository/org/clojure/spec.alpha/0.2.194/spec.alpha-0.2.194.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-http/5.16.1/activemq-http-5.16.1.jar:/home/rc/.m2/repository/cli4clj/cli4clj/1.7.6/cli4clj-1.7.6.jar:/home/rc/.m2/repository/org/objenesis/objenesis/2.1/objenesis-2.1.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.9.10/jackson-annotations-2.9.10.jar:/home/rc/.m2/repository/org/fusesource/mqtt-client/mqtt-client/1.16/mqtt-client-1.16.jar:/home/rc/.m2/repository/org/clojure/tools.cli/1.0.194/tools.cli-1.0.194.jar:/home/rc/.m2/repository/org/ow2/asm/asm-all/4.2/asm-all-4.2.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-security/9.4.36.v20210114/jetty-security-9.4.36.v20210114.jar:/home/rc/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.10.2/jackson-dataformat-cbor-2.10.2.jar:/home/rc/.m2/repository/org/clojure/core.specs.alpha/0.2.56/core.specs.alpha-0.2.56.jar:/home/rc/.m2/repository/commons-net/commons-net/3.7.2/commons-net-3.7.2.jar:/home/rc/.m2/repository/org/clojure/data.priority-map/0.0.7/data.priority-map-0.0.7.jar:/home/rc/.m2/repository/org/springframework/spring-aop/4.3.30.RELEASE/spring-aop-4.3.30.RELEASE.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-io/9.4.36.v20210114/jetty-io-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/springframework/spring-core/5.3.4/spring-core-5.3.4.jar:/home/rc/.m2/repository/org/springframework/spring-jcl/5.3.4/spring-jcl-5.3.4.jar:/home/rc/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/home/rc/.m2/repository/org/fusesource/hawtbuf/hawtbuf/1.11/hawtbuf-1.11.jar:/home/rc/.m2/repository/org/springframework/spring-web/5.3.4/spring-web-5.3.4.jar:/home/rc/.m2/repository/com/taoensso/truss/1.6.0/truss-1.6.0.jar:/home/rc/.m2/repository/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-jms-pool/5.16.1/activemq-jms-pool-5.16.1.jar:/home/rc/.m2/repository/com/esotericsoftware/kryo-shaded/3.0.3/kryo-shaded-3.0.3.jar:/home/rc/.m2/repository/org/apache/xbean/xbean-spring/4.18/xbean-spring-4.18.jar:/home/rc/.m2/repository/org/slf4j/slf4j-simple/1.7.30/slf4j-simple-1.7.30.jar:/home/rc/.m2/repository/org/springframework/spring-jms/4.3.30.RELEASE/spring-jms-4.3.30.RELEASE.jar:/home/rc/.m2/repository/org/clojure/tools.reader/1.3.4/tools.reader-1.3.4.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1.jar:/home/rc/.m2/repository/org/lz4/lz4-java/1.7.1/lz4-java-1.7.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-common/9.4.36.v20210114/websocket-common-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/clojure/core.cache/0.6.5/core.cache-0.6.5.jar:/home/rc/.m2/repository/org/clojure/core.async/0.4.490/core.async-0.4.490.jar:/home/rc/.m2/repository/javax/servlet/javax.servlet-api/4.0.1/javax.servlet-api-4.0.1.jar:/home/rc/.m2/repository/org/ow2/asm/asm/5.0.3/asm-5.0.3.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-spring/5.16.1/activemq-spring-5.16.1.jar:/home/rc/.m2/repository/org/clojure/tools.analyzer.jvm/0.7.2/tools.analyzer.jvm-0.7.2.jar:/home/rc/.m2/repository/org/springframework/spring-messaging/5.3.4/spring-messaging-5.3.4.jar:/home/rc/.m2/repository/criterium/criterium/0.4.6/criterium-0.4.6.jar:/home/rc/.m2/repository/org/apache/httpcomponents/httpcore/4.4.13/httpcore-4.4.13.jar:/home/rc/.m2/repository/org/tukaani/xz/1.8/xz-1.8.jar';
+    
+        cur['java.class.version'] = '55.0';
+    
+        cur['java.home'] = '/usr/lib/jvm/java-11-openjdk-11.0.9.11-0.fc31.x86_64';
+    
+        cur['java.io.tmpdir'] = '/tmp';
+    
+        cur['java.library.path'] = '/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib';
+    
+        cur['java.net.preferIPv4Stack'] = 'true';
+    
+        cur['java.runtime.name'] = 'OpenJDK Runtime Environment';
+    
+        cur['java.runtime.version'] = '11.0.9+11';
+    
+        cur['java.specification.name'] = 'Java Platform API Specification';
+    
+        cur['java.specification.vendor'] = 'Oracle Corporation';
+    
+        cur['java.specification.version'] = '11';
+    
+        cur['java.vendor'] = 'Red Hat, Inc.';
+    
+        cur['java.vendor.url'] = 'https://www.redhat.com/';
+    
+        cur['java.vendor.url.bug'] = 'https://bugzilla.redhat.com/enter_bug.cgi?product=Fedora&component=java-11-openjdk&version=31';
+    
+        cur['java.vendor.version'] = '18.9';
+    
+        cur['java.version'] = '11.0.9';
+    
+        cur['java.version.date'] = '2020-10-20';
+    
+        cur['java.vm.compressedOopsMode'] = '32-bit';
+    
+        cur['java.vm.info'] = 'mixed mode, sharing';
+    
+        cur['java.vm.name'] = 'OpenJDK 64-Bit Server VM';
+    
+        cur['java.vm.specification.name'] = 'Java Virtual Machine Specification';
+    
+        cur['java.vm.specification.vendor'] = 'Oracle Corporation';
+    
+        cur['java.vm.specification.version'] = '11';
+    
+        cur['java.vm.vendor'] = 'Red Hat, Inc.';
+    
+        cur['java.vm.version'] = '11.0.9+11';
+    
+        cur['jdk.debug'] = 'release';
+    
+        cur['jetty.git.hash'] = '238ec6997c7806b055319a6d11f8ae7564adc0de';
+    
+        cur['line.separator'] = ' ';
+    
+        cur['os.arch'] = 'amd64';
+    
+        cur['os.name'] = 'Linux';
+    
+        cur['os.version'] = '5.8.8-100.fc31.x86_64';
+    
+        cur['path.separator'] = ':';
+    
+        cur['sun.arch.data.model'] = '64';
+    
+        cur['sun.boot.library.path'] = '/usr/lib/jvm/java-11-openjdk-11.0.9.11-0.fc31.x86_64/lib';
+    
+        cur['sun.cpu.endian'] = 'little';
+    
+        cur['sun.cpu.isalist'] = '';
+    
+        cur['sun.io.unicode.encoding'] = 'UnicodeLittle';
+    
+        cur['sun.java.command'] = 'clojure.main -i /tmp/form-init3233757256758383475.clj';
+    
+        cur['sun.java.launcher'] = 'SUN_STANDARD';
+    
+        cur['sun.jnu.encoding'] = 'ANSI_X3.4-1968';
+    
+        cur['sun.management.compiler'] = 'HotSpot 64-Bit Tiered Compilers';
+    
+        cur['sun.os.patch.level'] = 'unknown';
+    
+        cur['user.country'] = 'US';
+    
+        cur['user.dir'] = '/home/rc/repositories/private/clojure/bowerick';
+    
+        cur['user.home'] = '/home/rc';
+    
+        cur['user.language'] = 'en';
+    
+        cur['user.name'] = 'rc';
+    
+        cur['user.timezone'] = 'Europe/Berlin';
+    </script><script type="text/javascript" language="JavaScript">
+        function displayProperties (name) {
+          var win = window.open('','JUnitSystemProperties','scrollbars=1,resizable=1');
+          var doc = win.document;
+          doc.open();
+          doc.write("<html><head><title>Properties of " + name + "</title>");
+          doc.write("<style type=\"text/css\">");
+          doc.write("body {font:normal 68% verdana,arial,helvetica; color:#000000; }");
+          doc.write("table tr td, table tr th { font-size: 68%; }");
+          doc.write("table.properties { border-collapse:collapse; border-left:solid 1 #cccccc; border-top:solid 1 #cccccc; padding:5px; }");
+          doc.write("table.properties th { text-align:left; border-right:solid 1 #cccccc; border-bottom:solid 1 #cccccc; background-color:#eeeeee; }");
+          doc.write("table.properties td { font:normal; text-align:left; border-right:solid 1 #cccccc; border-bottom:solid 1 #cccccc; background-color:#fffffff; }");
+          doc.write("h3 { margin-bottom: 0.5em; font: bold 115% verdana,arial,helvetica }");
+          doc.write("</style>");
+          doc.write("</head><body>");
+          doc.write("<h3>Properties of " + name + "</h3>");
+          doc.write("<div align=\"right\"><a href=\"javascript:window.close();\">Close</a></div>");
+          doc.write("<table class='properties'>");
+          doc.write("<tr><th>Name</th><th>Value</th></tr>");
+          for (prop in TestCases[name]) {
+            doc.write("<tr><th>" + prop + "</th><td>" + TestCases[name][prop] + "</td></tr>");
+          }
+          doc.write("</table>");
+          doc.write("</body></html>");
+          doc.close();
+          win.focus();
+        }
+      
+      </script>
+</head>
+<body>
+<h1>Unit Test Results.</h1>
+<table width="100%">
+<tr>
+<td align="left"></td><td align="right">Designed for use with <a href="http://www.junit.org/">JUnit</a> and <a href="http://ant.apache.org/">Ant</a>.</td>
+</tr>
+</table>
+<hr size="1">
+<h3>Class bowerick.test.jms</h3>
+<table class="details" border="0" cellpadding="5" cellspacing="2" width="95%">
+<tr valign="top">
+<th width="80%">Name</th><th>Tests</th><th>Errors</th><th>Failures</th><th>Skipped</th><th nowrap>Time(s)</th><th nowrap>Time Stamp</th><th>Host</th>
+</tr>
+<tr valign="top" class="Pass">
+<td><a title="Display all tests" href="11_jms.html">jms</a></td><td><a title="Display all tests" href="11_jms.html">19</a></td><td>0</td><td>0</td><td></td><td>11.163</td><td>2021-02-19_07:58:15+0100</td><td></td>
+</tr>
+</table>
+<h2>Tests</h2>
+<table class="details" border="0" cellpadding="5" cellspacing="2" width="95%">
+<tr valign="top">
+<th>Name</th><th>Status</th><th width="80%">Type</th><th nowrap>Time(s)</th>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="pooled-producer-pooled-consumer-nippy"></a>pooled-producer-pooled-consumer-nippy</td><td>Success</td><td></td><td>0.044</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="pooled-producer-pooled-consumer-carbonite"></a>pooled-producer-pooled-consumer-carbonite</td><td>Success</td><td></td><td>0.040</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="pooled-producer-pooled-consumer-carbonite-lzf"></a>pooled-producer-pooled-consumer-carbonite-lzf</td><td>Success</td><td></td><td>0.038</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="test-create-topic"></a>test-create-topic</td><td>Success</td><td></td><td>0.009</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="pooled-producer-pooled-consumer-nippy-snappy"></a>pooled-producer-pooled-consumer-nippy-snappy</td><td>Success</td><td></td><td>0.045</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="json-producer-failsafe-json-consumer"></a>json-producer-failsafe-json-consumer</td><td>Success</td><td></td><td>0.036</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="json-producer-consumer-lzf"></a>json-producer-consumer-lzf</td><td>Success</td><td></td><td>0.035</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="custom-transformation-producer-consumer-cheshire"></a>custom-transformation-producer-consumer-cheshire</td><td>Success</td><td></td><td>0.028</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="pooled-producer-pooled-consumer-nippy-lz4"></a>pooled-producer-pooled-consumer-nippy-lz4</td><td>Success</td><td></td><td>0.063</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="object-producer-failsafe-json-consumer"></a>object-producer-failsafe-json-consumer</td><td>Success</td><td></td><td>0.034</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="json-producer-consumer"></a>json-producer-consumer</td><td>Success</td><td></td><td>0.024</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="pooled-producer-pooled-consumer-nippy-lzf"></a>pooled-producer-pooled-consumer-nippy-lzf</td><td>Success</td><td></td><td>0.037</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="pooled-producer-normal-consumer"></a>pooled-producer-normal-consumer</td><td>Success</td><td></td><td>0.031</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="pooled-producer-pooled-consumer"></a>pooled-producer-pooled-consumer</td><td>Success</td><td></td><td>0.031</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="string-producer-failsafe-json-consumer"></a>string-producer-failsafe-json-consumer</td><td>Success</td><td></td><td>0.025</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="pooled-producer-pooled-consumer-nippy-lzma2"></a>pooled-producer-pooled-consumer-nippy-lzma2</td><td>Success</td><td></td><td>0.071</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="json-producer-consumer-snappy"></a>json-producer-consumer-snappy</td><td>Success</td><td></td><td>0.024</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="custom-transformation-producer-cheshire"></a>custom-transformation-producer-cheshire</td><td>Success</td><td></td><td>0.014</td>
+</tr>
+<tr valign="top" class="TableRowColor">
+<td><a name="pooled-producer-scheduled-autotransmit"></a>pooled-producer-scheduled-autotransmit</td><td>Success</td><td></td><td>0.114</td>
+</tr>
+</table>
+<div class="Properties">
+<a href="javascript:displayProperties('bowerick.test.jms');">
+                    Properties &raquo;
+                </a>
+</div>
+<div class="Properties">
+<a href="./11_jms-out.html">
+                        System.out &raquo;
+                    </a>
+</div>
+<div class="Properties">
+<a href="./11_jms-err.html">
+                        System.err &raquo;
+                    </a>
+</div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<html xmlns:string="xalan://java.lang.String" xmlns:lxslt="http://xml.apache.org/xslt">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Standard Error from client-cli-cfg</title>
+</head>
+<body>
+<pre>
+Setting broker SSLContext to use key store file: test/cfg/blah_broker.ks and trust store file: test/cfg/blah_broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply 1
+Creating producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command 1
+Creating consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Starting bowerick using the following options:
+{:url "tcp://localhost:61616",
+ :config-file "test/cfg/bowerick_test_config.cfg",
+ :destination "/topic/bowerick.message.generator",
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}
+[]
+Applying configuration from config file: test/cfg/bowerick_test_config.cfg
+Starting bowerick in client mode.
+Creating failsafe JSON consumer: ssl://127.0.0.1:42425 /topic/testtopic.foo 1
+Creating consumer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing consumer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Closing consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command
+Closing producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/cfg/blah_broker.ks and trust store file: test/cfg/blah_broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply 1
+Creating producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command 1
+Creating consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Starting bowerick using the following options:
+{:url "tcp://localhost:61616",
+ :config-file "test/cfg/bowerick_test_config.cfg",
+ :destination "/topic/bowerick.message.generator",
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}
+[]
+Applying configuration from config file: test/cfg/bowerick_test_config.cfg
+Starting bowerick in client mode.
+Creating failsafe JSON consumer: ssl://127.0.0.1:42425 /topic/testtopic.foo 1
+Creating consumer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Creating JSON producer: ssl://127.0.0.1:42425 /topic/testtopic.foo 1
+Creating producer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Closing consumer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Closing consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command
+Closing producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply
+Setting broker SSLContext to use key store file: test/cfg/blah_broker.ks and trust store file: test/cfg/blah_broker.ts
+Info: Enabling management producer at: /topic/bowerick.broker.management.reply
+Creating JSON producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply 1
+Creating producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.reply
+Info: Enabling management consumer at: /topic/bowerick.broker.management.command
+Creating JSON consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command 1
+Creating consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command
+Consumer callback args count: 1
+Creating connection.
+Creating destination. Type: topic Name: bowerick.broker.management.command
+Starting bowerick using the following options:
+{:url "tcp://localhost:61616",
+ :config-file "test/cfg/bowerick_test_config.cfg",
+ :destination "/topic/bowerick.message.generator",
+ :interval 0,
+ :loop-replay true,
+ :pool-size 1,
+ :client true,
+ :old-scroll true}
+[]
+Applying configuration from config file: test/cfg/bowerick_test_config.cfg
+Starting bowerick in client mode.
+Creating JSON producer: ssl://127.0.0.1:42425 /topic/testtopic.foo 1
+Creating producer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Creating connection.
+Creating destination. Type: topic Name: testtopic.foo
+Closing producer: ssl://127.0.0.1:42425 /topic/testtopic.foo
+Closing consumer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.command
+Closing producer: ssl://127.0.0.1:42425 /topic/bowerick.broker.management.reply
+    </pre>
+</body>
+</html>
