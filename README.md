@@ -7,18 +7,25 @@ Easing Simple Message-oriented Middleware Tasks with Clojure (and Java)
 [![Build Status SemaphoreCI](https://semaphoreci.com/api/v1/ruedigergad/bowerick/branches/master/badge.svg)](https://semaphoreci.com/ruedigergad/bowerick)
 [![Coverage Status](https://coveralls.io/repos/github/ruedigergad/bowerick/badge.svg?branch=master)](https://coveralls.io/github/ruedigergad/bowerick?branch=master)
 
-## Detailed Test Results
+## Links
+
+### Detailed Test Results
 
 Detailed test results are available as well:
 [http://ruedigergad.github.io/bowerick/test-results/html/](http://ruedigergad.github.io/bowerick/test-results/html/)
 
-## Blog Posts
+### Blog Posts
 
 On my website, I wrote some blog posts about bowerick:
 
 [https://ruedigergad.com/category/libs/bowerick/](https://ruedigergad.com/category/libs/bowerick/)
 
 In these blog posts, I make announcements about bowerick and discuss selected aspects of bowerick in more detail.
+
+### API Docs
+
+API docs are available:
+[http://ruedigergad.github.io/bowerick/doc/](http://ruedigergad.github.io/bowerick/doc/)
 
 ## Documentation
 
