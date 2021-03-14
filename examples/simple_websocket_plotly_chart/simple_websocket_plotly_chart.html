@@ -45,6 +45,7 @@
                 <div id="connection_settings_body">
                     <p>Broker URL <input name=broker_url id="broker_url" value="ws://127.0.0.1:1864" type="text"></p>
                     <p>Topic Name <input name=topic_name id="topic_name" value="/topic/aframe" type="text"></p>
+                    <p>Plot every n-th Data Point <input name=n_th_data_point id="n_th_data_point" value="3" type="number"></p>
                     <p><button type="button" id="connect_button">Connect</button></p>
                 </div>
             </div>
@@ -107,12 +108,16 @@
 
                 var x_arr = [];
                 var y_arr = [];
+                var count = 0;
+                var n_th_data_point = $("#n_th_data_point").val();
                 client.log("Connecting to: " + broker_url);
                 client.connect("", "", function(frame) {
                     client.log("Connection established.");
-
                     client.log("Subscribing to: " + topic_name);
                     client.subscribe(topic_name, function(message) {
+                        count += 1;
+                        if (count % n_th_data_point != 0) return;
+
                         var data = JSON.parse(message.body);
                         Plotly.update('plotly_body_left', {"x": [[data["x"]]], "y": [[data["y"]]]}, {}, [0]);
                         
