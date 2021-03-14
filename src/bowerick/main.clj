@@ -148,7 +148,7 @@
                             (sleep 20)
                             (let [new_angle (+ angle angle_increment)]
                               (if @running
-                                (if (> new_angle max_angle)
+                                (if (> new_angle (- max_angle angle_increment))
                                   (recur (+ 0.0 (- max_angle new_angle)))
                                   (recur new_angle))
                                 (do
