@@ -134,7 +134,12 @@
                       (sleep 500)
                       (println "Stopping broker...")
                       (jms/stop broker-service)
-                      (println "Broker stopped."))]
+                      (println "Broker stopped.")
+                      (run-once
+                        (executor)
+                        #((println "Terminating...")
+                          (System/exit 0))
+                        2000))]
     (if (arg-map :a-frame-demo)
       (let [af-topic-name "/topic/aframe"
             af-prod (jms/create-producer af-demo-url af-topic-name 1)
@@ -208,7 +213,7 @@
         (println "Broker started in daemon mode.")
         (-> (agent 0) (await)))
       (do
-        (println "Broker started... Type \"q\" followed by <Return> to quit: ")
+        (println "Broker started.\nType \"q\" followed by <Return> to quit: ")
         (while (not= "q" (read-line))
           (println "Type \"q\" followed by <Return> to quit: "))
         (shutdown-fn)))))
