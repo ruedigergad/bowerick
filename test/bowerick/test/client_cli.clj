@@ -43,13 +43,13 @@
 
 
 (deftest show-help-test
-  (let [out-string (test-cli-stdout #(-main "-h") "")]
+  (let [out-string (test-cli-stdout #(run-cli-app "-h") "")]
     (is
       (.startsWith out-string "Bowerick help:"))))
 
 (deftest dummy-send-test
   (let [test-cmd-input [(str "send " local-jms-server ":" test-topic " \"test-data\"")]
-        out-string (test-cli-stdout #(-main "-c" "-o") test-cmd-input)]
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
     (is
       (=
         (expected-string
@@ -60,7 +60,7 @@
 
 (deftest dummy-receive-test
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)]
-        out-string (test-cli-stdout #(-main "-c" "-o") test-cmd-input)]
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
     (is
       (=
         (expected-string
@@ -72,7 +72,7 @@
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
                         (str "send " local-jms-server ":" test-topic " \"test-data\"")
                         "_sleep 300"]
-        out-string (test-cli-stdout #(-main "-c" "-o") test-cmd-input)]
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
     (is
       (=
         (expected-string
@@ -89,7 +89,7 @@
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
                         (str "send-file " local-jms-server ":" test-topic " \"" json-test-file-name "\"")
                         "_sleep 500"]
-        out-string (test-cli-stdout #(-main "-c" "-o") test-cmd-input)]
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
     (is
       (=
         (expected-string
@@ -105,7 +105,7 @@
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
                         (str "send-text-file " local-jms-server ":" test-topic " \"" json-test-file-name "\"")
                         "_sleep 300"]
-        out-string (test-cli-stdout #(-main "-c" "-o") test-cmd-input)]
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
     (is
       (=
         (expected-string
@@ -118,7 +118,7 @@
         out-string))))
 
 (deftest simple-send-receive-with-cli-broker-test
-  (let [started-string "Broker started... Type \"q\" followed by <Return> to quit:"
+  (let [started-string "Broker started."
         started-flag (prepare-flag)
         stopped-string "Broker stopped."
         stopped-flag (prepare-flag)
@@ -133,7 +133,7 @@
                                     (println-err "Test broker stopped.")
                                     (set-flag stopped-flag)))
                                 (binding [*in* (io/reader stop-rdr)]
-                                  (-main "-u" (str "\"" local-cli-jms-server "\"")))))
+                                  (run-cli-app "-u" (str "\"" local-cli-jms-server "\"")))))
         _ (.setDaemon main-thread true)
         _ (.start main-thread)
         _ (println "Waiting for test broker to start up...")
@@ -141,7 +141,7 @@
         test-cmd-input [(str "receive " local-cli-jms-server ":" test-topic)
                         (str "send " local-cli-jms-server ":" test-topic " \"test-data\"")
                         "_sleep 500"]
-        out-string (test-cli-stdout #(-main "-c" "-o") test-cmd-input)]
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
     (is
       (=
         (expected-string
@@ -159,7 +159,7 @@
     (await-flag stopped-flag)))
 
 (deftest simple-cli-broker-aframe-test
-  (let [started-string "Broker started... Type \"q\" followed by <Return> to quit:"
+  (let [started-string "Broker started."
         started-flag (prepare-flag)
         stopped-string "Broker stopped."
         stopped-flag (prepare-flag)
@@ -175,7 +175,7 @@
                                       (println-err "Test broker stopped.")
                                       (set-flag stopped-flag))))
                                 (binding [*in* (io/reader stop-rdr)]
-                                  (-main "-u" (str "\"" local-cli-jms-server "\"") "-A"))))
+                                  (run-cli-app "-u" (str "\"" local-cli-jms-server "\"") "-A"))))
         _ (.setDaemon main-thread true)
         _ (.start main-thread)
         _ (println "Waiting for test broker to start up...")
@@ -204,7 +204,7 @@
     (await-flag stopped-flag)))
 
 (deftest simple-cli-broker-embedded-generator-hello-world-test
-  (let [started-string "Broker started... Type \"q\" followed by <Return> to quit:"
+  (let [started-string "Broker started."
         started-flag (prepare-flag)
         stopped-string "Broker stopped."
         stopped-flag (prepare-flag)
@@ -220,7 +220,7 @@
                                       (println-err "Test broker stopped.")
                                       (set-flag stopped-flag))))
                                 (binding [*in* (io/reader stop-rdr)]
-                                  (-main "-u" (str "\"" local-cli-jms-server "\"") "-G" "hello-world" "-I" "20"))))
+                                  (run-cli-app "-u" (str "\"" local-cli-jms-server "\"") "-G" "hello-world" "-I" "20"))))
         _ (.setDaemon main-thread true)
         _ (.start main-thread)
         _ (println "Waiting for test broker to start up...")
@@ -251,7 +251,7 @@
                                   (when (.contains s started-string)
                                     (println-err "Test broker started.")
                                     (set-flag flag)))
-                                (-main "-u" (str "\"" local-cli-jms-server "\"") "-d")))
+                                (run-cli-app "-u" (str "\"" local-cli-jms-server "\"") "-d")))
         _ (.setDaemon main-thread true)
         _ (.start main-thread)
         _ (println "Waiting for test broker to start up...")
@@ -259,7 +259,7 @@
         test-cmd-input [(str "receive " local-cli-jms-server ":" test-topic)
                         (str "send " local-cli-jms-server ":" test-topic " \"test-data\"")
                         "_sleep 500"]
-        out-string (test-cli-stdout #(-main "-c" "-o") test-cmd-input)]
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
     (is
       (=
         (expected-string
@@ -276,7 +276,7 @@
 (deftest broker-management-get-destinations-test
   (let [test-cmd-input [(str "management \"" local-jms-server "\" get-destinations")
                         "_sleep 300"]
-        out-string (test-cli-stdout #(-main "-c" "-o") test-cmd-input)]
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
     (is
       (=
         (expected-string
@@ -292,7 +292,7 @@
 (deftest broker-management-get-all-destinations-test
   (let [test-cmd-input [(str "management " local-jms-server " get-all-destinations")
                         "_sleep 300"]
-        out-string (test-cli-stdout #(-main "-c" "-o") test-cmd-input)]
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
     (is
       (=
         (expected-string
@@ -321,7 +321,7 @@
                         (str "send " local-jms-server ":" test-topic " 123")
                         "_sleep 300"
                         (str "stop " record-test-output-file)]
-        out-string (test-cli-stdout #(-main "-c" "-o") test-cmd-input)
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)
         expected-data [{"data" "\"foo\""
                         "metadata" {"source" (str local-jms-server ":" test-topic)
                                     "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}
@@ -351,7 +351,7 @@
                         (str "send " local-jms-server ":" test-topic " 123")
                         "_sleep 300"
                         (str "quit " record-test-output-file)]
-        out-string (test-cli-stdout #(-main "-c" "-o") test-cmd-input)
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)
         expected-data [{"data" "\"foo\""
                         "metadata" {"source" (str local-jms-server ":" test-topic)
                                     "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}
@@ -385,7 +385,7 @@
                         (str "send " local-jms-server ":" test-topic ".c 123")
                         "_sleep 300"
                         (str "stop " record-test-output-file)]
-        out-string (test-cli-stdout #(-main "-c" "-o") test-cmd-input)
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)
         expected-data [{"data" "\"foo\""
                         "metadata" {"source" (str local-jms-server ":" test-topic ".a")
                                     "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}
@@ -422,7 +422,7 @@
                         (str "send " local-jms-server ":" test-topic ".c 123")
                         "_sleep 300"
                         (str "stop " record-test-output-file)]
-        out-string (test-cli-stdout #(-main "-c" "-o") test-cmd-input)
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)
         expected-data [{"data" "\"foo\""
                         "metadata" {"source" (str local-jms-server ":" test-topic ".a")
                                     "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}
@@ -450,7 +450,7 @@
                         "_sleep 300"
                         (str "replay \"" replay-test-file-name "\" 100 false")
                         "_sleep 600"]
-        out-string (test-cli-stdout #(-main "-c" "-o") test-cmd-input)]
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
     (is
       (=
         (expected-string
@@ -472,7 +472,7 @@
                         "_sleep 300"
                         (str "replay \"" replay-test-file-name "\" 400 true")
                         "_sleep 600"]
-        out-string (test-cli-stdout #(-main "-c" "-o") test-cmd-input)]
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
     (is
       (=
         (expected-string

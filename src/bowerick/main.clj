@@ -134,12 +134,7 @@
                       (sleep 500)
                       (println "Stopping broker...")
                       (jms/stop broker-service)
-                      (println "Broker stopped.")
-                      (run-once
-                        (executor)
-                        #((println "Terminating...")
-                          (System/exit 0))
-                        2000))]
+                      (println "Broker stopped."))]
     (if (arg-map :a-frame-demo)
       (let [af-topic-name "/topic/aframe"
             af-prod (jms/create-producer af-demo-url af-topic-name 1)
@@ -400,7 +395,8 @@
           (print " "))
         (println license)))))
 
-(defn -main [& args]
+(defn run-cli-app [& args]
+  (println-err "FOOOOOOOO" args)
   (let [cli-args (parse-opts
                    args
                    [["-c" "--client" "Start in client mode."]
@@ -485,4 +481,12 @@
             (arg-map :client) (start-client-mode arg-map)
             (arg-map :benchmark-client) (start-benchmark-client-mode arg-map)
             :default (start-broker-mode arg-map))))))
+
+(defn -main [& args]
+  (apply run-cli-app args)
+  (run-once
+    (executor)
+    #((println "Terminating...")
+      (System/exit 0))
+    2000))
 

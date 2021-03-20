@@ -42,7 +42,7 @@
 
 (deftest dummy-send-test
   (let [test-cmd-input [(str "send " local-jms-server ":" test-topic " \"test-data\"")]
-        out-string (test-cli-stdout #(-main "-c" "-o" "-C" "test/cfg/bowerick_test_config.cfg") test-cmd-input)]
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o" "-C" "test/cfg/bowerick_test_config.cfg") test-cmd-input)]
     (is
       (=
         (expected-string
@@ -53,7 +53,7 @@
 
 (deftest dummy-receive-test
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)]
-        out-string (test-cli-stdout #(-main "-c" "-o" "-C" "test/cfg/bowerick_test_config.cfg") test-cmd-input)]
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o" "-C" "test/cfg/bowerick_test_config.cfg") test-cmd-input)]
     (is
       (=
         (expected-string
@@ -65,7 +65,7 @@
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
                         (str "send " local-jms-server ":" test-topic " \"test-data\"")
                         "_sleep 300"]
-        out-string (test-cli-stdout #(-main "-c" "-o" "-C" "test/cfg/bowerick_test_config.cfg") test-cmd-input)]
+        out-string (test-cli-stdout #(run-cli-app "-c" "-o" "-C" "test/cfg/bowerick_test_config.cfg") test-cmd-input)]
     (is
       (=
         (expected-string
