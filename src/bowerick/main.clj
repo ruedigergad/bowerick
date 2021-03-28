@@ -396,7 +396,6 @@
         (println license)))))
 
 (defn run-cli-app [& args]
-  (println-err "FOOOOOOOO" args)
   (let [cli-args (parse-opts
                    args
                    [["-c" "--client" "Start in client mode."]
