@@ -89,10 +89,10 @@
               y (+ 1.2
                    (* 0.15
                       (- (* 13.0 (Math/cos t))
-                      (* 5 (Math/cos (* 2 t)))
-                      (* 2 (Math/cos (* 3 t)))
-                      (Math/cos (* 4 t)))))]
-          (producer {"x" x, "y" y, "z" 0})
+                      (* 5.0 (Math/cos (* 2.0 t)))
+                      (* 2.0 (Math/cos (* 3.0 t)))
+                      (Math/cos (* 4.0 t)))))]
+          (producer {"x" x, "y" y, "z" 0.0})
           (delay-fn)
           (if (> t Math/PI)
             (recur (+ (- t (* 2.0 Math/PI)) increment))
