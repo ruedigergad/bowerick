@@ -3,7 +3,7 @@
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
                  [cheshire "5.10.0"]
-                 [cli4clj "1.7.6"]
+                 [cli4clj "1.7.7"]
                  [clj-assorted-utils "1.18.5"]
                  [com.ning/compress-lzf "1.1"]
                  [com.taoensso/nippy "3.1.1"]
@@ -43,7 +43,7 @@
   :html5-docs-ns-includes #"^bowerick.*"
   :html5-docs-repository-url "https://github.com/ruedigergad/bowerick/blob/master"
   :profiles {:repl
-               {:dependencies  [[jonase/eastwood "0.3.14" :exclusions  [org.clojure/clojure]]]}
+               {:dependencies  [[jonase/eastwood "0.4.0" :exclusions  [org.clojure/clojure]]]}
              :test
                {:dependencies [[criterium "0.4.6"]]
                 :test-paths ["test" "benchmark"]}}
