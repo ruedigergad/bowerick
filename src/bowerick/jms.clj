@@ -33,7 +33,7 @@
     (javax.jms BytesMessage Connection DeliveryMode Message MessageProducer MessageListener ObjectMessage Session TextMessage Topic)
     (javax.net.ssl KeyManagerFactory SSLContext TrustManagerFactory)
     (org.apache.activemq ActiveMQConnectionFactory ActiveMQMessageConsumer ActiveMQSslConnectionFactory)
-    (org.apache.activemq.broker BrokerService SslContext)
+    (org.apache.activemq.broker BrokerService SslBrokerService SslContext)
     (org.apache.activemq.broker.region Destination)
     (org.apache.activemq.broker.region.policy PolicyEntry PolicyMap)
     (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationMap AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
@@ -62,7 +62,7 @@
 (def ^:dynamic *broker-management-command-topic* "/topic/bowerick.broker.management.command")
 (def ^:dynamic *broker-management-reply-topic* "/topic/bowerick.broker.management.reply")
 
-(def ^:dynamic *default-charset* (Charset/forName "UTF-8"))
+(def ^sun.nio.cs.Unicode ^:dynamic *default-charset* (Charset/forName "UTF-8"))
 
 (def ^:dynamic *ws-client-ping-heartbeat* 10000)
 (def ^:dynamic *ws-client-pong-heartbeat* 10000)
@@ -251,9 +251,9 @@
   ([address]
     (start-broker address nil nil nil))
   ([address allow-anon users permissions]
-    (let [broker (if (and allow-anon users permissions)
-                   (setup-broker-with-auth allow-anon users permissions)
-                   (BrokerService.))
+    (let [^BrokerService broker (if (and allow-anon users permissions)
+                                  (setup-broker-with-auth allow-anon users permissions)
+                                  (BrokerService.))
           _ (doto broker
               (.setPersistent false)
               (.setUseJmx false)
@@ -274,14 +274,14 @@
                 "and trust store file:"
                 *trust-store-file*)
               (.setSslContext
-                broker
+                ^SslBrokerService broker
                 (doto
                   (SslContext.)
                   (.setSSLContext
                     (get-adjusted-ssl-context)))))
           _ (if (string? address)
-              (.addConnector broker address)
-              (doseq [addr (seq address)]
+              (.addConnector broker ^String address)
+              (doseq [^String addr (seq address)]
                 (.addConnector broker addr)))
           _ (.start broker)
           _ (.waitUntilStarted broker)
@@ -340,7 +340,7 @@
   ((:stop brkr)))
 
 (defn remove-url-options
-  [url]
+  [^String url]
   (if
     (.contains url "?")
     (.substring url 0 (.indexOf url "?"))
@@ -350,17 +350,17 @@
   [data]
     (condp instance? data
       utils/byte-array-type data
-      java.lang.String (.getBytes ^String data *default-charset*)
+      String (.getBytes ^String data *default-charset*)
       (.getBytes
         ^String (cheshire/generate-string data)
         *default-charset*)))
 
 (defn create-mqtt-client
-  [broker-url]
-  (let [url (-> broker-url
-              (.replaceFirst "mqtt\\+ssl://" "ssl://")
-              (.replaceFirst "mqtt://" "tcp://")
-              (remove-url-options))
+  [^String broker-url]
+  (let [^String url (-> broker-url
+                      (.replaceFirst "mqtt\\+ssl://" "ssl://")
+                      (.replaceFirst "mqtt://" "tcp://")
+                      (remove-url-options))
         _ (println "Adjusted MQTT URL from" broker-url "to" url)
         mqtt-client (MqttClient. url (MqttClient/generateClientId) nil)
         conn-opts (doto (MqttConnectOptions.)
@@ -371,14 +371,14 @@
     (when (.startsWith url "ssl://")
       (utils/println-err "Setting socket factory for SSL connection, trust store:" *trust-store-file* "; key store:" *key-store-file*)
       (.setSocketFactory conn-opts
-        (.getSocketFactory (get-adjusted-ssl-context))))
+        (.getSocketFactory ^SSLContext (get-adjusted-ssl-context))))
     (.connect mqtt-client conn-opts)
     mqtt-client))
 
 (def ws-scheduler-id (ref 0))
 
 (defn create-ws-stomp-session
-  [broker-url]
+  [^String broker-url]
   (let [sched-id (dosync
                    (let [current-value @ws-scheduler-id]
                      (alter ws-scheduler-id inc)
@@ -386,7 +386,7 @@
         stp-exec (ScheduledThreadPoolExecutor.
                    10
                    (proxy [ThreadFactory] []
-                     (newThread [r]
+                     (newThread [^Runnable r]
                        (doto (Thread. r)
                          (.setDaemon true)))))
         se-sched (doto
@@ -585,9 +585,9 @@
                                       utils/byte-array-type (doto
                                                               (.createBytesMessage session)
                                                               (.writeBytes ^bytes serialized-data))
-                                      java.lang.String (doto
-                                                         (.createTextMessage session ^String serialized-data)
-                                                         (.setStringProperty "transformation" "TEXT"))
+                                      String (doto
+                                               (.createTextMessage session ^String serialized-data)
+                                               (.setStringProperty "transformation" "TEXT"))
                                       (.createObjectMessage session serialized-data)))
                        send-fn (fn [data]
                                  (let [serialized-data (serialization-fn data)
@@ -1135,9 +1135,9 @@
                                         ^Charset *default-charset*)
                                       (catch Exception e2
                                         (str (vec msg-payload))))))
-          java.lang.String (try
-                             (cheshire/parse-string msg-payload)
-                             (catch Exception e
-                               msg-payload))
+          String (try
+                   (cheshire/parse-string msg-payload)
+                   (catch Exception e
+                     msg-payload))
           (str msg-payload))))))
 
