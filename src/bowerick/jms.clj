@@ -30,7 +30,7 @@
     (java.util ArrayList List)
     (java.util.concurrent ScheduledThreadPoolExecutor ThreadFactory)
     (java.util.concurrent.locks ReentrantLock)
-    (javax.jms BytesMessage Connection DeliveryMode Message MessageProducer MessageListener ObjectMessage Session TextMessage Topic)
+    (javax.jms BytesMessage Connection ConnectionFactory DeliveryMode Message MessageProducer MessageListener ObjectMessage Session TextMessage Topic)
     (javax.net.ssl KeyManagerFactory SSLContext TrustManagerFactory)
     (org.apache.activemq ActiveMQConnectionFactory ActiveMQMessageConsumer ActiveMQSslConnectionFactory)
     (org.apache.activemq.broker BrokerService SslBrokerService SslContext)
@@ -436,12 +436,12 @@
 (defn close-ws-stomp-session
   [session-map]
   (println "Closing WebSocket session...")
-  (.disconnect (:session session-map))
-  (.stop (:ws-stomp-client session-map))
-  (.stop (:jws-client session-map))
-  (doto (:ws-client session-map) .stop .destroy)
-  (.shutdownNow (:stp-exec session-map))
-  (.stop (:se-sched session-map)))
+  (.disconnect ^StompSession (:session session-map))
+  (.stop ^WebSocketStompClient (:ws-stomp-client session-map))
+  (.stop ^JettyWebSocketClient (:jws-client session-map))
+  (doto ^WebSocketClient (:ws-client session-map) .stop .destroy)
+  (.shutdownNow ^java.util.concurrent.ExecutorService (:stp-exec session-map))
+  (.stop ^ScheduledExecutorScheduler (:se-sched session-map)))
 
 (defmacro with-destination
   "Execute body in a context for which connection, session, and destination are
@@ -455,27 +455,27 @@
    is currently either \"topic\" or \"queue\" and the \"<name>\" is the unique
    name of the destination."
   [broker-url destination-description & body]
-  `(let [factory# (cond
-                    (or (.startsWith ~broker-url "ssl:")
-                        (.startsWith ~broker-url "tls:"))
-                      (doto
-                        (ActiveMQSslConnectionFactory.
-                          (remove-url-options ~broker-url))
-                        (.setTrustStore *trust-store-file*) (.setTrustStorePassword *trust-store-password*)
-                        (.setKeyStore *key-store-file*) (.setKeyStorePassword *key-store-password*)
-                        (.setTrustedPackages *serializable-packages*))
-                    (.startsWith ~broker-url "stomp:")
-                      (doto
-                        (StompJmsConnectionFactory.)
-                        (.setBrokerURI (.replaceFirst ~broker-url "stomp" "tcp")))
-                    (.startsWith ~broker-url "stomp+ssl:")
-                      (doto
-                        (StompJmsConnectionFactory.)
-                        (.setSslContext (get-adjusted-ssl-context))
-                        (.setBrokerURI (.replaceFirst ~broker-url "stomp\\+ssl" "ssl")))
-                    :default (doto
-                               (ActiveMQConnectionFactory. ~broker-url)
-                               (.setTrustedPackages *serializable-packages*)))
+  `(let [^ConnectionFactory factory# (cond
+                                       (or (.startsWith ~broker-url "ssl:")
+                                           (.startsWith ~broker-url "tls:"))
+                                         (doto
+                                           (ActiveMQSslConnectionFactory.
+                                             ^String (remove-url-options ~broker-url))
+                                           (.setTrustStore *trust-store-file*) (.setTrustStorePassword *trust-store-password*)
+                                           (.setKeyStore *key-store-file*) (.setKeyStorePassword *key-store-password*)
+                                           (.setTrustedPackages *serializable-packages*))
+                                       (.startsWith ~broker-url "stomp:")
+                                         (doto
+                                           (StompJmsConnectionFactory.)
+                                           (.setBrokerURI (.replaceFirst ~broker-url "stomp" "tcp")))
+                                       (.startsWith ~broker-url "stomp+ssl:")
+                                         (doto
+                                           (StompJmsConnectionFactory.)
+                                           (.setSslContext (get-adjusted-ssl-context))
+                                           (.setBrokerURI (.replaceFirst ~broker-url "stomp\\+ssl" "ssl")))
+                                       :default (doto
+                                                  (ActiveMQConnectionFactory. ~broker-url)
+                                                  (.setTrustedPackages *serializable-packages*)))
          ~'connection (doto
                         (if (and (not (nil? *user-name*)) (not (nil? *user-password*)))
                           (do
@@ -641,7 +641,7 @@
     (create-single-consumer broker-url destination-description cb identity))
   ([^String broker-url ^String destination-description cb de-serialization-fn]
     (utils/println-err "Creating consumer:" broker-url destination-description)
-    (let [cb-args-count (-> cb class .getDeclaredMethods first .getParameterTypes count)
+    (let [cb-args-count (-> cb class .getDeclaredMethods ^java.lang.reflect.Method first .getParameterTypes count)
           internal-cb (condp = cb-args-count
                         1 (fn [data _]
                             (cb data))
@@ -655,7 +655,7 @@
           "ws") (let [session-map (create-ws-stomp-session broker-url)]
                   (println "Subscribing to" destination-description)
                   (.subscribe
-                    (:session session-map)
+                    ^StompSession (:session session-map)
                     destination-description
                     (proxy [StompFrameHandler] []
                       (getPayloadType [^StompHeaders stomp-headers]
@@ -717,7 +717,7 @@
 
 (defn close
   "Close a producer or consumer."
-  [o]
+  [^AutoCloseable o]
   (.close o))
 
 (defn create-pooled-producer
@@ -736,7 +736,7 @@
     (create-pooled-producer broker-url destination-description pool-size identity))
   ([broker-url destination-description ^long pool-size serialization-fn]
     (utils/println-err "Creating pooled producer:" broker-url destination-description pool-size)
-    (let [producer (create-single-producer broker-url destination-description serialization-fn)
+    (let [^AutoCloseable producer (create-single-producer broker-url destination-description serialization-fn)
           pool (ArrayList. pool-size)
           lock (ReentrantLock.)
           opt-args (atom nil)
@@ -756,7 +756,7 @@
                                    (reset! last-sent (System/nanoTime)))
                                  (finally
                                    (.unlock lock)))))
-          exec (utils/executor)]
+          ^java.util.concurrent.ExecutorService exec (utils/executor)]
       (utils/run-repeat exec auto-transmit-fn *pooled-producer-auto-transmit-interval*)
       (->ProducerWrapper
         (fn [d]

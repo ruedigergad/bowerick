@@ -3,8 +3,8 @@
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
                  [cheshire "5.10.0"]
-                 [cli4clj "1.7.7"]
-                 [clj-assorted-utils "1.18.5"]
+                 [cli4clj "1.7.8"]
+                 [clj-assorted-utils "1.18.7"]
                  [com.ning/compress-lzf "1.1"]
                  [com.taoensso/nippy "3.1.1"]
                  [javax.servlet/javax.servlet-api "4.0.1"]
