@@ -3,8 +3,8 @@
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
                  [cheshire "5.10.0"]
-                 [cli4clj "1.7.8"]
-                 [clj-assorted-utils "1.18.7"]
+                 [cli4clj "1.7.9"]
+                 [clj-assorted-utils "1.18.8"]
                  [com.ning/compress-lzf "1.1"]
                  [com.taoensso/nippy "3.1.1"]
                  [javax.servlet/javax.servlet-api "4.0.1"]
@@ -21,8 +21,8 @@
                  [org.clojure/tools.cli "1.0.206"]
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.5"]
                  [org.iq80.snappy/snappy "0.4"]
-                 [org.springframework/spring-messaging "5.3.5"]
-                 [org.springframework/spring-websocket "5.3.5"]
+                 [org.springframework/spring-messaging "5.3.6"]
+                 [org.springframework/spring-websocket "5.3.6"]
                  [org.slf4j/slf4j-simple "1.7.30"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
