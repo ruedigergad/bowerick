@@ -401,7 +401,8 @@
                    [["-c" "--client" "Start in client mode."]
                     ["-d" "--daemon" "Run as daemon."]
                     ["-h" "--help" "Print this help and exit."]
-                    ["-o" "--old-scroll" "In client mode, use the old scrolling mode of cli4clj."]
+                    ["-o" "--old-scroll" "In client mode, use the old scrolling mode of cli4clj."
+                     :default (is-os? "Windows")]
                     ["-u" "--url URL"
                       "URL to bind the broker to."
                       :default "tcp://localhost:61616"
