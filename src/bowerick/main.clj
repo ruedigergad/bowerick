@@ -347,7 +347,7 @@
                   :m :management
                   }
                 :prompt-string "bowerick# "
-                :alternate-scrolling (not (arg-map :old-scroll))
+                :alternate-scrolling (not (:old-scroll arg-map (is-os? "Windows")))
                 :alternate-height 3})
     (doseq [m [@producers @json-producers @consumers @json-consumers]]
       (doseq [[id consumer] m]
@@ -401,8 +401,7 @@
                    [["-c" "--client" "Start in client mode."]
                     ["-d" "--daemon" "Run as daemon."]
                     ["-h" "--help" "Print this help and exit."]
-                    ["-o" "--old-scroll" "In client mode, use the old scrolling mode of cli4clj."
-                     :default (is-os? "Windows")]
+                    ["-o" "--old-scroll" "In client mode, use the old scrolling mode of cli4clj."]
                     ["-u" "--url URL"
                       "URL to bind the broker to."
                       :default "tcp://localhost:61616"
