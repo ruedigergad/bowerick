@@ -14,9 +14,9 @@
                  [org.apache.activemq/activemq-jaas "5.16.2" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.apache.activemq/activemq-openwire-legacy "5.16.2" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.apache.activemq/activemq-stomp "5.16.2" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.eclipse.jetty/jetty-server "9.4.42.v20210604"]
-                 [org.eclipse.jetty.websocket/websocket-client "9.4.42.v20210604"]
-                 [org.eclipse.jetty.websocket/websocket-server "9.4.42.v20210604"]
+                 [org.eclipse.jetty/jetty-server "9.4.43.v20210629"]
+                 [org.eclipse.jetty.websocket/websocket-client "9.4.43.v20210629"]
+                 [org.eclipse.jetty.websocket/websocket-server "9.4.43.v20210629"]
                  [org.clojure/clojure "1.10.3"]
                  [org.clojure/tools.cli "1.0.206"]
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.5"]
@@ -43,11 +43,11 @@
   :html5-docs-ns-includes #"^bowerick.*"
   :html5-docs-repository-url "https://github.com/ruedigergad/bowerick/blob/master"
   :profiles {:repl
-               {:dependencies  [[jonase/eastwood "0.5.2" :exclusions  [org.clojure/clojure]]]}
+               {:dependencies  [[jonase/eastwood "0.7.1" :exclusions  [org.clojure/clojure]]]}
              :test
                {:dependencies [[criterium "0.4.6"]]
                 :test-paths ["test" "benchmark"]}}
-  :plugins [[lein-cloverage "1.0.9"] [test2junit "1.3.3"] [lein-html5-docs "3.0.3"]]
+  :plugins [[lein-cloverage "1.2.2"] [test2junit "1.4.2"] [lein-html5-docs "3.0.3"]]
   ; Explicitly forcing TLSv1.2, for now, because of: https://bugs.openjdk.java.net/browse/JDK-8211426
   ;:jvm-opts ["-Djavax.net.debug=all" "-Djdk.tls.server.protocols=TLSv1.2" "-Djdk.tls.client.protocols=TLSv1.2"]
   ;:jvm-opts ["-Djavax.net.debug=all"]
