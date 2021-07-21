@@ -2,7 +2,7 @@
 ;(defproject bowerick "2.7.5"
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
-                 [cheshire "5.10.0"]
+                 [cheshire "5.10.1"]
                  [cli4clj "1.7.9"]
                  [clj-assorted-utils "1.18.8"]
                  [com.ning/compress-lzf "1.1"]
@@ -21,9 +21,9 @@
                  [org.clojure/tools.cli "1.0.206"]
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.5"]
                  [org.iq80.snappy/snappy "0.4"]
-                 [org.springframework/spring-messaging "5.3.8"]
-                 [org.springframework/spring-websocket "5.3.8"]
-                 [org.slf4j/slf4j-simple "1.7.31"]
+                 [org.springframework/spring-messaging "5.3.9"]
+                 [org.springframework/spring-websocket "5.3.9"]
+                 [org.slf4j/slf4j-simple "1.7.32"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
@@ -43,7 +43,7 @@
   :html5-docs-ns-includes #"^bowerick.*"
   :html5-docs-repository-url "https://github.com/ruedigergad/bowerick/blob/master"
   :profiles {:repl
-               {:dependencies  [[jonase/eastwood "0.7.1" :exclusions  [org.clojure/clojure]]]}
+               {:dependencies  [[jonase/eastwood "0.9.4" :exclusions  [org.clojure/clojure]]]}
              :test
                {:dependencies [[criterium "0.4.6"]]
                 :test-paths ["test" "benchmark"]}}
