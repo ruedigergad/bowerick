@@ -1,0 +1,159 @@
+<!--
+    This example is based on the example from:
+    https://github.com/jmesnil/stomp-websocket/blob/master/example/chat/index.html
+    and
+    https://aframe.io/examples/showcase/helloworld/
+-->
+<html>
+    <head>
+        <title>Websocket A-Frame Particle Example</title>
+        <!-- This is https://aframe.io/releases/1.2.0/aframe.min.js -->
+        <script src="./aframe.min.js"></script>
+    </head>
+    <body>
+        <div id="left_part" style="float:left; width:50%">
+            <div id="howto">
+                <div id="howto_header">
+                    <h2>HowTo</h2>
+                </div>
+                <div id="howto_body">
+                    <p>
+                        For this example, you need a running broker with a WebSocket STOMP transport and an appropriate message/event generator.
+                        Since bowerick version 2.1.0, the bowerick standalone broker includes an appropriate message/event generator.
+                        Below is an example for starting bowerick broker instance, which includes a message/event generator:
+                    </p>
+                    <pre>
+    java -jar bowerick-2.2.2-standalone.jar -A
+                    </pre>
+                    <p>
+                        With this command, the broker will use a pre-defined default and open a WebSocket STOMP transport on localhost (127.0.0.1) on port 1864.
+                        If you want to connect to the broker from another computer/device you can start the examples as follows:
+                    </p>
+                    <pre>
+    java -jar bowerick-2.2.2-standalone.jar -A \
+        -u "[\"ws://0.0.0.0:1701\"]"
+                    </pre>
+                    <p>
+                        Once the broker is started, you connect to it by pressing the &quot;Connect&quot; button on this page.
+                    </p>
+                </div>
+            </div>
+            <div id="connection_settings">
+                <div id="connection_settings_header">
+                    <h2>Connection Settings</h2>
+                </div>
+                <div id="connection_settings_body">
+                    <p>Broker URL <input name=broker_url id="broker_url" value="ws://127.0.0.1:1864" type="text"></p>
+                    <p>Topic Name <input name=topic_name id="topic_name" value="/topic/aframe" type="text"></p>
+                    <p><button type="button" id="connect_button">Connect</button></p>
+                </div>
+            </div>
+        </div>
+        <!-- This is "http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" -->
+        <script src="./jquery.min.js"></script>
+        <!-- This is "https://raw.github.com/jmesnil/stomp-websocket/master/lib/stomp.js" -->
+        <script src="./stomp.js"></script>
+        <script>//<![CDATA[
+        AFRAME.registerComponent('particles', {
+            schema: {
+                particle_data: {
+                    default: []
+                }
+            },
+            init: function() {
+                this.dummy = new THREE.Object3D();
+                this.geometry = new THREE.InstancedBufferGeometry();
+                this.geometry.copy(new THREE.SphereBufferGeometry(0.25));
+                this.material = new THREE.MeshPhongMaterial( { color: 0xff0000 } );
+                this.mesh = null;
+            },
+            update: function() {
+                const data = this.data;
+                const particle_data = data.particle_data;
+
+                if (this.mesh === null || particle_data.length !== this.mesh.count) {
+                    if (particle_data.length === 0) {
+                        this.mesh = new THREE.InstancedMesh(this.geometry, this.material, 5);
+                    } else if (particle_data.length !== this.mesh.count) {
+                        this.mesh = new THREE.InstancedMesh(this.geometry, this.material, particle_data.length);
+                    }
+                    this.el.setObject3D('mesh', this.mesh);
+                }
+
+                if (particle_data.length === 0) {
+                    for (let i = 0; i < this.mesh.count; i++) {
+                        this.dummy.position.set(i - 2, i - 2, i - 2);
+                        this.dummy.scale.set((i + 1) * 0.5, (i + 1) * 0.5, (i + 1) * 0.5);
+                        this.dummy.updateMatrix();
+                        this.mesh.setMatrixAt(i, this.dummy.matrix);
+                    }
+                } else {
+                    for (let i = 0; i < particle_data.length; i++) {
+                        var p_data = particle_data[i]
+                        this.dummy.position.set(p_data.x, p_data.y, p_data.z);
+                        this.dummy.updateMatrix();
+                        this.mesh.setMatrixAt(i, this.dummy.matrix);
+                    }
+                }
+                this.mesh.instanceMatrix.needsUpdate = true;
+            }
+        });
+
+        document.getElementById("connect_button").onclick = function() {
+            if(window.WebSocket) {
+                var broker_url = $("#broker_url").val();
+                var topic_name = $("#topic_name").val();
+                
+                var client = Stomp.client(broker_url);
+                client.log = function (log_message) {
+                    $("#log_messages").append(log_message + "\n");
+                };
+
+                client.log("Connecting to: " + broker_url);
+                client.connect("", "", function(frame) {
+                    client.log("Connection established.");
+
+                    client.log("Subscribing to: " + topic_name);
+                    client.subscribe(topic_name, function(message) {
+                        var data = JSON.parse(message.body);
+                        if (! Array.isArray(data)) {
+                            data = [data];
+                        }
+
+                        var particles = document.getElementById("particles");
+                        particles.setAttribute('particles', {'particle_data': data});
+                   });
+                });
+            } else {
+                alert("Error: WebSockets not supported!");
+            }
+        };
+        //]]></script>
+        <div id="right_part" style="float:right; width:50%">
+            <div id="aframe_part">
+                <div id="aframe_header">
+                    <h2>A-Frame Visualization</h2>
+                </div>
+                <div id="aframe-body" style="height: 400px; width: 400px;">
+                    <a-scene embedded>
+                        <a-entity position="0 -1 4">
+                            <a-camera></a-camera>
+                        </a-entity>
+                        <a-entity light="type:point; castShadow:true;" position="6 16 8"></a-entity>
+                        <a-entity particles id="particles" position="0 0 0" shadow="cast: true"></a-entity>
+                        <a-plane position="0 -3 0" rotation="-90 0 0" width="16" height="16" color="#7BC8A4" shadow></a-plane>
+                        <a-sky color="#ECECEC"></a-sky>
+                    </a-scene>
+                </div>
+            </div>
+            <div id="logging">
+                <div id="logging_header">
+                    <h2>Log</h2>
+                </div>
+                <div id="logging_body">
+                    <pre id="log_messages"></pre>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
