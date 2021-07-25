@@ -7,16 +7,25 @@
         circle_coordinates (mapv (fn [angle]
                                    (let [x (Math/cos angle)
                                          y (Math/sin angle)]
-                                     {:x x, :y y, :z 0.0}))
+                                     {"x" x, "y" y, "z" 0.0}))
                                  circle_steps)]
     (fn []
       (loop [rotation_angle 0.0]
-        (let [rotated_coordinates (mapv (fn [{:keys [x y z]}]
-                                          {"x" (- (* (Math/cos rotation_angle) x)
-                                                  (* (Math/sin rotation_angle) z)),
-                                           "y" y,
-                                           "z" (+ (* (Math/sin rotation_angle) x)
-                                                  (* (Math/cos rotation_angle) z))})
+        (let [rotated_coordinates (mapv (fn [coords]
+                                          (->
+                                            coords
+                                            (update-in
+                                              ["x"]
+                                              (fn [x z]
+                                                (- (* (Math/cos rotation_angle) x)
+                                                   (* (Math/sin rotation_angle) z)))
+                                              (coords "z"))
+                                            (update-in
+                                              ["z"]
+                                              (fn [z x]
+                                                (+ (* (Math/sin rotation_angle) x)
+                                                   (* (Math/cos rotation_angle) z)))
+                                              (coords "x"))))
                                         circle_coordinates)]
           (producer rotated_coordinates)
           (delay-fn)
