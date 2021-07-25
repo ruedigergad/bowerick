@@ -70,6 +70,7 @@
             update: function() {
                 const data = this.data;
                 const particle_data = data.particle_data;
+                var dummy = this.dummy;
 
                 if (this.mesh === null || particle_data.length !== this.mesh.count) {
                     if (particle_data.length === 0) {
@@ -82,17 +83,27 @@
 
                 if (particle_data.length === 0) {
                     for (let i = 0; i < this.mesh.count; i++) {
-                        this.dummy.position.set(i - 2, i - 2, i - 2);
-                        this.dummy.scale.set((i + 1) * 0.5, (i + 1) * 0.5, (i + 1) * 0.5);
-                        this.dummy.updateMatrix();
-                        this.mesh.setMatrixAt(i, this.dummy.matrix);
+                        dummy.position.set(i - 2, i - 2, i - 2);
+                        dummy.scale.set((i + 1) * 0.5, (i + 1) * 0.5, (i + 1) * 0.5);
+                        dummy.updateMatrix();
+                        this.mesh.setMatrixAt(i, dummy.matrix);
                     }
                 } else {
                     for (let i = 0; i < particle_data.length; i++) {
                         var p_data = particle_data[i]
-                        this.dummy.position.set(p_data.x, p_data.y, p_data.z);
-                        this.dummy.updateMatrix();
-                        this.mesh.setMatrixAt(i, this.dummy.matrix);
+                        
+                        dummy.position.set(p_data.x, p_data.y, p_data.z);
+
+                        if ('rotation_x' in p_data && 'rotation_y' in p_data && 'rotation_z' in p_data) {
+                            dummy.rotation.set(p_data.rotation_x, p_data.rotation_y, p_data.rotation_z);
+                        }
+
+                        if (p_data.scale_x && p_data.scale_y && p_data.scale_z) {
+                            dummy.scale.set(p_data.scale_x, p_data.scale_y, p_data.scale_z);
+                        }
+
+                        dummy.updateMatrix();
+                        this.mesh.setMatrixAt(i, dummy.matrix);
                     }
                 }
                 this.mesh.instanceMatrix.needsUpdate = true;
