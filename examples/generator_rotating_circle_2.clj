@@ -35,7 +35,14 @@
         coordinates (concat circle_coordinates
                             upper_half_circle
                             lower_half_circle
-                            dots_coordinates)]
+                            dots_coordinates)
+        colored_coordinates (mapv (fn [coords]
+                                    (let [color_ref (* Math/PI (+ 1.0 (coords "y")))]
+                                      (-> coords
+                                          (assoc "color_r" (min 1.0 (max 0.0 (+ 0.4 (Math/cos color_ref)))))
+                                          (assoc "color_g" (min 1.0 (max 0.0 (+ 0.4 (Math/cos (+ color_ref (/ max_angle 3.0)))))))
+                                          (assoc "color_b" (min 1.0 (max 0.0 (+ 0.4 (Math/cos (+ color_ref (* 2.0 (/ max_angle 3.0)))))))))))
+                                  coordinates)]
     (fn []
       (loop [rotation_angle 0.0]
         (let [rotated_coordinates (mapv (fn [coords]
@@ -57,7 +64,7 @@
                                               ["rotation_y"]
                                               (fn [_]
                                                 (- rotation_angle)))))
-                                        coordinates)]
+                                        colored_coordinates)]
           (producer rotated_coordinates)
           (delay-fn)
           (if (> rotation_angle max_angle)

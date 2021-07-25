@@ -64,7 +64,7 @@
                 this.dummy = new THREE.Object3D();
                 this.geometry = new THREE.InstancedBufferGeometry();
                 this.geometry.copy(new THREE.SphereBufferGeometry(0.25));
-                this.material = new THREE.MeshPhongMaterial( { color: 0xff0000 } );
+                this.material = new THREE.MeshPhongMaterial( { color: 0xffffff } );
                 this.mesh = null;
             },
             update: function() {
@@ -75,6 +75,12 @@
                 if (this.mesh === null || particle_data.length !== this.mesh.count) {
                     if (particle_data.length === 0) {
                         this.mesh = new THREE.InstancedMesh(this.geometry, this.material, 5);
+                        this.mesh.setColorAt(0, new THREE.Color(1, 0, 0));
+                        this.mesh.setColorAt(1, new THREE.Color(0, 1, 0));
+                        this.mesh.setColorAt(2, new THREE.Color(0, 0, 1));
+                        this.mesh.setColorAt(3, new THREE.Color(1, 0, 1));
+                        this.mesh.setColorAt(4, new THREE.Color(0, 1, 1));
+                        this.mesh.instanceColor.needsUpdate = true;
                     } else if (particle_data.length !== this.mesh.count) {
                         this.mesh = new THREE.InstancedMesh(this.geometry, this.material, particle_data.length);
                     }
@@ -104,6 +110,13 @@
 
                         dummy.updateMatrix();
                         this.mesh.setMatrixAt(i, dummy.matrix);
+
+                        if ('color_r' in p_data && 'color_g' in p_data && 'color_b' in p_data) {
+                            this.mesh.setColorAt(i, new THREE.Color(p_data.color_r, p_data.color_g, p_data.color_b));
+                            if (! this.mesh.instanceColor.needsUpdate) {
+                                this.mesh.instanceColor.needsUpdate = true;
+                            }
+                        }
                     }
                 }
                 this.mesh.instanceMatrix.needsUpdate = true;
@@ -151,6 +164,7 @@
                             <a-camera></a-camera>
                         </a-entity>
                         <a-entity light="type:point; castShadow:true;" position="6 16 8"></a-entity>
+                        <a-entity light="type:point; castShadow:false;" position="-6 4 8"></a-entity>
                         <a-entity particles id="particles" position="0 0 0" shadow="cast: true"></a-entity>
                         <a-plane position="0 -3 0" rotation="-90 0 0" width="16" height="16" color="#7BC8A4" shadow></a-plane>
                         <a-sky color="#ECECEC"></a-sky>
