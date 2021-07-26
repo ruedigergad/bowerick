@@ -13,7 +13,8 @@
   (:require
     [clojure.java.io :as java-io]
     [clojure.string :as str]
-    [clj-assorted-utils.util :as utils])
+    [clj-assorted-utils.util :as utils]
+    [juxt.dirwatch :refer (watch-dir)])
   (:import
     (java.io File FileInputStream)
     (java.lang Math)
@@ -100,8 +101,21 @@
 
 (defn custom-fn-generator
   [producer delay-fn in-path]
-  (let [gen-fn (-> (slurp in-path) read-string eval)]
-    (gen-fn producer delay-fn)))
+  (let [producer-fn (atom (fn []))
+        read-fn (fn [event]
+                  (when (or
+                          (nil? event)
+                          (and
+                            (= 1 (:count event))
+                            (= :modify (:action event))
+                            (= in-path (-> event :file .getPath))))
+                    (println "Loading custom-fn-generator:" in-path)
+                    (let [gen-fn (-> (slurp in-path) read-string eval)
+                          prod-fn (gen-fn producer delay-fn)]
+                      (reset! producer-fn prod-fn))))]
+    (watch-dir read-fn (.getParentFile (clojure.java.io/file in-path)))
+    (read-fn nil)
+    (fn [] (@producer-fn))))
 
 (defn hello-world-generator
   [producer delay-fn _]
@@ -109,7 +123,7 @@
     (producer "hello world")
     (delay-fn)))
 
-(defn yin-yang-generator [producer delay-fn _]
+(defn yin-yang-generator
   (let [max_angle (* 2.0 Math/PI)
         angle_increment (/ max_angle 100.0)
         circle_steps (range 0.0 max_angle angle_increment)
@@ -151,32 +165,33 @@
                                           (assoc "color_r" (min 1.0 (max 0.0 (+ 0.4 (Math/cos color_ref)))))
                                           (assoc "color_g" (min 1.0 (max 0.0 (+ 0.4 (Math/cos (+ color_ref (/ max_angle 3.0)))))))
                                           (assoc "color_b" (min 1.0 (max 0.0 (+ 0.4 (Math/cos (+ color_ref (* 2.0 (/ max_angle 3.0)))))))))))
-                                  coordinates)]
+                                  coordinates)
+        rot_angle (atom 0.0)]
     (fn []
-      (loop [rotation_angle 0.0]
-        (let [rotated_coordinates (mapv (fn [coords]
-                                          (->
-                                            coords
-                                            (update-in
-                                              ["x"]
-                                              (fn [x z]
-                                                (- (* (Math/cos rotation_angle) x)
-                                                   (* (Math/sin rotation_angle) z)))
-                                              (coords "z"))
-                                            (update-in
-                                              ["z"]
-                                              (fn [z x]
-                                                (+ (* (Math/sin rotation_angle) x)
-                                                   (* (Math/cos rotation_angle) z)))
-                                              (coords "x"))
-                                            (update-in
-                                              ["rotation_y"]
-                                              (fn [_]
-                                                (- rotation_angle)))))
-                                        colored_coordinates)]
-          (producer rotated_coordinates)
-          (delay-fn)
-          (if (> rotation_angle max_angle)
-            (recur (+ (- rotation_angle max_angle) angle_increment))
-            (recur (+ rotation_angle angle_increment))))))))
+      (let [rotation_angle @rot_angle
+            rotated_coordinates (mapv (fn [coords]
+                                        (->
+                                          coords
+                                          (update-in
+                                            ["x"]
+                                            (fn [x z]
+                                              (- (* (Math/cos rotation_angle) x)
+                                                 (* (Math/sin rotation_angle) z)))
+                                            (coords "z"))
+                                          (update-in
+                                            ["z"]
+                                            (fn [z x]
+                                              (+ (* (Math/sin rotation_angle) x)
+                                                 (* (Math/cos rotation_angle) z)))
+                                            (coords "x"))
+                                          (update-in
+                                            ["rotation_y"]
+                                            (fn [_]
+                                              (- rotation_angle)))))
+                                      colored_coordinates)]
+        (producer rotated_coordinates)
+        (delay-fn)
+        (if (> rotation_angle max_angle)
+          (reset! rot_angle (+ (- rotation_angle max_angle) angle_increment))
+          (reset! rot_angle (+ rotation_angle angle_increment)))))))
 
