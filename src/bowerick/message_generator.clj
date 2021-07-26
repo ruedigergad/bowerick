@@ -124,6 +124,7 @@
     (delay-fn)))
 
 (defn yin-yang-generator
+  [producer delay-fn _]
   (let [max_angle (* 2.0 Math/PI)
         angle_increment (/ max_angle 100.0)
         circle_steps (range 0.0 max_angle angle_increment)
@@ -161,10 +162,11 @@
                             dots_coordinates)
         colored_coordinates (mapv (fn [coords]
                                     (let [color_ref (* Math/PI (+ 1.0 (coords "y")))]
-                                      (-> coords
-                                          (assoc "color_r" (min 1.0 (max 0.0 (+ 0.4 (Math/cos color_ref)))))
-                                          (assoc "color_g" (min 1.0 (max 0.0 (+ 0.4 (Math/cos (+ color_ref (/ max_angle 3.0)))))))
-                                          (assoc "color_b" (min 1.0 (max 0.0 (+ 0.4 (Math/cos (+ color_ref (* 2.0 (/ max_angle 3.0)))))))))))
+                                      (->
+                                        coords
+                                        (assoc "color_r" (-> (Math/cos color_ref) (+ 0.4) (max 0.0) (min 1.0)))
+                                        (assoc "color_g" (-> (/ max_angle 3.0) (+ color_ref) (Math/cos) (+ 0.4) (max 0.0) (min 1.0)))
+                                        (assoc "color_b" (-> (/ max_angle 3.0) (* 2.0) (+ color_ref) (Math/cos) (+ 0.4) (max 0.0) (min 1.0))))))
                                   coordinates)
         rot_angle (atom 0.0)]
     (fn []
