@@ -8,6 +8,34 @@ Easing Simple Message-oriented Middleware Tasks with Clojure (and Java)
 [![lein test](https://github.com/ruedigergad/bowerick/actions/workflows/lein_test.yml/badge.svg)](https://github.com/ruedigergad/bowerick/actions/workflows/lein_test.yml)
 [![Coverage Status](https://coveralls.io/repos/github/ruedigergad/bowerick/badge.svg?branch=master)](https://coveralls.io/github/ruedigergad/bowerick?branch=master)
 
+bowerick somewhat started as "an accident with a few rubber bands, a liquid lunch, and a ~~particle accelerator~~ Message-oriented Middelware (MoM).".
+It is based on ActiveMQ and various other related libraries etc.
+
+Bowerick provides
+
+- Command Line Tools
+  - Broker/Server Mode
+  - Client Mode
+- A Library/Framework/API for
+  - Clojure
+  - Java
+
+in a single Jar file.
+For the single Jar file, download one of the "*-standalone.jar" files, from the "dist/" directory.
+Alternatively, bowerick is also available from clojars.org to be included as dependency in other projects.
+
+The original context, in which the foundation for bowerick was layed was experiments with different MoM protocols in different deployments.
+As such, one goal of bowerick was kinda to address my own lazyness in the sense that I wanted to be able to use a multi-protocol MoM broker and library without requiring much configuration or complex deployments.
+Later on, additinal functionality was added, such as a command line client application, which I initially used for debugging.
+
+Bowerick supports multiple protocols as broker and as client and automatically bridges between protocols thanks to ActiveMQ.
+The supported protocls are:
+
+- OpenWire
+- MQTT
+- STOMP
+- STOMP via WebSockets
+
 ## Links
 
 ### Detailed Test Results
@@ -30,7 +58,145 @@ API docs are available:
 
 ## Documentation
 
-### Examples
+The documentation tries to follow the scheme of the functionality as introduced above:
+
+- Command Line Tools
+  - Broker/Server Mode
+  - Client Mode
+- A Library/Framework/API
+  - For Clojure
+  - For Java
+
+The combined functionality offered by bowerick is provided in the "*-standalone.jar" files, which can be downloaded from the "dist/" directory.
+Alternatively, bowerick can be included as library in your applications via clojars.org.
+
+### Command Line Examples
+
+The command line examples all refer to bowerick distributed as "*-standalone.jar" file.
+
+All available command line arguments etc. can be displayed via the help functionality as follows:
+
+```
+java -jar bowerick-<VERSION>-standalone.jar --help
+```
+
+Below, examples for some arguments are given.
+
+#### Broker/Server Mode
+
+##### Broker Startup and Transports Configuration
+
+The initial main aim of the broker/server mode was to easily start a Message-oriented Middleware (MoM) broker/server.
+
+The most basic way for starting a broker is as follows:
+
+```
+java -jar bowerick-<VERSION>-standalone.jar
+```
+
+This will start bowerick with an OpenWire transport listening on "tcp://127.0.0.1:61616".
+
+Transports with alternative host names, IP addresses, port numbers, or protcols can be configured as follows:
+
+```
+# For MQTT via WebSockets
+java -jar bowerick-<VERSION>-standalone.jar -u "mqtt://127.0.0.1:1864"
+# For STOMP
+java -jar bowerick-<VERSION>-standalone.jar -u "stomp://127.0.0.1:1864"
+# For STOMP via WebSockets
+java -jar bowerick-<VERSION>-standalone.jar -u "ws://127.0.0.1:1864"
+
+```
+
+For an overview of URLs that are supported, see the cheat sheet below.
+
+In addition to opening a single transport, bowerick can also be started with multiple transports, e.g., as follows:
+
+```
+# Using MQTT and STOMP via WebSockets
+java -jar bowerick-<VERSION>-standalone.jar -u "[ws://127.0.0.1:1864 mqtt://127.0.0.1:1701]"
+
+```
+
+Note the notation using square brackets to indicate the list of transports.
+More transports can be added by adding their URLs to this list.
+
+##### Message Generators
+
+In addition to starting a broker, bowerick can also start a message along with the borker to produce traffic.
+It provides some built-in message generators and can also be extended with custom message generators.
+
+The first use case for a message generator was an experiment with A-Frame.
+The syntax for starting this message generator is:
+
+```
+java -jar bowerick-<VERSION>-standalone.jar -A
+
+```
+
+This creates a message generator that produces 3D coordinates of a rotating dot.
+
+Other built-in message generators can be started via their name.
+Below are snippets for starting some built-in message generators:
+
+```
+# The hello-world generator creates message containin the string "hello world".
+java -jar bowerick-<VERSION>-standalone.jar -G hello-world -I 1000
+
+# The yin-yang generator creates 3D coordinates of dots showing a rotating yin yang symbol.
+java -jar bowerick-<VERSION>-standalone.jar -G yin-yang -I 1000
+
+# The heart4family generator creates 3D coordinates for a dot that moves in a heart shape path..
+java -jar bowerick-<VERSION>-standalone.jar -G heart4family -I 1000
+```
+
+Note that these examples use an additional "-I 1000" argument.
+This argument is used to configure the rough interval with which messages are sent in milliseconds.
+A value of 1000 means that a message is generated roughly every second.
+
+Other message generators require additional arguments.
+Additional arguments to the message generator are passed via the "-X" command line argument.
+Below some example are given.
+
+```
+# The txt-file-line producer sends the content of a text file line by line.
+# I.e., each line will be sent in a separate message.
+# The path to the text file to be sent is passed via -X ....
+java -jar bowerick-<VERSION>-standalone.jar -G txt-file-line -I 1000 -X test/data/csv_input_test_file.txt
+
+# The txt-file is a more generic version of txt-file-line.
+# In addition to the path of the text file to be sent it also takes a Clojure regular expression.
+# The regular expression is used for splitting the text file and the resulting splitted parts are the units sent with each message.
+java -jar bowerick-<VERSION>-standalone.jar -G txt-file -I 1000 -X '["test/data/csv_input_test_file.txt" #"[\\n,]"]'
+# Note how the arguments are noted within square brackets (a Clojure vector), when more than one argument shall be passed to the message generator.
+
+# The pcap-file message generator sends the raw packet data from a pcap packet capture file.
+# It sends one packet per message.
+java -jar bowerick-<VERSION>-standalone.jar -G pcap-file -I 1000 -X test/data/binary_pcap_data_input_test.pcap
+```
+
+The examples are run from the base directory of the bowerick git project.
+This is important for relative file paths that are shown in the examples to work.
+
+
+#### Client Mode
+
+The client mode is started via:
+
+```
+java -jar bowerick-<VERSION>-standalone.jar -c
+```
+
+In client mode, bowerick displays an interactive command line interface (CLI).
+Via the CLI, commands can be entered for using the bowerick client mode.
+
+To get a list of all commands type "help".
+The client mode CLI also supports tab completion and hints.
+I suggest to press <TAB> once or twice in different places to see the different ways how tab completions and hints can be used.
+
+### Clojure Library Examples
+
+For using bowerick as Clojure library, the best way is to include it as dependency in your project.
 
 #### Minimal Working Example
 
