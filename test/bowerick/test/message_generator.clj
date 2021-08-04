@@ -256,7 +256,7 @@
                      (when (not (flag-set? flag))
                        (reset! received obj)
                        (set-flag flag)))
-        consumer (create-consumer local-jms-server test-topic consume-fn)
+        consumer (create-json-consumer local-jms-server test-topic consume-fn)
         producer (create-producer local-jms-server test-topic 1)
         gen (create-message-generator producer delay-fn "heart4family" nil)]
     (run-once (executor) #(gen) 0)
@@ -273,7 +273,7 @@
                      (if (> (count @received) 5)
                        (set-flag flag)
                        (swap! received conj obj)))
-        consumer (create-consumer local-jms-server test-topic consume-fn)
+        consumer (create-json-consumer local-jms-server test-topic consume-fn)
         producer (create-producer local-jms-server test-topic 1)
         gen (create-message-generator producer delay-fn "heart4family" nil)]
     (run-once (executor) #(gen) 0)

@@ -96,6 +96,12 @@
     "org.fusesource.hawtbuf.*"
     "com.thoughtworks.xstream.mapper.*"})
 
+(defn to-json-bytes
+  [data]
+  (.getBytes
+     ^String (cheshire/generate-string data)
+     ^Charset *default-charset*))
+
 (defn get-adjusted-ssl-context
   "Get an SSLContext for which the key and trust stores are initialized based
    on the settings defined in the global dynamic vars:
@@ -1031,9 +1037,7 @@
       pool-size
       (fn [data]
         (post-process-fn
-          (.getBytes
-            ^String (cheshire/generate-string data)
-            ^Charset *default-charset*))))))
+          (to-json-bytes data))))))
 
 (defn create-json-consumer
   "Create a consumer for exchanging data in JSON format.

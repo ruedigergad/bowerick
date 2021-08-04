@@ -138,7 +138,7 @@
                       (println "Broker stopped."))]
     (if (arg-map :a-frame-demo)
       (let [af-topic-name "/topic/aframe"
-            af-prod (jms/create-producer af-demo-url af-topic-name 1)
+            af-prod (jms/create-json-producer af-demo-url af-topic-name 1)
             max_angle (* 2.0 Math/PI)
             angle_increment (/ max_angle 100.0)]
         (println "Starting producer for the A-Frame demo at:" (str af-demo-url ":" af-topic-name))

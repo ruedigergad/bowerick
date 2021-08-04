@@ -11,6 +11,7 @@
     :doc "Functions for generating messages"} 
   bowerick.message-generator
   (:require
+    [bowerick.jms :refer (to-json-bytes)]
     [clojure.java.io :as java-io]
     [clojure.string :as str]
     [clj-assorted-utils.util :as utils]
@@ -93,7 +94,7 @@
                       (* 5.0 (Math/cos (* 2.0 t)))
                       (* 2.0 (Math/cos (* 3.0 t)))
                       (Math/cos (* 4.0 t)))))]
-          (producer {"x" x, "y" y, "z" 0.0})
+          (producer (to-json-bytes {"x" x, "y" y, "z" 0.0}))
           (delay-fn)
           (if (> t Math/PI)
             (recur (+ (- t (* 2.0 Math/PI)) increment))
@@ -191,7 +192,7 @@
                                             (fn [_]
                                               (- rotation_angle)))))
                                       colored_coordinates)]
-        (producer rotated_coordinates)
+        (producer (to-json-bytes rotated_coordinates))
         (delay-fn)
         (if (> rotation_angle max_angle)
           (reset! rot_angle (+ (- rotation_angle max_angle) angle_increment))
