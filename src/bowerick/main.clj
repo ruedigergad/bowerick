@@ -20,7 +20,8 @@
     [clojure.java.io :as jio]
     [clojure.pprint :refer :all]
     [clojure.string :as s]
-    [clojure.tools.cli :refer :all])
+    [clojure.tools.cli :refer :all]
+    [juxt.dirwatch :refer (watch-dir)])
   (:import
     (java.nio.file Files Paths))
   (:gen-class))
@@ -378,11 +379,42 @@
         shutdown-fn (fn []
                       (reset! running false)
                       (jms/close consumer))]
-      (do
-        (println "Benchmark client started... Type \"q\" followed by <Return> to quit: ")
-        (while (not= "q" (read-line))
-          (println "Type \"q\" followed by <Return> to quit: "))
-        (shutdown-fn))))
+    (println "Benchmark client started... Type \"q\" followed by <Return> to quit: ")
+    (while (not= "q" (read-line))
+      (println "Type \"q\" followed by <Return> to quit: "))
+    (shutdown-fn)))
+
+(defn start-consumer-client-mode [arg-map]
+  (let [consumer-arg (arg-map :consumer-client)
+        consumer-fn (atom nil)
+        read-fn (fn [event]
+                  (when (or
+                          (nil? event)
+                          (and
+                            (= 1 (:count event))
+                            (= :modify (:action event))
+                            (= consumer-arg (-> event :file .getPath))))
+                    (println "Loading consumer function:" consumer-arg)
+                    (let [cons-fn (-> (slurp consumer-arg) read-string eval)]
+                      (reset! consumer-fn cons-fn))))
+        _ (if (file-exists? consumer-arg)
+            (do
+              (read-fn nil)
+              (watch-dir read-fn (.getParentFile (clojure.java.io/file consumer-arg))))
+            (do
+              (println "Reading consumer function from command line argument:" consumer-arg)
+              (reset! consumer-fn (-> consumer-arg read-string eval))))
+        consumer-fn-wrapper (fn [m] (@consumer-fn m))
+        url (if (vector? (arg-map :url))
+              (first (arg-map :url))
+              (arg-map :url))
+        consumer (jms/create-consumer url (arg-map :destination) consumer-fn-wrapper (arg-map :pool-size))
+        shutdown-fn (fn []
+                      (jms/close consumer))]
+    (println "Consumer client started... Type \"q\" followed by <Return> to quit: ")
+    (while (not= "q" (read-line))
+      (println "Type \"q\" followed by <Return> to quit: "))
+    (shutdown-fn)))
 
 (defn print-license-overview []
   (println bowerick-license-text)
@@ -416,7 +448,7 @@
                       "When in broker mode, start a producer for the A-Frame demo."]
                     ["-B" "--benchmark-client"
                      "Start in benchmark client mode."]
-                    ["-C" "--consumer CONSUMER_FN"
+                    ["-C" "--consumer-client CONSUMER_FN"
                       "Start as consumer client. CONSUMER_FN specifies the consumer function either as string or as path to a file from which the consumer function is read."]
                     ["-D" "--destination DESTINATION"
                       "The destination to which message generators will send messages or from which the benchmark client retrieves messages."
@@ -481,6 +513,7 @@
           (cond
             (arg-map :client) (start-client-mode arg-map)
             (arg-map :benchmark-client) (start-benchmark-client-mode arg-map)
+            (arg-map :consumer-client) (start-consumer-client-mode arg-map)
             :default (start-broker-mode arg-map))))))
 
 (defn -main [& args]
