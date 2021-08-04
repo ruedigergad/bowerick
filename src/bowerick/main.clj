@@ -404,7 +404,7 @@
             (do
               (println "Reading consumer function from command line argument:" consumer-arg)
               (reset! consumer-fn (-> consumer-arg read-string eval))))
-        consumer-fn-wrapper (fn [m x] (@consumer-fn m x))
+        consumer-fn-wrapper (fn [data msg-headers] (@consumer-fn data msg-headers))
         url (if (vector? (arg-map :url))
               (first (arg-map :url))
               (arg-map :url))
