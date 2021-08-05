@@ -130,7 +130,7 @@
                             prod-fn (fn [] (.generateMessage msg-gen-instance jms-producer))]
                         (reset! producer-fn prod-fn))
                       (let [_ (println "Loading from Clojure file.")
-                            gen-fn (-> (slurp in-path) read-string eval)
+                            gen-fn (load-file in-path)
                             prod-fn (gen-fn producer delay-fn)]
                         (reset! producer-fn prod-fn)))))]
     (watch-dir read-fn (.getParentFile (java-io/file in-path)))

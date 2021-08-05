@@ -395,7 +395,7 @@
                             (= :modify (:action event))
                             (= consumer-arg (-> event :file .getPath))))
                     (println "Loading consumer function:" consumer-arg)
-                    (let [cons-fn (-> (slurp consumer-arg) read-string eval)]
+                    (let [cons-fn (load-file consumer-arg)]
                       (reset! consumer-fn cons-fn))))
         _ (if (file-exists? consumer-arg)
             (do
