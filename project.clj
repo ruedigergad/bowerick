@@ -25,7 +25,8 @@
                  [org.springframework/spring-websocket "5.3.9"]
                  [org.slf4j/slf4j-simple "1.7.32"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]
-                 [juxt/dirwatch "0.2.5"]]
+                 [juxt/dirwatch "0.2.5"]
+                 [org.tcrawley/dynapath "1.1.0"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
             :distribution :repo

@@ -22,3 +22,7 @@
   :methods [[sendData [Object] void]
             [sendData [Object Object] void]])
 
+(gen-interface
+  :name bowerick.MessageGenerator
+  :methods [[generateMessage [bowerick.JmsProducer] void]])
+

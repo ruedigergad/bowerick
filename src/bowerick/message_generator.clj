@@ -15,8 +15,11 @@
     [clojure.java.io :as java-io]
     [clojure.string :as str]
     [clj-assorted-utils.util :as utils]
+    [dynapath.util :as dp]
     [juxt.dirwatch :refer (watch-dir)])
   (:import
+    (bowerick JmsProducer)
+    (clojure.lang DynamicClassLoader)
     (java.io File FileInputStream)
     (java.lang Math)
     (java.nio ByteOrder MappedByteBuffer)
@@ -111,10 +114,26 @@
                             (= :modify (:action event))
                             (= in-path (-> event :file .getPath))))
                     (println "Loading custom-fn-generator:" in-path)
-                    (let [gen-fn (-> (slurp in-path) read-string eval)
-                          prod-fn (gen-fn producer delay-fn)]
-                      (reset! producer-fn prod-fn))))]
-    (watch-dir read-fn (.getParentFile (clojure.java.io/file in-path)))
+                    (if (str/ends-with? in-path ".class")
+                      (let [_ (println "Loading from Java Class file.")
+                            in-file (java-io/file in-path)
+                            in-dir-url (-> in-file .getParentFile java-io/as-url)
+                            classname (-> in-file .getName (str/split #".class") first)
+                            classloader (DynamicClassLoader.)
+                            _ (dp/add-classpath-url classloader in-dir-url)
+                            msg-gen-class (.loadClass classloader classname)
+                            msg-gen-constructor (-> msg-gen-class .getDeclaredConstructors (aget 0))
+                            _ (.setAccessible msg-gen-constructor true)
+                            msg-gen-instance (.newInstance msg-gen-constructor nil)
+                            jms-producer (proxy [JmsProducer] []
+                                           (sendData [data & _] (producer data) (delay-fn)))
+                            prod-fn (fn [] (.generateMessage msg-gen-instance jms-producer))]
+                        (reset! producer-fn prod-fn))
+                      (let [_ (println "Loading from Clojure file.")
+                            gen-fn (-> (slurp in-path) read-string eval)
+                            prod-fn (gen-fn producer delay-fn)]
+                        (reset! producer-fn prod-fn)))))]
+    (watch-dir read-fn (.getParentFile (java-io/file in-path)))
     (read-fn nil)
     (fn [] (@producer-fn))))
 
