@@ -1,6 +1,6 @@
+dist: bionic
 language: clojure
 script:
       - bash -ex test/coveralls.sh
 jdk:
   - openjdk11
-sudo: false
