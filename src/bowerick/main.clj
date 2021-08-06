@@ -364,8 +364,12 @@
                       (fn [_] (swap! counter inc) (sleep reception-delay))
                       (fn [_] (swap! counter inc)))
         running (atom true)
+        stdout *out*
+        stderr *err*
         output-thread (doto (Thread. #(loop []
-                                        (println "data instances per second:" @counter)
+                                        (binding [*out* stdout
+                                                  *err* stderr]
+                                          (println "Data instances per second:" @counter))
                                         (reset! counter 0)
                                         (sleep 1000)
                                         (if @running
