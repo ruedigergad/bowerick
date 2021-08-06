@@ -25,6 +25,19 @@
     (java.nio ByteOrder MappedByteBuffer)
     (java.nio.channels FileChannel FileChannel$MapMode)))
 
+(defn load-and-instantiate-class
+  [in-path]
+  (let [in-file (java-io/file in-path)
+        in-dir-url (-> in-file .getParentFile java-io/as-url)
+        classname (-> in-file .getName (str/split #".class") first)
+        classloader (DynamicClassLoader.)
+        _ (dp/add-classpath-url classloader in-dir-url)
+        loaded-class (.loadClass classloader classname)
+        constructor (-> loaded-class .getDeclaredConstructors (aget 0))
+        _ (.setAccessible constructor true)
+        instance (.newInstance constructor nil)]
+    instance))
+
 (defn create-message-generator
   [producer delay-fn generator-name generator-args-string]
   (let [generator-construction-fn (ns-resolve
@@ -116,15 +129,7 @@
                     (println "Loading custom-fn-generator:" in-path)
                     (if (str/ends-with? in-path ".class")
                       (let [_ (println "Loading from Java Class file.")
-                            in-file (java-io/file in-path)
-                            in-dir-url (-> in-file .getParentFile java-io/as-url)
-                            classname (-> in-file .getName (str/split #".class") first)
-                            classloader (DynamicClassLoader.)
-                            _ (dp/add-classpath-url classloader in-dir-url)
-                            msg-gen-class (.loadClass classloader classname)
-                            msg-gen-constructor (-> msg-gen-class .getDeclaredConstructors (aget 0))
-                            _ (.setAccessible msg-gen-constructor true)
-                            msg-gen-instance (.newInstance msg-gen-constructor nil)
+                            msg-gen-instance (load-and-instantiate-class in-path)
                             jms-producer (proxy [JmsProducer] []
                                            (sendData [data & _] (producer data) (delay-fn)))
                             prod-fn (fn [] (.generateMessage msg-gen-instance jms-producer))]
