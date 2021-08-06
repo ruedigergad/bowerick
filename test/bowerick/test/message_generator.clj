@@ -307,3 +307,20 @@
     (close producer)
     (close consumer)))
 
+(deftest yin-yang-sequence-test
+  (let [received (atom [])
+        flag (prepare-flag)
+        delay-fn #(sleep 100)
+        consume-fn (fn [obj]
+                     (if (> (count @received) 5)
+                       (set-flag flag)
+                       (swap! received conj obj)))
+        consumer (create-json-consumer local-jms-server test-topic consume-fn)
+        producer (create-producer local-jms-server test-topic 1)
+        gen (create-message-generator producer delay-fn "yin-yang" nil)]
+    (run-repeat (executor) gen 100)
+    (await-flag flag)
+    (is (every? #(= 203 (count %)) @received))
+    (close producer)
+    (close consumer)))
+
