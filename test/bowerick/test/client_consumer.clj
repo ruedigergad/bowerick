@@ -17,7 +17,11 @@
     [cli4clj.cli-tests :refer :all]
     [clj-assorted-utils.util :refer :all]
     [clojure.string :as str]
-    [clojure.test :refer :all]))
+    [clojure.test :refer :all])
+  (:import
+    (java.io ByteArrayOutputStream PrintStream)
+    )
+  )
 
 
 
@@ -34,10 +38,10 @@
 
 
 (deftest in-line-consumer-test
-  (let [producer (jms/create-producer local-jms-server test-topic) 
+  (let [producer (jms/create-producer local-jms-server test-topic)
         sl (string-latch [["Consumer client started... Type \"q\" followed by <Return> to quit: "
                            (fn [_] (producer "Test Message"))]
-                          ["Type \"q\" followed by <Return> to quit: " (fn [_] (sleep 1000))]]) 
+                          ["Type \"q\" followed by <Return> to quit: " (fn [_] (sleep 1000))]])
         out-string (test-cli-stdout #(run-cli-app "-u" local-jms-server "-D" test-topic "-C" "(fn [m _] (println \"\nIn-line consumer:\" m))") ["x" "q"] sl)]
     (is
       (=
@@ -45,13 +49,30 @@
         (last (str/split out-string #"\n"))))))
 
 (deftest custom-clj-consumer-test
-  (let [producer (jms/create-producer local-jms-server test-topic) 
+  (let [producer (jms/create-producer local-jms-server test-topic)
         sl (string-latch [["Consumer client started... Type \"q\" followed by <Return> to quit: "
                            (fn [_] (producer "Test Message"))]
-                          ["Type \"q\" followed by <Return> to quit: " (fn [_] (sleep 1000))]]) 
+                          ["Type \"q\" followed by <Return> to quit: " (fn [_] (sleep 1000))]])
         out-string (test-cli-stdout #(run-cli-app "-u" local-jms-server "-D" test-topic "-C" "test/data/custom-clj-consumer.clj") ["x" "q"] sl)]
     (is
       (=
         "Custom clj consumer: Test Message"
         (last (str/split out-string #"\n"))))))
+
+(deftest custom-java-consumer-test
+  (let [producer (jms/create-producer local-jms-server test-topic)
+        sl (string-latch [["Consumer client started... Type \"q\" followed by <Return> to quit: "
+                           (fn [_] (producer "Test Message"))]
+                          ["Type \"q\" followed by <Return> to quit: " (fn [_] (sleep 1000))]])
+        bs (ByteArrayOutputStream.)
+        ps (PrintStream. bs)
+        out System/out
+        _ (System/setOut ps)
+        out-string (test-cli-stdout #(run-cli-app "-u" local-jms-server "-D" test-topic "-C" "target/classes/ExampleJavaConsumer.class") ["x" "q"] sl)]
+    (.flush ps)
+    (System/setOut out)
+    (is
+      (=
+        "Example Java consumer: Test Message\n"
+        (.toString bs)))))
 

@@ -395,8 +395,14 @@
                             (= :modify (:action event))
                             (= consumer-arg (-> event :file .getPath))))
                     (println "Loading consumer function:" consumer-arg)
-                    (let [cons-fn (load-file consumer-arg)]
-                      (reset! consumer-fn cons-fn))))
+                    (if (s/ends-with? consumer-arg ".class")
+                      (let [_ (println "Loading from Java Class file.")
+                            consumer-instance (load-and-instantiate-class consumer-arg)
+                            cons-fn (fn [data msg-hdr] (.processData consumer-instance data msg-hdr))]
+                        (reset! consumer-fn cons-fn))
+                      (let [_ (println "Loading from Clojure file.")
+                            cons-fn (load-file consumer-arg)]
+                        (reset! consumer-fn cons-fn)))))
         _ (if (file-exists? consumer-arg)
             (do
               (read-fn nil)
