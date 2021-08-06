@@ -8,7 +8,7 @@
 
 (ns 
   ^{:author "Ruediger Gad",
-    :doc "Tests for client consumers"}  
+    :doc "Tests for benchmark client"}
   bowerick.test.client-benchmark
   (:require
     [bowerick.jms :as jms]
