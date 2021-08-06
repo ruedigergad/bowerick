@@ -220,7 +220,7 @@
                  identity
                  nil
                  "custom-fn"
-                 "test/data/custom-generator-fn-return-producer-value.txt")]
+                 "test/data/custom-generator-fn-return-producer-value.clj")]
     (is (= "producer return value" (gen-fn)))))
 
 (deftest create-custom-fn-generator-delay-fn-return-test
@@ -228,7 +228,7 @@
                  nil
                  identity
                  "custom-fn"
-                 "test/data/custom-generator-fn-return-delay-fn-value.txt")]
+                 "test/data/custom-generator-fn-return-delay-fn-value.clj")]
     (is (= "delay-fn return value" (gen-fn)))))
 
 (deftest custom-fn-generator-single-test
