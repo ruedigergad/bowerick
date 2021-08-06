@@ -44,7 +44,7 @@
         flag (prepare-flag)
         data (ref nil)
         consumer-cb (proxy [JmsConsumerCallback] []
-                      (processData [obj]
+                      (processData [obj _]
                         (dosync (ref-set data obj))
                         (set-flag flag)))
         consumer (JmsController/createConsumer local-jms-server test-topic ^JmsConsumerCallback consumer-cb n)]
@@ -64,7 +64,7 @@
         flag (prepare-flag)
         data (ref nil)
         consumer-cb (proxy [JmsConsumerCallback] []
-                      (processData [obj]
+                      (processData [obj _]
                         (dosync (ref-set data obj))
                         (set-flag flag)))
         consumer (JmsController/createConsumer "ssl://localhost:52526" test-topic ^JmsConsumerCallback consumer-cb n)]

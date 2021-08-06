@@ -48,7 +48,7 @@
         flag (prepare-flag)
         data (ref nil)
         consumer-cb (proxy [JmsConsumerCallback] []
-                      (processData [obj]
+                      (processData [obj _]
                         (dosync (ref-set data obj))
                         (set-flag flag)))
         consumer (JmsController/createConsumer local-jms-server test-topic ^JmsConsumerCallback consumer-cb n)]
@@ -72,7 +72,7 @@
         flag (prepare-flag)
         data (ref nil)
         consumer-cb (proxy [JmsConsumerCallback] []
-                      (processData [obj]
+                      (processData [obj _]
                         (dosync (ref-set data obj))
                         (set-flag flag)))
         consumer (JmsController/createConsumer "tcp://localhost:52525" test-topic ^JmsConsumerCallback consumer-cb n)]
@@ -90,7 +90,7 @@
         flag (prepare-flag)
         data (atom nil)
         consumer-cb (proxy [JmsConsumerCallback] []
-                      (processData [obj]
+                      (processData [obj _]
                         (reset! data obj)
                         (set-flag flag)))
         consumer (JmsController/createJsonConsumer local-jms-server test-topic ^JmsConsumerCallback consumer-cb n)]
@@ -108,7 +108,7 @@
         flag (prepare-flag n)
         data (atom "")
         consumer-cb (proxy [JmsConsumerCallback] []
-                      (processData [obj]
+                      (processData [obj _]
                         (swap! data str obj)
                         (cntr inc)
                         (set-flag flag)))
@@ -130,7 +130,7 @@
         flag (prepare-flag n)
         data (atom "")
         consumer-cb (proxy [JmsConsumerCallback] []
-                      (processData [obj]
+                      (processData [obj _]
                         (swap! data str obj)
                         (cntr inc)
                         (set-flag flag)))
@@ -152,7 +152,7 @@
         flag (prepare-flag n)
         data (atom "")
         consumer-cb (proxy [JmsConsumerCallback] []
-                      (processData [obj]
+                      (processData [obj _]
                         (swap! data str obj)
                         (cntr inc)
                         (set-flag flag)))

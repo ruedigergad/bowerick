@@ -14,7 +14,7 @@
 
 (gen-interface
   :name bowerick.JmsConsumerCallback
-  :methods [[processData [Object] void]])
+  :methods [[processData [Object Object] void]])
 
 (gen-interface
   :name bowerick.JmsProducer

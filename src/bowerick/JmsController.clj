@@ -49,8 +49,8 @@
   (jms/create-consumer
     broker-url
     destination-description
-    (fn [obj]
-      (.processData consumer-cb obj))
+    (fn [data msg-hdr]
+      (.processData consumer-cb data msg-hdr))
     pool-size))
 
 (defn -createProducer [broker-url destination-description pool-size]
@@ -63,8 +63,8 @@
   (jms/create-json-consumer
     broker-url
     destination-description
-    (fn [obj]
-      (.processData consumer-cb obj))
+    (fn [data msg-hdr]
+      (.processData consumer-cb data msg-hdr))
     pool-size))
 
 (defn -createJsonProducer [broker-url destination-description pool-size]
@@ -83,8 +83,8 @@
   (jms/create-carbonite-consumer
     broker-url
     destination-description
-    (fn [obj]
-      (.processData consumer-cb obj))
+    (fn [data msg-hdr]
+      (.processData consumer-cb data msg-hdr))
     pool-size))
 
 (defn -createCarboniteLzfProducer [broker-url destination-description pool-size]
@@ -97,8 +97,8 @@
   (jms/create-carbonite-lzf-consumer
     broker-url
     destination-description
-    (fn [obj]
-      (.processData consumer-cb obj))
+    (fn [data msg-hdr]
+      (.processData consumer-cb data msg-hdr))
     pool-size))
 
 (defn -startEmbeddedBroker [this]
