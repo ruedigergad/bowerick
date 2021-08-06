@@ -21,7 +21,7 @@
 
 
 
-(def local-jms-server "tcp://127.0.0.1:53847")
+(def local-jms-server "tcp://127.0.0.1:1657")
 (def test-topic "/topic/testtopic.foo")
 
 (defn test-with-broker [t]

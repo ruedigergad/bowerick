@@ -24,7 +24,7 @@
 
 
 
-(def local-jms-server "ssl://127.0.0.1:42425")
+(def local-jms-server "ssl://127.0.0.1:42444")
 (def test-topic "/topic/testtopic.foo")
 
 (defn test-with-broker [t]
@@ -48,7 +48,7 @@
         (expected-string
           [(str "Sending: " local-jms-server ":" test-topic " <-")
            "\"test-data\""
-           "Closing bowerick.jms.ProducerWrapper for ssl://127.0.0.1:42425:/topic/testtopic.foo ..."])
+           "Closing bowerick.jms.ProducerWrapper for ssl://127.0.0.1:42444:/topic/testtopic.foo ..."])
         out-string))))
 
 (deftest dummy-receive-test
@@ -58,7 +58,7 @@
       (=
         (expected-string
           [(str "Set up consumer for: " local-jms-server ":" test-topic)
-           "Closing bowerick.jms.ConsumerWrapper for ssl://127.0.0.1:42425:/topic/testtopic.foo ..."])
+           "Closing bowerick.jms.ConsumerWrapper for ssl://127.0.0.1:42444:/topic/testtopic.foo ..."])
         out-string))))
 
 (deftest simple-send-receive-test
@@ -74,7 +74,7 @@
            "\"test-data\""
            (str "Received: " local-jms-server ":" test-topic " ->")
            "\"test-data\""
-           "Closing bowerick.jms.ProducerWrapper for ssl://127.0.0.1:42425:/topic/testtopic.foo ..."
-           "Closing bowerick.jms.ConsumerWrapper for ssl://127.0.0.1:42425:/topic/testtopic.foo ..."])
+           "Closing bowerick.jms.ProducerWrapper for ssl://127.0.0.1:42444:/topic/testtopic.foo ..."
+           "Closing bowerick.jms.ConsumerWrapper for ssl://127.0.0.1:42444:/topic/testtopic.foo ..."])
         out-string))))
 
