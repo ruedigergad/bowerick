@@ -809,9 +809,16 @@
     (create-pooled-consumer broker-url destination-description cb identity))
   ([broker-url destination-description cb de-serialization-fn]
     (utils/println-err "Creating pooled consumer:" broker-url destination-description)
-    (let [pooled-cb (fn [^List lst]
+    (let [cb-args-count (-> cb class .getDeclaredMethods ^java.lang.reflect.Method first .getParameterTypes count)
+          internal-cb (condp = cb-args-count
+                        1 (fn [data _]
+                            (cb data))
+                        2 (fn [data hdrs]
+                            (cb data hdrs))
+                        (utils/println-err "Invalid callback args count:" cb-args-count))
+          pooled-cb (fn [^List lst msg-hdr]
                       (doseq [o lst]
-                        (cb o)))
+                        (internal-cb o msg-hdr)))
           consumer (create-single-consumer broker-url destination-description pooled-cb de-serialization-fn)]
       (->ConsumerWrapper
         (fn []
