@@ -1,5 +1,5 @@
 ; Run via, e.g.:
-; java -jar dist/bowerick-2.7.2-standalone.jar -G custom-fn -X examples/generator.clj -I 20 -D /topic/aframe -u "ws://127.0.0.1:1864"
+; java -jar dist/bowerick-2.8.0-standalone.jar -G custom-fn -X examples/generator.clj -I 20 -D /topic/aframe -u "ws://127.0.0.1:1864"
 (fn [producer delay-fn]
   (let [max_angle (* 2.0 Math/PI)
         angle_increment (/ max_angle 100.0)
