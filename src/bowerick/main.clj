@@ -404,7 +404,16 @@
             (do
               (println "Reading consumer function from command line argument:" consumer-arg)
               (reset! consumer-fn (-> consumer-arg read-string eval))))
-        consumer-fn-wrapper (fn [data msg-headers] (@consumer-fn data msg-headers))
+        std-out *out*
+        std-err *err*
+        consumer-fn-wrapper (fn
+                              [data msg-headers]
+                              ; Forwarding bindings to consumer function call.
+                              ; Reason is that the consumer function is called in another thread
+                              ; and thus bindings applied to main would be lost otherwise.
+                              (binding [*out* std-out
+                                        *err* std-err] 
+                                (@consumer-fn data msg-headers)))
         url (if (vector? (arg-map :url))
               (first (arg-map :url))
               (arg-map :url))
