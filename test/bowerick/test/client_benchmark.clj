@@ -39,7 +39,6 @@
         sl (string-latch ["Benchmark client started... Type \"q\" followed by <Return> to quit: "
                           ["Type \"q\" followed by <Return> to quit: " (fn [_] (sleep 2000))]])
         out-string (test-cli-stdout #(run-cli-app "-u" local-jms-server "-D" test-topic "-B") ["x" "q"] sl)]
-    (println "FOOOOO" out-string)
     (is
       (=
         "Data instances per second: 2"
