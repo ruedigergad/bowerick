@@ -231,6 +231,23 @@
                  "test/data/custom-generator-fn-return-delay-fn-value.txt")]
     (is (= "delay-fn return value" (gen-fn)))))
 
+(deftest custom-fn-generator-single-test
+  (let [producer (create-producer local-jms-server test-topic 1)
+        received (atom nil)
+        flag (prepare-flag)
+        delay-fn #(sleep 100)
+        consume-fn (fn [obj]
+                     (let [s (String. obj)]
+                       (reset! received s)
+                       (set-flag flag)))
+        gen (create-message-generator producer delay-fn "custom-fn" "test/data/custom-generator-fn-hello.clj")
+        consumer (create-consumer local-jms-server test-topic consume-fn)]
+    (gen)
+    (await-flag flag)
+    (is (= "Hello custom-fn generator!" @received))
+    (close producer)
+    (close consumer)))
+
 (deftest hello-world-generator-single-test
   (let [producer (create-producer local-jms-server test-topic 1)
         received (atom nil)
