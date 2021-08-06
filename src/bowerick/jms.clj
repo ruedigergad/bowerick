@@ -647,7 +647,7 @@
     (create-single-consumer broker-url destination-description cb identity))
   ([^String broker-url ^String destination-description cb de-serialization-fn]
     (utils/println-err "Creating consumer:" broker-url destination-description)
-    (let [cb-args-count (-> cb class .getDeclaredMethods ^java.lang.reflect.Method first .getParameterTypes count)
+    (let [cb-args-count (->> cb class .getDeclaredMethods vec (mapv #(.getParameterTypes %)) (mapv alength) (reduce max))
           internal-cb (condp = cb-args-count
                         1 (fn [data _]
                             (cb data))
@@ -809,7 +809,7 @@
     (create-pooled-consumer broker-url destination-description cb identity))
   ([broker-url destination-description cb de-serialization-fn]
     (utils/println-err "Creating pooled consumer:" broker-url destination-description)
-    (let [cb-args-count (-> cb class .getDeclaredMethods ^java.lang.reflect.Method first .getParameterTypes count)
+    (let [cb-args-count (->> cb class .getDeclaredMethods vec (mapv #(.getParameterTypes %)) (mapv alength) (reduce max))
           internal-cb (condp = cb-args-count
                         1 (fn [data _]
                             (cb data))
