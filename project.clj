@@ -32,8 +32,10 @@
             :distribution :repo
             :comments "This is the same license as used for Clojure."}
   :global-vars {*warn-on-reflection* true}
+  :java-source-paths ["test/data"]
   :prep-tasks [["compile" "bowerick.java-interfaces"]
                ["compile" "bowerick.JmsController"]
+               "javac"
                "compile"]
   :main bowerick.main
   :aot :all

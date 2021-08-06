@@ -248,6 +248,23 @@
     (close producer)
     (close consumer)))
 
+(deftest custom-fn-generator-java-class-single-test
+  (let [producer (create-producer local-jms-server test-topic 1)
+        received (atom nil)
+        flag (prepare-flag)
+        delay-fn #(sleep 100)
+        consume-fn (fn [obj]
+                     (let [s (String. obj)]
+                       (reset! received s)
+                       (set-flag flag)))
+        gen (create-message-generator producer delay-fn "custom-fn" "./target/classes/HelloWorldMessageGenerator.class")
+        consumer (create-consumer local-jms-server test-topic consume-fn)]
+    (gen)
+    (await-flag flag)
+    (is (= "Hello World from Java" @received))
+    (close producer)
+    (close consumer)))
+
 (deftest hello-world-generator-single-test
   (let [producer (create-producer local-jms-server test-topic 1)
         received (atom nil)
