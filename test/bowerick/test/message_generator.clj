@@ -259,7 +259,7 @@
         consumer (create-json-consumer local-jms-server test-topic consume-fn)
         producer (create-producer local-jms-server test-topic 1)
         gen (create-message-generator producer delay-fn "heart4family" nil)]
-    (run-once (executor) #(gen) 0)
+    (run-once (executor) gen 0)
     (await-flag flag)
     (is (= {"x" -4.408022441584257E-48, "y" -1.3499999999999999, "z" 0.0} @received))
     (close producer)
@@ -276,7 +276,7 @@
         consumer (create-json-consumer local-jms-server test-topic consume-fn)
         producer (create-producer local-jms-server test-topic 1)
         gen (create-message-generator producer delay-fn "heart4family" nil)]
-    (run-once (executor) #(gen) 0)
+    (run-once (executor) gen 0)
     (await-flag flag)
     (is (=
           [{"x" -4.408022441584257E-48, "y" -1.3499999999999999, "z" 0.0}
@@ -300,7 +300,7 @@
         consumer (create-json-consumer local-jms-server test-topic consume-fn)
         producer (create-producer local-jms-server test-topic 1)
         gen (create-message-generator producer delay-fn "yin-yang" nil)]
-    (run-once (executor) #(gen) 0)
+    (run-once (executor) gen 0)
     (await-flag flag)
     (is (= 203 (count @received)))
     (is (= {"x" 1.0, "y" 0.0, "z" 0.0} (-> @received first (select-keys ["x" "y" "z"]))))
