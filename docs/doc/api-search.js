@@ -67,6 +67,7 @@ $(function() {
     {label: "bowerick.jms/setup-broker-with-auth", value: "bowerick.jms.html#IDsetup-broker-with-auth"},
     {label: "bowerick.jms/start-broker", value: "bowerick.jms.html#IDstart-broker"},
     {label: "bowerick.jms/stop", value: "bowerick.jms.html#IDstop"},
+    {label: "bowerick.jms/to-json-bytes", value: "bowerick.jms.html#IDto-json-bytes"},
     {label: "bowerick.jms/with-destination", value: "bowerick.jms.html#IDwith-destination"},
     {label: "bowerick.jms/ws-scheduler-id", value: "bowerick.jms.html#IDws-scheduler-id"},
     {label: "bowerick.main/-main", value: "bowerick.main.html#ID-main"},
@@ -77,17 +78,21 @@ $(function() {
     {label: "bowerick.main/license-text-files", value: "bowerick.main.html#IDlicense-text-files"},
     {label: "bowerick.main/print-license-overview", value: "bowerick.main.html#IDprint-license-overview"},
     {label: "bowerick.main/replay", value: "bowerick.main.html#IDreplay"},
+    {label: "bowerick.main/run-cli-app", value: "bowerick.main.html#IDrun-cli-app"},
     {label: "bowerick.main/start-benchmark-client-mode", value: "bowerick.main.html#IDstart-benchmark-client-mode"},
     {label: "bowerick.main/start-broker-mode", value: "bowerick.main.html#IDstart-broker-mode"},
     {label: "bowerick.main/start-client-mode", value: "bowerick.main.html#IDstart-client-mode"},
+    {label: "bowerick.main/start-consumer-client-mode", value: "bowerick.main.html#IDstart-consumer-client-mode"},
     {label: "bowerick.message-generator/binary-file-generator", value: "bowerick.message-generator.html#IDbinary-file-generator"},
     {label: "bowerick.message-generator/create-message-generator", value: "bowerick.message-generator.html#IDcreate-message-generator"},
     {label: "bowerick.message-generator/custom-fn-generator", value: "bowerick.message-generator.html#IDcustom-fn-generator"},
     {label: "bowerick.message-generator/heart4family-generator", value: "bowerick.message-generator.html#IDheart4family-generator"},
     {label: "bowerick.message-generator/hello-world-generator", value: "bowerick.message-generator.html#IDhello-world-generator"},
+    {label: "bowerick.message-generator/load-and-instantiate-class", value: "bowerick.message-generator.html#IDload-and-instantiate-class"},
     {label: "bowerick.message-generator/pcap-file-generator", value: "bowerick.message-generator.html#IDpcap-file-generator"},
     {label: "bowerick.message-generator/txt-file-generator", value: "bowerick.message-generator.html#IDtxt-file-generator"},
-    {label: "bowerick.message-generator/txt-file-line-generator", value: "bowerick.message-generator.html#IDtxt-file-line-generator"}  ];
+    {label: "bowerick.message-generator/txt-file-line-generator", value: "bowerick.message-generator.html#IDtxt-file-line-generator"},
+    {label: "bowerick.message-generator/yin-yang-generator", value: "bowerick.message-generator.html#IDyin-yang-generator"}  ];
   $('#api-search').autocomplete({
      source: index,
      focus: function(event, ui) {
