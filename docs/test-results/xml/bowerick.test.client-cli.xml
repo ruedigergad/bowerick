@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bowerick.test.client-cli" errors="0" failures="0" tests="18" time="16.1323" timestamp="2021-02-19_07:57:45+0100">
-    <testcase name="simple-replay-file-test" classname="bowerick.test.client-cli" time="1.0834">
+<testsuite name="bowerick.test.client-cli" errors="0" failures="0" tests="18" time="15.4824" timestamp="2021-08-08_10:06:38+0200">
+    <testcase name="simple-replay-file-test" classname="bowerick.test.client-cli" time="1.0072">
     </testcase>
-    <testcase name="simple-send-receive-with-cli-broker-test" classname="bowerick.test.client-cli" time="1.6542">
+    <testcase name="simple-send-receive-with-cli-broker-test" classname="bowerick.test.client-cli" time="1.6434">
     </testcase>
-    <testcase name="simple-cli-broker-aframe-test" classname="bowerick.test.client-cli" time="1.8120">
+    <testcase name="simple-cli-broker-aframe-test" classname="bowerick.test.client-cli" time="1.6826">
     </testcase>
-    <testcase name="simple-looped-replay-file-test" classname="bowerick.test.client-cli" time="0.9795">
+    <testcase name="simple-looped-replay-file-test" classname="bowerick.test.client-cli" time="0.9708">
     </testcase>
-    <testcase name="broker-management-get-destinations-test" classname="bowerick.test.client-cli" time="0.4781">
+    <testcase name="broker-management-get-destinations-test" classname="bowerick.test.client-cli" time="0.5609">
     </testcase>
-    <testcase name="simple-record-test" classname="bowerick.test.client-cli" time="0.8639">
+    <testcase name="simple-record-test" classname="bowerick.test.client-cli" time="0.6895">
     </testcase>
-    <testcase name="simple-send-file-receive-test" classname="bowerick.test.client-cli" time="0.6256">
+    <testcase name="simple-send-file-receive-test" classname="bowerick.test.client-cli" time="0.5714">
     </testcase>
-    <testcase name="record-stop-through-quit-test" classname="bowerick.test.client-cli" time="0.7240">
+    <testcase name="record-stop-through-quit-test" classname="bowerick.test.client-cli" time="0.6852">
     </testcase>
-    <testcase name="simple-cli-broker-embedded-generator-hello-world-test" classname="bowerick.test.client-cli" time="1.6478">
+    <testcase name="simple-cli-broker-embedded-generator-hello-world-test" classname="bowerick.test.client-cli" time="1.6539">
     </testcase>
-    <testcase name="simple-multi-destination-record-test" classname="bowerick.test.client-cli" time="0.9508">
+    <testcase name="simple-multi-destination-record-test" classname="bowerick.test.client-cli" time="0.9179">
     </testcase>
-    <testcase name="simple-send-receive-with-cli-daemon-broker-test" classname="bowerick.test.client-cli" time="0.6284">
+    <testcase name="simple-send-receive-with-cli-daemon-broker-test" classname="bowerick.test.client-cli" time="0.6426">
     </testcase>
-    <testcase name="multi-destination-multi-arg-record-test" classname="bowerick.test.client-cli" time="0.7668">
+    <testcase name="multi-destination-multi-arg-record-test" classname="bowerick.test.client-cli" time="0.8967">
     </testcase>
-    <testcase name="simple-send-text-file-receive-test" classname="bowerick.test.client-cli" time="0.4075">
+    <testcase name="simple-send-text-file-receive-test" classname="bowerick.test.client-cli" time="0.3761">
     </testcase>
-    <testcase name="dummy-receive-test" classname="bowerick.test.client-cli" time="0.0805">
+    <testcase name="dummy-receive-test" classname="bowerick.test.client-cli" time="0.0681">
     </testcase>
-    <testcase name="simple-send-receive-test" classname="bowerick.test.client-cli" time="0.4305">
+    <testcase name="simple-send-receive-test" classname="bowerick.test.client-cli" time="0.3756">
     </testcase>
-    <testcase name="broker-management-get-all-destinations-test" classname="bowerick.test.client-cli" time="0.3980">
+    <testcase name="broker-management-get-all-destinations-test" classname="bowerick.test.client-cli" time="0.3985">
     </testcase>
-    <testcase name="show-help-test" classname="bowerick.test.client-cli" time="0.0019">
+    <testcase name="show-help-test" classname="bowerick.test.client-cli" time="0.0018">
     </testcase>
-    <testcase name="dummy-send-test" classname="bowerick.test.client-cli" time="0.0713">
+    <testcase name="dummy-send-test" classname="bowerick.test.client-cli" time="0.0658">
     </testcase>
     <system-err>
 Info: Enabling management producer at: /topic/bowerick.broker.management.reply
@@ -49,8 +49,8 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -80,8 +80,8 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -133,8 +133,8 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -164,8 +164,8 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -199,8 +199,8 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -235,8 +235,8 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -269,8 +269,8 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -287,7 +287,7 @@ Creating JSON producer: tcp://127.0.0.1:42424 /topic/testtopic.foo 1
 Creating producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
 Creating connection.
 Creating destination. Type: topic Name: testtopic.foo
-Wrong number of args (1) passed to: cli4clj.cli/get-cli-mandatory-default-options/fn--8196
+Wrong number of args (1) passed to: cli4clj.cli/get-cli-mandatory-default-options/fn--8356
 Closing producer: tcp://127.0.0.1:42424 /topic/testtopic.foo
 Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
 Closing consumer: tcp://127.0.0.1:42424 /topic/testtopic.foo
@@ -322,8 +322,8 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -382,8 +382,8 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -417,8 +417,8 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -477,8 +477,8 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -511,8 +511,8 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -541,8 +541,8 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -576,8 +576,8 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -624,8 +624,8 @@ Consumer callback args count: 1
 Creating connection.
 Creating destination. Type: topic Name: bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -655,8 +655,8 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -685,8 +685,8 @@ Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Waiting for test broker to start up...
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -742,8 +742,8 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -771,8 +771,8 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -804,8 +804,8 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -838,8 +838,8 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -870,8 +870,8 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -886,7 +886,7 @@ Creating JSON producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo321
 Creating producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
 Creating connection.
 Creating destination. Type:32topic32Name:32testtopic.foo
-Wrong number of args (1) passed to: cli4clj.cli/get-cli-mandatory-default-options/fn--8196
+Wrong number of args (1) passed to: cli4clj.cli/get-cli-mandatory-default-options/fn--8356
 Closing producer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
 Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
 Closing consumer:32tcp://127.0.0.1:4242432/topic/testtopic.foo
@@ -925,8 +925,8 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -984,8 +984,8 @@ Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Waiting for test broker to start up...
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -1017,8 +1017,8 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -1075,8 +1075,8 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -1107,8 +1107,8 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -1135,8 +1135,8 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -1168,8 +1168,8 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -1214,8 +1214,8 @@ Consumer callback args count:321
 Creating connection.
 Creating destination. Type:32topic32Name:32bowerick.broker.management.command
 Starting bowerick using the following options:
-{:url &quot;tcp://localhost:61616&quot;,
- :config-file &quot;bowerick.cfg&quot;,
+{:config-file &quot;bowerick.cfg&quot;,
+ :url &quot;tcp://localhost:61616&quot;,
  :destination &quot;/topic/bowerick.message.generator&quot;,
  :interval 0,
  :loop-replay true,
@@ -1239,7 +1239,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </property>
         <property name="clojure.debug" value="false">
         </property>
-        <property name="sun.boot.library.path" value="/usr/lib/jvm/java-11-openjdk-11.0.9.11-0.fc31.x86_64/lib">
+        <property name="sun.boot.library.path" value="/usr/lib/jvm/java-11-openjdk-11.0.12.0.7-0.fc34.x86_64/lib">
         </property>
         <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment">
         </property>
@@ -1260,7 +1260,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </property>
         <property name="sun.cpu.endian" value="little">
         </property>
-        <property name="java.vm.version" value="11.0.9+11">
+        <property name="java.vm.version" value="11.0.12+7">
         </property>
         <property name="java.net.preferIPv4Stack" value="true">
         </property>
@@ -1280,23 +1280,23 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </property>
         <property name="java.io.tmpdir" value="/tmp">
         </property>
-        <property name="java.home" value="/usr/lib/jvm/java-11-openjdk-11.0.9.11-0.fc31.x86_64">
+        <property name="java.home" value="/usr/lib/jvm/java-11-openjdk-11.0.12.0.7-0.fc34.x86_64">
         </property>
-        <property name="java.class.path" value="/home/rc/repositories/private/clojure/bowerick/test:/home/rc/repositories/private/clojure/bowerick/benchmark:/home/rc/repositories/private/clojure/bowerick/test:/home/rc/repositories/private/clojure/bowerick/src:/home/rc/repositories/private/clojure/bowerick/dev-resources:/home/rc/repositories/private/clojure/bowerick/resources:/home/rc/repositories/private/clojure/bowerick/target/classes:/home/rc/.m2/repository/org/apache/activemq/activemq-client/5.16.1/activemq-client-5.16.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-util-ajax/9.4.36.v20210114/jetty-util-ajax-9.4.36.v20210114.jar:/home/rc/.m2/repository/nrepl/nrepl/0.6.0/nrepl-0.6.0.jar:/home/rc/.m2/repository/com/taoensso/encore/3.9.2/encore-3.9.2.jar:/home/rc/.m2/repository/org/iq80/snappy/snappy/0.4/snappy-0.4.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-client/9.4.36.v20210114/websocket-client-9.4.36.v20210114.jar:/home/rc/.m2/repository/clojure-complete/clojure-complete/0.2.5/clojure-complete-0.2.5.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-server/9.4.36.v20210114/websocket-server-9.4.36.v20210114.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.9.10.8/jackson-databind-2.9.10.8.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-mqtt/5.16.1/activemq-mqtt-5.16.1.jar:/home/rc/.m2/repository/com/thoughtworks/xstream/xstream/1.4.15/xstream-1.4.15.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-api/9.4.36.v20210114/websocket-api-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-jms_1.1_spec/1.1.1/geronimo-jms_1.1_spec-1.1.1.jar:/home/rc/.m2/repository/com/taoensso/nippy/3.1.1/nippy-3.1.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-servlet/9.4.36.v20210114/websocket-servlet-9.4.36.v20210114.jar:/home/rc/.m2/repository/clj-assorted-utils/clj-assorted-utils/1.18.2/clj-assorted-utils-1.18.2.jar:/home/rc/.m2/repository/org/eclipse/paho/org.eclipse.paho.client.mqttv3/1.2.5/org.eclipse.paho.client.mqttv3-1.2.5.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-j2ee-management_1.1_spec/1.0.1/geronimo-j2ee-management_1.1_spec-1.0.1.jar:/home/rc/.m2/repository/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar:/home/rc/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-smile/2.10.2/jackson-dataformat-smile-2.10.2.jar:/home/rc/.m2/repository/jline/jline/2.14.6/jline-2.14.6.jar:/home/rc/.m2/repository/org/springframework/spring-websocket/5.3.4/spring-websocket-5.3.4.jar:/home/rc/.m2/repository/tigris/tigris/0.1.2/tigris-0.1.2.jar:/home/rc/.m2/repository/com/ning/compress-lzf/1.1/compress-lzf-1.1.jar:/home/rc/.m2/repository/org/springframework/spring-beans/5.3.4/spring-beans-5.3.4.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-openwire-legacy/5.16.1/activemq-openwire-legacy-5.16.1.jar:/home/rc/.m2/repository/org/clojure/tools.analyzer/0.6.9/tools.analyzer-0.6.9.jar:/home/rc/.m2/repository/rgad/stompjms-client/1.20-SNAPSHOT/stompjms-client-1.20-SNAPSHOT.jar:/home/rc/.m2/repository/com/twitter/carbonite/1.5.0/carbonite-1.5.0.jar:/home/rc/.m2/repository/org/springframework/spring-context/4.3.30.RELEASE/spring-context-4.3.30.RELEASE.jar:/home/rc/.m2/repository/org/fusesource/hawtdispatch/hawtdispatch-transport/1.20/hawtdispatch-transport-1.20.jar:/home/rc/.m2/repository/org/springframework/spring-tx/4.3.30.RELEASE/spring-tx-4.3.30.RELEASE.jar:/home/rc/.m2/repository/robert/hooke/1.3.0/hooke-1.3.0.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-pool/5.16.1/activemq-pool-5.16.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-server/9.4.36.v20210114/jetty-server-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-http/9.4.36.v20210114/jetty-http-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/springframework/spring-expression/4.3.30.RELEASE/spring-expression-4.3.30.RELEASE.jar:/home/rc/.m2/repository/test2junit/test2junit/1.4.2/test2junit-1.4.2.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-jaas/5.16.1/activemq-jaas-5.16.1.jar:/home/rc/.m2/repository/xmlpull/xmlpull/1.1.3.1/xmlpull-1.1.3.1.jar:/home/rc/.m2/repository/org/apache/httpcomponents/httpclient/4.5.13/httpclient-4.5.13.jar:/home/rc/.m2/repository/com/esotericsoftware/minlog/1.3.0/minlog-1.3.0.jar:/home/rc/.m2/repository/com/esotericsoftware/reflectasm/1.10.1/reflectasm-1.10.1.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-broker/5.16.1/activemq-broker-5.16.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-client/9.4.36.v20210114/jetty-client-9.4.36.v20210114.jar:/home/rc/.m2/repository/cheshire/cheshire/5.10.0/cheshire-5.10.0.jar:/home/rc/.m2/repository/org/fusesource/hawtdispatch/hawtdispatch/1.20/hawtdispatch-1.20.jar:/home/rc/.m2/repository/org/clojure/core.memoize/0.5.9/core.memoize-0.5.9.jar:/home/rc/.m2/repository/com/twitter/chill-java/0.8.0/chill-java-0.8.0.jar:/home/rc/.m2/repository/org/clojure/clojure/1.10.2/clojure-1.10.2.jar:/home/rc/.m2/repository/commons-codec/commons-codec/1.11/commons-codec-1.11.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-util/9.4.36.v20210114/jetty-util-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-servlet/9.4.36.v20210114/jetty-servlet-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/apache/commons/commons-pool2/2.9.0/commons-pool2-2.9.0.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.10.2/jackson-core-2.10.2.jar:/home/rc/.m2/repository/org/apache/activemq/protobuf/activemq-protobuf/1.1/activemq-protobuf-1.1.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-stomp/5.16.1/activemq-stomp-5.16.1.jar:/home/rc/.m2/repository/com/esotericsoftware/kryo/3.0.3/kryo-3.0.3.jar:/home/rc/.m2/repository/org/clojure/spec.alpha/0.2.194/spec.alpha-0.2.194.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-http/5.16.1/activemq-http-5.16.1.jar:/home/rc/.m2/repository/cli4clj/cli4clj/1.7.6/cli4clj-1.7.6.jar:/home/rc/.m2/repository/org/objenesis/objenesis/2.1/objenesis-2.1.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.9.10/jackson-annotations-2.9.10.jar:/home/rc/.m2/repository/org/fusesource/mqtt-client/mqtt-client/1.16/mqtt-client-1.16.jar:/home/rc/.m2/repository/org/clojure/tools.cli/1.0.194/tools.cli-1.0.194.jar:/home/rc/.m2/repository/org/ow2/asm/asm-all/4.2/asm-all-4.2.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-security/9.4.36.v20210114/jetty-security-9.4.36.v20210114.jar:/home/rc/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.10.2/jackson-dataformat-cbor-2.10.2.jar:/home/rc/.m2/repository/org/clojure/core.specs.alpha/0.2.56/core.specs.alpha-0.2.56.jar:/home/rc/.m2/repository/commons-net/commons-net/3.7.2/commons-net-3.7.2.jar:/home/rc/.m2/repository/org/clojure/data.priority-map/0.0.7/data.priority-map-0.0.7.jar:/home/rc/.m2/repository/org/springframework/spring-aop/4.3.30.RELEASE/spring-aop-4.3.30.RELEASE.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-io/9.4.36.v20210114/jetty-io-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/springframework/spring-core/5.3.4/spring-core-5.3.4.jar:/home/rc/.m2/repository/org/springframework/spring-jcl/5.3.4/spring-jcl-5.3.4.jar:/home/rc/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/home/rc/.m2/repository/org/fusesource/hawtbuf/hawtbuf/1.11/hawtbuf-1.11.jar:/home/rc/.m2/repository/org/springframework/spring-web/5.3.4/spring-web-5.3.4.jar:/home/rc/.m2/repository/com/taoensso/truss/1.6.0/truss-1.6.0.jar:/home/rc/.m2/repository/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-jms-pool/5.16.1/activemq-jms-pool-5.16.1.jar:/home/rc/.m2/repository/com/esotericsoftware/kryo-shaded/3.0.3/kryo-shaded-3.0.3.jar:/home/rc/.m2/repository/org/apache/xbean/xbean-spring/4.18/xbean-spring-4.18.jar:/home/rc/.m2/repository/org/slf4j/slf4j-simple/1.7.30/slf4j-simple-1.7.30.jar:/home/rc/.m2/repository/org/springframework/spring-jms/4.3.30.RELEASE/spring-jms-4.3.30.RELEASE.jar:/home/rc/.m2/repository/org/clojure/tools.reader/1.3.4/tools.reader-1.3.4.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1.jar:/home/rc/.m2/repository/org/lz4/lz4-java/1.7.1/lz4-java-1.7.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-common/9.4.36.v20210114/websocket-common-9.4.36.v20210114.jar:/home/rc/.m2/repository/org/clojure/core.cache/0.6.5/core.cache-0.6.5.jar:/home/rc/.m2/repository/org/clojure/core.async/0.4.490/core.async-0.4.490.jar:/home/rc/.m2/repository/javax/servlet/javax.servlet-api/4.0.1/javax.servlet-api-4.0.1.jar:/home/rc/.m2/repository/org/ow2/asm/asm/5.0.3/asm-5.0.3.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-spring/5.16.1/activemq-spring-5.16.1.jar:/home/rc/.m2/repository/org/clojure/tools.analyzer.jvm/0.7.2/tools.analyzer.jvm-0.7.2.jar:/home/rc/.m2/repository/org/springframework/spring-messaging/5.3.4/spring-messaging-5.3.4.jar:/home/rc/.m2/repository/criterium/criterium/0.4.6/criterium-0.4.6.jar:/home/rc/.m2/repository/org/apache/httpcomponents/httpcore/4.4.13/httpcore-4.4.13.jar:/home/rc/.m2/repository/org/tukaani/xz/1.8/xz-1.8.jar">
+        <property name="java.class.path" value="/home/rc/repositories/private/clojure/bowerick/test:/home/rc/repositories/private/clojure/bowerick/benchmark:/home/rc/repositories/private/clojure/bowerick/test:/home/rc/repositories/private/clojure/bowerick/src:/home/rc/repositories/private/clojure/bowerick/dev-resources:/home/rc/repositories/private/clojure/bowerick/resources:/home/rc/repositories/private/clojure/bowerick/target/classes:/home/rc/.m2/repository/org/slf4j/slf4j-simple/1.7.32/slf4j-simple-1.7.32.jar:/home/rc/.m2/repository/com/taoensso/encore/3.9.2/encore-3.9.2.jar:/home/rc/.m2/repository/org/iq80/snappy/snappy/0.4/snappy-0.4.jar:/home/rc/.m2/repository/clojure-complete/clojure-complete/0.2.5/clojure-complete-0.2.5.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.9.10.8/jackson-databind-2.9.10.8.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-jms_1.1_spec/1.1.1/geronimo-jms_1.1_spec-1.1.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-client/9.4.43.v20210629/jetty-client-9.4.43.v20210629.jar:/home/rc/.m2/repository/com/taoensso/nippy/3.1.1/nippy-3.1.1.jar:/home/rc/.m2/repository/clj-assorted-utils/clj-assorted-utils/1.18.2/clj-assorted-utils-1.18.2.jar:/home/rc/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-smile/2.12.4/jackson-dataformat-smile-2.12.4.jar:/home/rc/.m2/repository/org/eclipse/paho/org.eclipse.paho.client.mqttv3/1.2.5/org.eclipse.paho.client.mqttv3-1.2.5.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-j2ee-management_1.1_spec/1.0.1/geronimo-j2ee-management_1.1_spec-1.0.1.jar:/home/rc/.m2/repository/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar:/home/rc/.m2/repository/org/clojure/data.priority-map/1.0.0/data.priority-map-1.0.0.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-common/9.4.43.v20210629/websocket-common-9.4.43.v20210629.jar:/home/rc/.m2/repository/jline/jline/2.14.6/jline-2.14.6.jar:/home/rc/.m2/repository/tigris/tigris/0.1.2/tigris-0.1.2.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-spring/5.16.2/activemq-spring-5.16.2.jar:/home/rc/.m2/repository/com/ning/compress-lzf/1.1/compress-lzf-1.1.jar:/home/rc/.m2/repository/org/springframework/spring-messaging/5.3.9/spring-messaging-5.3.9.jar:/home/rc/.m2/repository/org/clojure/tools.analyzer.jvm/1.1.0/tools.analyzer.jvm-1.1.0.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-server/9.4.43.v20210629/jetty-server-9.4.43.v20210629.jar:/home/rc/.m2/repository/rgad/stompjms-client/1.20-SNAPSHOT/stompjms-client-1.20-SNAPSHOT.jar:/home/rc/.m2/repository/com/twitter/carbonite/1.5.0/carbonite-1.5.0.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-client/9.4.43.v20210629/websocket-client-9.4.43.v20210629.jar:/home/rc/.m2/repository/com/thoughtworks/xstream/xstream/1.4.16/xstream-1.4.16.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-servlet/9.4.43.v20210629/websocket-servlet-9.4.43.v20210629.jar:/home/rc/.m2/repository/org/springframework/spring-context/4.3.30.RELEASE/spring-context-4.3.30.RELEASE.jar:/home/rc/.m2/repository/org/fusesource/hawtdispatch/hawtdispatch-transport/1.20/hawtdispatch-transport-1.20.jar:/home/rc/.m2/repository/cli4clj/cli4clj/1.7.9/cli4clj-1.7.9.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-api/9.4.43.v20210629/websocket-api-9.4.43.v20210629.jar:/home/rc/.m2/repository/juxt/dirwatch/0.2.5/dirwatch-0.2.5.jar:/home/rc/.m2/repository/org/springframework/spring-tx/4.3.30.RELEASE/spring-tx-4.3.30.RELEASE.jar:/home/rc/.m2/repository/io/github/x-stream/mxparser/1.2.1/mxparser-1.2.1.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.12.4/jackson-core-2.12.4.jar:/home/rc/.m2/repository/robert/hooke/1.3.0/hooke-1.3.0.jar:/home/rc/.m2/repository/org/springframework/spring-expression/4.3.30.RELEASE/spring-expression-4.3.30.RELEASE.jar:/home/rc/.m2/repository/org/springframework/spring-beans/5.3.9/spring-beans-5.3.9.jar:/home/rc/.m2/repository/test2junit/test2junit/1.4.2/test2junit-1.4.2.jar:/home/rc/.m2/repository/xmlpull/xmlpull/1.1.3.1/xmlpull-1.1.3.1.jar:/home/rc/.m2/repository/org/eclipse/jetty/websocket/websocket-server/9.4.43.v20210629/websocket-server-9.4.43.v20210629.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-stomp/5.16.2/activemq-stomp-5.16.2.jar:/home/rc/.m2/repository/org/apache/httpcomponents/httpclient/4.5.13/httpclient-4.5.13.jar:/home/rc/.m2/repository/com/esotericsoftware/minlog/1.3.0/minlog-1.3.0.jar:/home/rc/.m2/repository/com/esotericsoftware/reflectasm/1.10.1/reflectasm-1.10.1.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-jaas/5.16.2/activemq-jaas-5.16.2.jar:/home/rc/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.12.4/jackson-dataformat-cbor-2.12.4.jar:/home/rc/.m2/repository/org/clojure/tools.analyzer/1.0.0/tools.analyzer-1.0.0.jar:/home/rc/.m2/repository/org/fusesource/hawtdispatch/hawtdispatch/1.20/hawtdispatch-1.20.jar:/home/rc/.m2/repository/com/twitter/chill-java/0.8.0/chill-java-0.8.0.jar:/home/rc/.m2/repository/org/clojure/clojure/1.10.3/clojure-1.10.3.jar:/home/rc/.m2/repository/org/tcrawley/dynapath/1.1.0/dynapath-1.1.0.jar:/home/rc/.m2/repository/commons-codec/commons-codec/1.11/commons-codec-1.11.jar:/home/rc/.m2/repository/org/clojure/core.cache/1.0.207/core.cache-1.0.207.jar:/home/rc/.m2/repository/nrepl/nrepl/0.8.3/nrepl-0.8.3.jar:/home/rc/.m2/repository/org/apache/commons/commons-pool2/2.9.0/commons-pool2-2.9.0.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-io/9.4.43.v20210629/jetty-io-9.4.43.v20210629.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-servlet/9.4.43.v20210629/jetty-servlet-9.4.43.v20210629.jar:/home/rc/.m2/repository/org/apache/activemq/protobuf/activemq-protobuf/1.1/activemq-protobuf-1.1.jar:/home/rc/.m2/repository/com/esotericsoftware/kryo/3.0.3/kryo-3.0.3.jar:/home/rc/.m2/repository/org/clojure/spec.alpha/0.2.194/spec.alpha-0.2.194.jar:/home/rc/.m2/repository/org/springframework/spring-web/5.3.9/spring-web-5.3.9.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-jms-pool/5.16.2/activemq-jms-pool-5.16.2.jar:/home/rc/.m2/repository/org/clojure/core.memoize/1.0.236/core.memoize-1.0.236.jar:/home/rc/.m2/repository/org/objenesis/objenesis/2.1/objenesis-2.1.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-client/5.16.2/activemq-client-5.16.2.jar:/home/rc/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.9.10/jackson-annotations-2.9.10.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-util-ajax/9.4.43.v20210629/jetty-util-ajax-9.4.43.v20210629.jar:/home/rc/.m2/repository/org/fusesource/mqtt-client/mqtt-client/1.16/mqtt-client-1.16.jar:/home/rc/.m2/repository/org/springframework/spring-websocket/5.3.9/spring-websocket-5.3.9.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-mqtt/5.16.2/activemq-mqtt-5.16.2.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-security/9.4.43.v20210629/jetty-security-9.4.43.v20210629.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-openwire-legacy/5.16.2/activemq-openwire-legacy-5.16.2.jar:/home/rc/.m2/repository/org/clojure/core.specs.alpha/0.2.56/core.specs.alpha-0.2.56.jar:/home/rc/.m2/repository/org/springframework/spring-aop/4.3.30.RELEASE/spring-aop-4.3.30.RELEASE.jar:/home/rc/.m2/repository/commons-net/commons-net/3.8.0/commons-net-3.8.0.jar:/home/rc/.m2/repository/org/springframework/spring-core/5.3.9/spring-core-5.3.9.jar:/home/rc/.m2/repository/org/clojure/tools.cli/1.0.206/tools.cli-1.0.206.jar:/home/rc/.m2/repository/cheshire/cheshire/5.10.1/cheshire-5.10.1.jar:/home/rc/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/home/rc/.m2/repository/org/fusesource/hawtbuf/hawtbuf/1.11/hawtbuf-1.11.jar:/home/rc/.m2/repository/org/clojure/core.async/1.3.610/core.async-1.3.610.jar:/home/rc/.m2/repository/com/taoensso/truss/1.6.0/truss-1.6.0.jar:/home/rc/.m2/repository/com/esotericsoftware/kryo-shaded/3.0.3/kryo-shaded-3.0.3.jar:/home/rc/.m2/repository/org/apache/xbean/xbean-spring/4.18/xbean-spring-4.18.jar:/home/rc/.m2/repository/org/springframework/spring-jms/4.3.30.RELEASE/spring-jms-4.3.30.RELEASE.jar:/home/rc/.m2/repository/org/clojure/tools.reader/1.3.4/tools.reader-1.3.4.jar:/home/rc/.m2/repository/org/springframework/spring-jcl/5.3.9/spring-jcl-5.3.9.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-broker/5.16.2/activemq-broker-5.16.2.jar:/home/rc/.m2/repository/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1.jar:/home/rc/.m2/repository/org/lz4/lz4-java/1.7.1/lz4-java-1.7.1.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-pool/5.16.2/activemq-pool-5.16.2.jar:/home/rc/.m2/repository/org/apache/activemq/activemq-http/5.16.2/activemq-http-5.16.2.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-http/9.4.43.v20210629/jetty-http-9.4.43.v20210629.jar:/home/rc/.m2/repository/javax/servlet/javax.servlet-api/4.0.1/javax.servlet-api-4.0.1.jar:/home/rc/.m2/repository/org/ow2/asm/asm/5.0.3/asm-5.0.3.jar:/home/rc/.m2/repository/criterium/criterium/0.4.6/criterium-0.4.6.jar:/home/rc/.m2/repository/org/apache/httpcomponents/httpcore/4.4.13/httpcore-4.4.13.jar:/home/rc/.m2/repository/org/eclipse/jetty/jetty-util/9.4.43.v20210629/jetty-util-9.4.43.v20210629.jar:/home/rc/.m2/repository/org/tukaani/xz/1.8/xz-1.8.jar">
         </property>
-        <property name="java.runtime.version" value="11.0.9+11">
+        <property name="java.runtime.version" value="11.0.12+7">
         </property>
-        <property name="bowerick.version" value="2.7.0">
+        <property name="bowerick.version" value="2.8.1-SNAPSHOT">
         </property>
         <property name="java.vm.vendor" value="Red Hat, Inc.">
         </property>
         <property name="user.language" value="en">
         </property>
-        <property name="jetty.git.hash" value="238ec6997c7806b055319a6d11f8ae7564adc0de">
+        <property name="jetty.git.hash" value="526006ecfa3af7f1a27ef3a288e2bef7ea9dd7e8">
         </property>
         <property name="java.vm.name" value="OpenJDK 64-Bit Server VM">
         </property>
-        <property name="java.version" value="11.0.9">
+        <property name="java.version" value="11.0.12">
         </property>
         <property name="os.arch" value="amd64">
         </property>
@@ -1326,7 +1326,7 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </property>
         <property name="os.name" value="Linux">
         </property>
-        <property name="os.version" value="5.8.8-100.fc31.x86_64">
+        <property name="os.version" value="5.13.6-200.fc34.x86_64">
         </property>
         <property name="file.separator" value="/">
         </property>
@@ -1336,11 +1336,11 @@ Closing producer:32tcp://127.0.0.1:4242432/topic/bowerick.broker.management.repl
         </property>
         <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib">
         </property>
-        <property name="java.version.date" value="2020-10-20">
+        <property name="java.version.date" value="2021-07-20">
         </property>
-        <property name="java.vendor.url.bug" value="https://bugzilla.redhat.com/enter_bug.cgi?product=Fedora&amp;component=java-11-openjdk&amp;version=31">
+        <property name="java.vendor.url.bug" value="https://bugzilla.redhat.com/enter_bug.cgi?product=Fedora&amp;component=java-11-openjdk&amp;version=34">
         </property>
-        <property name="sun.java.command" value="clojure.main -i /tmp/form-init3233757256758383475.clj">
+        <property name="sun.java.command" value="clojure.main -i /tmp/form-init4540426214239107241.clj">
         </property>
         <property name="user.name" value="rc">
         </property>
