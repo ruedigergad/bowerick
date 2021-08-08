@@ -353,7 +353,7 @@ Placeholders Used in the Cheat Sheet Examples
 
 ## License
 
-Copyright © 2016 - 2018 Ruediger Gad
+Copyright © 2016 - 2021 Ruediger Gad
 
 Copyright © 2014 - 2015 Frankfurt University of Applied Sciences
 
