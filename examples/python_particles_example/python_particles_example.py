@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# Copyright 2021, Ruediger Gad
+# License: MIT License
+
 import json
 import matplotlib.pyplot as plt
 import numpy as np
