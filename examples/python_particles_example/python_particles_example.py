@@ -46,7 +46,8 @@ class ParticleListener(stomp.ConnectionListener):
         data['coordinates'] = np.array((x, y, z), dtype=float)
         data['sizes'] = np.array(list(map(lambda d: d['scale_y'] * 500.0, particles)), dtype=float)
         data['colors'] = np.array(colors, dtype=float)
-        data_queue.put(data)
+        if data_queue.empty():
+            data_queue.put(data)
 
 conn = stomp.Connection([('127.0.0.1', 2000)])
 conn.connect(wait=True)
