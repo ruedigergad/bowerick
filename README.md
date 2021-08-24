@@ -8,7 +8,7 @@ Easing Simple Message-oriented Middleware Tasks with Clojure (and Java)
 [![lein test](https://github.com/ruedigergad/bowerick/actions/workflows/lein_test.yml/badge.svg)](https://github.com/ruedigergad/bowerick/actions/workflows/lein_test.yml)
 [![Coverage Status](https://coveralls.io/repos/github/ruedigergad/bowerick/badge.svg?branch=master)](https://coveralls.io/github/ruedigergad/bowerick?branch=master)
 
-bowerick somewhat started as "an accident with a few rubber bands, a liquid lunch, and a ~~particle accelerator~~ Message-oriented Middelware (MoM).".
+bowerick somewhat started as "an accident with a few rubber bands, a liquid lunch, and a ~~particle accelerator~~ Message-oriented Middelware (MoM)".
 It is based on ActiveMQ and various other related libraries etc.
 
 Bowerick provides
