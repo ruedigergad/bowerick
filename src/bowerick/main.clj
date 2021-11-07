@@ -115,7 +115,7 @@
   nil)
 
 (defn start-broker-mode
-  [arg-map]
+  [arg-map cfg]
   (println-err "Starting bowerick in broker mode.")
   (let [arg-url (arg-map :url)
         af-demo-url "ws://127.0.0.1:1864"
@@ -124,7 +124,42 @@
                 [arg-url af-demo-url]
                 (conj arg-url af-demo-url))
               arg-url)
-        broker-service (jms/start-broker url)
+        _ (when (arg-map :bootstrap-self-signed-certs)
+            (println "Bootstrapping self-signed certificates...")
+            (sun.security.tools.keytool.Main/main (into-array ["-genkeypair" "-alias" "localhost" "-keystore" "selfsigned.ks"
+                                                               "-storepass" jms/*key-store-password*
+                                                               "-deststoretype" "pkcs12" "-validity" "3650" "-keyalg" "EC"
+                                                               "-dname" "CN=localhost" "-ext" "san=ip:127.0.0.1"]))
+            (sun.security.tools.keytool.Main/main (into-array ["-export" "-alias" "localhost" "-keystore" "selfsigned.ks"
+                                                               "-storepass" jms/*key-store-password* "-rfc" "-file" "selfsigned.pem"]))
+            (println "\n\nServer certificate...")
+            (-> (slurp "selfsigned.pem") println)
+            (sun.security.tools.keytool.Main/main (into-array ["-noprompt" "-importcert" "-trustcacerts" "-file" "selfsigned.pem"
+                                                               "-keystore" "selfsigned.ts" "-alias" "localhost_cert"
+                                                               "-storepass" jms/*trust-store-password* "-deststoretype" "pkcs12"]))
+            (println "Creating client certificate...")
+            (sun.security.tools.keytool.Main/main (into-array ["-genkeypair" "-alias" "client" "-keystore" "selfsigned-client.ks"
+                                                               "-storepass" "client-password"
+                                                               "-deststoretype" "pkcs12" "-validity" "3650" "-keyalg" "EC"
+                                                               "-dname" "CN=localhost" "-ext" "san=ip:127.0.0.1"]))
+            (println "\n\nClient private key...")
+            (try
+              (.waitFor (exec-with-out "openssl pkcs12 -in selfsigned-client.ks -nocerts -nodes -passin pass:client-password" println))
+              (catch Exception e
+                (println "Could not print client private key. Please make sure that OpenSSL is installed.")))
+            (sun.security.tools.keytool.Main/main (into-array ["-storepass" "client-password" "-keystore" "selfsigned-client.ks"
+                                                               "-certreq" "-alias" "client" "-file" "client-certreq.pem"]))
+            (sun.security.tools.keytool.Main/main (into-array ["-keystore" "selfsigned.ks" "-storepass" jms/*key-store-password*
+                                                               "-gencert" "-alias" "localhost" "-infile" "client-certreq.pem" "-rfc"
+                                                               "-outfile" "client-cert.pem"]))
+            (println "\n\nClient certificate...")
+            (-> (slurp "client-cert.pem") println)
+            (sun.security.tools.keytool.Main/main (into-array ["-noprompt" "-importcert" "-trustcacerts" "-file" "client-cert.pem"
+                                                               "-keystore" "selfsigned.ts" "-alias" "client_cert"
+                                                               "-storepass" jms/*trust-store-password* "-deststoretype" "pkcs12"]))
+            (jio/copy (jio/file "selfsigned.ks") (jio/file jms/*key-store-file*))
+            (jio/copy (jio/file "selfsigned.ts") (jio/file jms/*trust-store-file*)))
+        broker-service (jms/start-broker url (arg-map :env-vars-for-default-passwords) (cfg "users") (cfg "permissions"))
         producers (atom {})
         running (atom true)
         shutdown-fn (fn []
@@ -136,41 +171,6 @@
                       (println "Stopping broker...")
                       (jms/stop broker-service)
                       (println "Broker stopped."))]
-    (when (arg-map :bootstrap-self-signed-certs)
-      (println "Bootstrapping self-signed certificates...")
-      (sun.security.tools.keytool.Main/main (into-array ["-genkeypair" "-alias" "localhost" "-keystore" "selfsigned.ks"
-                                                         "-storepass" jms/*key-store-password*
-                                                         "-deststoretype" "pkcs12" "-validity" "3650" "-keyalg" "EC"
-                                                         "-dname" "CN=localhost" "-ext" "san=ip:127.0.0.1"]))
-      (sun.security.tools.keytool.Main/main (into-array ["-export" "-alias" "localhost" "-keystore" "selfsigned.ks"
-                                                         "-storepass" jms/*key-store-password* "-rfc" "-file" "selfsigned.pem"]))
-      (println "\n\nServer certificate...")
-      (-> (slurp "selfsigned.pem") println)
-      (sun.security.tools.keytool.Main/main (into-array ["-noprompt" "-importcert" "-trustcacerts" "-file" "selfsigned.pem"
-                                                         "-keystore" "selfsigned.ts" "-alias" "localhost_cert"
-                                                         "-storepass" jms/*trust-store-password* "-deststoretype" "pkcs12"]))
-      (println "Creating client certificate...")
-      (sun.security.tools.keytool.Main/main (into-array ["-genkeypair" "-alias" "client" "-keystore" "selfsigned-client.ks"
-                                                         "-storepass" "client-password"
-                                                         "-deststoretype" "pkcs12" "-validity" "3650" "-keyalg" "EC"
-                                                         "-dname" "CN=localhost" "-ext" "san=ip:127.0.0.1"]))
-      (println "\n\nClient private key...")
-      (try
-        (.waitFor (exec-with-out "openssl pkcs12 -in selfsigned-client.ks -nocerts -nodes -passin pass:client-password" println))
-        (catch Exception e
-          (println "Could not print client private key. Please make sure that OpenSSL is installed.")))
-      (sun.security.tools.keytool.Main/main (into-array ["-storepass" "client-password" "-keystore" "selfsigned-client.ks"
-                                                         "-certreq" "-alias" "client" "-file" "client-certreq.pem"]))
-      (sun.security.tools.keytool.Main/main (into-array ["-keystore" "selfsigned.ks" "-storepass" jms/*key-store-password*
-                                                         "-gencert" "-alias" "localhost" "-infile" "client-certreq.pem" "-rfc"
-                                                         "-outfile" "client-cert.pem"]))
-      (println "\n\nClient certificate...")
-      (-> (slurp "client-cert.pem") println)
-      (sun.security.tools.keytool.Main/main (into-array ["-noprompt" "-importcert" "-trustcacerts" "-file" "client-cert.pem"
-                                                         "-keystore" "selfsigned.ts" "-alias" "client_cert"
-                                                         "-storepass" jms/*trust-store-password* "-deststoretype" "pkcs12"]))
-      (jio/copy (jio/file "selfsigned.ks") (jio/file jms/*key-store-file*))
-      (jio/copy (jio/file "selfsigned.ts") (jio/file jms/*trust-store-file*)))
     (if (arg-map :a-frame-demo)
       (let [af-topic-name "/topic/aframe"
             af-prod (jms/create-json-producer af-demo-url af-topic-name 1)
@@ -487,6 +487,7 @@
                    [["-b" "--bootstrap-self-signed-certs" "In broker mode, bootstrap self-signed certificates."]
                     ["-c" "--client" "Start in interactive client mode."]
                     ["-d" "--daemon" "Run as daemon."]
+                    ["-e" "--env-vars-for-default-passwords" "Set default passwords for accessing the broker via the environment variables: BOWERICK_ADMIN_PASS, BOWERICK_WRITE_PASS, BOWERICK_READ_PASS"]
                     ["-f" "--config-file FILE_NAME"
                       "The location of the bowerick configuration file."
                       :default "bowerick.cfg"]
@@ -550,27 +551,48 @@
             (println "\n\n")
             (println (->> (jio/resource (str "license_texts/" f)) slurp))))
       :default
-        (do
-          (binding [*out* *err*]
-            (println "Starting bowerick using the following options:")
-            (pprint arg-map)
-            (pprint extra-args)
-            (let [cfg-file-path (arg-map :config-file)
-                  cfg-file-data (if (is-file? cfg-file-path)
-                                  (cheshire/parse-string (slurp cfg-file-path))
-                                  {})
-                  jms-cfg (cfg-file-data "jms")]
-              (when (not (nil? jms-cfg))
-                (println "Setting JMS configuration...")
-                (doseq [[k v] jms-cfg]
-                  (when (arg-map :verbose)
-                    (println "Setting" k ":" v))
-                  (alter-var-root (ns-resolve 'bowerick.jms (symbol k)) (fn [_ x] x) v)))))
+        (let [cfg-data (binding [*out* *err*]
+                         (println "Starting bowerick using the following options:")
+                         (pprint arg-map)
+                         (pprint extra-args)
+                         (let [cfg-file-path (arg-map :config-file)
+                               cfg-file-data (if (is-file? cfg-file-path)
+                                               (cheshire/parse-string (slurp cfg-file-path))
+                                               {})
+                               jms-cfg (cfg-file-data "jms")]
+                           (when (not (nil? jms-cfg))
+                             (println "Setting JMS configuration...")
+                             (doseq [[k v] jms-cfg]
+                               (when (arg-map :verbose)
+                                 (println "Setting" k ":" v))
+                               (alter-var-root (ns-resolve 'bowerick.jms (symbol k)) (fn [_ x] x) v)))
+                           cfg-file-data))
+             cfg-with-default-auth (if (arg-map :env-vars-for-default-passwords)
+                                     (let [admin-password (System/getenv "BOWERICK_ADMIN_PASS")
+                                           write-password (System/getenv "BOWERICK_WRITE_PASS")
+                                           read-password (System/getenv "BOWERICK_READ_PASS")
+                                           _ (if (or (nil? admin-password)
+                                                     (nil? write-password)
+                                                     (nil? read-password))
+                                               (throw (Exception. "Error: specified to set passwords from environment variables but not all environment variables are set.")))
+                                           users [{"name" "admin", "password" admin-password, "groups" "admin-group"}
+                                                  {"name" "write", "password" write-password, "groups" "write-group"}
+                                                  {"name" "read", "password" read-password, "groups" "read-group"}]
+                                           permissions [{"target" "/topic/>", "admin" "admin-group", "write" "admin-group,write-group", "read" "admin-group,write-group,read-group"}
+                                                        {"target" "/queue/>", "admin" "admin-group", "write" "admin-group,write-group", "read" "admin-group,write-group,read-group"}]
+                                           cfg-with-users (if (contains? cfg-data "users")
+                                                            (update cfg-data "users" conj users)
+                                                            (assoc cfg-data "users" users))
+                                           cfg-with-permissions (if (contains? cfg-with-users "permissions")
+                                                                  (update cfg-with-users "permissions" conj permissions)
+                                                                  (assoc cfg-with-users "permissions" permissions))]
+                                       cfg-with-permissions)
+                                     cfg-data)]
           (cond
             (arg-map :client) (start-client-mode arg-map)
             (arg-map :benchmark-client) (start-benchmark-client-mode arg-map)
             (arg-map :consumer-client) (start-consumer-client-mode arg-map)
-            :default (start-broker-mode arg-map))))))
+            :default (start-broker-mode arg-map cfg-with-default-auth))))))
 
 (defn -main [& args]
   (apply run-cli-app args)
