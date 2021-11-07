@@ -39,10 +39,11 @@
 (defn -configure [config-file-path]
   (let [cfg-file-data (if (is-file? config-file-path)
                         (cheshire/parse-string (slurp config-file-path))
-                        nil)]
-    (when (not (nil? cfg-file-data))
-      (println "Applying configuration from config file:" config-file-path)
-      (doseq [[k v] cfg-file-data]
+                        {})
+        jms-cfg (cfg-file-data "jms")]
+    (when (not (nil? jms-cfg))
+      (println "Applying jms configuration from config file:" config-file-path)
+      (doseq [[k v] jms-cfg]
         (alter-var-root (ns-resolve 'bowerick.jms (symbol k)) (fn [_ x] x) v)))))
 
 (defn -createConsumer [broker-url destination-description ^JmsConsumerCallback consumer-cb pool-size]

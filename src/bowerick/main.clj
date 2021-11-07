@@ -522,10 +522,11 @@
             (let [cfg-file-path (arg-map :config-file)
                   cfg-file-data (if (is-file? cfg-file-path)
                                   (cheshire/parse-string (slurp cfg-file-path))
-                                  nil)]
-              (when (not (nil? cfg-file-data))
-                (println "Applying configuration from config file:" cfg-file-path)
-                (doseq [[k v] cfg-file-data]
+                                  {})
+                  jms-cfg (cfg-file-data "jms")]
+              (when (not (nil? jms-cfg))
+                (println "Setting JMS configuration...")
+                (doseq [[k v] jms-cfg]
                   (when (arg-map :verbose)
                     (println "Setting" k ":" v))
                   (alter-var-root (ns-resolve 'bowerick.jms (symbol k)) (fn [_ x] x) v)))))
