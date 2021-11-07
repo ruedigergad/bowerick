@@ -256,6 +256,21 @@
 (defn start-client-mode
   [arg-map]
   (println-err "Starting bowerick in client mode.")
+  (when (arg-map :key-and-cert-import)
+    (println "Importing key and certificates...")
+    (println "\n\nBroker certificate:")
+    (-> (slurp "broker-cert.pem") println)
+    (sun.security.tools.keytool.Main/main (into-array ["-noprompt" "-importcert" "-trustcacerts" "-file" "broker-cert.pem"
+                                                       "-keystore" jms/*trust-store-file* "-alias" "broker_cert"
+                                                       "-storepass" jms/*trust-store-password* "-deststoretype" "pkcs12"]))
+    (println "\n\nClient certificate:")
+    (-> (slurp "client-cert.pem") println)
+    (println "\n\nClient private key:")
+    (-> (slurp "client-key.pem") println)
+    (try
+      (.waitFor (exec-with-out (str "openssl pkcs12 -export -out " jms/*key-store-file* " -passout pass:" jms/*key-store-password* " -inkey client-key.pem -in client-cert.pem") println))
+      (catch Exception e
+        (println "Could not print client private key. Please make sure that OpenSSL is installed."))))
   (let [json-consumers (atom {})
         json-producers (atom {})
         consumers (atom {})
@@ -501,6 +516,7 @@
                       "The location of the bowerick configuration file."
                       :default "bowerick.cfg"]
                     ["-h" "--help" "Print this help and exit."]
+                    ["-k" "--key-and-cert-import" "In client mode, import client private key (client-key.pem) and certificate (client-cert.pem) and broker certificate (broker-cert.pem) that were bootstrapped via the -b argument for a broker."]
                     ["-o" "--[no-]old-scroll" "In client mode, use the old scrolling mode of cli4clj."]
                     ["-u" "--url URL"
                       "URL to bind the broker to."
