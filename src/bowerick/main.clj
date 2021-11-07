@@ -294,10 +294,10 @@
                                                    "For information about the URL format, see the help for \"send\".")}
                   :stf :send-text-file
                   :set-user-name {:fn (fn [user-name]
-                                        (alter-var-root (ns-resolve 'bowerick.jms *user-name*) (fn [_ x] x) user-name))
+                                        (alter-var-root (ns-resolve 'bowerick.jms '*user-name*) (fn [_ x] x) user-name))
                                   :short-info "Set the user name for user authentication."}
                   :set-user-password {:fn (fn [user-password]
-                                            (alter-var-root (ns-resolve 'bowerick.jms *user-password*) (fn [_ x] x) user-password))
+                                            (alter-var-root (ns-resolve 'bowerick.jms '*user-password*) (fn [_ x] x) user-password))
                                       :short-info "Set the user password for user authentication."}
                   :receive {:fn (fn [destination-url]
                                   (create-cached-destination
