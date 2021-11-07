@@ -125,6 +125,10 @@
                 (conj arg-url af-demo-url))
               arg-url)
         _ (when (arg-map :bootstrap-self-signed-certs)
+            (if (= jms/*key-store-file* "client.ks")
+              (alter-var-root #'bowerick.jms/*key-store-file* (fn [_ x] x) "broker.ks"))
+            (if (= jms/*trust-store-file* "client.ts")
+              (alter-var-root #'bowerick.jms/*trust-store-file* (fn [_ x] x) "broker.ts"))
             (println "Bootstrapping self-signed certificates...")
             (sun.security.tools.keytool.Main/main (into-array ["-genkeypair" "-alias" "localhost" "-keystore" "selfsigned.ks"
                                                                "-storepass" jms/*key-store-password*
@@ -132,7 +136,7 @@
                                                                "-dname" "CN=localhost" "-ext" "san=ip:127.0.0.1"]))
             (sun.security.tools.keytool.Main/main (into-array ["-export" "-alias" "localhost" "-keystore" "selfsigned.ks"
                                                                "-storepass" jms/*key-store-password* "-rfc" "-file" "selfsigned.pem"]))
-            (println "\n\nServer certificate...")
+            (println "\n\nServer certificate:")
             (-> (slurp "selfsigned.pem") println)
             (sun.security.tools.keytool.Main/main (into-array ["-noprompt" "-importcert" "-trustcacerts" "-file" "selfsigned.pem"
                                                                "-keystore" "selfsigned.ts" "-alias" "localhost_cert"
@@ -142,7 +146,7 @@
                                                                "-storepass" "client-password"
                                                                "-deststoretype" "pkcs12" "-validity" "3650" "-keyalg" "EC"
                                                                "-dname" "CN=localhost" "-ext" "san=ip:127.0.0.1"]))
-            (println "\n\nClient private key...")
+            (println "\n\nClient private key:")
             (try
               (.waitFor (exec-with-out "openssl pkcs12 -in selfsigned-client.ks -nocerts -nodes -passin pass:client-password" println))
               (catch Exception e
@@ -152,7 +156,7 @@
             (sun.security.tools.keytool.Main/main (into-array ["-keystore" "selfsigned.ks" "-storepass" jms/*key-store-password*
                                                                "-gencert" "-alias" "localhost" "-infile" "client-certreq.pem" "-rfc"
                                                                "-outfile" "client-cert.pem"]))
-            (println "\n\nClient certificate...")
+            (println "\n\nClient certificate:")
             (-> (slurp "client-cert.pem") println)
             (sun.security.tools.keytool.Main/main (into-array ["-noprompt" "-importcert" "-trustcacerts" "-file" "client-cert.pem"
                                                                "-keystore" "selfsigned.ts" "-alias" "client_cert"
