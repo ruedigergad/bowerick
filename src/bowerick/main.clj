@@ -289,10 +289,16 @@
                                          (create-cached-destination producers destination-url jms/create-producer)
                                          (println "Sending text file:" destination-url "<-" file-name)
                                          ((@producers destination-url) (slurp file-name)))
-                              :short-info "Send the content of the given text file."
-                              :long-info (str "Reads the text data from the given file and sends it. "
-                                              "For information about the URL format, see the help for \"send\".")}
+                                   :short-info "Send the content of the given text file."
+                                   :long-info (str "Reads the text data from the given file and sends it. "
+                                                   "For information about the URL format, see the help for \"send\".")}
                   :stf :send-text-file
+                  :set-user-name {:fn (fn [user-name]
+                                        (alter-var-root (ns-resolve 'bowerick.jms *user-name*) (fn [_ x] x) user-name))
+                                  :short-info "Set the user name for user authentication."}
+                  :set-user-password {:fn (fn [user-password]
+                                            (alter-var-root (ns-resolve 'bowerick.jms *user-password*) (fn [_ x] x) user-password))
+                                      :short-info "Set the user password for user authentication."}
                   :receive {:fn (fn [destination-url]
                                   (create-cached-destination
                                     json-consumers
@@ -380,8 +386,7 @@
                                        (println "Management Command:" cmd-destination "<-")
                                        (pprint cmd-with-args)
                                        ((@json-producers cmd-destination) cmd-with-args)))}
-                  :m :management
-                  }
+                  :m :management}
                 :prompt-string "bowerick# "
                 :alternate-scrolling (not (:old-scroll arg-map (is-os? "Windows")))
                 :alternate-height 3})
