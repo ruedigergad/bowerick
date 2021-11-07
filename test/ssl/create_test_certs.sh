@@ -1,11 +1,13 @@
 #!/bin/bash
 
+rm -f selfsigned.*
 rm -f *.ks
 rm -f *.ts
 
 keytool -noprompt -genkey -alias localhost -keystore selfsigned.ks -storepass password -deststoretype pkcs12 -validity 3650 -keyalg EC -keysize 256 -sigalg SHA256WithECDSA -dname "CN=localhost" -ext san=ip:127.0.0.1
-keytool -noprompt -export -alias localhost -keystore selfsigned.ks -storepass password -file selfsigned.cer
-keytool -noprompt -importcert -trustcacerts -file selfsigned.cer -keystore selfsigned.ts -alias localhost_cert -storepass password -deststoretype pkcs12
+keytool -noprompt -export -alias localhost -keystore selfsigned.ks -storepass password -file selfsigned.der
+keytool -noprompt -export -alias localhost -keystore selfsigned.ks -storepass password --rfc -file selfsigned.pem
+keytool -noprompt -importcert -trustcacerts -file selfsigned.der -keystore selfsigned.ts -alias localhost_cert -storepass password -deststoretype pkcs12
 
 cp selfsigned.ks broker.ks
 cp selfsigned.ks client.ks
