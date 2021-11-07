@@ -136,6 +136,41 @@
                       (println "Stopping broker...")
                       (jms/stop broker-service)
                       (println "Broker stopped."))]
+    (when (arg-map :bootstrap-self-signed-certs)
+      (println "Bootstrapping self-signed certificates...")
+      (sun.security.tools.keytool.Main/main (into-array ["-genkeypair" "-alias" "localhost" "-keystore" "selfsigned.ks"
+                                                         "-storepass" jms/*key-store-password*
+                                                         "-deststoretype" "pkcs12" "-validity" "3650" "-keyalg" "EC"
+                                                         "-dname" "CN=localhost" "-ext" "san=ip:127.0.0.1"]))
+      (sun.security.tools.keytool.Main/main (into-array ["-export" "-alias" "localhost" "-keystore" "selfsigned.ks"
+                                                         "-storepass" jms/*key-store-password* "-rfc" "-file" "selfsigned.pem"]))
+      (println "\n\nServer certificate...")
+      (-> (slurp "selfsigned.pem") println)
+      (sun.security.tools.keytool.Main/main (into-array ["-noprompt" "-importcert" "-trustcacerts" "-file" "selfsigned.pem"
+                                                         "-keystore" "selfsigned.ts" "-alias" "localhost_cert"
+                                                         "-storepass" jms/*trust-store-password* "-deststoretype" "pkcs12"]))
+      (println "Creating client certificate...")
+      (sun.security.tools.keytool.Main/main (into-array ["-genkeypair" "-alias" "client" "-keystore" "selfsigned-client.ks"
+                                                         "-storepass" "client-password"
+                                                         "-deststoretype" "pkcs12" "-validity" "3650" "-keyalg" "EC"
+                                                         "-dname" "CN=localhost" "-ext" "san=ip:127.0.0.1"]))
+      (println "\n\nClient private key...")
+      (try
+        (.waitFor (exec-with-out "openssl pkcs12 -in selfsigned-client.ks -nocerts -nodes -passin pass:client-password" println))
+        (catch Exception e
+          (println "Could not print client private key. Please make sure that OpenSSL is installed.")))
+      (sun.security.tools.keytool.Main/main (into-array ["-storepass" "client-password" "-keystore" "selfsigned-client.ks"
+                                                         "-certreq" "-alias" "client" "-file" "client-certreq.pem"]))
+      (sun.security.tools.keytool.Main/main (into-array ["-keystore" "selfsigned.ks" "-storepass" jms/*key-store-password*
+                                                         "-gencert" "-alias" "localhost" "-infile" "client-certreq.pem" "-rfc"
+                                                         "-outfile" "client-cert.pem"]))
+      (println "\n\nClient certificate...")
+      (-> (slurp "client-cert.pem") println)
+      (sun.security.tools.keytool.Main/main (into-array ["-noprompt" "-importcert" "-trustcacerts" "-file" "client-cert.pem"
+                                                         "-keystore" "selfsigned.ts" "-alias" "client_cert"
+                                                         "-storepass" jms/*trust-store-password* "-deststoretype" "pkcs12"]))
+      (jio/copy (jio/file "selfsigned.ks") (jio/file jms/*key-store-file*))
+      (jio/copy (jio/file "selfsigned.ts") (jio/file jms/*trust-store-file*)))
     (if (arg-map :a-frame-demo)
       (let [af-topic-name "/topic/aframe"
             af-prod (jms/create-json-producer af-demo-url af-topic-name 1)
@@ -449,7 +484,8 @@
 (defn run-cli-app [& args]
   (let [cli-args (parse-opts
                    args
-                   [["-c" "--client" "Start in interactive client mode."]
+                   [["-b" "--bootstrap-self-signed-certs" "In broker mode, bootstrap self-signed certificates."]
+                    ["-c" "--client" "Start in interactive client mode."]
                     ["-d" "--daemon" "Run as daemon."]
                     ["-f" "--config-file FILE_NAME"
                       "The location of the bowerick configuration file."
