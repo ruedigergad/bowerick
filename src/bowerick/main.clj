@@ -117,6 +117,45 @@
 (defn start-broker-mode
   [arg-map cfg]
   (println-err "Starting bowerick in broker mode.")
+  (when (arg-map :bootstrap-self-signed-certs)
+    (if (= jms/*key-store-file* "client.ks")
+      (alter-var-root #'bowerick.jms/*key-store-file* (fn [_ x] x) "broker.ks"))
+    (if (= jms/*trust-store-file* "client.ts")
+      (alter-var-root #'bowerick.jms/*trust-store-file* (fn [_ x] x) "broker.ts"))
+    (println "Bootstrapping self-signed certificates...")
+    (sun.security.tools.keytool.Main/main (into-array ["-genkeypair" "-alias" "localhost" "-keystore" "selfsigned.ks"
+                                                       "-storepass" jms/*key-store-password*
+                                                       "-deststoretype" "pkcs12" "-validity" "3650" "-keyalg" "EC"
+                                                       "-dname" "CN=localhost" "-ext" "san=ip:127.0.0.1"]))
+    (sun.security.tools.keytool.Main/main (into-array ["-export" "-alias" "localhost" "-keystore" "selfsigned.ks"
+                                                       "-storepass" jms/*key-store-password* "-rfc" "-file" "selfsigned.pem"]))
+    (println "\n\nServer certificate:")
+    (-> (slurp "selfsigned.pem") println)
+    (sun.security.tools.keytool.Main/main (into-array ["-noprompt" "-importcert" "-trustcacerts" "-file" "selfsigned.pem"
+                                                       "-keystore" "selfsigned.ts" "-alias" "localhost_cert"
+                                                       "-storepass" jms/*trust-store-password* "-deststoretype" "pkcs12"]))
+    (println "Creating client certificate...")
+    (sun.security.tools.keytool.Main/main (into-array ["-genkeypair" "-alias" "client" "-keystore" "selfsigned-client.ks"
+                                                       "-storepass" "client-password"
+                                                       "-deststoretype" "pkcs12" "-validity" "3650" "-keyalg" "EC"
+                                                       "-dname" "CN=localhost" "-ext" "san=ip:127.0.0.1"]))
+    (println "\n\nClient private key:")
+    (try
+      (.waitFor (exec-with-out "openssl pkcs12 -in selfsigned-client.ks -nocerts -nodes -passin pass:client-password" println))
+      (catch Exception e
+        (println "Could not print client private key. Please make sure that OpenSSL is installed.")))
+    (sun.security.tools.keytool.Main/main (into-array ["-storepass" "client-password" "-keystore" "selfsigned-client.ks"
+                                                       "-certreq" "-alias" "client" "-file" "client-certreq.pem"]))
+    (sun.security.tools.keytool.Main/main (into-array ["-keystore" "selfsigned.ks" "-storepass" jms/*key-store-password*
+                                                       "-gencert" "-alias" "localhost" "-infile" "client-certreq.pem" "-rfc"
+                                                       "-outfile" "client-cert.pem"]))
+    (println "\n\nClient certificate:")
+    (-> (slurp "client-cert.pem") println)
+    (sun.security.tools.keytool.Main/main (into-array ["-noprompt" "-importcert" "-trustcacerts" "-file" "client-cert.pem"
+                                                       "-keystore" "selfsigned.ts" "-alias" "client_cert"
+                                                       "-storepass" jms/*trust-store-password* "-deststoretype" "pkcs12"]))
+    (jio/copy (jio/file "selfsigned.ks") (jio/file jms/*key-store-file*))
+    (jio/copy (jio/file "selfsigned.ts") (jio/file jms/*trust-store-file*)))
   (let [arg-url (arg-map :url)
         af-demo-url "ws://127.0.0.1:1864"
         url (if (arg-map :a-frame-demo)
@@ -124,45 +163,6 @@
                 [arg-url af-demo-url]
                 (conj arg-url af-demo-url))
               arg-url)
-        _ (when (arg-map :bootstrap-self-signed-certs)
-            (if (= jms/*key-store-file* "client.ks")
-              (alter-var-root #'bowerick.jms/*key-store-file* (fn [_ x] x) "broker.ks"))
-            (if (= jms/*trust-store-file* "client.ts")
-              (alter-var-root #'bowerick.jms/*trust-store-file* (fn [_ x] x) "broker.ts"))
-            (println "Bootstrapping self-signed certificates...")
-            (sun.security.tools.keytool.Main/main (into-array ["-genkeypair" "-alias" "localhost" "-keystore" "selfsigned.ks"
-                                                               "-storepass" jms/*key-store-password*
-                                                               "-deststoretype" "pkcs12" "-validity" "3650" "-keyalg" "EC"
-                                                               "-dname" "CN=localhost" "-ext" "san=ip:127.0.0.1"]))
-            (sun.security.tools.keytool.Main/main (into-array ["-export" "-alias" "localhost" "-keystore" "selfsigned.ks"
-                                                               "-storepass" jms/*key-store-password* "-rfc" "-file" "selfsigned.pem"]))
-            (println "\n\nServer certificate:")
-            (-> (slurp "selfsigned.pem") println)
-            (sun.security.tools.keytool.Main/main (into-array ["-noprompt" "-importcert" "-trustcacerts" "-file" "selfsigned.pem"
-                                                               "-keystore" "selfsigned.ts" "-alias" "localhost_cert"
-                                                               "-storepass" jms/*trust-store-password* "-deststoretype" "pkcs12"]))
-            (println "Creating client certificate...")
-            (sun.security.tools.keytool.Main/main (into-array ["-genkeypair" "-alias" "client" "-keystore" "selfsigned-client.ks"
-                                                               "-storepass" "client-password"
-                                                               "-deststoretype" "pkcs12" "-validity" "3650" "-keyalg" "EC"
-                                                               "-dname" "CN=localhost" "-ext" "san=ip:127.0.0.1"]))
-            (println "\n\nClient private key:")
-            (try
-              (.waitFor (exec-with-out "openssl pkcs12 -in selfsigned-client.ks -nocerts -nodes -passin pass:client-password" println))
-              (catch Exception e
-                (println "Could not print client private key. Please make sure that OpenSSL is installed.")))
-            (sun.security.tools.keytool.Main/main (into-array ["-storepass" "client-password" "-keystore" "selfsigned-client.ks"
-                                                               "-certreq" "-alias" "client" "-file" "client-certreq.pem"]))
-            (sun.security.tools.keytool.Main/main (into-array ["-keystore" "selfsigned.ks" "-storepass" jms/*key-store-password*
-                                                               "-gencert" "-alias" "localhost" "-infile" "client-certreq.pem" "-rfc"
-                                                               "-outfile" "client-cert.pem"]))
-            (println "\n\nClient certificate:")
-            (-> (slurp "client-cert.pem") println)
-            (sun.security.tools.keytool.Main/main (into-array ["-noprompt" "-importcert" "-trustcacerts" "-file" "client-cert.pem"
-                                                               "-keystore" "selfsigned.ts" "-alias" "client_cert"
-                                                               "-storepass" jms/*trust-store-password* "-deststoretype" "pkcs12"]))
-            (jio/copy (jio/file "selfsigned.ks") (jio/file jms/*key-store-file*))
-            (jio/copy (jio/file "selfsigned.ts") (jio/file jms/*trust-store-file*)))
         broker-service (jms/start-broker url (arg-map :env-vars-for-default-passwords) (cfg "users") (cfg "permissions"))
         producers (atom {})
         running (atom true)
