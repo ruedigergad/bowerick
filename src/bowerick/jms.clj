@@ -253,7 +253,7 @@
    
    Permissions are also defined as a vector of maps, e.g.:
    
-   [{\"target\" \"test.topic.a\", \"type\" \"topic\", \"write\" \"anonymous\"}"
+   [{\"target\" \"/topic/test.topic.a\", \"write\" \"anonymous\"}"
   ([address]
     (start-broker address nil nil nil))
   ([address allow-anon users permissions]
