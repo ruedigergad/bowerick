@@ -143,7 +143,7 @@
     (try
       (.waitFor (exec-with-out "openssl pkcs12 -in selfsigned-client.ks -out client-key.pem -nocerts -nodes -passin pass:client-password" println))
       (catch Exception e
-        (println "Could not print client private key. Please make sure that OpenSSL is installed.")))
+        (println "Could not export client private key. Please make sure that OpenSSL is installed.")))
     (-> (slurp "client-key.pem") println)
     (sun.security.tools.keytool.Main/main (into-array ["-storepass" "client-password" "-keystore" "selfsigned-client.ks"
                                                        "-certreq" "-alias" "client" "-file" "client-certreq.pem"]))
@@ -271,7 +271,7 @@
     (try
       (.waitFor (exec-with-out (str "openssl pkcs12 -export -out " jms/*key-store-file* " -passout pass:" jms/*key-store-password* " -inkey client-key.pem -in client-cert.pem") println))
       (catch Exception e
-        (println "Could not print client private key. Please make sure that OpenSSL is installed."))))
+        (println "Could not import client private key. Please make sure that OpenSSL is installed."))))
   (let [json-consumers (atom {})
         json-producers (atom {})
         consumers (atom {})
