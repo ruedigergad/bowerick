@@ -1,0 +1,15 @@
+version: v1.0
+name: Build
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+  - name: Run Tests
+    task:
+      jobs:
+      - name: Run Tests
+        commands:
+          - sem-version java 11
+          - lein test
