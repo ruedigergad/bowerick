@@ -139,12 +139,14 @@
                                                        "-storepass" "client-password"
                                                        "-deststoretype" "pkcs12" "-validity" "3650" "-keyalg" "EC"
                                                        "-dname" "CN=localhost" "-ext" "san=ip:127.0.0.1"]))
-    (println "\n\nClient private key:")
+    (when (arg-map :verbose)
+      (println "\n\nClient private key:"))
     (try
       (.waitFor (exec-with-out "openssl pkcs12 -in selfsigned-client.ks -out client-key.pem -nocerts -nodes -passin pass:client-password" println))
       (catch Exception e
         (println "Could not export client private key. Please make sure that OpenSSL is installed.")))
-    (-> (slurp "client-key.pem") println)
+    (when (arg-map :verbose)
+      (-> (slurp "client-key.pem") println))
     (sun.security.tools.keytool.Main/main (into-array ["-storepass" "client-password" "-keystore" "selfsigned-client.ks"
                                                        "-certreq" "-alias" "client" "-file" "client-certreq.pem"]))
     (sun.security.tools.keytool.Main/main (into-array ["-keystore" "selfsigned-broker.ks" "-storepass" jms/*key-store-password*
@@ -266,8 +268,9 @@
                                                        "-storepass" jms/*trust-store-password* "-deststoretype" "pkcs12"]))
     (println "\n\nClient certificate:")
     (-> (slurp "client-cert.pem") println)
-    (println "\n\nClient private key:")
-    (-> (slurp "client-key.pem") println)
+    (when (arg-map :verbose)
+      (println "\n\nClient private key:")
+      (-> (slurp "client-key.pem") println))
     (try
       (.waitFor (exec-with-out (str "openssl pkcs12 -export -out " jms/*key-store-file* " -passout pass:" jms/*key-store-password* " -inkey client-key.pem -in client-cert.pem") println))
       (catch Exception e
