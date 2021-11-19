@@ -1,5 +1,5 @@
 ;;;
-;;;   Copyright 2017, Ruediger Gad
+;;;   Copyright 2017-2021 Ruediger Gad
 ;;;
 ;;;   This software is released under the terms of the Eclipse Public License 
 ;;;   (EPL) 1.0. You can find a copy of the EPL at: 
@@ -12,11 +12,13 @@
   bowerick.message-generator
   (:require
     [bowerick.jms :refer (to-json-bytes)]
+    [clojure.core.async :as async]
     [clojure.java.io :as java-io]
     [clojure.string :as str]
     [clj-assorted-utils.util :as utils]
     [dynapath.util :as dp]
-    [juxt.dirwatch :refer (watch-dir)])
+    [juxt.dirwatch :refer (watch-dir)]
+    [signal.handler :refer :all])
   (:import
     (bowerick JmsProducer)
     (clojure.lang DynamicClassLoader)
@@ -119,27 +121,32 @@
 (defn custom-fn-generator
   [producer delay-fn in-path]
   (let [producer-fn (atom (fn []))
-        read-fn (fn [event]
-                  (when (or
-                          (nil? event)
-                          (and
-                            (= 1 (:count event))
-                            (= :modify (:action event))
-                            (= in-path (-> event :file .getPath))))
-                    (println "Loading custom-fn-generator:" in-path)
-                    (if (str/ends-with? in-path ".class")
-                      (let [_ (println "Loading from Java Class file.")
-                            msg-gen-instance (load-and-instantiate-class in-path)
-                            jms-producer (proxy [JmsProducer] []
-                                           (sendData [data & _] (producer data) (delay-fn)))
-                            prod-fn (fn [] (.generateMessage msg-gen-instance jms-producer))]
-                        (reset! producer-fn prod-fn))
-                      (let [_ (println "Loading from Clojure file.")
-                            gen-fn (load-file in-path)
-                            prod-fn (gen-fn producer delay-fn)]
-                        (reset! producer-fn prod-fn)))))]
-    (watch-dir read-fn (.getParentFile (java-io/file in-path)))
-    (read-fn nil)
+        read-fn (fn []
+                  (println "Loading custom-fn-generator:" in-path)
+                  (if (str/ends-with? in-path ".class")
+                    (let [_ (println "Loading from Java Class file.")
+                          msg-gen-instance (load-and-instantiate-class in-path)
+                          jms-producer (proxy [JmsProducer] []
+                                         (sendData [data & _] (producer data) (delay-fn)))
+                          prod-fn (fn [] (.generateMessage msg-gen-instance jms-producer))]
+                      (reset! producer-fn prod-fn))
+                    (let [_ (println "Loading from Clojure file.")
+                          gen-fn (load-file in-path)
+                          prod-fn (gen-fn producer delay-fn)]
+                      (reset! producer-fn prod-fn))))
+        watch-fn (fn [event]
+                   (when (or
+                           (nil? event)
+                           (and
+                             (= 1 (:count event))
+                             (= :modify (:action event))
+                             (= in-path (-> event :file .getPath))))
+                     (read-fn)))
+        channel (async/chan)]
+    (async/go (loop [] (async/<! channel) (read-fn) (recur)))
+    (with-handler :usr1 (async/>!! channel :reload))
+    (watch-dir watch-fn (.getParentFile (java-io/file in-path)))
+    (read-fn)
     (fn [] (@producer-fn))))
 
 (defn hello-world-generator
