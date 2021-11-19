@@ -1,5 +1,5 @@
 ;;;
-;;;   Copyright 2016, Ruediger Gad
+;;;   Copyright 2016-2021 Ruediger Gad
 ;;;   Copyright 2014, 2015 Frankfurt University of Applied Sciences
 ;;;
 ;;;   This software is released under the terms of the Eclipse Public License 
@@ -14,6 +14,7 @@
   (:require
     [bowerick.jms :as jms]
     [bowerick.message-generator :refer :all]
+    [clojure.core.async :as async]
     [cheshire.core :as cheshire]
     [cli4clj.cli :refer :all]
     [clj-assorted-utils.util :refer :all]
@@ -21,7 +22,8 @@
     [clojure.pprint :refer :all]
     [clojure.string :as s]
     [clojure.tools.cli :refer :all]
-    [juxt.dirwatch :refer (watch-dir)])
+    [juxt.dirwatch :refer (watch-dir)]
+    [signal.handler :refer :all])
   (:import
     (java.nio.file Files Paths))
   (:gen-class))
@@ -250,9 +252,18 @@
     (if (arg-map :replay-file)
       (replay (arg-map :replay-file) (arg-map :interval) (arg-map :loop-replay) producers))
     (if (arg-map :daemon)
-      (do
+      (let [running (atom true)
+            channel (async/chan)]
         (println "Broker started in daemon mode.")
-        (-> (agent 0) (await)))
+        (with-handler :term
+          (reset! running false)
+          (async/>!! channel :term))
+        (loop []
+          (if (= (async/<!! channel) :term)
+            (println "Stopping daemon mode on term signal..."))
+          (if @running
+            (recur)))
+        (shutdown-fn))
       (do
         (println "Broker started.\nType \"q\" followed by <Return> to quit: ")
         (while (not= "q" (read-line))

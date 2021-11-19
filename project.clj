@@ -16,7 +16,7 @@
                  [org.apache.activemq/activemq-stomp "5.16.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.eclipse.jetty/jetty-server "9.4.44.v20210927"]
                  [org.eclipse.jetty.websocket/websocket-client "9.4.44.v20210927"]
-                   [org.eclipse.jetty.websocket/websocket-server "9.4.44.v20210927"]
+                 [org.eclipse.jetty.websocket/websocket-server "9.4.44.v20210927"]
                  [org.clojure/clojure "1.10.3"]
                  [org.clojure/tools.cli "1.0.206"]
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.5"]
@@ -26,7 +26,8 @@
                  [org.slf4j/slf4j-simple "1.7.32"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]
                  [juxt/dirwatch "0.2.5"]
-                 [org.tcrawley/dynapath "1.1.0"]]
+                 [org.tcrawley/dynapath "1.1.0"]
+                 [spootnik/signal "0.2.4"]]
   :license {:name "Eclipse Public License (EPL) - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
             :distribution :repo
