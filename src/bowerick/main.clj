@@ -471,26 +471,31 @@
 (defn start-consumer-client-mode [arg-map]
   (let [consumer-arg (arg-map :consumer-client)
         consumer-fn (atom nil)
-        read-fn (fn [event]
-                  (when (or
-                          (nil? event)
-                          (and
-                            (= 1 (:count event))
-                            (= :modify (:action event))
-                            (= consumer-arg (-> event :file .getPath))))
-                    (println "Loading consumer function:" consumer-arg)
-                    (if (s/ends-with? consumer-arg ".class")
-                      (let [_ (println "Loading from Java Class file.")
-                            consumer-instance (load-and-instantiate-class consumer-arg)
-                            cons-fn (fn [data msg-hdr] (.processData consumer-instance data msg-hdr))]
-                        (reset! consumer-fn cons-fn))
-                      (let [_ (println "Loading from Clojure file.")
-                            cons-fn (load-file consumer-arg)]
-                        (reset! consumer-fn cons-fn)))))
+        read-fn (fn []
+                  (println "Loading consumer function:" consumer-arg)
+                  (if (s/ends-with? consumer-arg ".class")
+                    (let [_ (println "Loading from Java Class file.")
+                          consumer-instance (load-and-instantiate-class consumer-arg)
+                          cons-fn (fn [data msg-hdr] (.processData consumer-instance data msg-hdr))]
+                      (reset! consumer-fn cons-fn))
+                    (let [_ (println "Loading from Clojure file.")
+                          cons-fn (load-file consumer-arg)]
+                      (reset! consumer-fn cons-fn))))
+        watch-fn (fn [event]
+                   (when (or
+                           (nil? event)
+                           (and
+                             (= 1 (:count event))
+                             (= :modify (:action event))
+                             (= consumer-arg (-> event :file .getPath))))
+                     (read-fn)))
+        channel (async/chan)
+        _ (async/go (loop [] (async/<! channel) (read-fn) (recur)))
+        _ (with-handler :usr1 (async/>!! channel :reload))
         _ (if (file-exists? consumer-arg)
             (do
-              (read-fn nil)
-              (watch-dir read-fn (.getParentFile (clojure.java.io/file consumer-arg))))
+              (read-fn)
+              (watch-dir watch-fn (.getParentFile (clojure.java.io/file consumer-arg))))
             (do
               (println "Reading consumer function from command line argument:" consumer-arg)
               (reset! consumer-fn (-> consumer-arg read-string eval))))
