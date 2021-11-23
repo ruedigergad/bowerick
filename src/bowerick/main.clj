@@ -210,9 +210,12 @@
         (println "examples/simple_websocket_a-frame_example/simple_websocket_a-frame_example.html")))
     (if (string? (arg-map :embedded-message-generator))
       (let [msg-gen-prod (jms/create-producer
-                           (if (string? url)
-                             url
-                             (first url))
+                           (s/replace
+                             (if (string? url)
+                               url
+                               (first url))
+                             "0.0.0.0"
+                             "127.0.0.1")
                            (arg-map :destination)
                            (arg-map :pool-size))
             msg-gen-prod-fn (fn [data] (if @running (msg-gen-prod data)))

@@ -291,9 +291,12 @@
                 (.addConnector broker addr)))
           _ (.start broker)
           _ (.waitUntilStarted broker)
-          management-address (cond
-                               (sequential? address) (first address)
-                               :default address)
+          management-address (str/replace
+                               (cond
+                                 (sequential? address) (first address)
+                                 :default address)
+                               "0.0.0.0"
+                               "127.0.0.1")
           producer (try
                      (utils/println-err "Info: Enabling management producer at:" *broker-management-reply-topic*)
                      (binding [*trust-store-file* *key-store-file*
