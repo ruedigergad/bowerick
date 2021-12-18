@@ -10,7 +10,7 @@
                  [javax.servlet/javax.servlet-api "4.0.1"]
                  [org.apache.activemq/activemq-broker "5.16.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.apache.activemq/activemq-client "5.16.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.apache.activemq/activemq-http "5.16.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [org.apache.activemq/activemq-http "5.16.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all commons-logging/commons-logging]]
                  [org.apache.activemq/activemq-jaas "5.16.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.apache.activemq/activemq-openwire-legacy "5.16.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.apache.activemq/activemq-stomp "5.16.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
@@ -21,8 +21,8 @@
                  [org.clojure/tools.cli "1.0.206"]
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.5"]
                  [org.iq80.snappy/snappy "0.4"]
-                 [org.springframework/spring-messaging "5.3.13"]
-                 [org.springframework/spring-websocket "5.3.13"]
+                 [org.springframework/spring-messaging "5.3.14"]
+                 [org.springframework/spring-websocket "5.3.14"]
                  [org.slf4j/slf4j-simple "1.7.32"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]
                  [juxt/dirwatch "0.2.5"]
@@ -48,7 +48,7 @@
   :html5-docs-ns-includes #"^bowerick.*"
   :html5-docs-repository-url "https://github.com/ruedigergad/bowerick/blob/master"
   :profiles {:repl
-               {:dependencies  [[jonase/eastwood "0.9.9" :exclusions  [org.clojure/clojure]]]}
+               {:dependencies  [[jonase/eastwood "1.0.0" :exclusions  [org.clojure/clojure]]]}
              :test
                {:dependencies [[criterium "0.4.6"]]
                 :test-paths ["test" "benchmark"]}}
