@@ -22,7 +22,7 @@
 (def ^:dynamic *local-jms-server* nil)
 (def test-topic "/topic/testtopic.foo")
 
-(defn run-test [t local-jms-server]
+(defn run-test-with-server [t local-jms-server]
   (println "TESTING:" local-jms-server)
   (let [broker (binding [*trust-store-file* "test/ssl/broker.ts"
                          *trust-store-password* "password"
@@ -35,23 +35,23 @@
 
 (defn test-set-fixture [t]
   (println "TEST RUN START: " (str t))
-  (run-test t "tcp://127.0.0.1:32324")
-  (run-test t "udp://127.0.0.1:32326")
-  (run-test t "ws://127.0.0.1:32327")
-  (run-test t "ws://127.0.0.1:32329")
-  (run-test t "stomp://127.0.0.1:32322")
+  (run-test-with-server t "tcp://127.0.0.1:32324")
+  (run-test-with-server t "udp://127.0.0.1:32326")
+  (run-test-with-server t "ws://127.0.0.1:32327")
+  (run-test-with-server t "ws://127.0.0.1:32329")
+  (run-test-with-server t "stomp://127.0.0.1:32322")
   (binding [*trust-store-file* "test/ssl/client.ks"
             *trust-store-password* "password"
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
-    (run-test t "stomp+ssl://127.0.0.1:32323")
-    (run-test t "stomp+ssl://127.0.0.1:32323?needClientAuth=true")
-    (run-test t "mqtt+ssl://127.0.0.1:32330")
-    (run-test t "mqtt+ssl://127.0.0.1:32330?needClientAuth=true")
-    (run-test t "wss://127.0.0.1:32328")
-    (run-test t "wss://127.0.0.1:32328?needClientAuth=true")
-    (run-test t "ssl://localhost:32325")
-    (run-test t "ssl://localhost:32325?needClientAuth=true")))
+    (run-test-with-server t "stomp+ssl://127.0.0.1:32323")
+    (run-test-with-server t "stomp+ssl://127.0.0.1:32323?needClientAuth=true")
+    (run-test-with-server t "mqtt+ssl://127.0.0.1:32330")
+    (run-test-with-server t "mqtt+ssl://127.0.0.1:32330?needClientAuth=true")
+    (run-test-with-server t "wss://127.0.0.1:32328")
+    (run-test-with-server t "wss://127.0.0.1:32328?needClientAuth=true")
+    (run-test-with-server t "ssl://localhost:32325")
+    (run-test-with-server t "ssl://localhost:32325?needClientAuth=true")))
 
 (use-fixtures :each test-set-fixture)
 

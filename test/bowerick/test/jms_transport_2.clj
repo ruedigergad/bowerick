@@ -22,7 +22,7 @@
 (def ^:dynamic *local-jms-server* "tcp://127.0.0.1:31324")
 (def test-topic "/topic/testtopic.foo")
 
-(defn run-test [t]
+(defn run-test-with-server [t]
   (let [broker (binding [*trust-store-file* "test/ssl/broker.ts"
                          *trust-store-password* "password"
                          *key-store-file* "test/ssl/broker.ks"
@@ -34,41 +34,41 @@
 (defn single-test-fixture [t]
   (println "TEST RUN START: " (str t))
   (println "TESTING: tcp://127.0.0.1:31324")
-  (run-test t)
+  (run-test-with-server t)
   (println "TESTING: udp://127.0.0.1:31326")
   (binding [*local-jms-server* "udp://127.0.0.1:31326"]
-    (run-test t))
+    (run-test-with-server t))
   (println "TESTING: stomp://127.0.0.1:31322")
   (binding [*local-jms-server* "stomp://127.0.0.1:31322"]
-    (run-test t))
+    (run-test-with-server t))
   (println "TESTING: stomp+ssl://127.0.0.1:31323")
   (binding [*local-jms-server* "stomp+ssl://127.0.0.1:31323"
             *trust-store-file* "test/ssl/client.ts"
             *trust-store-password* "password"
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
-    (run-test t))
+    (run-test-with-server t))
   (println "TESTING: stomp+ssl://127.0.0.1:31323?needClientAuth=true")
   (binding [*local-jms-server* "stomp+ssl://127.0.0.1:31323?needClientAuth=true"
             *trust-store-file* "test/ssl/client.ts"
             *trust-store-password* "password"
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
-    (run-test t))
+    (run-test-with-server t))
   (println "TESTING: ssl://localhost:31325")
   (binding [*local-jms-server* "ssl://localhost:31325"
             *trust-store-file* "test/ssl/client.ts"
             *trust-store-password* "password"
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
-    (run-test t))
+    (run-test-with-server t))
   (println "TESTING: ssl://localhost:31325?needClientAuth=true")
   (binding [*local-jms-server* "ssl://localhost:31325?needClientAuth=true"
             *trust-store-file* "test/ssl/client.ts"
             *trust-store-password* "password"
             *key-store-file* "test/ssl/client.ks"
             *key-store-password* "password"]
-    (run-test t)))
+    (run-test-with-server t)))
 
 (use-fixtures :each single-test-fixture)
 
