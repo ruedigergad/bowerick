@@ -17,7 +17,7 @@
                     Below is an example for starting such a broker with bowerick:
                 </p>
                 <pre>
-java -jar bowerick-2.1.1-standalone.jar -u "[\"ws://127.0.0.1:1864\"]"
+java -jar bowerick-2.1.1-standalone.jar -u "ws://127.0.0.1:1864"
                 </pre>
                 <p>
                     Once the broker is started, you connect to it by pressing the &quot;Connect&quot; button on this page.
@@ -41,8 +41,8 @@ bowerick# s ws://127.0.0.1:1864:/topic/test "foo"
                 <h2>Connection Settings</h2>
             </div>
             <div id="connection_settings_body">
-                <p>Broker URL <input name=broker_url id="broker_url" value="ws://127.0.0.1:1864" type="text"></p>
-                <p>Topic Name <input name=topic_name id="topic_name" value="/topic/test" type="text"></p>
+                <p>Broker URL <input name=broker_url id="broker_url" value="ws://127.0.0.1:1864" type="text" style="width:50%"></p>
+                <p>Topic Name <input name=topic_name id="topic_name" value="/topic/test" type="text" style="width:50%"></p>
                 <p><button type="button" id="connect_button">Connect</button></p>
             </div>
         </div>
