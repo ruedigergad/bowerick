@@ -184,7 +184,7 @@
                       (jms/stop broker-service)
                       (println "Broker stopped."))]
     (if (arg-map :a-frame-demo)
-      (let [af-topic-name "/topic/aframe"
+      (let [af-topic-name "/topic/bowerick.message.generator"
             af-prod (jms/create-json-producer af-demo-url af-topic-name 1)
             max_angle (* 2.0 Math/PI)
             angle_increment (/ max_angle 100.0)]
@@ -192,7 +192,7 @@
         (doto (Thread. #(loop [angle 0.0]
                           (let [x (Math/cos angle)
                                 y (Math/sin angle)]
-                            (af-prod {:x x, :y y, :z 0})
+                            (af-prod [{:x x, :y y, :z 0}])
                             (sleep 20)
                             (let [new_angle (+ angle angle_increment)]
                               (if @running

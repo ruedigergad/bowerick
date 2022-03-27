@@ -26,12 +26,12 @@
     java -jar bowerick-2.2.2-standalone.jar -A
                     </pre>
                     <p>
-                        With this command, the broker will use a pre-defined default and open a WebSocket STOMP transport on localhost (127.0.0.1) on port 1864.
+                        With this command, the broker will use a pre-defined default and open a WebSocket STOMP transport on port 1864.
                         If you want to connect to the broker from another computer/device you can start the examples as follows:
                     </p>
                     <pre>
     java -jar bowerick-2.2.2-standalone.jar -A \
-        -u "[\"ws://0.0.0.0:1701\"]"
+        -u "ws://0.0.0.0:1864"
                     </pre>
                     <p>
                         Once the broker is started, you connect to it by pressing the &quot;Connect&quot; button on this page.
@@ -44,7 +44,7 @@
                 </div>
                 <div id="connection_settings_body">
                     <p>Broker URL <input name=broker_url id="broker_url" value="ws://127.0.0.1:1864" type="text"></p>
-                    <p>Topic Name <input name=topic_name id="topic_name" value="/topic/aframe" type="text"></p>
+                    <p>Topic Name <input name=topic_name id="topic_name" value="/topic/bowerick.message.generator" type="text"></p>
                     <p>Plot every n-th Data Point <input name=n_th_data_point id="n_th_data_point" value="3" type="number"></p>
                     <p><button type="button" id="connect_button">Connect</button></p>
                 </div>
@@ -118,7 +118,7 @@
                         count += 1;
                         if (count % n_th_data_point != 0) return;
 
-                        var data = JSON.parse(message.body);
+                        var data = JSON.parse(message.body)[0];
                         Plotly.update('plotly_body_left', {"x": [[data["x"]]], "y": [[data["y"]]]}, {}, [0]);
                         
                         x_arr.push(data["x"]);
