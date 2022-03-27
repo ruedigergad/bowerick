@@ -19,18 +19,17 @@
                 <div id="howto_body">
                     <p>
                         For this example, you need a running broker with a WebSocket STOMP transport and an appropriate message/event generator.
-                        Since bowerick version 2.1.0, the bowerick standalone broker includes an appropriate message/event generator.
                         Below is an example for starting bowerick broker instance, which includes a message/event generator:
                     </p>
                     <pre>
-    java -jar bowerick-2.2.2-standalone.jar -A
+    java -jar bowerick-2.9.5-standalone.jar -A
                     </pre>
                     <p>
                         With this command, the broker will use a pre-defined default and open a WebSocket STOMP transport on localhost (127.0.0.1) on port 1864.
                         If you want to connect to the broker from another computer/device you can start the examples as follows:
                     </p>
                     <pre>
-    java -jar bowerick-2.2.2-standalone.jar -A \
+    java -jar bowerick-2.9.5-standalone.jar -A \
         -u "ws://0.0.0.0:1864"
                     </pre>
                     <p>
