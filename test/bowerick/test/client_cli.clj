@@ -184,20 +184,21 @@
         received-flag (prepare-flag)
         consumer (jms/create-json-consumer
                    local-cli-jms-server
-                   "/topic/aframe"
+                   "/topic/bowerick.message.generator"
                    (fn [data]
                      (if (>= (count @received) 2)
                        (set-flag received-flag)
                        (swap! received conj data))))]
     (println "Waiting to receive test data...")
     (await-flag received-flag)
-    (is (map? (first @received)))
-    (is (contains? (first @received) "x"))
-    (is (contains? (first @received) "y"))
-    (is (contains? (first @received) "z"))
-    (is (> ((first @received) "x") ((second @received) "x")))
-    (is (< ((first @received) "y") ((second @received) "y")))
-    (is (= ((first @received) "z") ((second @received) "z")))
+    (is (seq? (first @received)))
+    (is (map? (first (first @received))))
+    (is (contains? (first (first @received)) "x"))
+    (is (contains? (first (first @received)) "y"))
+    (is (contains? (first (first @received)) "z"))
+    (is (> ((first (first @received)) "x") ((first (second @received)) "x")))
+    (is (< ((first (first @received)) "y") ((first (second @received)) "y")))
+    (is (= ((first (first @received)) "z") ((first (second @received)) "z")))
     (println "Stopping test broker...")
     (.write stop-wrtr "q\r")
     (println "Waiting for test broker to stop...")
