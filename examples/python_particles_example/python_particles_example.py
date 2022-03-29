@@ -28,13 +28,10 @@ ax.set_zlim3d([-1.2, 1.2])
 data_queue = queue.Queue()
 
 class ParticleListener(stomp.ConnectionListener):
-    def on_before_message(self, frame):
-        pass
-
     def on_message(self, frame):
         global data_queue
 
-        particles = json.loads(frame)
+        particles = json.loads(frame.body)
 
         x = list(map(lambda d: d['x'], particles))
         y = list(map(lambda d: d['y'], particles))
@@ -52,7 +49,7 @@ class ParticleListener(stomp.ConnectionListener):
 conn = stomp.Connection([('127.0.0.1', 2000)])
 conn.connect(wait=True)
 conn.subscribe('/topic/bowerick.message.generator', 1)
-conn.set_listener('particles', ParticleListener)
+conn.set_listener('particles', ParticleListener())
 
 print('Started.')
 while running:
