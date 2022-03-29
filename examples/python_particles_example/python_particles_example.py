@@ -37,16 +37,19 @@ class ParticleListener(stomp.ConnectionListener):
         y = list(map(lambda d: d['y'], particles))
         z = list(map(lambda d: d['z'], particles))
        
-        colors = list(map(lambda d: [d['color_r'], d['color_g'], d['color_b']], particles))
-       
         data = {}
         data['coordinates'] = np.array((x, y, z), dtype=float)
-        data['sizes'] = np.array(list(map(lambda d: d['scale_y'] * 500.0, particles)), dtype=float)
-        data['colors'] = np.array(colors, dtype=float)
+
+        if 'scale_y' in particles[0]:
+            data['sizes'] = np.array(list(map(lambda d: d['scale_y'] * 500.0, particles)), dtype=float)
+        if 'color_r' in particles[0] and 'color_g' in particles[0] and 'color_b' in particles[0]:
+            colors = list(map(lambda d: [d['color_r'], d['color_g'], d['color_b']], particles))
+            data['colors'] = np.array(colors, dtype=float)
+
         if data_queue.empty():
             data_queue.put(data)
 
-conn = stomp.Connection([('127.0.0.1', 2000)])
+conn = stomp.Connection([('127.0.0.1', 49567)])
 conn.connect(wait=True)
 conn.subscribe('/topic/bowerick.message.generator', 1)
 conn.set_listener('particles', ParticleListener())
@@ -56,9 +59,11 @@ while running:
     data = data_queue.get()
 
     p3d._offsets3d = data['coordinates']
-    p3d.set_sizes(data['sizes'])
-    p3d.set_edgecolors(data['colors'])
-    p3d.set_facecolors(data['colors'])
+    if 'sizes' in data:
+        p3d.set_sizes(data['sizes'])
+    if 'colors' in data:
+        p3d.set_edgecolors(data['colors'])
+        p3d.set_facecolors(data['colors'])
     
     plt.draw()
     plt.pause(0.01)
