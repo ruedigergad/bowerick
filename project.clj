@@ -2,11 +2,11 @@
 ;(defproject bowerick "2.9.5"
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
-                 [cheshire "5.10.2"]
+                 [cheshire "5.11.0"]
                  [cli4clj "1.8.0"]
                  [clj-assorted-utils "1.18.8"]
                  [com.ning/compress-lzf "1.1"]
-                 [com.taoensso/nippy "3.1.1"]
+                 [com.taoensso/nippy "3.1.3"]
                  [javax.servlet/javax.servlet-api "4.0.1"]
                  [org.apache.activemq/activemq-broker "5.17.1" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.apache.activemq/activemq-client "5.17.1" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
@@ -14,15 +14,15 @@
                  [org.apache.activemq/activemq-jaas "5.17.1" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.apache.activemq/activemq-openwire-legacy "5.17.1" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.apache.activemq/activemq-stomp "5.17.1" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.eclipse.jetty/jetty-server "9.4.46.v20220331"]
-                 [org.eclipse.jetty.websocket/websocket-client "9.4.46.v20220331"]
-                 [org.eclipse.jetty.websocket/websocket-server "9.4.46.v20220331"]
+                 [org.eclipse.jetty/jetty-server "9.4.48.v20220622"]
+                 [org.eclipse.jetty.websocket/websocket-client "9.4.48.v20220622"]
+                 [org.eclipse.jetty.websocket/websocket-server "9.4.48.v20220622"]
                  [org.clojure/clojure "1.11.1"]
                  [org.clojure/tools.cli "1.0.206"]
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.5"]
                  [org.iq80.snappy/snappy "0.4"]
-                 [org.springframework/spring-messaging "5.3.20"]
-                 [org.springframework/spring-websocket "5.3.20"]
+                 [org.springframework/spring-messaging "5.3.21"]
+                 [org.springframework/spring-websocket "5.3.21"]
                  [org.slf4j/slf4j-simple "1.7.36"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]
                  [juxt/dirwatch "0.2.5"]
@@ -48,7 +48,7 @@
   :html5-docs-ns-includes #"^bowerick.*"
   :html5-docs-repository-url "https://github.com/ruedigergad/bowerick/blob/master"
   :profiles {:repl
-               {:dependencies  [[jonase/eastwood "1.2.3" :exclusions  [org.clojure/clojure]]]}
+               {:dependencies  [[jonase/eastwood "1.2.4" :exclusions  [org.clojure/clojure]]]}
              :test
                {:dependencies [[criterium "0.4.6"]]
                 :test-paths ["test" "benchmark"]}}
