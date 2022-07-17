@@ -1,3 +1,3 @@
-(fn [producer delay-fn]
+(fn [producer _]
   (fn []
     (producer "producer return value")))
