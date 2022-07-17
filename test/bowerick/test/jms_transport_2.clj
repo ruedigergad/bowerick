@@ -12,10 +12,10 @@
     :doc "Tests for different JMS transport connections"}  
   bowerick.test.jms-transport-2
   (:require
-    [bowerick.jms :refer :all]
-    [bowerick.test.test-helper :refer :all]
-    [clj-assorted-utils.util :refer :all]
-    [clojure.test :refer :all]))
+    [bowerick.jms :as jms]
+    [bowerick.test.test-helper :as th]
+    [clj-assorted-utils.util :as utils]
+    [clojure.test :as test]))
 
 
 
@@ -23,13 +23,13 @@
 (def test-topic "/topic/testtopic.foo")
 
 (defn run-test-with-server [t]
-  (let [broker (binding [*trust-store-file* "test/ssl/broker.ts"
-                         *trust-store-password* "password"
-                         *key-store-file* "test/ssl/broker.ks"
-                         *key-store-password* "password"]
-                 (start-test-broker *local-jms-server*))]
+  (let [broker (binding [jms/*trust-store-file* "test/ssl/broker.ts"
+                         jms/*trust-store-password* "password"
+                         jms/*key-store-file* "test/ssl/broker.ks"
+                         jms/*key-store-password* "password"]
+                 (th/start-test-broker *local-jms-server*))]
     (t)
-    (stop broker)))
+    (jms/stop broker)))
 
 (defn single-test-fixture [t]
   (println "TEST RUN START: " (str t))
@@ -43,62 +43,62 @@
     (run-test-with-server t))
   (println "TESTING: stomp+ssl://127.0.0.1:31323")
   (binding [*local-jms-server* "stomp+ssl://127.0.0.1:31323"
-            *trust-store-file* "test/ssl/client.ts"
-            *trust-store-password* "password"
-            *key-store-file* "test/ssl/client.ks"
-            *key-store-password* "password"]
+            jms/*trust-store-file* "test/ssl/client.ts"
+            jms/*trust-store-password* "password"
+            jms/*key-store-file* "test/ssl/client.ks"
+            jms/*key-store-password* "password"]
     (run-test-with-server t))
   (println "TESTING: stomp+ssl://127.0.0.1:31323?needClientAuth=true")
   (binding [*local-jms-server* "stomp+ssl://127.0.0.1:31323?needClientAuth=true"
-            *trust-store-file* "test/ssl/client.ts"
-            *trust-store-password* "password"
-            *key-store-file* "test/ssl/client.ks"
-            *key-store-password* "password"]
+            jms/*trust-store-file* "test/ssl/client.ts"
+            jms/*trust-store-password* "password"
+            jms/*key-store-file* "test/ssl/client.ks"
+            jms/*key-store-password* "password"]
     (run-test-with-server t))
   (println "TESTING: ssl://localhost:31325")
   (binding [*local-jms-server* "ssl://localhost:31325"
-            *trust-store-file* "test/ssl/client.ts"
-            *trust-store-password* "password"
-            *key-store-file* "test/ssl/client.ks"
-            *key-store-password* "password"]
+            jms/*trust-store-file* "test/ssl/client.ts"
+            jms/*trust-store-password* "password"
+            jms/*key-store-file* "test/ssl/client.ks"
+            jms/*key-store-password* "password"]
     (run-test-with-server t))
   (println "TESTING: ssl://localhost:31325?needClientAuth=true")
   (binding [*local-jms-server* "ssl://localhost:31325?needClientAuth=true"
-            *trust-store-file* "test/ssl/client.ts"
-            *trust-store-password* "password"
-            *key-store-file* "test/ssl/client.ks"
-            *key-store-password* "password"]
+            jms/*trust-store-file* "test/ssl/client.ts"
+            jms/*trust-store-password* "password"
+            jms/*key-store-file* "test/ssl/client.ks"
+            jms/*key-store-password* "password"]
     (run-test-with-server t)))
 
-(use-fixtures :each single-test-fixture)
+(test/use-fixtures :each single-test-fixture)
 
 
 
-(deftest send-list-test
+(test/deftest send-list-test
   (let [received (ref nil)
-        flag (prepare-flag)
-        consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
-        consumer (create-single-consumer *local-jms-server* test-topic consume-fn)
+        flag (utils/prepare-flag)
+        consume-fn (fn [obj] (dosync (ref-set received obj)) (utils/set-flag flag))
+        consumer (jms/create-single-consumer *local-jms-server* test-topic consume-fn)
         data '(:a :b :c)
-        producer (create-single-producer *local-jms-server* test-topic)]
-    (is (not= data @received))
+        producer (jms/create-single-producer *local-jms-server* test-topic)]
+    (test/is (not= data @received))
     (producer data)
-    (await-flag flag)
-    (is (= data @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag flag)
+    (test/is (= data @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest send-vector-test
+(test/deftest send-vector-test
   (let [received (ref nil)
-        flag (prepare-flag)
-        consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
-        consumer (create-single-consumer *local-jms-server* test-topic consume-fn)
+        flag (utils/prepare-flag)
+        consume-fn (fn [obj] (dosync (ref-set received obj)) (utils/set-flag flag))
+        consumer (jms/create-single-consumer *local-jms-server* test-topic consume-fn)
         data [1 2 3 4 5]
-        producer (create-single-producer *local-jms-server* test-topic)]
-    (is (not= data @received))
+        producer (jms/create-single-producer *local-jms-server* test-topic)]
+    (test/is (not= data @received))
     (producer data)
-    (await-flag flag)
-    (is (= data @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag flag)
+    (test/is (= data @received))
+    (jms/close producer)
+    (jms/close consumer)))
 

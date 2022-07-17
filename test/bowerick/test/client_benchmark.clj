@@ -12,12 +12,12 @@
   bowerick.test.client-benchmark
   (:require
     [bowerick.jms :as jms]
-    [bowerick.main :refer :all]
-    [bowerick.test.test-helper :refer :all]
-    [cli4clj.cli-tests :refer :all]
-    [clj-assorted-utils.util :refer :all]
+    [bowerick.main :as main]
+    [bowerick.test.test-helper :as th]
+    [cli4clj.cli-tests :as cli-test]
+    [clj-assorted-utils.util :as utils]
     [clojure.string :as str]
-    [clojure.test :refer :all]))
+    [clojure.test :as test]))
 
 
 
@@ -25,21 +25,21 @@
 (def test-topic "/topic/testtopic.foo")
 
 (defn test-with-broker [t]
-  (let [broker (start-test-broker local-jms-server)]
+  (let [broker (th/start-test-broker local-jms-server)]
     (t)
     (jms/stop broker)))
 
-(use-fixtures :each test-with-broker)
+(test/use-fixtures :each test-with-broker)
 
 
 
-(deftest benchmark-client-test
+(test/deftest benchmark-client-test
   (let [producer (jms/create-producer local-jms-server test-topic)
-        _ (run-repeat (executor) #(producer "test message") 500)
-        sl (string-latch ["Benchmark client started... Type \"q\" followed by <Return> to quit: "
-                          ["Type \"q\" followed by <Return> to quit: " (fn [_] (sleep 2000))]])
-        out-string (test-cli-stdout #(run-cli-app "-u" local-jms-server "-D" test-topic "-B") ["x" "q"] sl)]
-    (is
+        _ (utils/run-repeat (utils/executor) #(producer "test message") 500)
+        sl (cli-test/string-latch ["Benchmark client started... Type \"q\" followed by <Return> to quit: "
+                          ["Type \"q\" followed by <Return> to quit: " (fn [_] (utils/sleep 2000))]])
+        out-string (cli-test/test-cli-stdout #(main/run-cli-app "-u" local-jms-server "-D" test-topic "-B") ["x" "q"] sl)]
+    (test/is
       (=
         "Data instances per second: 2"
         (-> out-string (str/split #"\n") last)))))

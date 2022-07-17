@@ -11,35 +11,31 @@
     :doc "Tests for aspects regarding the main entrypoint that are not covered elsewhere, e.g., in the client-* tests."}  
   bowerick.test.main
   (:require
-    [bowerick.jms :as jms]
-    [bowerick.main :refer :all]
-    [bowerick.test.test-helper :refer :all]
-    [cli4clj.cli-tests :refer :all]
-    [clj-assorted-utils.util :refer :all]
+    [bowerick.main :as main]
+    [cli4clj.cli-tests :as cli-test]
     [clojure.string :as str]
-    [clojure.test :refer :all]))
+    [clojure.test :as test]))
 
 
 
-(deftest print-license-information-test
-  (let [out-string (test-cli-stdout #(run-cli-app "--license-information") [])]
-    (is
+(test/deftest print-license-information-test
+  (let [out-string (cli-test/test-cli-stdout #(main/run-cli-app "--license-information") [])]
+    (test/is
       (=
         "Bowerick is licensed under the terms of the Eclipse Public License (EPL) 1.0."
         (-> out-string (str/split #"\n") first)))  
-    (is
+    (test/is
       (=
         "xpp3/xpp3_min                                              Indiana University Extreme! Lab Software License, vesion 1.1.1"
         (-> out-string (str/split #"\n") last)))))
 
-(deftest print-license-information-long-test
-  (let [out-string (test-cli-stdout #(run-cli-app "--license-information-long") [])]
-    (is
+(test/deftest print-license-information-long-test
+  (let [out-string (cli-test/test-cli-stdout #(main/run-cli-app "--license-information-long") [])]
+    (test/is
       (=
         "Bowerick is licensed under the terms of the Eclipse Public License (EPL) 1.0."
         (-> out-string (str/split #"\n") first)))  
-    (is
+    (test/is
       (=
         "from your version."
         (-> out-string (str/split #"\n") last)))))
-

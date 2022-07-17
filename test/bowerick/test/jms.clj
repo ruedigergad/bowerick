@@ -6,15 +6,17 @@
 ;;;   http://opensource.org/licenses/eclipse-1.0.php
 ;;;
 
-(ns 
+(ns
   ^{:author "Ruediger Gad",
-    :doc "Tests for JMS interaction"}  
+    :doc "Tests for JMS interaction"}
   bowerick.test.jms
   (:require
-    [bowerick.jms :refer :all]
-    [bowerick.test.test-helper :refer :all]
-    [clj-assorted-utils.util :refer :all]
-    [clojure.test :refer :all]))
+   [bowerick.jms :as jms]
+   [bowerick.test.test-helper :as th]
+   [cheshire.core :as chsh]
+   [clj-assorted-utils.util :as utils]
+   [clojure.test :as test]
+   [taoensso.nippy :as nippy]))
 
 
 
@@ -22,292 +24,294 @@
 (def test-topic "/topic/testtopic.foo")
 
 (defn test-with-broker [t]
-  (let [broker (start-test-broker local-jms-server)]
+  (let [broker (th/start-test-broker local-jms-server)]
     (t)
-    (stop broker)))
+    (jms/stop broker)))
 
-(use-fixtures :each test-with-broker)
+(test/use-fixtures :each test-with-broker)
 
 
 
-(deftest test-create-topic
-  (let [producer (create-producer local-jms-server test-topic)]
-    (is (not (nil? producer)))
-    (close producer)))
+(test/deftest test-create-topic
+  (let [producer (jms/create-producer local-jms-server test-topic)]
+    (test/is (not (nil? producer)))
+    (jms/close producer)))
 
-(deftest custom-transformation-producer-cheshire
-  (let [producer (create-producer local-jms-server test-topic 1 cheshire.core/generate-string)
+(test/deftest custom-transformation-producer-cheshire
+  (let [producer (jms/create-producer local-jms-server test-topic 1 chsh/generate-string)
         received (ref nil)
-        flag (prepare-flag)
-        consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
-        consumer (create-consumer local-jms-server test-topic consume-fn)]
+        flag (utils/prepare-flag)
+        consume-fn (fn [obj] (dosync (ref-set received obj)) (utils/set-flag flag))
+        consumer (jms/create-consumer local-jms-server test-topic consume-fn)]
     (producer {"a" "A", "b" 123})
-    (await-flag flag)
-    (is (= "{\"a\":\"A\",\"b\":123}" @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag flag)
+    (test/is (= "{\"a\":\"A\",\"b\":123}" @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest custom-transformation-producer-consumer-cheshire
-  (let [producer (create-producer local-jms-server test-topic 1 cheshire.core/generate-string)
+(test/deftest custom-transformation-producer-consumer-cheshire
+  (let [producer (jms/create-producer local-jms-server test-topic 1 chsh/generate-string)
         received (ref nil)
-        flag (prepare-flag)
-        consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
-        consumer (create-single-consumer local-jms-server test-topic consume-fn cheshire.core/parse-string)]
+        flag (utils/prepare-flag)
+        consume-fn (fn [obj] (dosync (ref-set received obj)) (utils/set-flag flag))
+        consumer (jms/create-single-consumer local-jms-server test-topic consume-fn chsh/parse-string)]
     (producer {"a" "A", "b" 123})
-    (await-flag flag)
-    (is (= {"a" "A", "b" 123} @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag flag)
+    (test/is (= {"a" "A", "b" 123} @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest json-producer-consumer
-  (let [producer (create-json-producer local-jms-server test-topic)
-        was-run (prepare-flag)
+(test/deftest json-producer-consumer
+  (let [producer (jms/create-json-producer local-jms-server test-topic)
+        was-run (utils/prepare-flag)
         received (atom nil)
-        consume-fn (fn [obj] (reset! received obj) (set-flag was-run))
-        consumer (create-json-consumer local-jms-server test-topic consume-fn)]
+        consume-fn (fn [obj] (reset! received obj) (utils/set-flag was-run))
+        consumer (jms/create-json-consumer local-jms-server test-topic consume-fn)]
     (producer {:a "b"})
-    (await-flag was-run)
-    (is (flag-set? was-run))
-    (is (= {"a" "b"} @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag was-run)
+    (test/is (utils/flag-set? was-run))
+    (test/is (= {"a" "b"} @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-;(deftest json-producer-consumer-ratio
-;  (let [producer (create-json-producer local-jms-server test-topic)
-;        was-run (prepare-flag)
+;(test/deftest json-producer-consumer-ratio
+;  (let [producer (jms/create-json-producer local-jms-server test-topic)
+;        was-run (utils/prepare-flag)
 ;        received (atom nil)
-;        consume-fn (fn [obj] (reset! received obj) (set-flag was-run))
-;        consumer (create-json-consumer local-jms-server test-topic consume-fn)]
+;        consume-fn (fn [obj] (reset! received obj) (utils/set-flag was-run))
+;        consumer (jms/create-json-consumer local-jms-server test-topic consume-fn)]
 ;    (producer {:a 1/3})
-;    (await-flag was-run)
-;    (is (flag-set? was-run))
-;    (is (= {"a" 1/3} @received))
-;    (close producer)
-;    (close consumer)))
+;    (utils/await-flag was-run)
+;    (test/is (utils/flag-set? was-run))
+;    (test/is (= {"a" 1/3} @received))
+;    (jms/close producer)
+;    (jms/close consumer)))
 
-(deftest json-producer-consumer-lzf
-  (let [producer (create-json-lzf-producer local-jms-server test-topic)
-        was-run (prepare-flag)
+(test/deftest json-producer-consumer-lzf
+  (let [producer (jms/create-json-lzf-producer local-jms-server test-topic)
+        was-run (utils/prepare-flag)
         received (atom nil)
-        consume-fn (fn [obj] (reset! received obj) (set-flag was-run))
-        consumer (create-json-lzf-consumer local-jms-server test-topic consume-fn)]
+        consume-fn (fn [obj] (reset! received obj) (utils/set-flag was-run))
+        consumer (jms/create-json-lzf-consumer local-jms-server test-topic consume-fn)]
     (producer {:a "b"})
-    (await-flag was-run)
-    (is (flag-set? was-run))
-    (is (= {"a" "b"} @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag was-run)
+    (test/is (utils/flag-set? was-run))
+    (test/is (= {"a" "b"} @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest json-producer-consumer-snappy
-  (let [producer (create-json-snappy-producer local-jms-server test-topic)
-        was-run (prepare-flag)
+(test/deftest json-producer-consumer-snappy
+  (let [producer (jms/create-json-snappy-producer local-jms-server test-topic)
+        was-run (utils/prepare-flag)
         received (atom nil)
-        consume-fn (fn [obj] (reset! received obj) (set-flag was-run))
-        consumer (create-json-snappy-consumer local-jms-server test-topic consume-fn)]
+        consume-fn (fn [obj] (reset! received obj) (utils/set-flag was-run))
+        consumer (jms/create-json-snappy-consumer local-jms-server test-topic consume-fn)]
     (producer {:a "b"})
-    (await-flag was-run)
-    (is (flag-set? was-run))
-    (is (= {"a" "b"} @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag was-run)
+    (test/is (utils/flag-set? was-run))
+    (test/is (= {"a" "b"} @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest json-producer-failsafe-json-consumer
-  (let [producer (create-json-producer local-jms-server test-topic)
-        was-run (prepare-flag)
+(test/deftest json-producer-failsafe-json-consumer
+  (let [producer (jms/create-json-producer local-jms-server test-topic)
+        was-run (utils/prepare-flag)
         received (atom nil)
-        consume-fn (fn [obj] (reset! received obj) (set-flag was-run))
-        consumer (create-failsafe-json-consumer local-jms-server test-topic consume-fn)]
+        consume-fn (fn [obj] (reset! received obj) (utils/set-flag was-run))
+        consumer (jms/create-failsafe-json-consumer local-jms-server test-topic consume-fn)]
     (producer {"a" "b"})
-    (await-flag was-run)
-    (is (flag-set? was-run))
-    (is (= {"a" "b"} @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag was-run)
+    (test/is (utils/flag-set? was-run))
+    (test/is (= {"a" "b"} @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest string-producer-failsafe-json-consumer
-  (let [producer (create-producer local-jms-server test-topic)
-        was-run (prepare-flag)
+(test/deftest string-producer-failsafe-json-consumer
+  (let [producer (jms/create-producer local-jms-server test-topic)
+        was-run (utils/prepare-flag)
         received (atom nil)
-        consume-fn (fn [obj] (reset! received obj) (set-flag was-run))
-        consumer (create-failsafe-json-consumer local-jms-server test-topic consume-fn)]
+        consume-fn (fn [obj] (reset! received obj) (utils/set-flag was-run))
+        consumer (jms/create-failsafe-json-consumer local-jms-server test-topic consume-fn)]
     (producer "foo")
-    (await-flag was-run)
-    (is (flag-set? was-run))
-    (is (= "foo" @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag was-run)
+    (test/is (utils/flag-set? was-run))
+    (test/is (= "foo" @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest object-producer-failsafe-json-consumer
-  (let [producer (create-producer local-jms-server test-topic)
-        was-run (prepare-flag)
+(test/deftest object-producer-failsafe-json-consumer
+  (let [producer (jms/create-producer local-jms-server test-topic)
+        was-run (utils/prepare-flag)
         received (atom nil)
-        consume-fn (fn [obj] (reset! received obj) (set-flag was-run))
-        consumer (create-failsafe-json-consumer local-jms-server test-topic consume-fn)]
+        consume-fn (fn [obj] (reset! received obj) (utils/set-flag was-run))
+        consumer (jms/create-failsafe-json-consumer local-jms-server test-topic consume-fn)]
     (producer {"a" "b"})
-    (await-flag was-run)
-    (is (flag-set? was-run))
-    (is (= "{\"a\" \"b\"}" @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag was-run)
+    (test/is (utils/flag-set? was-run))
+    (test/is (= "{\"a\" \"b\"}" @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest pooled-producer-normal-consumer
-  (let [producer (create-producer local-jms-server test-topic 3)
-        was-run (prepare-flag)
+(test/deftest pooled-producer-normal-consumer
+  (let [producer (jms/create-producer local-jms-server test-topic 3)
+        was-run (utils/prepare-flag)
         received (ref nil)
-        consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag was-run))
-        consumer (create-consumer local-jms-server test-topic consume-fn)]
+        consume-fn (fn [obj] (dosync (ref-set received obj)) (utils/set-flag was-run))
+        consumer (jms/create-consumer local-jms-server test-topic consume-fn)]
     (producer "a")
     (producer "b")
     (producer "c")
-    (await-flag was-run)
-    (is (flag-set? was-run))
-    (is (= '("a" "b" "c") @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag was-run)
+    (test/is (utils/flag-set? was-run))
+    (test/is (= '("a" "b" "c") @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest pooled-producer-pooled-consumer
-  (let [producer (create-producer local-jms-server test-topic 3)
-        was-run (prepare-flag 3)
+(test/deftest pooled-producer-pooled-consumer
+  (let [producer (jms/create-producer local-jms-server test-topic 3)
+        was-run (utils/prepare-flag 3)
         received (ref [])
-        consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
-        consumer (create-consumer local-jms-server test-topic consume-fn 3)]
+        consume-fn (fn [obj] (dosync (alter received conj obj)) (utils/set-flag was-run))
+        consumer (jms/create-consumer local-jms-server test-topic consume-fn 3)]
     (producer "a")
     (producer "b")
     (producer "c")
-    (await-flag was-run)
-    (is (flag-set? was-run))
-    (is (= ["a" "b" "c"] @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag was-run)
+    (test/is (utils/flag-set? was-run))
+    (test/is (= ["a" "b" "c"] @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest pooled-producer-pooled-consumer-nippy
-  (let [producer (create-nippy-producer local-jms-server test-topic 3)
-        was-run (prepare-flag 3)
+(test/deftest pooled-producer-pooled-consumer-nippy
+  (let [producer (jms/create-nippy-producer local-jms-server test-topic 3)
+        was-run (utils/prepare-flag 3)
         received (ref [])
-        consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
-        consumer (create-nippy-consumer local-jms-server test-topic consume-fn 3)]
+        consume-fn (fn [obj] (dosync (alter received conj obj)) (utils/set-flag was-run))
+        consumer (jms/create-nippy-consumer local-jms-server test-topic consume-fn 3)]
     (producer "a")
     (producer "b")
     (producer "c")
-    (await-flag was-run)
-    (is (flag-set? was-run))
-    (is (= ["a" "b" "c"] @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag was-run)
+    (test/is (utils/flag-set? was-run))
+    (test/is (= ["a" "b" "c"] @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest pooled-producer-pooled-consumer-nippy-lz4
-  (let [producer (create-nippy-producer
+(test/deftest pooled-producer-pooled-consumer-nippy-lz4
+  (let [producer #_{:clj-kondo/ignore [:unresolved-var]}
+                 (jms/create-nippy-producer
                    local-jms-server
                    test-topic
                    3
-                   {:compressor taoensso.nippy/lz4-compressor})
-        was-run (prepare-flag 3)
+                   {:compressor nippy/lz4-compressor})
+        was-run (utils/prepare-flag 3)
         received (ref [])
-        consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
-        consumer (create-nippy-consumer local-jms-server test-topic consume-fn 3)]
+        consume-fn (fn [obj] (dosync (alter received conj obj)) (utils/set-flag was-run))
+        consumer (jms/create-nippy-consumer local-jms-server test-topic consume-fn 3)]
     (producer "a")
     (producer "b")
     (producer "c")
-    (await-flag was-run)
-    (is (flag-set? was-run))
-    (is (= ["a" "b" "c"] @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag was-run)
+    (test/is (utils/flag-set? was-run))
+    (test/is (= ["a" "b" "c"] @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest pooled-producer-pooled-consumer-nippy-snappy
-  (let [producer (create-nippy-producer
+(test/deftest pooled-producer-pooled-consumer-nippy-snappy
+  (let [producer #_{:clj-kondo/ignore [:unresolved-var]}
+                 (jms/create-nippy-producer
                    local-jms-server
                    test-topic
                    3
-                   {:compressor taoensso.nippy/snappy-compressor})
-        was-run (prepare-flag 3)
+                   {:compressor nippy/snappy-compressor})
+        was-run (utils/prepare-flag 3)
         received (ref [])
-        consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
-        consumer (create-nippy-consumer local-jms-server test-topic consume-fn 3)]
+        consume-fn (fn [obj] (dosync (alter received conj obj)) (utils/set-flag was-run))
+        consumer (jms/create-nippy-consumer local-jms-server test-topic consume-fn 3)]
     (producer "a")
     (producer "b")
     (producer "c")
-    (await-flag was-run)
-    (is (flag-set? was-run))
-    (is (= ["a" "b" "c"] @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag was-run)
+    (test/is (utils/flag-set? was-run))
+    (test/is (= ["a" "b" "c"] @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest pooled-producer-pooled-consumer-nippy-lzma2
-  (let [producer (create-nippy-producer
+(test/deftest pooled-producer-pooled-consumer-nippy-lzma2
+  (let [producer #_{:clj-kondo/ignore [:unresolved-var]}
+                 (jms/create-nippy-producer
                    local-jms-server
                    test-topic
                    3
-                   {:compressor taoensso.nippy/lzma2-compressor})
-        was-run (prepare-flag 3)
+                   {:compressor nippy/lzma2-compressor})
+        was-run (utils/prepare-flag 3)
         received (ref [])
-        consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
-        consumer (create-nippy-consumer local-jms-server test-topic consume-fn 3)]
+        consume-fn (fn [obj] (dosync (alter received conj obj)) (utils/set-flag was-run))
+        consumer (jms/create-nippy-consumer local-jms-server test-topic consume-fn 3)]
     (producer "a")
     (producer "b")
     (producer "c")
-    (await-flag was-run)
-    (is (flag-set? was-run))
-    (is (= ["a" "b" "c"] @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag was-run)
+    (test/is (utils/flag-set? was-run))
+    (test/is (= ["a" "b" "c"] @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest pooled-producer-pooled-consumer-nippy-lzf
-  (let [producer (create-nippy-lzf-producer local-jms-server test-topic 3)
-        was-run (prepare-flag 3)
+(test/deftest pooled-producer-pooled-consumer-nippy-lzf
+  (let [producer (jms/create-nippy-lzf-producer local-jms-server test-topic 3)
+        was-run (utils/prepare-flag 3)
         received (ref [])
-        consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
-        consumer (create-nippy-lzf-consumer local-jms-server test-topic consume-fn 3)]
+        consume-fn (fn [obj] (dosync (alter received conj obj)) (utils/set-flag was-run))
+        consumer (jms/create-nippy-lzf-consumer local-jms-server test-topic consume-fn 3)]
     (producer "a")
     (producer "b")
     (producer "c")
-    (await-flag was-run)
-    (is (flag-set? was-run))
-    (is (= ["a" "b" "c"] @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag was-run)
+    (test/is (utils/flag-set? was-run))
+    (test/is (= ["a" "b" "c"] @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest pooled-producer-pooled-consumer-carbonite
-  (let [producer (create-carbonite-producer local-jms-server test-topic 3)
-        was-run (prepare-flag 3)
+(test/deftest pooled-producer-pooled-consumer-carbonite
+  (let [producer (jms/create-carbonite-producer local-jms-server test-topic 3)
+        was-run (utils/prepare-flag 3)
         received (ref [])
-        consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
-        consumer (create-carbonite-consumer local-jms-server test-topic consume-fn 3)]
+        consume-fn (fn [obj] (dosync (alter received conj obj)) (utils/set-flag was-run))
+        consumer (jms/create-carbonite-consumer local-jms-server test-topic consume-fn 3)]
     (producer "a")
     (producer "b")
     (producer "c")
-    (await-flag was-run)
-    (is (flag-set? was-run))
-    (is (= ["a" "b" "c"] @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag was-run)
+    (test/is (utils/flag-set? was-run))
+    (test/is (= ["a" "b" "c"] @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest pooled-producer-pooled-consumer-carbonite-lzf
-  (let [producer (create-carbonite-lzf-producer local-jms-server test-topic 3)
-        was-run (prepare-flag 3)
+(test/deftest pooled-producer-pooled-consumer-carbonite-lzf
+  (let [producer (jms/create-carbonite-lzf-producer local-jms-server test-topic 3)
+        was-run (utils/prepare-flag 3)
         received (ref [])
-        consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
-        consumer (create-carbonite-lzf-consumer local-jms-server test-topic consume-fn 3)]
+        consume-fn (fn [obj] (dosync (alter received conj obj)) (utils/set-flag was-run))
+        consumer (jms/create-carbonite-lzf-consumer local-jms-server test-topic consume-fn 3)]
     (producer "a")
     (producer "b")
     (producer "c")
-    (await-flag was-run)
-    (is (flag-set? was-run))
-    (is (= ["a" "b" "c"] @received))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag was-run)
+    (test/is (utils/flag-set? was-run))
+    (test/is (= ["a" "b" "c"] @received))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest pooled-producer-scheduled-autotransmit
-  (let [producer (create-producer local-jms-server test-topic 3)
-        was-run (prepare-flag 2)
+(test/deftest pooled-producer-scheduled-autotransmit
+  (let [producer (jms/create-producer local-jms-server test-topic 3)
+        was-run (utils/prepare-flag 2)
         received (ref [])
-        consume-fn (fn [obj] (dosync (alter received conj obj)) (set-flag was-run))
-        consumer (create-consumer local-jms-server test-topic consume-fn 3)]
+        consume-fn (fn [obj] (dosync (alter received conj obj)) (utils/set-flag was-run))
+        consumer (jms/create-consumer local-jms-server test-topic consume-fn 3)]
     (producer "a")
     (producer "b")
-    (await-flag was-run)
-    (is (flag-set? was-run))
-    (is (= ["a" "b"] @received))
-    (close producer)
-    (close consumer)))
-
+    (utils/await-flag was-run)
+    (test/is (utils/flag-set? was-run))
+    (test/is (= ["a" "b"] @received))
+    (jms/close producer)
+    (jms/close consumer)))

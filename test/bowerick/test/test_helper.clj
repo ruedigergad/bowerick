@@ -11,21 +11,21 @@
     :doc "Helper functions for tests"}  
   bowerick.test.test-helper
   (:require
-    [bowerick.jms :refer :all]
-    [clj-assorted-utils.util :refer :all]))
+    [bowerick.jms :as jms]
+    [clj-assorted-utils.util :as utils]))
 
 
 (defn handle-exception [e]
   (println "Test broker start failed with" (str e))
   (println "Retrying to start test broker...")
-  (sleep 100))
+  (utils/sleep 100))
 
 (defn start-test-broker
   [& args]
   (let [brkr (atom nil)]
     (while (nil? @brkr)
       (try
-        (reset! brkr (apply start-broker args))
+        (reset! brkr (apply jms/start-broker args))
         (catch java.net.BindException e
           (handle-exception e))
         (catch java.io.IOException e

@@ -11,11 +11,10 @@
     :doc "Tests for advanced message handling features."}  
   bowerick.test.advanced-message-handling
   (:require
-    [bowerick.jms :refer :all]
-    [bowerick.test.test-helper :refer :all]
-    [clj-assorted-utils.util :refer :all]
-    [clojure.java.io :refer :all]
-    [clojure.test :refer :all]))
+    [bowerick.jms :as jms]
+    [bowerick.test.test-helper :as th]
+    [clj-assorted-utils.util :as utils]
+    [clojure.test :as test]))
 
 
 
@@ -27,99 +26,99 @@
 
 
 
-(deftest get-ws-stomp-headers-test
+(test/deftest get-ws-stomp-headers-test
   (System/setProperty "java.net.preferIPv4Stack" "true")
-  (let [broker (start-test-broker [local-ws])
+  (let [broker (th/start-test-broker [local-ws])
         received-data (atom nil)
         received-headers (atom nil)
-        flag (prepare-flag)
+        flag (utils/prepare-flag)
         consume-fn (fn [data hdrs]
                      (reset! received-data data)
                      (reset! received-headers hdrs)
-                     (set-flag flag))
-        consumer (create-failsafe-json-consumer local-ws test-topic consume-fn)
-        producer (create-json-producer local-ws test-topic)]
+                     (utils/set-flag flag))
+        consumer (jms/create-failsafe-json-consumer local-ws test-topic consume-fn)
+        producer (jms/create-json-producer local-ws test-topic)]
     (println "Sending test-string...")
     (producer "test-string")
-    (await-flag flag)
+    (utils/await-flag flag)
     (println "Received message. Comparing result...")
-    (is (= "test-string" @received-data))
-    (is (instance? org.springframework.messaging.simp.stomp.StompHeaders @received-headers))
-    (is (= test-topic (.getDestination @received-headers)))
-    (is (= 13 (.getContentLength @received-headers)))
+    (test/is (= "test-string" @received-data))
+    (test/is (instance? org.springframework.messaging.simp.stomp.StompHeaders @received-headers))
+    (test/is (= test-topic (.getDestination @received-headers)))
+    (test/is (= 13 (.getContentLength @received-headers)))
     (println "RECEIVED HEADERS (WS/STOMP):" (str @received-headers))
-    (close producer)
-    (close consumer)
-    (stop broker)))
+    (jms/close producer)
+    (jms/close consumer)
+    (jms/stop broker)))
 
-(deftest get-mqtt-message-test
-  (let [broker (start-test-broker [local-mqtt])
-        producer (create-json-producer local-mqtt test-topic)
+(test/deftest get-mqtt-message-test
+  (let [broker (th/start-test-broker [local-mqtt])
+        producer (jms/create-json-producer local-mqtt test-topic)
         received-data (atom nil)
         received-msg (atom nil)
-        flag (prepare-flag)
+        flag (utils/prepare-flag)
         consume-fn (fn [data msg]
                      (reset! received-data data)
                      (reset! received-msg msg)
-                     (set-flag flag))
-        consumer (create-failsafe-json-consumer local-mqtt test-topic consume-fn)]
+                     (utils/set-flag flag))
+        consumer (jms/create-failsafe-json-consumer local-mqtt test-topic consume-fn)]
     (producer "test-string")
-    (await-flag flag)
-    (is (= "test-string" @received-data))
-    (is (instance? org.eclipse.paho.client.mqttv3.MqttMessage @received-msg))
-    (is (= 1 (.getQos @received-msg)))
-    (is (= 1 (.getId @received-msg)))
-    (is (= "\"test-string\"" (String. (.getPayload @received-msg))))
-    (close producer)
-    (close consumer)
-    (stop broker)))
+    (utils/await-flag flag)
+    (test/is (= "test-string" @received-data))
+    (test/is (instance? org.eclipse.paho.client.mqttv3.MqttMessage @received-msg))
+    (test/is (= 1 (.getQos @received-msg)))
+    (test/is (= 1 (.getId @received-msg)))
+    (test/is (= "\"test-string\"" (String. (.getPayload @received-msg))))
+    (jms/close producer)
+    (jms/close consumer)
+    (jms/stop broker)))
 
-(deftest get-openwire-message-test
-  (let [broker (start-test-broker [local-openwire])
-        producer (create-json-producer local-openwire test-topic)
+(test/deftest get-openwire-message-test
+  (let [broker (th/start-test-broker [local-openwire])
+        producer (jms/create-json-producer local-openwire test-topic)
         received-data (atom nil)
         received-msg (atom nil)
-        flag (prepare-flag)
+        flag (utils/prepare-flag)
         consume-fn (fn [data msg]
                      (reset! received-data data)
                      (reset! received-msg msg)
-                     (set-flag flag))
-        consumer (create-failsafe-json-consumer local-openwire test-topic consume-fn)]
+                     (utils/set-flag flag))
+        consumer (jms/create-failsafe-json-consumer local-openwire test-topic consume-fn)]
     (producer "test-string")
-    (await-flag flag)
-    (is (= "test-string" @received-data))
-    (is (instance? javax.jms.Message @received-msg))
+    (utils/await-flag flag)
+    (test/is (= "test-string" @received-data))
+    (test/is (instance? javax.jms.Message @received-msg))
     (println "RECEIVED MESSAGE (OPENWIRE):" (str @received-msg))
-    (close producer)
-    (close consumer)
-    (stop broker)))
+    (jms/close producer)
+    (jms/close consumer)
+    (jms/stop broker)))
 
-(deftest get-stomp-message-test
-  (let [broker (start-test-broker [local-stomp])
-        producer (create-json-producer local-stomp test-topic)
+(test/deftest get-stomp-message-test
+  (let [broker (th/start-test-broker [local-stomp])
+        producer (jms/create-json-producer local-stomp test-topic)
         received-data (atom nil)
         received-msg (atom nil)
-        flag (prepare-flag)
+        flag (utils/prepare-flag)
         consume-fn (fn [data msg]
                      (reset! received-data data)
                      (reset! received-msg msg)
-                     (set-flag flag))
-        consumer (create-failsafe-json-consumer local-stomp test-topic consume-fn)]
+                     (utils/set-flag flag))
+        consumer (jms/create-failsafe-json-consumer local-stomp test-topic consume-fn)]
     (producer "test-string")
-    (await-flag flag)
-    (is (= "test-string" @received-data))
-    (is (instance? javax.jms.Message @received-msg))
+    (utils/await-flag flag)
+    (test/is (= "test-string" @received-data))
+    (test/is (instance? javax.jms.Message @received-msg))
     (println "RECEIVED MESSAGE (STOMP):" (str @received-msg))
-    (close producer)
-    (close consumer)
-    (stop broker)))
+    (jms/close producer)
+    (jms/close consumer)
+    (jms/stop broker)))
 
-(deftest openwire-custom-message-properties-test
-  (let [broker (start-test-broker [local-openwire])
-        producer (create-json-producer local-openwire test-topic)
+(test/deftest openwire-custom-message-properties-test
+  (let [broker (th/start-test-broker [local-openwire])
+        producer (jms/create-json-producer local-openwire test-topic)
         received-data (atom nil)
         received-msg (atom nil)
-        flag (prepare-flag)
+        flag (utils/prepare-flag)
         message-properties {"Some Boolean" true
                             "Some Byte" (byte 42)
                             "Some Double" 1.701
@@ -131,28 +130,28 @@
         consume-fn (fn [data msg]
                      (reset! received-data data)
                      (reset! received-msg msg)
-                     (set-flag flag))
-        consumer (create-failsafe-json-consumer local-openwire test-topic consume-fn)]
-    (producer "test-string" {msg-prop-key message-properties})
-    (await-flag flag)
-    (is (.getBooleanProperty @received-msg "Some Boolean"))
-    (is (= (byte 42) (.getByteProperty @received-msg "Some Byte")))
-    (is (= 1.701 (.getDoubleProperty @received-msg "Some Double")))
-    (is (= (float 1.701) (.getFloatProperty @received-msg "Some Float")))
-    (is (= (int 1701) (.getIntProperty @received-msg "Some Integer")))
-    (is (= 1701 (.getLongProperty @received-msg "Some Long")))
-    (is (= (short 1701) (.getShortProperty @received-msg "Some Short")))
-    (is (= "Enterprise" (.getStringProperty @received-msg "Some String")))
-    (close producer)
-    (close consumer)
-    (stop broker)))
+                     (utils/set-flag flag))
+        consumer (jms/create-failsafe-json-consumer local-openwire test-topic consume-fn)]
+    (producer "test-string" {jms/msg-prop-key message-properties})
+    (utils/await-flag flag)
+    (test/is (.getBooleanProperty @received-msg "Some Boolean"))
+    (test/is (= (byte 42) (.getByteProperty @received-msg "Some Byte")))
+    (test/is (= 1.701 (.getDoubleProperty @received-msg "Some Double")))
+    (test/is (= (float 1.701) (.getFloatProperty @received-msg "Some Float")))
+    (test/is (= (int 1701) (.getIntProperty @received-msg "Some Integer")))
+    (test/is (= 1701 (.getLongProperty @received-msg "Some Long")))
+    (test/is (= (short 1701) (.getShortProperty @received-msg "Some Short")))
+    (test/is (= "Enterprise" (.getStringProperty @received-msg "Some String")))
+    (jms/close producer)
+    (jms/close consumer)
+    (jms/stop broker)))
 
-(deftest stomp-custom-message-properties-test
-  (let [broker (start-test-broker [local-stomp])
-        producer (create-json-producer local-stomp test-topic)
+(test/deftest stomp-custom-message-properties-test
+  (let [broker (th/start-test-broker [local-stomp])
+        producer (jms/create-json-producer local-stomp test-topic)
         received-data (atom nil)
         received-msg (atom nil)
-        flag (prepare-flag)
+        flag (utils/prepare-flag)
         message-properties {"Some Boolean" false
                             "Some Byte" (byte 21)
                             "Some Double" 1.864
@@ -164,19 +163,18 @@
         consume-fn (fn [data msg]
                      (reset! received-data data)
                      (reset! received-msg msg)
-                     (set-flag flag))
-        consumer (create-failsafe-json-consumer local-stomp test-topic consume-fn)]
-    (producer "test-string" {msg-prop-key message-properties})
-    (await-flag flag)
-    (is (not (.getBooleanProperty @received-msg "Some Boolean")))
-    (is (= (byte 21) (.getByteProperty @received-msg "Some Byte")))
-    (is (= 1.864 (.getDoubleProperty @received-msg "Some Double")))
-    (is (= (float 1.864) (.getFloatProperty @received-msg "Some Float")))
-    (is (= (int 1864) (.getIntProperty @received-msg "Some Integer")))
-    (is (= 1864 (.getLongProperty @received-msg "Some Long")))
-    (is (= (short 1864) (.getShortProperty @received-msg "Some Short")))
-    (is (= "Reliant" (.getStringProperty @received-msg "Some String")))
-    (close producer)
-    (close consumer)
-    (stop broker)))
-
+                     (utils/set-flag flag))
+        consumer (jms/create-failsafe-json-consumer local-stomp test-topic consume-fn)]
+    (producer "test-string" {jms/msg-prop-key message-properties})
+    (utils/await-flag flag)
+    (test/is (not (.getBooleanProperty @received-msg "Some Boolean")))
+    (test/is (= (byte 21) (.getByteProperty @received-msg "Some Byte")))
+    (test/is (= 1.864 (.getDoubleProperty @received-msg "Some Double")))
+    (test/is (= (float 1.864) (.getFloatProperty @received-msg "Some Float")))
+    (test/is (= (int 1864) (.getIntProperty @received-msg "Some Integer")))
+    (test/is (= 1864 (.getLongProperty @received-msg "Some Long")))
+    (test/is (= (short 1864) (.getShortProperty @received-msg "Some Short")))
+    (test/is (= "Reliant" (.getStringProperty @received-msg "Some String")))
+    (jms/close producer)
+    (jms/close consumer)
+    (jms/stop broker)))

@@ -12,12 +12,12 @@
   bowerick.test.client-cli
   (:require
     [bowerick.jms :as jms]
-    [bowerick.main :refer :all]
-    [bowerick.test.test-helper :refer :all]
+    [bowerick.main :as main]
+    [bowerick.test.test-helper :as th]
     [cheshire.core :as cheshire]
-    [cli4clj.cli-tests :refer :all]
-    [clj-assorted-utils.util :refer :all]
-    [clojure.test :refer :all]
+    [cli4clj.cli-tests :as cli-tests]
+    [clj-assorted-utils.util :as utils]
+    [clojure.test :as test]
     [clojure.java.io :as io])
   (:import
     (java.io PipedReader PipedWriter)))
@@ -28,54 +28,54 @@
 (def local-cli-jms-server "tcp://127.0.0.1:53847")
 (def test-topic "/topic/testtopic.foo")
 (def json-test-file-name "test/data/json-test-data.txt")
-(def csv-test-file-name "test/data/csv_input_test_file.txt")
+;(def csv-test-file-name "test/data/csv_input_test_file.txt")
 (def record-test-output-file "record-test-output.txt")
 (def replay-test-file-name "test/data/record_out.txt")
 
 (defn test-with-broker [t]
-  (rm record-test-output-file)
-  (let [broker (start-test-broker local-jms-server)]
+  (utils/rm record-test-output-file)
+  (let [broker (th/start-test-broker local-jms-server)]
     (t)
     (jms/stop broker)))
 
-(use-fixtures :each test-with-broker)
+(test/use-fixtures :each test-with-broker)
 
 
 
-(deftest show-help-test
-  (let [out-string (test-cli-stdout #(run-cli-app "-h") "")]
-    (is
+(test/deftest show-help-test
+  (let [out-string (cli-tests/test-cli-stdout #(main/run-cli-app "-h") "")]
+    (test/is
       (.startsWith out-string "Bowerick help:"))))
 
-(deftest dummy-send-test
+(test/deftest dummy-send-test
   (let [test-cmd-input [(str "send " local-jms-server ":" test-topic " \"test-data\"")]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
-    (is
+        out-string (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)]
+    (test/is
       (=
-        (expected-string
+        (cli-tests/expected-string
           [(str "Sending: " local-jms-server ":" test-topic " <-")
            "\"test-data\""
            "Closing bowerick.jms.ProducerWrapper for tcp://127.0.0.1:42424:/topic/testtopic.foo ..."])
         out-string))))
 
-(deftest dummy-receive-test
+(test/deftest dummy-receive-test
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
-    (is
+        out-string (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)]
+    (test/is
       (=
-        (expected-string
+        (cli-tests/expected-string
           [(str "Set up consumer for: " local-jms-server ":" test-topic)
            "Closing bowerick.jms.ConsumerWrapper for tcp://127.0.0.1:42424:/topic/testtopic.foo ..."])
         out-string))))
 
-(deftest simple-send-receive-test
+(test/deftest simple-send-receive-test
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
                         (str "send " local-jms-server ":" test-topic " \"test-data\"")
                         "_sleep 300"]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
-    (is
+        out-string (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)]
+    (test/is
       (=
-        (expected-string
+        (cli-tests/expected-string
           [(str "Set up consumer for: " local-jms-server ":" test-topic)
            (str "Sending: " local-jms-server ":" test-topic " <-")
            "\"test-data\""
@@ -85,14 +85,14 @@
            "Closing bowerick.jms.ConsumerWrapper for tcp://127.0.0.1:42424:/topic/testtopic.foo ..."])
         out-string))))
 
-(deftest simple-send-file-receive-test
+(test/deftest simple-send-file-receive-test
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
                         (str "send-file " local-jms-server ":" test-topic " \"" json-test-file-name "\"")
                         "_sleep 500"]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
-    (is
+        out-string (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)]
+    (test/is
       (=
-        (expected-string
+        (cli-tests/expected-string
           [(str "Set up consumer for: " local-jms-server ":" test-topic)
            (str "Sending file: " local-jms-server ":" test-topic " <- " json-test-file-name)
            (str "Received: " local-jms-server ":" test-topic " ->")
@@ -101,14 +101,14 @@
            "Closing bowerick.jms.ConsumerWrapper for tcp://127.0.0.1:42424:/topic/testtopic.foo ..."])
         out-string))))
 
-(deftest simple-send-text-file-receive-test
+(test/deftest simple-send-text-file-receive-test
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
                         (str "send-text-file " local-jms-server ":" test-topic " \"" json-test-file-name "\"")
                         "_sleep 300"]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
-    (is
+        out-string (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)]
+    (test/is
       (=
-        (expected-string
+        (cli-tests/expected-string
           [(str "Set up consumer for: " local-jms-server ":" test-topic)
            (str "Sending text file: " local-jms-server ":" test-topic " <- " json-test-file-name)
            (str "Received: " local-jms-server ":" test-topic " ->")
@@ -117,34 +117,34 @@
            "Closing bowerick.jms.ConsumerWrapper for tcp://127.0.0.1:42424:/topic/testtopic.foo ..."])
         out-string))))
 
-(deftest simple-send-receive-with-cli-broker-test
+(test/deftest simple-send-receive-with-cli-broker-test
   (let [started-string "Broker started."
-        started-flag (prepare-flag)
+        started-flag (utils/prepare-flag)
         stopped-string "Broker stopped."
-        stopped-flag (prepare-flag)
+        stopped-flag (utils/prepare-flag)
         stop-wrtr (PipedWriter.)
         stop-rdr (PipedReader. stop-wrtr)
-        main-thread (Thread. #(with-out-str-cb
+        main-thread (Thread. #(utils/with-out-str-cb
                                 (fn [s]
                                   (when (.contains s started-string)
-                                    (println-err "Test broker started.")
-                                    (set-flag started-flag))
+                                    (utils/println-err "Test broker started.")
+                                    (utils/set-flag started-flag))
                                   (when (.contains s stopped-string)
-                                    (println-err "Test broker stopped.")
-                                    (set-flag stopped-flag)))
+                                    (utils/println-err "Test broker stopped.")
+                                    (utils/set-flag stopped-flag)))
                                 (binding [*in* (io/reader stop-rdr)]
-                                  (run-cli-app "-u" (str "\"" local-cli-jms-server "\"")))))
+                                  (main/run-cli-app "-u" (str "\"" local-cli-jms-server "\"")))))
         _ (.setDaemon main-thread true)
         _ (.start main-thread)
         _ (println "Waiting for test broker to start up...")
-        _ (await-flag started-flag)
+        _ (utils/await-flag started-flag)
         test-cmd-input [(str "receive " local-cli-jms-server ":" test-topic)
                         (str "send " local-cli-jms-server ":" test-topic " \"test-data\"")
                         "_sleep 500"]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
-    (is
+        out-string (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)]
+    (test/is
       (=
-        (expected-string
+        (cli-tests/expected-string
           [(str "Set up consumer for: " local-cli-jms-server ":" test-topic)
            (str "Sending: " local-cli-jms-server ":" test-topic " <-")
            "\"test-data\""
@@ -156,114 +156,116 @@
     (println "Stopping test broker...")
     (.write stop-wrtr "q\r")
     (println "Waiting for test broker to stop...")
-    (await-flag stopped-flag)))
+    (utils/await-flag stopped-flag)))
 
-(deftest simple-cli-broker-aframe-test
+(test/deftest simple-cli-broker-aframe-test
   (let [started-string "Broker started."
-        started-flag (prepare-flag)
+        started-flag (utils/prepare-flag)
         stopped-string "Broker stopped."
-        stopped-flag (prepare-flag)
+        stopped-flag (utils/prepare-flag)
         stop-wrtr (PipedWriter.)
         stop-rdr (PipedReader. stop-wrtr)
-        main-thread (Thread. #(with-out-str-cb
+        main-thread (Thread. #(utils/with-out-str-cb
                                 (fn [s]
                                   (when (string? s)
                                     (when (.contains s started-string)
-                                      (println-err "Test broker started.")
-                                      (set-flag started-flag))
+                                      (utils/println-err "Test broker started.")
+                                      (utils/set-flag started-flag))
                                     (when (.contains s stopped-string)
-                                      (println-err "Test broker stopped.")
-                                      (set-flag stopped-flag))))
+                                      (utils/println-err "Test broker stopped.")
+                                      (utils/set-flag stopped-flag))))
                                 (binding [*in* (io/reader stop-rdr)]
-                                  (run-cli-app "-u" (str "\"" local-cli-jms-server "\"") "-A"))))
+                                  (main/run-cli-app "-u" (str "\"" local-cli-jms-server "\"") "-A"))))
         _ (.setDaemon main-thread true)
         _ (.start main-thread)
         _ (println "Waiting for test broker to start up...")
-        _ (await-flag started-flag)
+        _ (utils/await-flag started-flag)
         received (atom [])
-        received-flag (prepare-flag)
+        received-flag (utils/prepare-flag)
         consumer (jms/create-json-consumer
                    local-cli-jms-server
                    "/topic/bowerick.message.generator"
                    (fn [data]
                      (if (>= (count @received) 2)
-                       (set-flag received-flag)
+                       (utils/set-flag received-flag)
                        (swap! received conj data))))]
     (println "Waiting to receive test data...")
-    (await-flag received-flag)
-    (is (seq? (first @received)))
-    (is (map? (first (first @received))))
-    (is (contains? (first (first @received)) "x"))
-    (is (contains? (first (first @received)) "y"))
-    (is (contains? (first (first @received)) "z"))
-    (is (> ((first (first @received)) "x") ((first (second @received)) "x")))
-    (is (< ((first (first @received)) "y") ((first (second @received)) "y")))
-    (is (= ((first (first @received)) "z") ((first (second @received)) "z")))
+    (utils/await-flag received-flag)
+    (test/is (seq? (first @received)))
+    (test/is (map? (first (first @received))))
+    (test/is (contains? (first (first @received)) "x"))
+    (test/is (contains? (first (first @received)) "y"))
+    (test/is (contains? (first (first @received)) "z"))
+    (test/is (> ((first (first @received)) "x") ((first (second @received)) "x")))
+    (test/is (< ((first (first @received)) "y") ((first (second @received)) "y")))
+    (test/is (= ((first (first @received)) "z") ((first (second @received)) "z")))
+    (jms/close consumer)
     (println "Stopping test broker...")
     (.write stop-wrtr "q\r")
     (println "Waiting for test broker to stop...")
-    (await-flag stopped-flag)))
+    (utils/await-flag stopped-flag)))
 
-(deftest simple-cli-broker-embedded-generator-hello-world-test
+(test/deftest simple-cli-broker-embedded-generator-hello-world-test
   (let [started-string "Broker started."
-        started-flag (prepare-flag)
+        started-flag (utils/prepare-flag)
         stopped-string "Broker stopped."
-        stopped-flag (prepare-flag)
+        stopped-flag (utils/prepare-flag)
         stop-wrtr (PipedWriter.)
         stop-rdr (PipedReader. stop-wrtr)
-        main-thread (Thread. #(with-out-str-cb
+        main-thread (Thread. #(utils/with-out-str-cb
                                 (fn [s]
                                   (when (string? s)
                                     (when (.contains s started-string)
-                                      (println-err "Test broker started.")
-                                      (set-flag started-flag))
+                                      (utils/println-err "Test broker started.")
+                                      (utils/set-flag started-flag))
                                     (when (.contains s stopped-string)
-                                      (println-err "Test broker stopped.")
-                                      (set-flag stopped-flag))))
+                                      (utils/println-err "Test broker stopped.")
+                                      (utils/set-flag stopped-flag))))
                                 (binding [*in* (io/reader stop-rdr)]
-                                  (run-cli-app "-u" (str "\"" local-cli-jms-server "\"") "-G" "hello-world" "-I" "20"))))
+                                  (main/run-cli-app "-u" (str "\"" local-cli-jms-server "\"") "-G" "hello-world" "-I" "20"))))
         _ (.setDaemon main-thread true)
         _ (.start main-thread)
         _ (println "Waiting for test broker to start up...")
-        _ (await-flag started-flag)
+        _ (utils/await-flag started-flag)
         received (atom [])
-        received-flag (prepare-flag)
+        received-flag (utils/prepare-flag)
         consumer (jms/create-single-consumer
                    local-cli-jms-server
                    "/topic/bowerick.message.generator"
                    (fn [data]
                      (if (>= (count @received) 2)
-                       (set-flag received-flag)
+                       (utils/set-flag received-flag)
                        (swap! received conj (String. data)))))]
     (println "Waiting to receive test data...")
-    (await-flag received-flag)
-    (is (= "hello world" (first @received)))
-    (is (= "hello world" (second @received)))
+    (utils/await-flag received-flag)
+    (test/is (= "hello world" (first @received)))
+    (test/is (= "hello world" (second @received)))
+    (jms/close consumer)
     (println "Stopping test broker...")
     (.write stop-wrtr "q\r")
     (println "Waiting for test broker to stop...")
-    (await-flag stopped-flag)))
+    (utils/await-flag stopped-flag)))
 
-(deftest simple-send-receive-with-cli-daemon-broker-test
+(test/deftest simple-send-receive-with-cli-daemon-broker-test
   (let [started-string "Broker started in daemon mode."
-        flag (prepare-flag)
-        main-thread (Thread. #(with-out-str-cb
+        flag (utils/prepare-flag)
+        main-thread (Thread. #(utils/with-out-str-cb
                                 (fn [s]
                                   (when (.contains s started-string)
-                                    (println-err "Test broker started.")
-                                    (set-flag flag)))
-                                (run-cli-app "-u" (str "\"" local-cli-jms-server "\"") "-d")))
+                                    (utils/println-err "Test broker started.")
+                                    (utils/set-flag flag)))
+                                (main/run-cli-app "-u" (str "\"" local-cli-jms-server "\"") "-d")))
         _ (.setDaemon main-thread true)
         _ (.start main-thread)
         _ (println "Waiting for test broker to start up...")
-        _ (await-flag flag)
+        _ (utils/await-flag flag)
         test-cmd-input [(str "receive " local-cli-jms-server ":" test-topic)
                         (str "send " local-cli-jms-server ":" test-topic " \"test-data\"")
                         "_sleep 500"]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
-    (is
+        out-string (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)]
+    (test/is
       (=
-        (expected-string
+        (cli-tests/expected-string
           [(str "Set up consumer for: " local-cli-jms-server ":" test-topic)
            (str "Sending: " local-cli-jms-server ":" test-topic " <-")
            "\"test-data\""
@@ -274,13 +276,13 @@
         out-string))
     (.interrupt main-thread)))
 
-(deftest broker-management-get-destinations-test
+(test/deftest broker-management-get-destinations-test
   (let [test-cmd-input [(str "management \"" local-jms-server "\" get-destinations")
                         "_sleep 300"]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
-    (is
+        out-string (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)]
+    (test/is
       (=
-        (expected-string
+        (cli-tests/expected-string
           ["Management Command: tcp://127.0.0.1:42424:/topic/bowerick.broker.management.command <-"
            "\"get-destinations\""
            "Management Reply: tcp://127.0.0.1:42424 ->"
@@ -290,13 +292,13 @@
            "Closing bowerick.jms.ConsumerWrapper for tcp://127.0.0.1:42424:/topic/bowerick.broker.management.reply ..."])
         out-string))))
 
-(deftest broker-management-get-all-destinations-test
+(test/deftest broker-management-get-all-destinations-test
   (let [test-cmd-input [(str "management " local-jms-server " get-all-destinations")
                         "_sleep 300"]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
-    (is
+        out-string (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)]
+    (test/is
       (=
-        (expected-string
+        (cli-tests/expected-string
           ["Management Command: tcp://127.0.0.1:42424:/topic/bowerick.broker.management.command <-"
            "\"get-all-destinations\""
            "Management Reply: tcp://127.0.0.1:42424 ->"
@@ -313,8 +315,8 @@
            "Closing bowerick.jms.ConsumerWrapper for tcp://127.0.0.1:42424:/topic/bowerick.broker.management.reply ..."])
         out-string))))
 
-(deftest simple-record-test
-  (is (not (file-exists? record-test-output-file)))
+(test/deftest simple-record-test
+  (test/is (not (utils/file-exists? record-test-output-file)))
   (let [test-cmd-input [(str "record " record-test-output-file " " local-jms-server ":" test-topic)
                         "_sleep 300"
                         (str "send " local-jms-server ":" test-topic " foo")
@@ -322,7 +324,7 @@
                         (str "send " local-jms-server ":" test-topic " 123")
                         "_sleep 300"
                         (str "stop " record-test-output-file)]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)
+        _ (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)
         expected-data [{"data" "\"foo\""
                         "metadata" {"source" (str local-jms-server ":" test-topic)
                                     "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}
@@ -333,18 +335,18 @@
                         "metadata" {"source" (str local-jms-server ":" test-topic)
                                     "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}]
         recorded-data (cheshire/parse-string (slurp record-test-output-file))]
-    (is (file-exists? record-test-output-file))
+    (test/is (utils/file-exists? record-test-output-file))
     (doall
       (map
         (fn [exp act]
-          (is (= (exp "data") (act "data")))
-          (is (= (get-in exp ["metadata" "source"]) (get-in act ["metadata" "source"])))
-          (is (not (nil? (get-in act ["metadata" "timestamp"])))))
+          (test/is (= (exp "data") (act "data")))
+          (test/is (= (get-in exp ["metadata" "source"]) (get-in act ["metadata" "source"])))
+          (test/is (not (nil? (get-in act ["metadata" "timestamp"])))))
         expected-data
         (recorded-data "messages")))))
 
-(deftest record-stop-through-quit-test
-  (is (not (file-exists? record-test-output-file)))
+(test/deftest record-stop-through-quit-test
+  (test/is (not (utils/file-exists? record-test-output-file)))
   (let [test-cmd-input [(str "record " record-test-output-file " " local-jms-server ":" test-topic)
                         "_sleep 300"
                         (str "send " local-jms-server ":" test-topic " foo")
@@ -352,7 +354,7 @@
                         (str "send " local-jms-server ":" test-topic " 123")
                         "_sleep 300"
                         (str "quit " record-test-output-file)]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)
+        _ (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)
         expected-data [{"data" "\"foo\""
                         "metadata" {"source" (str local-jms-server ":" test-topic)
                                     "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}
@@ -363,18 +365,18 @@
                         "metadata" {"source" (str local-jms-server ":" test-topic)
                                     "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}]
         recorded-data (cheshire/parse-string (slurp record-test-output-file))]
-    (is (file-exists? record-test-output-file))
+    (test/is (utils/file-exists? record-test-output-file))
     (doall
       (map
         (fn [exp act]
-          (is (= (exp "data") (act "data")))
-          (is (= (get-in exp ["metadata" "source"]) (get-in act ["metadata" "source"])))
-          (is (not (nil? (get-in act ["metadata" "timestamp"])))))
+          (test/is (= (exp "data") (act "data")))
+          (test/is (= (get-in exp ["metadata" "source"]) (get-in act ["metadata" "source"])))
+          (test/is (not (nil? (get-in act ["metadata" "timestamp"])))))
         expected-data
         (recorded-data "messages")))))
 
-(deftest simple-multi-destination-record-test
-  (is (not (file-exists? record-test-output-file)))
+(test/deftest simple-multi-destination-record-test
+  (test/is (not (utils/file-exists? record-test-output-file)))
   (let [test-cmd-input [(str "record " record-test-output-file " " local-jms-server ":" test-topic ".a")
                         (str "record " record-test-output-file " " local-jms-server ":" test-topic ".b")
                         (str "record " record-test-output-file " " local-jms-server ":" test-topic ".c")
@@ -386,7 +388,7 @@
                         (str "send " local-jms-server ":" test-topic ".c 123")
                         "_sleep 300"
                         (str "stop " record-test-output-file)]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)
+        _ (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)
         expected-data [{"data" "\"foo\""
                         "metadata" {"source" (str local-jms-server ":" test-topic ".a")
                                     "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}
@@ -397,20 +399,20 @@
                         "metadata" {"source" (str local-jms-server ":" test-topic ".c")
                                     "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}]
         recorded-data (cheshire/parse-string (slurp record-test-output-file))]
-    (is (file-exists? record-test-output-file))
+    (test/is (utils/file-exists? record-test-output-file))
     (doall
       (map
         (fn [exp act]
-          (is (= (exp "data") (act "data")))
-          (is (= (get-in exp ["metadata" "source"]) (get-in act ["metadata" "source"])))
-          (is (not (nil? (get-in act ["metadata" "timestamp"])))))
+          (test/is (= (exp "data") (act "data")))
+          (test/is (= (get-in exp ["metadata" "source"]) (get-in act ["metadata" "source"])))
+          (test/is (not (nil? (get-in act ["metadata" "timestamp"])))))
         expected-data
         (recorded-data "messages")))
-    (is (not (nil? (get-in recorded-data ["metadata" "timestamp_millis"]))))
-    (is (not (nil? (get-in recorded-data ["metadata" "timestamp_nanos"]))))))
+    (test/is (not (nil? (get-in recorded-data ["metadata" "timestamp_millis"]))))
+    (test/is (not (nil? (get-in recorded-data ["metadata" "timestamp_nanos"]))))))
 
-(deftest multi-destination-multi-arg-record-test
-  (is (not (file-exists? record-test-output-file)))
+(test/deftest multi-destination-multi-arg-record-test
+  (test/is (not (utils/file-exists? record-test-output-file)))
   (let [test-cmd-input [(str
                           "record "
                           record-test-output-file " "
@@ -423,7 +425,7 @@
                         (str "send " local-jms-server ":" test-topic ".c 123")
                         "_sleep 300"
                         (str "stop " record-test-output-file)]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)
+        _ (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)
         expected-data [{"data" "\"foo\""
                         "metadata" {"source" (str local-jms-server ":" test-topic ".a")
                                     "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}
@@ -434,27 +436,27 @@
                         "metadata" {"source" (str local-jms-server ":" test-topic ".c")
                                     "msg-class" "class org.apache.activemq.command.ActiveMQBytesMessage"}}]
         recorded-data (cheshire/parse-string (slurp record-test-output-file))]
-    (is (file-exists? record-test-output-file))
+    (test/is (utils/file-exists? record-test-output-file))
     (doall
       (map
         (fn [exp act]
-          (is (= (exp "data") (act "data")))
-          (is (= (get-in exp ["metadata" "source"]) (get-in act ["metadata" "source"])))
-          (is (not (nil? (get-in act ["metadata" "timestamp"])))))
+          (test/is (= (exp "data") (act "data")))
+          (test/is (= (get-in exp ["metadata" "source"]) (get-in act ["metadata" "source"])))
+          (test/is (not (nil? (get-in act ["metadata" "timestamp"])))))
         expected-data
         (recorded-data "messages")))
-    (is (not (nil? (get-in recorded-data ["metadata" "timestamp_millis"]))))
-    (is (not (nil? (get-in recorded-data ["metadata" "timestamp_nanos"]))))))
+    (test/is (not (nil? (get-in recorded-data ["metadata" "timestamp_millis"]))))
+    (test/is (not (nil? (get-in recorded-data ["metadata" "timestamp_nanos"]))))))
 
-(deftest simple-replay-file-test
+(test/deftest simple-replay-file-test
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
                         "_sleep 300"
                         (str "replay \"" replay-test-file-name "\" 100 false")
                         "_sleep 600"]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
-    (is
+        out-string (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)]
+    (test/is
       (=
-        (expected-string
+        (cli-tests/expected-string
           [(str "Set up consumer for: " local-jms-server ":" test-topic)
            (str "Replaying from file: " replay-test-file-name)
            "Replaying 3 messages using reference time: 63103447065280"
@@ -468,15 +470,15 @@
            "Closing bowerick.jms.ConsumerWrapper for tcp://127.0.0.1:42424:/topic/testtopic.foo ..."])
         out-string))))
 
-(deftest simple-looped-replay-file-test
+(test/deftest simple-looped-replay-file-test
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
                         "_sleep 300"
                         (str "replay \"" replay-test-file-name "\" 400 true")
                         "_sleep 600"]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o") test-cmd-input)]
-    (is
+        out-string (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)]
+    (test/is
       (=
-        (expected-string
+        (cli-tests/expected-string
           [(str "Set up consumer for: " local-jms-server ":" test-topic)
            (str "Replaying from file: " replay-test-file-name)
            "Replaying 3 messages using reference time: 63103447065280"
@@ -495,4 +497,3 @@
            "Closing bowerick.jms.ProducerWrapper for tcp://127.0.0.1:42424:/topic/testtopic.foo ..."
            "Closing bowerick.jms.ConsumerWrapper for tcp://127.0.0.1:42424:/topic/testtopic.foo ..."])
         out-string))))
-

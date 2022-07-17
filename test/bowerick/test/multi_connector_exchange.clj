@@ -11,11 +11,10 @@
     :doc "Tests for JMS exchanging messages across multiple connectors."}  
   bowerick.test.multi-connector-exchange
   (:require
-    [bowerick.jms :refer :all]
-    [bowerick.test.test-helper :refer :all]
-    [clj-assorted-utils.util :refer :all]
-    [clojure.java.io :refer :all]
-    [clojure.test :refer :all]))
+    [bowerick.jms :as jms]
+    [bowerick.test.test-helper :as th]
+    [clj-assorted-utils.util :as utils]
+    [clojure.test :as test]))
 
 
 
@@ -28,43 +27,43 @@
 
 
 (defn test-with-broker [t]
-  (let [broker (start-test-broker urls)]
+  (let [broker (th/start-test-broker urls)]
     (t)
-    (stop broker)))
+    (jms/stop broker)))
 
-(use-fixtures :each test-with-broker)
+(test/use-fixtures :each test-with-broker)
 
 
 
-(deftest test-string-exchange-json-producer-consumer
+(test/deftest test-string-exchange-json-producer-consumer
   (doseq [src urls dst urls]
     (println "Multi-connector string exchange test from" src "to" dst)
-    (let [producer (create-json-producer src test-topic)
+    (let [producer (jms/create-json-producer src test-topic)
           received (atom nil)
-          flag (prepare-flag)
-          consume-fn (fn [obj] (reset! received obj) (set-flag flag))
-          consumer (create-json-consumer dst test-topic consume-fn)]
+          flag (utils/prepare-flag)
+          consume-fn (fn [obj] (reset! received obj) (utils/set-flag flag))
+          consumer (jms/create-json-consumer dst test-topic consume-fn)]
       (producer "test-string")
-      (await-flag flag)
-      (is (= "test-string" @received))
-      (close producer)
-      (close consumer))))
+      (utils/await-flag flag)
+      (test/is (= "test-string" @received))
+      (jms/close producer)
+      (jms/close consumer))))
 
-(deftest test-simple-data-structure-exchange-json-producer-consumer
+(test/deftest test-simple-data-structure-exchange-json-producer-consumer
   (doseq [src urls dst urls]
     (println "Multi-connector simple-data-structure exchange test from" src "to" dst)
-    (let [producer (create-json-producer src test-topic)
+    (let [producer (jms/create-json-producer src test-topic)
           data [1 2 :a :b "xyz" {:a "A" :b "B"} #{:c :d}]
           expected [1 2 "a" "b" "xyz" {"a" "A" "b" "B"} ["c" "d"]]
           received (atom nil)
-          flag (prepare-flag)
-          consume-fn (fn [obj] (reset! received obj) (set-flag flag))
-          consumer (create-json-consumer dst test-topic consume-fn)]
+          flag (utils/prepare-flag)
+          consume-fn (fn [obj] (reset! received obj) (utils/set-flag flag))
+          consumer (jms/create-json-consumer dst test-topic consume-fn)]
       (producer data)
-      (await-flag flag)
-      (is (= expected @received))
-      (close producer)
-      (close consumer))))
+      (utils/await-flag flag)
+      (test/is (= expected @received))
+      (jms/close producer)
+      (jms/close consumer))))
 
 ;(deftest test-nippy-stress-data-exchange-json-producer-consumer
 ;  (doseq [src urls dst urls]

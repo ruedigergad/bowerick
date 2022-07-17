@@ -12,15 +12,10 @@
   bowerick.test.client-cli-cfg
   (:require
     [bowerick.jms :as jms]
-    [bowerick.main :refer :all]
-    [bowerick.test.test-helper :refer :all]
-    [cheshire.core :as cheshire]
-    [cli4clj.cli-tests :refer :all]
-    [clj-assorted-utils.util :refer :all]
-    [clojure.test :refer :all]
-    [clojure.java.io :as io])
-  (:import
-    (java.io PipedReader PipedWriter)))
+    [bowerick.main :as main]
+    [bowerick.test.test-helper :as th]
+    [cli4clj.cli-tests :as cli-test]
+    [clojure.test :as test]))
 
 
 
@@ -32,43 +27,43 @@
                          jms/*trust-store-password* "b4zZ0nK"
                          jms/*key-store-file* "test/cfg/blah_broker.ks"
                          jms/*key-store-password* "f00BAR"]
-                 (start-test-broker local-jms-server))]
+                 (th/start-test-broker local-jms-server))]
     (t)
     (jms/stop broker)))
 
-(use-fixtures :each test-with-broker)
+(test/use-fixtures :each test-with-broker)
 
 
 
-(deftest dummy-send-test
+(test/deftest dummy-send-test
   (let [test-cmd-input [(str "send " local-jms-server ":" test-topic " \"test-data\"")]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o" "-f" "test/cfg/bowerick_test_config.cfg") test-cmd-input)]
-    (is
+        out-string (cli-test/test-cli-stdout #(main/run-cli-app "-c" "-o" "-f" "test/cfg/bowerick_test_config.cfg") test-cmd-input)]
+    (test/is
       (=
-        (expected-string
+        (cli-test/expected-string
           [(str "Sending: " local-jms-server ":" test-topic " <-")
            "\"test-data\""
            "Closing bowerick.jms.ProducerWrapper for ssl://127.0.0.1:42444:/topic/testtopic.foo ..."])
         out-string))))
 
-(deftest dummy-receive-test
+(test/deftest dummy-receive-test
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o" "-f" "test/cfg/bowerick_test_config.cfg") test-cmd-input)]
-    (is
+        out-string (cli-test/test-cli-stdout #(main/run-cli-app "-c" "-o" "-f" "test/cfg/bowerick_test_config.cfg") test-cmd-input)]
+    (test/is
       (=
-        (expected-string
+        (cli-test/expected-string
           [(str "Set up consumer for: " local-jms-server ":" test-topic)
            "Closing bowerick.jms.ConsumerWrapper for ssl://127.0.0.1:42444:/topic/testtopic.foo ..."])
         out-string))))
 
-(deftest simple-send-receive-test
+(test/deftest simple-send-receive-test
   (let [test-cmd-input [(str "receive " local-jms-server ":" test-topic)
                         (str "send " local-jms-server ":" test-topic " \"test-data\"")
                         "_sleep 300"]
-        out-string (test-cli-stdout #(run-cli-app "-c" "-o" "-f" "test/cfg/bowerick_test_config.cfg") test-cmd-input)]
-    (is
+        out-string (cli-test/test-cli-stdout #(main/run-cli-app "-c" "-o" "-f" "test/cfg/bowerick_test_config.cfg") test-cmd-input)]
+    (test/is
       (=
-        (expected-string
+        (cli-test/expected-string
           [(str "Set up consumer for: " local-jms-server ":" test-topic)
            (str "Sending: " local-jms-server ":" test-topic " <-")
            "\"test-data\""
@@ -77,4 +72,3 @@
            "Closing bowerick.jms.ProducerWrapper for ssl://127.0.0.1:42444:/topic/testtopic.foo ..."
            "Closing bowerick.jms.ConsumerWrapper for ssl://127.0.0.1:42444:/topic/testtopic.foo ..."])
         out-string))))
-

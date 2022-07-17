@@ -12,10 +12,10 @@
     :doc "Tests for different JMS transport connections"}  
   bowerick.test.jms-transport
   (:require
-    [bowerick.jms :refer :all]
-    [bowerick.test.test-helper :refer :all]
-    [clj-assorted-utils.util :refer :all]
-    [clojure.test :refer :all]))
+    [bowerick.jms :as jms]
+    [bowerick.test.test-helper :as th]
+    [clj-assorted-utils.util :as utils]
+    [clojure.test :as test]))
 
 
 
@@ -24,14 +24,14 @@
 
 (defn run-test-with-server [t local-jms-server]
   (println "TESTING:" local-jms-server)
-  (let [broker (binding [*trust-store-file* "test/ssl/broker.ts"
-                         *trust-store-password* "password"
-                         *key-store-file* "test/ssl/broker.ks"
-                         *key-store-password* "password"]
-                 (start-test-broker local-jms-server))]
+  (let [broker (binding [jms/*trust-store-file* "test/ssl/broker.ts"
+                         jms/*trust-store-password* "password"
+                         jms/*key-store-file* "test/ssl/broker.ks"
+                         jms/*key-store-password* "password"]
+                 (th/start-test-broker local-jms-server))]
     (binding [*local-jms-server* local-jms-server]
       (t))
-    (stop broker)))
+    (jms/stop broker)))
 
 (defn test-set-fixture [t]
   (println "TEST RUN START: " (str t))
@@ -40,10 +40,10 @@
   (run-test-with-server t "ws://127.0.0.1:32327")
   (run-test-with-server t "ws://127.0.0.1:32329")
   (run-test-with-server t "stomp://127.0.0.1:32322")
-  (binding [*trust-store-file* "test/ssl/client.ks"
-            *trust-store-password* "password"
-            *key-store-file* "test/ssl/client.ks"
-            *key-store-password* "password"]
+  (binding [jms/*trust-store-file* "test/ssl/client.ks"
+            jms/*trust-store-password* "password"
+            jms/*key-store-file* "test/ssl/client.ks"
+            jms/*key-store-password* "password"]
     (run-test-with-server t "stomp+ssl://127.0.0.1:32323")
     (run-test-with-server t "stomp+ssl://127.0.0.1:32323?needClientAuth=true")
     (run-test-with-server t "mqtt+ssl://127.0.0.1:32330")
@@ -53,40 +53,39 @@
     (run-test-with-server t "ssl://localhost:32325")
     (run-test-with-server t "ssl://localhost:32325?needClientAuth=true")))
 
-(use-fixtures :each test-set-fixture)
+(test/use-fixtures :each test-set-fixture)
 
 
 
-(deftest send-string-test
-  (let [was-run (prepare-flag)
-        consume-fn (fn [_] (set-flag was-run))
-        consumer (create-single-consumer *local-jms-server* test-topic consume-fn)
-        producer (create-single-producer *local-jms-server* test-topic)]
-    (is (not (nil? producer)))
-    (is (not (nil? consumer)))
+(test/deftest send-string-test
+  (let [was-run (utils/prepare-flag)
+        consume-fn (fn [_] (utils/set-flag was-run))
+        consumer (jms/create-single-consumer *local-jms-server* test-topic consume-fn)
+        producer (jms/create-single-producer *local-jms-server* test-topic)]
+    (test/is (not (nil? producer)))
+    (test/is (not (nil? consumer)))
     (producer "¡Hola!")
-    (await-flag was-run)
-    (is (flag-set? was-run))
-    (close producer)
-    (close consumer)))
+    (utils/await-flag was-run)
+    (test/is (utils/flag-set? was-run))
+    (jms/close producer)
+    (jms/close consumer)))
 
-(deftest send-byte-array-test
+(test/deftest send-byte-array-test
   (let [received (ref nil)
-        flag (prepare-flag)
-        consume-fn (fn [obj] (dosync (ref-set received obj)) (set-flag flag))
-        consumer (create-single-consumer *local-jms-server* test-topic consume-fn)
+        flag (utils/prepare-flag)
+        consume-fn (fn [obj] (dosync (ref-set received obj)) (utils/set-flag flag))
+        consumer (jms/create-single-consumer *local-jms-server* test-topic consume-fn)
         data (byte-array (map byte [1 2 3 42]))
-        producer (create-single-producer *local-jms-server* test-topic)]
-    (is (not= data @received))
+        producer (jms/create-single-producer *local-jms-server* test-topic)]
+    (test/is (not= data @received))
     (producer data)
-    (await-flag flag)
+    (utils/await-flag flag)
     (doall
       (map
         (fn [a b]
-          (is
+          (test/is
             (= a b)))
         (vec data)
         (vec @received)))
-    (close producer)
-    (close consumer)))
-
+    (jms/close producer)
+    (jms/close consumer)))

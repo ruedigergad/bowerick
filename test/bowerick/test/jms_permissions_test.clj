@@ -10,20 +10,12 @@
   ^{:author "Ruediger Gad",
     :doc "Tests for JMS permissions"}  
   (:require
-    [bowerick.jms :refer :all]
-    [bowerick.test.test-helper :refer :all]
-    [clj-assorted-utils.util :refer :all]
-    [clojure.test :refer :all]
-    [clojure.pprint :refer :all])
-  (:use
-    [clojure.string :only (join split)])
+    [bowerick.jms :as jms]
+    [bowerick.test.test-helper :as th]
+    [clojure.test :as test])
   (:import
-    (java.util ArrayList)
-    (java.util.concurrent ArrayBlockingQueue)
-    (javax.jms BytesMessage Connection DeliveryMode Message MessageProducer MessageListener ObjectMessage Session TextMessage Topic)
-    (org.apache.activemq ActiveMQConnectionFactory ActiveMQSslConnectionFactory)
     (org.apache.activemq.broker BrokerService)
-    (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationMap AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)))
+    (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)))
 
 (def jms-server-addr "tcp://127.0.0.1:31313")
 (def test-user-name "test-user")
@@ -32,7 +24,7 @@
 (def test-users [(AuthenticationUser. test-user-name test-user-password test-user-groups)])
 (def test-topic "/topic/test.topic.a")
 
-(deftest create-producer-without-permission-test
+(test/deftest create-producer-without-permission-test
   (let [authentication-plugin (doto (SimpleAuthenticationPlugin. test-users)
                                 (.setAnonymousAccessAllowed false)
                                 (.setAnonymousUser "anonymous")
@@ -51,10 +43,14 @@
                          (.setUseJmx false)
                          (.setPlugins (into-array org.apache.activemq.broker.BrokerPlugin [authentication-plugin authorization-plugin]))
                          (.start))]
-    (is (thrown-with-msg? javax.jms.JMSSecurityException #"User name .* or password is invalid." (create-single-producer jms-server-addr test-topic)))
+    (test/is
+      (thrown-with-msg?
+        javax.jms.JMSSecurityException
+        #"User name .* or password is invalid."
+        (jms/create-single-producer jms-server-addr test-topic)))
     (.stop broker-service)))
 
-(deftest create-producer-with-permission-test
+(test/deftest create-producer-with-permission-test
   (let [authentication-plugin (doto (SimpleAuthenticationPlugin. test-users)
                                 (.setAnonymousAccessAllowed false)
                                 (.setAnonymousUser "anonymous")
@@ -73,10 +69,13 @@
                          (.setUseJmx false)
                          (.setPlugins (into-array org.apache.activemq.broker.BrokerPlugin [authentication-plugin authorization-plugin]))
                          (.start))]
-    (binding [*user-name* test-user-name *user-password* test-user-password] (create-single-producer jms-server-addr test-topic))
+    (binding
+      [jms/*user-name* test-user-name
+       jms/*user-password* test-user-password]
+      (jms/create-single-producer jms-server-addr test-topic))
     (.stop broker-service)))
 
-(deftest test-selective-permissions-with-anonymous-test
+(test/deftest test-selective-permissions-with-anonymous-test
   (let [authentication-plugin (doto (SimpleAuthenticationPlugin. test-users)
                                 (.setAnonymousAccessAllowed true)
                                 (.setAnonymousUser "anonymous")
@@ -101,22 +100,43 @@
                          (.setUseJmx false)
                          (.setPlugins (into-array org.apache.activemq.broker.BrokerPlugin [authentication-plugin authorization-plugin]))
                          (.start))]
-    (binding [*user-name* test-user-name *user-password* test-user-password] (create-single-producer jms-server-addr test-topic))
-    (binding [*user-name* test-user-name *user-password* test-user-password] (create-single-consumer jms-server-addr test-topic (fn [_])))
-    (create-single-producer jms-server-addr test-topic)
-    (is (thrown-with-msg? javax.jms.JMSSecurityException #"User anonymous is not authorized to read from: topic://test.topic.a" (create-single-consumer jms-server-addr test-topic (fn [_]))))
+    (binding
+      [jms/*user-name* test-user-name
+       jms/*user-password* test-user-password]
+      (jms/create-single-producer jms-server-addr test-topic))
+    (binding
+      [jms/*user-name* test-user-name
+       jms/*user-password* test-user-password]
+      (jms/create-single-consumer jms-server-addr test-topic (fn [_])))
+    (jms/create-single-producer jms-server-addr test-topic)
+    (test/is
+      (thrown-with-msg?
+        javax.jms.JMSSecurityException
+        #"User anonymous is not authorized to read from: topic://test.topic.a"
+        (jms/create-single-consumer jms-server-addr test-topic (fn [_]))))
     (.stop broker-service)))
 
-(deftest test-selective-permissions-with-anonymous-convenience-test
+(test/deftest test-selective-permissions-with-anonymous-convenience-test
   (let [authorization-rules [{"target" "/topic/>", "admin" "admins", "read" "consumers", "write" "publishers"}
                              {"target" "/topic/test.topic.a", "write" "anonymous"}
                              {"target" "/topic/ActiveMQ.Advisory.TempQueue,ActiveMQ.Advisory.TempTopic", "read" "anonymous"}]
-        broker-service (start-test-broker jms-server-addr true
-                                     [{"name" "test-user", "password" "secret", "groups" "test-group,admins,publishers,consumers"}]
-                                     authorization-rules)]
-    (binding [*user-name* test-user-name *user-password* test-user-password] (create-single-producer jms-server-addr test-topic))
-    (binding [*user-name* test-user-name *user-password* test-user-password] (create-single-consumer jms-server-addr test-topic (fn [_])))
-    (create-single-producer jms-server-addr test-topic)
-    (is (thrown-with-msg? javax.jms.JMSSecurityException #"User anonymous is not authorized to read from: topic://test.topic.a" (create-single-consumer jms-server-addr test-topic (fn [_]))))
-    (stop broker-service)))
-
+        broker-service (th/start-test-broker
+                         jms-server-addr
+                         true
+                         [{"name" "test-user", "password" "secret", "groups" "test-group,admins,publishers,consumers"}] 
+                         authorization-rules)]
+    (binding
+      [jms/*user-name* test-user-name
+       jms/*user-password* test-user-password]
+      (jms/create-single-producer jms-server-addr test-topic))
+    (binding
+      [jms/*user-name* test-user-name
+       jms/*user-password* test-user-password]
+      (jms/create-single-consumer jms-server-addr test-topic (fn [_])))
+    (jms/create-single-producer jms-server-addr test-topic)
+    (test/is
+      (thrown-with-msg?
+        javax.jms.JMSSecurityException
+        #"User anonymous is not authorized to read from: topic://test.topic.a"
+        (jms/create-single-consumer jms-server-addr test-topic (fn [_]))))
+    (jms/stop broker-service)))
