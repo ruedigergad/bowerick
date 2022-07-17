@@ -13,17 +13,17 @@
   bowerick.main
   (:require
     [bowerick.jms :as jms]
-    [bowerick.message-generator :refer :all]
+    [bowerick.message-generator :as msg-gen]
     [clojure.core.async :as async]
     [cheshire.core :as cheshire]
-    [cli4clj.cli :refer :all]
-    [clj-assorted-utils.util :refer :all]
+    [cli4clj.cli :as cli4clj]
+    [clj-assorted-utils.util :as utils]
     [clojure.java.io :as jio]
-    [clojure.pprint :refer :all]
+    [clojure.pprint :as pprint]
     [clojure.string :as s]
-    [clojure.tools.cli :refer :all]
+    [clojure.tools.cli :as cli]
     [juxt.dirwatch :refer (watch-dir)]
-    [signal.handler :refer :all])
+    [signal.handler :as sig])
   (:import
     (java.nio.file Files Paths))
   (:gen-class))
@@ -91,7 +91,7 @@
                              (when (not (contains? @producers dest))
                                (create-cached-destination producers dest jms/create-producer))
                              ((@producers dest) data)))
-                         (sleep interval)
+                         (utils/sleep interval)
                          (if (and
                                loop-send
                                (= (last ts-to-send) (last timestamps)))
@@ -118,15 +118,15 @@
 
 (defn start-broker-mode
   [arg-map cfg]
-  (println-err "Starting bowerick in broker mode.")
+  (utils/println-err "Starting bowerick in broker mode.")
   (when (arg-map :bootstrap-self-signed-certs)
-    (if (= jms/*key-store-file* "client.ks")
+    (when (= jms/*key-store-file* "client.ks")
       (alter-var-root #'bowerick.jms/*key-store-file* (fn [_ x] x) "broker.ks"))
-    (if (= jms/*trust-store-file* "client.ts")
+    (when (= jms/*trust-store-file* "client.ts")
       (alter-var-root #'bowerick.jms/*trust-store-file* (fn [_ x] x) "broker.ts"))
     (when (and
-            (not (file-exists? jms/*key-store-file*))
-            (not (file-exists? jms/*trust-store-file*)))
+            (not (utils/file-exists? jms/*key-store-file*))
+            (not (utils/file-exists? jms/*trust-store-file*)))
       (println "Bootstrapping self-signed certificates...")
       (sun.security.tools.keytool.Main/main (into-array ["-genkeypair" "-alias" "localhost" "-keystore" "selfsigned-broker.ks"
                                                          "-storepass" jms/*key-store-password*
@@ -147,8 +147,8 @@
       (when (arg-map :verbose)
         (println "\n\nClient private key:"))
       (try
-        (.waitFor (exec-with-out "openssl pkcs12 -in selfsigned-client.ks -out client-key.pem -nocerts -nodes -passin pass:client-password" println))
-        (catch Exception e
+        (.waitFor (utils/exec-with-out "openssl pkcs12 -in selfsigned-client.ks -out client-key.pem -nocerts -nodes -passin pass:client-password" println))
+        (catch Exception _
           (println "Could not export client private key. Please make sure that OpenSSL is installed.")))
       (when (arg-map :verbose)
         (-> (slurp "client-key.pem") println))
@@ -179,11 +179,11 @@
                       (reset! running false)
                       (doseq [prod (vals @producers)]
                         (jms/close prod))
-                      (sleep 500)
+                      (utils/sleep 500)
                       (println "Stopping broker...")
                       (jms/stop broker-service)
                       (println "Broker stopped."))]
-    (if (arg-map :a-frame-demo)
+    (when (arg-map :a-frame-demo)
       (let [af-topic-name "/topic/bowerick.message.generator"
             af-prod (jms/create-json-producer af-demo-url af-topic-name 1)
             max_angle (* 2.0 Math/PI)
@@ -193,7 +193,7 @@
                           (let [x (Math/cos angle)
                                 y (Math/sin angle)]
                             (af-prod [{:x x, :y y, :z 0}])
-                            (sleep 20)
+                            (utils/sleep 20)
                             (let [new_angle (+ angle angle_increment)]
                               (if @running
                                 (if (> new_angle (- max_angle angle_increment))
@@ -208,7 +208,7 @@
         (println "http://ruedigergad.github.io/bowerick/examples/simple_websocket_a-frame_example/simple_websocket_a-frame_example.html")
         (println "Alternatively, if you have the bowerick source code repository, you can also open the page from the checked out repository:")
         (println "examples/simple_websocket_a-frame_example/simple_websocket_a-frame_example.html")))
-    (if (string? (arg-map :embedded-message-generator))
+    (when (string? (arg-map :embedded-message-generator))
       (let [msg-gen-prod (jms/create-producer
                            (s/replace
                              (if (string? url)
@@ -218,14 +218,14 @@
                              "127.0.0.1")
                            (arg-map :destination)
                            (arg-map :pool-size))
-            msg-gen-prod-fn (fn [data] (if @running (msg-gen-prod data)))
+            msg-gen-prod-fn (fn [data] (when @running (msg-gen-prod data)))
             msg-delay (arg-map :interval)
             counter (atom 0)
             delay-fn (if (and (integer? msg-delay) (pos? msg-delay))
-                       #(do (swap! counter inc) (sleep msg-delay))
+                       #(do (swap! counter inc) (utils/sleep msg-delay))
                        #(swap! counter inc))
             generator-name (arg-map :embedded-message-generator)
-            msg-gen (create-message-generator
+            msg-gen (msg-gen/create-message-generator
                       msg-gen-prod-fn
                       delay-fn
                       generator-name
@@ -247,24 +247,24 @@
           (Thread. #(loop []
                       (println "data instances per second:" @counter)
                       (reset! counter 0)
-                      (sleep 1000)
-                      (if @running
+                      (utils/sleep 1000)
+                      (when @running
                         (recur))))
           (.setDaemon true)
           (.start))))
-    (if (arg-map :replay-file)
+    (when (arg-map :replay-file)
       (replay (arg-map :replay-file) (arg-map :interval) (arg-map :loop-replay) producers))
     (if (arg-map :daemon)
       (let [running (atom true)
             channel (async/chan)]
         (println "Broker started in daemon mode.")
-        (with-handler :term
+        (sig/with-handler :term
           (reset! running false)
           (async/>!! channel :term))
         (loop []
-          (if (= (async/<!! channel) :term)
+          (when (= (async/<!! channel) :term)
             (println "Stopping daemon mode on term signal..."))
-          (if @running
+          (when @running
             (recur)))
         (shutdown-fn))
       (do
@@ -275,11 +275,11 @@
 
 (defn start-client-mode
   [arg-map]
-  (println-err "Starting bowerick in client mode.")
+  (utils/println-err "Starting bowerick in client mode.")
   (when (and
           (arg-map :key-and-cert-import)
-          (not (file-exists? jms/*key-store-file*))
-          (not (file-exists? jms/*trust-store-file*)))
+          (not (utils/file-exists? jms/*key-store-file*))
+          (not (utils/file-exists? jms/*trust-store-file*)))
     (println "Importing key and certificates...")
     (println "\n\nBroker certificate:")
     (-> (slurp "broker-cert.pem") println)
@@ -292,8 +292,8 @@
       (println "\n\nClient private key:")
       (-> (slurp "client-key.pem") println))
     (try
-      (.waitFor (exec-with-out (str "openssl pkcs12 -export -out " jms/*key-store-file* " -passout pass:" jms/*key-store-password* " -inkey client-key.pem -in client-cert.pem") println))
-      (catch Exception e
+      (.waitFor (utils/exec-with-out (str "openssl pkcs12 -export -out " jms/*key-store-file* " -passout pass:" jms/*key-store-password* " -inkey client-key.pem -in client-cert.pem") println))
+      (catch Exception _
         (println "Could not import client private key. Please make sure that OpenSSL is installed."))))
   (let [json-consumers (atom {})
         json-producers (atom {})
@@ -302,18 +302,17 @@
         producers (atom {})
         recorders (atom {})
         stop-rec-fn (fn [id]
-                      (do
-                        (println "Stopping recorder for:" id)
-                        (doseq [consumer (deref (get-in @recorders [id :consumers]))]
-                          (jms/close consumer))
-                        (let [f (get-in @recorders [id :file])]
-                          (locking f
-                            (spit f "\n]}" :append true)))))]
-    (start-cli {:cmds
+                      (println "Stopping recorder for:" id)
+                      (doseq [consumer (deref (get-in @recorders [id :consumers]))]
+                        (jms/close consumer))
+                      (let [f (get-in @recorders [id :file])]
+                        (locking f
+                          (spit f "\n]}" :append true))))]
+    (cli4clj/start-cli {:cmds
                  {:send {:fn (fn [destination-url data]
                                (create-cached-destination json-producers destination-url jms/create-json-producer)
                                (println "Sending:" destination-url "<-")
-                               (pprint data)
+                               (pprint/pprint data)
                                ((@json-producers destination-url) data))
                          :short-info "Send data to destination."
                          :long-info (str
@@ -349,9 +348,9 @@
                                     jms/create-failsafe-json-consumer
                                     (fn [rcvd]
                                       (binding [*out* out-binding]
-                                        (with-alt-scroll-out
+                                        (cli4clj/with-alt-scroll-out
                                           (println "Received:" destination-url "->")
-                                          (pprint rcvd)))))
+                                          (pprint/pprint rcvd)))))
                                   (println "Set up consumer for:" destination-url))
                          :short-info "Set up a consumer for receiving data from destintation."
                          :long-info (str
@@ -412,13 +411,13 @@
                                        (fn [reply-str]
                                          (binding [*out* out-binding
                                                    *read-eval* false]
-                                           (with-alt-scroll-out
+                                           (cli4clj/with-alt-scroll-out
                                              (println "Management Reply:" broker-url "->")
                                              (try
                                                (let [reply-obj (read-string reply-str)]
                                                  (if (instance? clojure.lang.Symbol reply-obj)
                                                    (println reply-str)
-                                                   (pprint reply-obj)))
+                                                   (pprint/pprint reply-obj)))
                                                (catch Exception e
                                                  (println "Error reading reply:" (.getMessage e))
                                                  (println "Printing raw reply below:")
@@ -427,11 +426,11 @@
                                            cmd-with-args (str command (reduce #(str %1 " " %2) "" args))]
                                        (create-cached-destination json-producers cmd-destination jms/create-json-producer)
                                        (println "Management Command:" cmd-destination "<-")
-                                       (pprint cmd-with-args)
+                                       (pprint/pprint cmd-with-args)
                                        ((@json-producers cmd-destination) cmd-with-args)))}
                   :m :management}
                 :prompt-string "bowerick# "
-                :alternate-scrolling (not (:old-scroll arg-map (is-os? "Windows")))
+                :alternate-scrolling (not (:old-scroll arg-map (utils/is-os? "Windows")))
                 :alternate-height 3})
     (doseq [m [@producers @json-producers @consumers @json-consumers]]
       (doseq [[id consumer] m]
@@ -441,10 +440,11 @@
       (stop-rec-fn rec-id))))
 
 (defn start-benchmark-client-mode [arg-map]
+  #_{:clj-kondo/ignore [:unused-binding]}
   (let [counter (atom 0)
         reception-delay (arg-map :interval)
         consumer-fn (if (and (integer? reception-delay) (pos? reception-delay))
-                      (fn [_] (swap! counter inc) (sleep reception-delay))
+                      (fn [_] (swap! counter inc) (utils/sleep reception-delay))
                       (fn [_] (swap! counter inc)))
         running (atom true)
         stdout *out*
@@ -454,8 +454,8 @@
                                                   *err* stderr]
                                           (println "Data instances per second:" @counter))
                                         (reset! counter 0)
-                                        (sleep 1000)
-                                        (if @running
+                                        (utils/sleep 1000)
+                                        (when @running
                                           (recur))))
                         (.setDaemon true)
                         (.start))
@@ -478,7 +478,7 @@
                   (println "Loading consumer function:" consumer-arg)
                   (if (s/ends-with? consumer-arg ".class")
                     (let [_ (println "Loading from Java Class file.")
-                          consumer-instance (load-and-instantiate-class consumer-arg)
+                          consumer-instance (msg-gen/load-and-instantiate-class consumer-arg)
                           cons-fn (fn [data msg-hdr] (.processData consumer-instance data msg-hdr))]
                       (reset! consumer-fn cons-fn))
                     (let [_ (println "Loading from Clojure file.")
@@ -494,8 +494,8 @@
                      (read-fn)))
         channel (async/chan)
         _ (async/go (loop [] (async/<! channel) (read-fn) (recur)))
-        _ (with-handler :usr1 (async/>!! channel :reload))
-        _ (if (file-exists? consumer-arg)
+        _ (sig/with-handler :usr1 (async/>!! channel :reload))
+        _ (if (utils/file-exists? consumer-arg)
             (do
               (read-fn)
               (watch-dir watch-fn (.getParentFile (clojure.java.io/file consumer-arg))))
@@ -523,6 +523,7 @@
       (println "Type \"q\" followed by <Return> to quit: "))
     (shutdown-fn)))
 
+#_{:clj-kondo/ignore [:unused-binding]}
 (defn print-license-overview []
   (println bowerick-license-text)
   (let [max-name-len (reduce max (map (fn [[[name version] license]] (-> name str count)) license-info))]
@@ -535,7 +536,7 @@
         (println license)))))
 
 (defn run-cli-app [& args]
-  (let [cli-args (parse-opts
+  (let [cli-args (cli/parse-opts
                    args
                    [["-b" "--bootstrap-self-signed-certs" "In broker mode, bootstrap self-signed certificates."]
                     ["-c" "--client" "Start in interactive client mode."]
@@ -549,8 +550,8 @@
                     ["-o" "--[no-]old-scroll" "In client mode, use the old scrolling mode of cli4clj."]
                     ["-u" "--url URL"
                       "URL to bind the broker to."
-                      :default "tcp://localhost:61616"
-                      :parse-fn (fn [arg]
+                      :default "tcp://localhost:61616" 
+                      :parse-fn (fn [arg] #_{:clj-kondo/ignore [:not-empty?]}
                                   (vec (filter #(not (empty? %)) (s/split (s/replace arg "\"" "") #"[ \[\]]"))))]
                     ["-v" "--verbose"
                       "Increase output verbosity."]
@@ -604,13 +605,13 @@
             (dotimes [_ (count f)] (print "#"))
             (println "\n\n")
             (println (->> (jio/resource (str "license_texts/" f)) slurp))))
-      :default
+      :else
         (let [cfg-data (binding [*out* *err*]
                          (println "Starting bowerick using the following options:")
-                         (pprint arg-map)
-                         (pprint extra-args)
+                         (pprint/pprint arg-map)
+                         (pprint/pprint extra-args)
                          (let [cfg-file-path (arg-map :config-file)
-                               cfg-file-data (if (is-file? cfg-file-path)
+                               cfg-file-data (if (utils/is-file? cfg-file-path)
                                                (cheshire/parse-string (slurp cfg-file-path))
                                                {})
                                jms-cfg (cfg-file-data "jms")]
@@ -625,9 +626,9 @@
                                      (let [admin-password (System/getenv "BOWERICK_ADMIN_PASS")
                                            write-password (System/getenv "BOWERICK_WRITE_PASS")
                                            read-password (System/getenv "BOWERICK_READ_PASS")
-                                           _ (if (or (nil? admin-password)
-                                                     (nil? write-password)
-                                                     (nil? read-password))
+                                           _ (when (or (nil? admin-password)
+                                                       (nil? write-password)
+                                                       (nil? read-password))
                                                (throw (Exception. "Error: specified to set passwords from environment variables but not all environment variables are set.")))
                                            users [{"name" "admin", "password" admin-password, "groups" "admin-group"}
                                                   {"name" "write", "password" write-password, "groups" "write-group"}
@@ -648,12 +649,12 @@
             (arg-map :client) (start-client-mode arg-map)
             (arg-map :benchmark-client) (start-benchmark-client-mode arg-map)
             (arg-map :consumer-client) (start-consumer-client-mode arg-map)
-            :default (start-broker-mode arg-map cfg-with-default-auth))))))
+            :else (start-broker-mode arg-map cfg-with-default-auth))))))
 
 (defn -main [& args]
   (apply run-cli-app args)
-  (run-once
-    (executor)
+  (utils/run-once
+    (utils/executor)
     #((println "Terminating...")
       (System/exit 0))
     2000))

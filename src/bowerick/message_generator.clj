@@ -10,6 +10,7 @@
   ^{:author "Ruediger Gad",
     :doc "Functions for generating messages"} 
   bowerick.message-generator
+  #_{:clj-kondo/ignore [:unused-namespace]}
   (:require
     [bowerick.jms :refer (to-json-bytes)]
     [clojure.core.async :as async]
@@ -18,7 +19,7 @@
     [clj-assorted-utils.util :as utils]
     [dynapath.util :as dp]
     [juxt.dirwatch :refer (watch-dir)]
-    [signal.handler :refer :all])
+    [signal.handler :as sig])
   (:import
     (bowerick JmsProducer)
     (clojure.lang DynamicClassLoader)
@@ -48,14 +49,14 @@
         tmp-args (binding [*read-eval* false]
                    (try
                      (read-string generator-args-string)
-                     (catch Exception e
+                     (catch Exception _
                        generator-args-string)))
         generator-args (if (vector? tmp-args)
                          tmp-args
                          (if (symbol? tmp-args)
                            [(str tmp-args)]
                            [tmp-args]))]
-    (if (not (nil? generator-construction-fn))
+    (when (not (nil? generator-construction-fn))
       (apply generator-construction-fn  producer delay-fn generator-args))))
 
 (defn txt-file-generator
@@ -75,7 +76,7 @@
         (delay-fn)))))
 
 (defn binary-file-generator
-  [producer delay-fn in-path initial-offset length-field-offset length-field-size header-size]
+  [producer delay-fn in-path initial-offset length-field-offset _ header-size]
   (let [^File in-file (File. in-path)
         file-length (.length in-file)
         ^MappedByteBuffer buffer (with-open [^FileInputStream in-stream (FileInputStream. in-file)]
@@ -93,13 +94,14 @@
           (.get buffer ba 0 total-size)
           (producer ba)
           (delay-fn)
-          (if (< (+ offset total-size) file-length)
+          (when (< (+ offset total-size) file-length)
             (recur (+ offset total-size))))))))
 
 (defn pcap-file-generator
   [producer delay-fn in-path]
   (binary-file-generator producer delay-fn in-path 24 8 4 16))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn heart4family-generator
   [producer delay-fn _]
   (let [increment 0.075]
@@ -118,6 +120,7 @@
             (recur (+ (- t (* 2.0 Math/PI)) increment))
             (recur (+ t increment))))))))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn custom-fn-generator
   [producer delay-fn in-path]
   (let [producer-fn (atom (fn []))
@@ -144,17 +147,19 @@
                      (read-fn)))
         channel (async/chan)]
     (async/go (loop [] (async/<! channel) (read-fn) (recur)))
-    (with-handler :usr1 (async/>!! channel :reload))
+    (sig/with-handler :usr1 (async/>!! channel :reload))
     (watch-dir watch-fn (.getParentFile (java-io/file in-path)))
     (read-fn)
     (fn [] (@producer-fn))))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn hello-world-generator
   [producer delay-fn _]
   (fn []
     (producer "hello world")
     (delay-fn)))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn yin-yang-generator
   [producer delay-fn _]
   (let [max_angle (* 2.0 Math/PI)
@@ -228,4 +233,3 @@
         (if (> rotation_angle max_angle)
           (reset! rot_angle (+ (- rotation_angle max_angle) angle_increment))
           (reset! rot_angle (+ rotation_angle angle_increment)))))))
-

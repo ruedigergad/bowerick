@@ -12,17 +12,19 @@
     :doc "Interfaces for Java interop."} 
   bowerick.java-interfaces)
 
+#_{:clj-kondo/ignore [:unresolved-symbol]}
 (gen-interface
   :name bowerick.JmsConsumerCallback
   :methods [[processData [Object Object] void]])
 
+#_{:clj-kondo/ignore [:unresolved-symbol]}
 (gen-interface
   :name bowerick.JmsProducer
-  :extends [AutoCloseable]
+  :extends [java.lang.AutoCloseable]
   :methods [[sendData [Object] void]
             [sendData [Object Object] void]])
 
+#_{:clj-kondo/ignore [:unresolved-symbol]}
 (gen-interface
   :name bowerick.MessageGenerator
   :methods [[generateMessage [bowerick.JmsProducer] void]])
-
