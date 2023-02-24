@@ -35,7 +35,7 @@
   (test/is
    (=
     (msg-gen/list-message-gen)
-    ["binary-file", "custom-fn", "heart4family", "hello-world", "pcap-file", "txt-file", "txt-file-line", "yin-yang"])))
+    '("binary-file", "custom-fn", "heart4family", "hello-world", "pcap-file", "txt-file", "txt-file-line", "yin-yang"))))
 
 (test/deftest txt-file-generator-per-line-single-test
   (let [producer (jms/create-producer local-jms-server test-topic 1)

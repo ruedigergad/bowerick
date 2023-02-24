@@ -62,7 +62,7 @@
 (defn list-message-gen
   []
   (sort
-   (mapv
+   (map
     #(str/replace % #"-generator$" "")
     (filter
      #(str/ends-with? % "-generator")
