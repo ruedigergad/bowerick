@@ -7,26 +7,26 @@
 ;;;
 
 (ns
-  ^{:author "Ruediger Gad",
-    :doc "Functions for generating messages"} 
-  bowerick.message-generator
+ ^{:author "Ruediger Gad",
+   :doc "Functions for generating messages"}
+ bowerick.message-generator
   #_{:clj-kondo/ignore [:unused-namespace]}
   (:require
-    [bowerick.jms :refer (to-json-bytes)]
-    [clojure.core.async :as async]
-    [clojure.java.io :as java-io]
-    [clojure.string :as str]
-    [clj-assorted-utils.util :as utils]
-    [dynapath.util :as dp]
-    [juxt.dirwatch :refer (watch-dir)]
-    [signal.handler :as sig])
+   [bowerick.jms :refer (to-json-bytes)]
+   [clojure.core.async :as async]
+   [clojure.java.io :as java-io]
+   [clojure.string :as str]
+   [clj-assorted-utils.util :as utils]
+   [dynapath.util :as dp]
+   [juxt.dirwatch :refer (watch-dir)]
+   [signal.handler :as sig])
   (:import
-    (bowerick JmsProducer)
-    (clojure.lang DynamicClassLoader)
-    (java.io File FileInputStream)
-    (java.lang Math)
-    (java.nio ByteOrder MappedByteBuffer)
-    (java.nio.channels FileChannel FileChannel$MapMode)))
+   (bowerick JmsProducer)
+   (clojure.lang DynamicClassLoader)
+   (java.io File FileInputStream)
+   (java.lang Math)
+   (java.nio ByteOrder MappedByteBuffer)
+   (java.nio.channels FileChannel FileChannel$MapMode)))
 
 (defn load-and-instantiate-class
   [in-path]
@@ -41,11 +41,11 @@
         instance (.newInstance constructor nil)]
     instance))
 
-(defn create-message-generator
+(defn create-message-gen
   [producer delay-fn generator-name generator-args-string]
   (let [generator-construction-fn (ns-resolve
-                                    'bowerick.message-generator
-                                    (symbol (str generator-name "-generator")))
+                                   'bowerick.message-generator
+                                   (symbol (str generator-name "-generator")))
         tmp-args (binding [*read-eval* false]
                    (try
                      (read-string generator-args-string)
@@ -58,6 +58,15 @@
                            [tmp-args]))]
     (when (not (nil? generator-construction-fn))
       (apply generator-construction-fn  producer delay-fn generator-args))))
+
+(defn list-message-gen
+  []
+  (sort
+   (mapv
+    #(str/replace % #"-generator$" "")
+    (filter
+     #(str/ends-with? % "-generator")
+     (keys (ns-publics 'bowerick.message-generator))))))
 
 (defn txt-file-generator
   [producer delay-fn in-path split-regex]
@@ -111,9 +120,9 @@
               y (+ 1.2
                    (* 0.15
                       (- (* 13.0 (Math/cos t))
-                      (* 5.0 (Math/cos (* 2.0 t)))
-                      (* 2.0 (Math/cos (* 3.0 t)))
-                      (Math/cos (* 4.0 t)))))]
+                         (* 5.0 (Math/cos (* 2.0 t)))
+                         (* 2.0 (Math/cos (* 3.0 t)))
+                         (Math/cos (* 4.0 t)))))]
           (producer (to-json-bytes {"x" x, "y" y, "z" 0.0}))
           (delay-fn)
           (if (> t Math/PI)
@@ -139,11 +148,11 @@
                       (reset! producer-fn prod-fn))))
         watch-fn (fn [event]
                    (when (or
-                           (nil? event)
-                           (and
-                             (= 1 (:count event))
-                             (= :modify (:action event))
-                             (= in-path (-> event :file .getPath))))
+                          (nil? event)
+                          (and
+                           (= 1 (:count event))
+                           (= :modify (:action event))
+                           (= in-path (-> event :file .getPath))))
                      (read-fn)))
         channel (async/chan)]
     (async/go (loop [] (async/<! channel) (read-fn) (recur)))
@@ -200,33 +209,33 @@
         colored_coordinates (mapv (fn [coords]
                                     (let [color_ref (* Math/PI (+ 1.0 (coords "y")))]
                                       (->
-                                        coords
-                                        (assoc "color_r" (-> (Math/cos color_ref) (+ 0.4) (max 0.0) (min 1.0)))
-                                        (assoc "color_g" (-> (/ max_angle 3.0) (+ color_ref) (Math/cos) (+ 0.4) (max 0.0) (min 1.0)))
-                                        (assoc "color_b" (-> (/ max_angle 3.0) (* 2.0) (+ color_ref) (Math/cos) (+ 0.4) (max 0.0) (min 1.0))))))
+                                       coords
+                                       (assoc "color_r" (-> (Math/cos color_ref) (+ 0.4) (max 0.0) (min 1.0)))
+                                       (assoc "color_g" (-> (/ max_angle 3.0) (+ color_ref) (Math/cos) (+ 0.4) (max 0.0) (min 1.0)))
+                                       (assoc "color_b" (-> (/ max_angle 3.0) (* 2.0) (+ color_ref) (Math/cos) (+ 0.4) (max 0.0) (min 1.0))))))
                                   coordinates)
         rot_angle (atom 0.0)]
     (fn []
       (let [rotation_angle @rot_angle
             rotated_coordinates (mapv (fn [coords]
                                         (->
-                                          coords
-                                          (update-in
-                                            ["x"]
-                                            (fn [x z]
-                                              (- (* (Math/cos rotation_angle) x)
-                                                 (* (Math/sin rotation_angle) z)))
-                                            (coords "z"))
-                                          (update-in
-                                            ["z"]
-                                            (fn [z x]
-                                              (+ (* (Math/sin rotation_angle) x)
-                                                 (* (Math/cos rotation_angle) z)))
-                                            (coords "x"))
-                                          (update-in
-                                            ["rotation_y"]
-                                            (fn [_]
-                                              (- rotation_angle)))))
+                                         coords
+                                         (update-in
+                                          ["x"]
+                                          (fn [x z]
+                                            (- (* (Math/cos rotation_angle) x)
+                                               (* (Math/sin rotation_angle) z)))
+                                          (coords "z"))
+                                         (update-in
+                                          ["z"]
+                                          (fn [z x]
+                                            (+ (* (Math/sin rotation_angle) x)
+                                               (* (Math/cos rotation_angle) z)))
+                                          (coords "x"))
+                                         (update-in
+                                          ["rotation_y"]
+                                          (fn [_]
+                                            (- rotation_angle)))))
                                       colored_coordinates)]
         (producer (to-json-bytes rotated_coordinates))
         (delay-fn)

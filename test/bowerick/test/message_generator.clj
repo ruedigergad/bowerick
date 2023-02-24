@@ -31,6 +31,12 @@
 
 
 
+(test/deftest list-message-gen-tests
+  (test/is
+   (=
+    (msg-gen/list-message-gen)
+    ["binary-file", "custom-fn", "heart4family", "hello-world", "pcap-file", "txt-file", "txt-file-line", "yin-yang"])))
+
 (test/deftest txt-file-generator-per-line-single-test
   (let [producer (jms/create-producer local-jms-server test-topic 1)
         received (atom [])
@@ -141,7 +147,7 @@
                        (swap! received-sizes conj size)
                        (when (= size 80)
                          (utils/set-flag flag))))
-        gen (msg-gen/create-message-generator producer delay-fn "pcap-file" "test/data/binary_pcap_data_input_test.pcap")
+        gen (msg-gen/create-message-gen producer delay-fn "pcap-file" "test/data/binary_pcap_data_input_test.pcap")
         consumer (jms/create-consumer local-jms-server test-topic consume-fn)]
     (gen)
     (utils/await-flag flag)
@@ -163,7 +169,7 @@
         length-field-offset 8
         length-field-size 4
         header-size 16
-        gen (msg-gen/create-message-generator
+        gen (msg-gen/create-message-gen
               producer
               delay-fn
               "binary-file"
@@ -185,7 +191,7 @@
                        (swap! received conj s)
                        (when (= s "4,5,6,7")
                          (utils/set-flag flag))))
-        gen (msg-gen/create-message-generator producer delay-fn "txt-file-line" "test/data/csv_input_test_file.txt")
+        gen (msg-gen/create-message-gen producer delay-fn "txt-file-line" "test/data/csv_input_test_file.txt")
         consumer (jms/create-consumer local-jms-server test-topic consume-fn)]
     (gen)
     (utils/await-flag flag)
@@ -203,7 +209,7 @@
                        (swap! received conj s)
                        (when (= s "7")
                          (utils/set-flag flag))))
-        gen (msg-gen/create-message-generator
+        gen (msg-gen/create-message-gen
               producer
               delay-fn
               "txt-file"
@@ -216,7 +222,7 @@
     (jms/close consumer)))
 
 (test/deftest create-custom-fn-generator-producer-return-test
-  (let [gen-fn (msg-gen/create-message-generator
+  (let [gen-fn (msg-gen/create-message-gen
                  identity
                  nil
                  "custom-fn"
@@ -224,7 +230,7 @@
     (test/is (= "producer return value" (gen-fn)))))
 
 (test/deftest create-custom-fn-generator-delay-fn-return-test
-  (let [gen-fn (msg-gen/create-message-generator
+  (let [gen-fn (msg-gen/create-message-gen
                  nil
                  identity
                  "custom-fn"
@@ -240,7 +246,7 @@
                      (let [s (String. obj)]
                        (reset! received s)
                        (utils/set-flag flag)))
-        gen (msg-gen/create-message-generator producer delay-fn "custom-fn" "test/data/custom-generator-fn-hello.clj")
+        gen (msg-gen/create-message-gen producer delay-fn "custom-fn" "test/data/custom-generator-fn-hello.clj")
         consumer (jms/create-consumer local-jms-server test-topic consume-fn)]
     (gen)
     (utils/await-flag flag)
@@ -257,7 +263,7 @@
                      (let [s (String. obj)]
                        (reset! received s)
                        (utils/set-flag flag)))
-        gen (msg-gen/create-message-generator producer delay-fn "custom-fn" "./target/classes/HelloWorldMessageGenerator.class")
+        gen (msg-gen/create-message-gen producer delay-fn "custom-fn" "./target/classes/HelloWorldMessageGenerator.class")
         consumer (jms/create-consumer local-jms-server test-topic consume-fn)]
     (gen)
     (utils/await-flag flag)
@@ -274,7 +280,7 @@
                      (let [s (String. obj)]
                        (reset! received s)
                        (utils/set-flag flag)))
-        gen (msg-gen/create-message-generator producer delay-fn "hello-world" nil)
+        gen (msg-gen/create-message-gen producer delay-fn "hello-world" nil)
         consumer (jms/create-consumer local-jms-server test-topic consume-fn)]
     (gen)
     (utils/await-flag flag)
@@ -292,7 +298,7 @@
                        (utils/set-flag flag)))
         consumer (jms/create-json-consumer local-jms-server test-topic consume-fn)
         producer (jms/create-producer local-jms-server test-topic 1)
-        gen (msg-gen/create-message-generator producer delay-fn "heart4family" nil)]
+        gen (msg-gen/create-message-gen producer delay-fn "heart4family" nil)]
     (utils/run-once (utils/executor) gen 0)
     (utils/await-flag flag)
     (test/is (= {"x" -4.408022441584257E-48, "y" -1.3499999999999999, "z" 0.0} @received))
@@ -309,7 +315,7 @@
                        (swap! received conj obj)))
         consumer (jms/create-json-consumer local-jms-server test-topic consume-fn)
         producer (jms/create-producer local-jms-server test-topic 1)
-        gen (msg-gen/create-message-generator producer delay-fn "heart4family" nil)]
+        gen (msg-gen/create-message-gen producer delay-fn "heart4family" nil)]
     (utils/run-once (utils/executor) gen 0)
     (utils/await-flag flag)
     (test/is (=
@@ -333,7 +339,7 @@
                        (utils/set-flag flag)))
         consumer (jms/create-json-consumer local-jms-server test-topic consume-fn)
         producer (jms/create-producer local-jms-server test-topic 1)
-        gen (msg-gen/create-message-generator producer delay-fn "yin-yang" nil)]
+        gen (msg-gen/create-message-gen producer delay-fn "yin-yang" nil)]
     (utils/run-once (utils/executor) gen 0)
     (utils/await-flag flag)
     (test/is (= 203 (count @received)))
@@ -351,7 +357,7 @@
                        (swap! received conj obj)))
         consumer (jms/create-json-consumer local-jms-server test-topic consume-fn)
         producer (jms/create-producer local-jms-server test-topic 1)
-        gen (msg-gen/create-message-generator producer delay-fn "yin-yang" nil)]
+        gen (msg-gen/create-message-gen producer delay-fn "yin-yang" nil)]
     (utils/run-repeat (utils/executor) gen 100)
     (utils/await-flag flag)
     (test/is (every? #(= 203 (count %)) @received))

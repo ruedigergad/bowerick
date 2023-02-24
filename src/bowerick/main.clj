@@ -225,7 +225,7 @@
                        #(do (swap! counter inc) (utils/sleep msg-delay))
                        #(swap! counter inc))
             generator-name (arg-map :embedded-message-generator)
-            msg-gen (msg-gen/create-message-generator
+            msg-gen (msg-gen/create-message-gen
                       msg-gen-prod-fn
                       delay-fn
                       generator-name
