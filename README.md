@@ -256,6 +256,22 @@ For using bowerick as Clojure library, the best way is to include it as dependen
     (jms/stop brkr)
     ; (quit)
 
+### Container Image
+
+Below is an example on using the container image with Docker:
+
+Start a container with the default settings in the entrypoint and forward all ports:
+
+```
+docker run -p 1031:1031 -p 1701:1701 -p 1864:1864 -p 2000:2000 -p 11031:11031 -p 11701:11701 -p 11864:11864 -p 12000:12000 ruedigergad/bowerick:latest
+```
+
+Connect a Java client to the container:
+
+```
+java -jar dist/bowerick-2.9.6-standalone.jar -B -u "tcp://127.0.0.1:1031"
+```
+
 ### API Docs
 
 API docs are available:
