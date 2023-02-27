@@ -9,6 +9,7 @@ export BOWERICK_ADMIN_PASS=${BOWERICK_ADMIN_PASS:-adminpass}
 export BOWERICK_WRITE_PASS=${BOWERICK_WRITE_PASS:-writepass}
 export BOWERICK_READ_PASS=${BOWERICK_READ_PASS:-readpass}
 
+GEN=${GEN:-true}
 GEN_DESTINATION=${GEN_DESTINATION:-/topic/bowerick.message.generator}
 GEN_TYPE=${GEN_TYPE:-custom-fn}
 GEN_ARGS=${GEN_ARGS:-./generator.clj}
@@ -32,13 +33,24 @@ echo "${GEN_FN}" > generator.clj
 COMMAND="java -jar bowerick*standalone.jar -d -v"
 if ${BOOTSTRAP_CERTS} ;
 then
+    echo "Enabling certificate bootstrap..."
     COMMAND="${COMMAND} -b"
 fi
 if ${SET_PASSWORDS} ;
 then
+    echo "Enabling password setting via environment variables..."
     COMMAND="${COMMAND} -e"
 fi
-COMMAND="${COMMAND} -D ${GEN_DESTINATION} -G ${GEN_TYPE} -X ${GEN_ARGS} -I ${GEN_INTERVAL}"
-echo ${COMMAND} -u "${URLS}"
-${COMMAND} -u "${URLS}"
+if ${GEN} ;
+then
+    echo "Enabling data generator..."
+    COMMAND="${COMMAND} -D ${GEN_DESTINATION} -G ${GEN_TYPE} -X ${GEN_ARGS} -I ${GEN_INTERVAL}"
+fi
+
+echo "Setting URLs: ${URLS}"
+COMMAND="${COMMAND} -u \"${URLS}\""
+
+echo "Executing command:"
+echo ${COMMAND}
+${COMMAND}
 
