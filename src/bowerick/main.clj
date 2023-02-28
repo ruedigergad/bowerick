@@ -116,6 +116,53 @@
       (.start)))
   nil)
 
+(defn start-embedded-message-generator
+  [arg-map running]
+  (let [url (arg-map :url)
+        msg-gen-prod (jms/create-producer
+                       (s/replace
+                         (if (string? url)
+                           url
+                           (first url))
+                         "0.0.0.0"
+                         "127.0.0.1")
+                       (arg-map :destination)
+                       (arg-map :pool-size))
+        msg-gen-prod-fn (fn [data] (when @running (msg-gen-prod data)))
+        msg-delay (arg-map :interval)
+        counter (atom 0)
+        delay-fn (if (and (integer? msg-delay) (pos? msg-delay))
+                   #(do (swap! counter inc) (utils/sleep msg-delay))
+                   #(swap! counter inc))
+        generator-name (arg-map :embedded-message-generator)
+        msg-gen (msg-gen/create-message-gen
+                  msg-gen-prod-fn
+                  delay-fn
+                  generator-name
+                  (arg-map :generator-arguments))]
+    (println "Starting message generation with:" generator-name
+             ", sending to:" (arg-map :destination)
+             ", with args:" (arg-map :generator-arguments))
+    (doto
+      (Thread. #(loop []
+                  (msg-gen)
+                  (if @running
+                    (recur)
+                    (do
+                      (println "Stopping message-generator producer...")
+                      (jms/close msg-gen-prod)))))
+      (.setDaemon true)
+      (.start))
+    (doto
+      (Thread. #(loop []
+                  (println "data instances per second:" @counter)
+                  (reset! counter 0)
+                  (utils/sleep 1000)
+                  (when @running
+                    (recur))))
+      (.setDaemon true)
+      (.start))))
+
 (defn start-broker-mode
   [arg-map cfg]
   (utils/println-err "Starting bowerick in broker mode.")
@@ -209,49 +256,7 @@
         (println "Alternatively, if you have the bowerick source code repository, you can also open the page from the checked out repository:")
         (println "examples/simple_websocket_a-frame_example/simple_websocket_a-frame_example.html")))
     (when (string? (arg-map :embedded-message-generator))
-      (let [msg-gen-prod (jms/create-producer
-                           (s/replace
-                             (if (string? url)
-                               url
-                               (first url))
-                             "0.0.0.0"
-                             "127.0.0.1")
-                           (arg-map :destination)
-                           (arg-map :pool-size))
-            msg-gen-prod-fn (fn [data] (when @running (msg-gen-prod data)))
-            msg-delay (arg-map :interval)
-            counter (atom 0)
-            delay-fn (if (and (integer? msg-delay) (pos? msg-delay))
-                       #(do (swap! counter inc) (utils/sleep msg-delay))
-                       #(swap! counter inc))
-            generator-name (arg-map :embedded-message-generator)
-            msg-gen (msg-gen/create-message-gen
-                      msg-gen-prod-fn
-                      delay-fn
-                      generator-name
-                      (arg-map :generator-arguments))]
-        (println "Starting message generation with:" generator-name
-                 ", sending to:" (arg-map :destination)
-                 ", with args:" (arg-map :generator-arguments))
-        (doto
-          (Thread. #(loop []
-                      (msg-gen)
-                      (if @running
-                        (recur)
-                        (do
-                          (println "Stopping message-generator producer...")
-                          (jms/close msg-gen-prod)))))
-          (.setDaemon true)
-          (.start))
-        (doto
-          (Thread. #(loop []
-                      (println "data instances per second:" @counter)
-                      (reset! counter 0)
-                      (utils/sleep 1000)
-                      (when @running
-                        (recur))))
-          (.setDaemon true)
-          (.start))))
+      (start-embedded-message-generator arg-map running))
     (when (arg-map :replay-file)
       (replay (arg-map :replay-file) (arg-map :interval) (arg-map :loop-replay) producers))
     (if (arg-map :daemon)
