@@ -296,7 +296,7 @@ Deploy example with message generation into Kubernetes:
 
 ```
 cd helm
-helm install my-bowerick-brk-gen bwrck-brk-gen
+helm install my-bowerick bwrck-brk-gen
 ```
 
 Access the example via Java client:
@@ -307,7 +307,7 @@ minikube ip
 # Note the IP address.
 
 # Get the cluster external service port:
-kubectl get service my-bowerick-brk-gen-bwrck-brk-gen
+kubectl get service my-bowerick-bwrck-brk-gen
 # Note the external port for service port 1031.
 
 # Start Java client:
@@ -316,11 +316,25 @@ java -jar dist/bowerick-2.9.7-standalone.jar -B -u "tcp://<CLUSTER_IP>:<EXTERNAL
 
 #### More Cases
 
-Deploy example without message generation into Kubernetes:
+Deploy example without message generation:
 
 ```
 cd helm
 helm install my-bowerick-brk bwrck-brk
+```
+
+Add second deployment for message generation:
+
+```
+cd helm
+helm install my-bowerick-gen bwrck-gen
+```
+
+Add third deployment for message consumption:
+
+```
+cd helm
+helm install my-bowerick-cns bwrck-cns
 ```
 
 ### API Docs

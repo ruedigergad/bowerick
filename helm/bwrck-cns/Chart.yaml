@@ -1,6 +1,6 @@
 apiVersion: v2
-name: bwrck-brk
-description: A Helm chart for installing bowerick as broker.
+name: bwrck-cns
+description: A Helm chart for installing bowerick as message consumer client.
 
 # A chart can be either an 'application' or a 'library' chart.
 #
