@@ -290,6 +290,30 @@ Start broker without message generator:
 docker run -e GEN=false -p 1031:1031 -p 1701:1701 -p 1864:1864 -p 2000:2000 -p 11031:11031 -p 11701:11701 -p 11864:11864 -p 12000:12000 ruedigergad/bowerick:2.9.6
 ```
 
+### Kubernetes Deployment
+
+Deploy example into Kubernetes:
+
+```
+cd helm
+helm install my-bowerick bwrck-brk-gen
+```
+
+Access the example via Java client:
+
+```
+# Assuming Minikube is used, get the cluster IP:
+minikube ip
+# Note the IP address.
+
+# Get the cluster external service port:
+kubectl get service my-bowerick-bwrck-brk-gen
+# Note the external port for service port 1031.
+
+# Start Java client:
+java -jar dist/bowerick-2.9.6-standalone.jar -B -u "tcp://<CLUSTER_IP>:<EXTERNAL_PORT>"
+```
+
 ### API Docs
 
 API docs are available:
