@@ -1,5 +1,15 @@
 #!/bin/sh
 
+if [ -n "${CUSTOM_ARGS}" ] ;
+then
+    echo "Running with custom args: ${CUSTOM_ARGS}"
+    echo "Note, this overrides all other settings for the entrypoint."
+    COMMAND="java -jar bowerick*standalone.jar ${CUSTOM_ARGS}"
+    echo "Running command: ${COMMAND}"
+    ${COMMAND}
+    exit 0
+fi
+
 BOOTSTRAP_CERTS=${BOOTSTRAP_CERTS:-true}
 
 URLS=${URLS:-"tcp://0.0.0.0:1031 mqtt://0.0.0.0:1701 ws://0.0.0.0:1864 stomp://0.0.0.0:2000 ssl://0.0.0.0:11031 stomp+ssl://0.0.0.0:11701 mqtt+ssl://0.0.0.0:11864 wss://0.0.0.0:12000"}

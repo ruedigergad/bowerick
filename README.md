@@ -272,6 +272,12 @@ Connect a Java client to the container:
 java -jar dist/bowerick-2.9.6-standalone.jar -B -u "tcp://127.0.0.1:1031"
 ```
 
+Connect a client container by setting CUSTOM_ARGS:
+
+```
+docker run --net host -it -e CUSTOM_ARGS="-B -u tcp://127.0.0.1:1031" ruedigergad/bowerick:latest
+```
+
 Connect a client container by overriding the entrypoint:
 
 ```
