@@ -479,7 +479,7 @@
     (if (arg-map :daemon)
       (let [running (atom true)
             channel (async/chan)]
-        (println "Broker started in daemon mode.")
+        (println "Benchmark client started in daemon mode.")
         (sig/with-handler :term
           (reset! running false)
           (async/>!! channel :term))
