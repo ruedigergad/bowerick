@@ -161,7 +161,8 @@
                   (when @running
                     (recur))))
       (.setDaemon true)
-      (.start))))
+      (.start)))
+  nil)
 
 (defn start-broker-mode
   [arg-map cfg]
@@ -448,33 +449,51 @@
   #_{:clj-kondo/ignore [:unused-binding]}
   (let [counter (atom 0)
         reception-delay (arg-map :interval)
-        consumer-fn (if (and (integer? reception-delay) (pos? reception-delay))
-                      (fn [_] (swap! counter inc) (utils/sleep reception-delay))
-                      (fn [_] (swap! counter inc)))
         running (atom true)
         stdout *out*
         stderr *err*
-        output-thread (doto (Thread. #(loop []
-                                        (binding [*out* stdout
-                                                  *err* stderr]
-                                          (println "Data instances per second:" @counter))
-                                        (reset! counter 0)
-                                        (utils/sleep 1000)
-                                        (when @running
-                                          (recur))))
-                        (.setDaemon true)
-                        (.start))
         url (if (vector? (arg-map :url))
               (first (arg-map :url))
               (arg-map :url))
-        consumer (jms/create-consumer url (arg-map :destination) consumer-fn (arg-map :pool-size))
+        consumer-fn (if (and (integer? reception-delay) (pos? reception-delay))
+                      (fn [_] (swap! counter inc) (utils/sleep reception-delay))
+                      (fn [_] (swap! counter inc)))
+        consumer (if (string? (arg-map :embedded-message-generator))
+                   (start-embedded-message-generator arg-map running)
+                   (do
+                     (doto (Thread. #(loop []
+                                       (binding [*out* stdout
+                                                 *err* stderr]
+                                         (println "Data instances per second:" @counter))
+                                       (reset! counter 0)
+                                       (utils/sleep 1000)
+                                       (when @running
+                                         (recur))))
+                       (.setDaemon true)
+                       (.start))
+                     (jms/create-consumer url (arg-map :destination) consumer-fn (arg-map :pool-size))))
         shutdown-fn (fn []
                       (reset! running false)
-                      (jms/close consumer))]
-    (println "Benchmark client started... Type \"q\" followed by <Return> to quit: ")
-    (while (not= "q" (read-line))
-      (println "Type \"q\" followed by <Return> to quit: "))
-    (shutdown-fn)))
+                      (when consumer
+                        (jms/close consumer)))]
+    (if (arg-map :daemon)
+      (let [running (atom true)
+            channel (async/chan)]
+        (println "Broker started in daemon mode.")
+        (sig/with-handler :term
+          (reset! running false)
+          (async/>!! channel :term))
+        (loop []
+          (when (= (async/<!! channel) :term)
+            (println "Stopping daemon mode on term signal..."))
+          (when @running
+            (recur)))
+        (shutdown-fn))
+      (do
+        (println "Benchmark client started... Type \"q\" followed by <Return> to quit: ")
+        (while (not= "q" (read-line))
+          (println "Type \"q\" followed by <Return> to quit: "))
+        (shutdown-fn)))))
 
 (defn start-consumer-client-mode [arg-map]
   (let [consumer-arg (arg-map :consumer-client)
