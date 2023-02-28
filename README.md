@@ -272,6 +272,12 @@ Connect a Java client to the container:
 java -jar dist/bowerick-2.9.6-standalone.jar -B -u "tcp://127.0.0.1:1031"
 ```
 
+Connect a client container by overriding the entrypoint:
+
+```
+docker run --net host -it --entrypoint "/bin/sh" ruedigergad/bowerick:latest "-c" "java -jar bowerick*standalone.jar -d -B -u tcp://127.0.0.1:1031"
+```
+
 ### API Docs
 
 API docs are available:
