@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "bwrck-brk-gen.fullname" . }}
+  labels:
+    {{- include "bwrck-brk-gen.labels" . | nindent 4 }}
+spec:
+  type: NodePort
+  ports:
+    - port: 1031
+      targetPort: openwire
+      protocol: TCP
+      name: openwire
+    - port: 1701
+      targetPort: mqtt
+      protocol: TCP
+      name: mqtt
+    - port: 1864
+      targetPort: ws
+      protocol: TCP
+      name: ws
+    - port: 2000
+      targetPort: stomp
+      protocol: TCP
+      name: stomp
+    - port: 11031
+      targetPort: openwire-ssl
+      protocol: TCP
+      name: openwire-ssl
+    - port: 11701
+      targetPort: mqtt-ssl
+      protocol: TCP
+      name: mqtt-ssl
+    - port: 11864
+      targetPort: ws-ssl
+      protocol: TCP
+      name: ws-ssl
+    - port: 12000
+      targetPort: stomp-ssl
+      protocol: TCP
+      name: stomp-ssl
+  selector:
+    {{- include "bwrck-brk-gen.selectorLabels" . | nindent 4 }}

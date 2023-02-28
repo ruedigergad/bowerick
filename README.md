@@ -292,7 +292,7 @@ docker run -e GEN=false -p 1031:1031 -p 1701:1701 -p 1864:1864 -p 2000:2000 -p 1
 
 ### Kubernetes Deployment
 
-Deploy example into Kubernetes:
+Deploy example with message generation into Kubernetes:
 
 ```
 cd helm
@@ -312,6 +312,15 @@ kubectl get service my-bowerick-bwrck-brk-gen
 
 # Start Java client:
 java -jar dist/bowerick-2.9.6-standalone.jar -B -u "tcp://<CLUSTER_IP>:<EXTERNAL_PORT>"
+```
+
+#### More Cases
+
+Deploy example without message generation into Kubernetes:
+
+```
+cd helm
+helm install my-bowerick bwrck-brk
 ```
 
 ### API Docs
