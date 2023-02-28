@@ -284,6 +284,12 @@ Connect a client container by overriding the entrypoint:
 docker run --net host -it --entrypoint "/bin/sh" ruedigergad/bowerick:latest "-c" "java -jar bowerick*standalone.jar -B -u tcp://127.0.0.1:1031"
 ```
 
+Start broker without message generator:
+
+```
+docker run -e GEN=false -p 1031:1031 -p 1701:1701 -p 1864:1864 -p 2000:2000 -p 11031:11031 -p 11701:11701 -p 11864:11864 -p 12000:12000 ruedigergad/bowerick:2.9.6
+```
+
 ### API Docs
 
 API docs are available:
