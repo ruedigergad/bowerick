@@ -269,7 +269,7 @@ docker run -p 1031:1031 -p 1701:1701 -p 1864:1864 -p 2000:2000 -p 11031:11031 -p
 Connect a Java client to the container:
 
 ```
-java -jar dist/bowerick-2.9.6-standalone.jar -B -u "tcp://127.0.0.1:1031"
+java -jar dist/bowerick-2.9.7-standalone.jar -B -u "tcp://127.0.0.1:1031"
 ```
 
 Connect a client container by setting CUSTOM_ARGS:
@@ -287,7 +287,7 @@ docker run --net host -it --entrypoint "/bin/sh" ruedigergad/bowerick:latest "-c
 Start broker without message generator:
 
 ```
-docker run -e GEN=false -p 1031:1031 -p 1701:1701 -p 1864:1864 -p 2000:2000 -p 11031:11031 -p 11701:11701 -p 11864:11864 -p 12000:12000 ruedigergad/bowerick:2.9.6
+docker run -e GEN=false -p 1031:1031 -p 1701:1701 -p 1864:1864 -p 2000:2000 -p 11031:11031 -p 11701:11701 -p 11864:11864 -p 12000:12000 ruedigergad/bowerick:latest
 ```
 
 ### Kubernetes Deployment
@@ -296,7 +296,7 @@ Deploy example with message generation into Kubernetes:
 
 ```
 cd helm
-helm install my-bowerick bwrck-brk-gen
+helm install my-bowerick-brk-gen bwrck-brk-gen
 ```
 
 Access the example via Java client:
@@ -307,11 +307,11 @@ minikube ip
 # Note the IP address.
 
 # Get the cluster external service port:
-kubectl get service my-bowerick-bwrck-brk-gen
+kubectl get service my-bowerick-brk-gen-bwrck-brk-gen
 # Note the external port for service port 1031.
 
 # Start Java client:
-java -jar dist/bowerick-2.9.6-standalone.jar -B -u "tcp://<CLUSTER_IP>:<EXTERNAL_PORT>"
+java -jar dist/bowerick-2.9.7-standalone.jar -B -u "tcp://<CLUSTER_IP>:<EXTERNAL_PORT>"
 ```
 
 #### More Cases
@@ -320,7 +320,7 @@ Deploy example without message generation into Kubernetes:
 
 ```
 cd helm
-helm install my-bowerick bwrck-brk
+helm install my-bowerick-brk bwrck-brk
 ```
 
 ### API Docs
