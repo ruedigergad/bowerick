@@ -3,8 +3,7 @@
 Easing Simple Message-oriented Middleware Tasks with Clojure (and Java)
 
 [![Clojars Project](https://img.shields.io/clojars/v/bowerick.svg)](https://clojars.org/bowerick)
-[![Build Status TravicCI](https://travis-ci.com/ruedigergad/bowerick.svg?branch=master)](https://travis-ci.com/ruedigergad/bowerick)
-[![Build Status SemaphoreCI](https://semaphoreci.com/api/v1/ruedigergad/bowerick/branches/master/badge.svg)](https://semaphoreci.com/ruedigergad/bowerick)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/ruedigergad/bowerick/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/ruedigergad/bowerick/tree/master)
 [![lein test](https://github.com/ruedigergad/bowerick/actions/workflows/lein_test.yml/badge.svg)](https://github.com/ruedigergad/bowerick/actions/workflows/lein_test.yml)
 [![Coverage Status](https://coveralls.io/repos/github/ruedigergad/bowerick/badge.svg?branch=master)](https://coveralls.io/github/ruedigergad/bowerick?branch=master)
 
