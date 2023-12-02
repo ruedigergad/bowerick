@@ -1,7 +1,9 @@
 FROM openjdk:11-jdk-bullseye
 
+ARG VERSION
+
 WORKDIR /bowerick
-COPY dist/bowerick-2.9.7-standalone.jar .
+COPY dist/bowerick-$VERSION-standalone.jar .
 COPY entrypoint.sh .
 
 ENTRYPOINT ["./entrypoint.sh"]]
