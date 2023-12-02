@@ -2,28 +2,28 @@
 ;(defproject bowerick "2.9.7"
   :description "Easing Simple JMS Tasks with Clojure (and Java)"
   :dependencies [[com.twitter/carbonite "1.5.0"]
-                 [cheshire "5.11.0"]
+                 [cheshire "5.12.0"]
                  [cli4clj "1.9.0"]
                  [clj-assorted-utils "1.19.0"]
                  [com.ning/compress-lzf "1.1.2"]
-                 [com.taoensso/nippy "3.2.0"]
+                 [com.taoensso/nippy "3.3.0"]
                  [javax.servlet/javax.servlet-api "4.0.1"]
-                 [org.apache.activemq/activemq-broker "5.17.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.apache.activemq/activemq-client "5.17.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.apache.activemq/activemq-http "5.17.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all commons-logging/commons-logging]]
-                 [org.apache.activemq/activemq-jaas "5.17.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.apache.activemq/activemq-openwire-legacy "5.17.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.apache.activemq/activemq-stomp "5.17.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
-                 [org.eclipse.jetty/jetty-server "9.4.50.v20221201"]
-                 [org.eclipse.jetty.websocket/websocket-client "9.4.50.v20221201"]
-                 [org.eclipse.jetty.websocket/websocket-server "9.4.50.v20221201"]
+                 [org.apache.activemq/activemq-broker "5.18.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [org.apache.activemq/activemq-client "5.18.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [org.apache.activemq/activemq-http "5.18.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all commons-logging/commons-logging]]
+                 [org.apache.activemq/activemq-jaas "5.18.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [org.apache.activemq/activemq-openwire-legacy "5.18.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [org.apache.activemq/activemq-stomp "5.18.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
+                 [org.eclipse.jetty/jetty-server "9.4.53.v20231009"]
+                 [org.eclipse.jetty.websocket/websocket-client "9.4.53.v20231009"]
+                 [org.eclipse.jetty.websocket/websocket-server "9.4.53.v20231009"]
                  [org.clojure/clojure "1.11.1"]
-                 [org.clojure/tools.cli "1.0.214"]
+                 [org.clojure/tools.cli "1.0.219"]
                  [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.5"]
                  [org.iq80.snappy/snappy "0.4"]
-                 [org.springframework/spring-messaging "5.3.25"]
-                 [org.springframework/spring-websocket "5.3.25"]
-                 [org.slf4j/slf4j-simple "2.0.6"]
+                 [org.springframework/spring-messaging "5.3.31"]
+                 [org.springframework/spring-websocket "5.3.31"]
+                 [org.slf4j/slf4j-simple "2.0.9"]
                  [rgad/stompjms-client "1.20-SNAPSHOT"]
                  [juxt/dirwatch "0.2.5"]
                  [org.tcrawley/dynapath "1.1.0"]
@@ -48,7 +48,7 @@
   :html5-docs-ns-includes #"^bowerick.*"
   :html5-docs-repository-url "https://github.com/ruedigergad/bowerick/blob/master"
   :profiles {:repl
-               {:dependencies  [[jonase/eastwood "1.3.0" :exclusions  [org.clojure/clojure]]]}
+               {:dependencies  [[jonase/eastwood "1.4.2" :exclusions  [org.clojure/clojure]]]}
              :test
                {:dependencies [[criterium "0.4.6"]]
                 :test-paths ["test" "benchmark"]}}
