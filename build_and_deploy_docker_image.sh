@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION="2.9.7"
+VERSION="2.9.8"
 
 docker build -t ruedigergad/bowerick:${VERSION} .
 docker tag ruedigergad/bowerick:${VERSION} ruedigergad/bowerick:latest
