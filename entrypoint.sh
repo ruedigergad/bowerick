@@ -63,5 +63,5 @@ COMMAND="${COMMAND} -u \"${URLS}\""
 
 echo "Executing command:"
 echo ${COMMAND}
-${COMMAND}
+sh -c "${COMMAND}"
 
