@@ -23,4 +23,8 @@ orbs:
         - run: 'lein cloverage -t "bowerick.test.*" -e "bowerick.JmsController"'
         - coveralls/upload
 
-workflows: null
+workflows:
+  run_tests:
+    jobs:
+      - run_tests_job
+
