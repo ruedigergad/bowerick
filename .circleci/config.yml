@@ -22,9 +22,9 @@ orbs:
             key: v1-dependencies-{{ checksum "project.clj" }}
         - run: 'lein cloverage -t "bowerick.test.*" -e "bowerick.JmsController"'
         - coveralls/upload
+  workflows:
+    run_tests:
+      jobs:
+        - run_tests_job
 
-workflows:
-  run_tests:
-    jobs:
-      - run_tests_job
-
+workflows: null
