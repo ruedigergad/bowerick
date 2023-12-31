@@ -22,8 +22,9 @@ jobs:
             paths:
               - ~/.m2
             key: v1-dependencies-{{ checksum "project.clj" }}
-        - run: 'lein cloverage -t "bowerick.test.*" -e "bowerick.JmsController"'
-        - coveralls/upload
+        - run: 'lein test'
+#        - run: 'lein cloverage -t "bowerick.test.*" -e "bowerick.JmsController"'
+#        - coveralls/upload
 
 workflows:
   run_tests:
