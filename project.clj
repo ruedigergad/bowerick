@@ -52,7 +52,7 @@
              :test
                {:dependencies [[criterium "0.4.6"]]
                 :test-paths ["test" "benchmark"]}}
-  :plugins [[lein-cloverage "1.2.2"] [test2junit "1.4.2"] [lein-html5-docs "3.0.3"]]
+  :plugins [[lein-cloverage "1.2.4"] [test2junit "1.4.2"] [lein-html5-docs "3.0.3"]]
   ; Explicitly forcing TLSv1.2, for now, because of: https://bugs.openjdk.java.net/browse/JDK-8211426
   ;:jvm-opts ["-Djavax.net.debug=all" "-Djdk.tls.server.protocols=TLSv1.2" "-Djdk.tls.client.protocols=TLSv1.2"]
   ;:jvm-opts ["-Djavax.net.debug=all"]
