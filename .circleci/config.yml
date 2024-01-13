@@ -23,7 +23,7 @@ jobs:
               - ~/.m2
             key: v1-dependencies-{{ checksum "project.clj" }}
         - run: 'lein test'
-        - run: 'lein cloverage -t "bowerick.test.*" -e "bowerick.java-interfaces" -e "bowerick.JmsController"'
+        - run: 'lein cloverage -t "bowerick.test.*" -e "bowerick.java-interfaces" -e "bowerick.JmsController" -o cov --coveralls'
         - coveralls/upload
 
 workflows:
