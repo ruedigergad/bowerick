@@ -1,4 +1,4 @@
-# bowerick
+# bowerick Overview
 
 Easing Simple Message-oriented Middleware Tasks with Clojure (and Java)
 
@@ -35,14 +35,14 @@ The supported protocls are:
 - STOMP
 - STOMP via WebSockets
 
-## Links
+# Links
 
-### Detailed Test Results
+## Detailed Test Results
 
 Detailed test results are available as well:
 [https://ruedigergad.github.io/bowerick/test-results/html/](http://ruedigergad.github.io/bowerick/test-results/html/)
 
-### Blog Posts
+## Blog Posts
 
 On my website, I wrote some blog posts about bowerick:
 
@@ -50,12 +50,12 @@ On my website, I wrote some blog posts about bowerick:
 
 In these blog posts, I make announcements about bowerick and discuss selected aspects of bowerick in more detail.
 
-### API Docs
+## API Docs
 
 API docs are available:
 [https://ruedigergad.github.io/bowerick/doc/](http://ruedigergad.github.io/bowerick/doc/)
 
-## Documentation
+# Documentation
 
 The documentation tries to follow the scheme of the functionality as introduced above:
 
@@ -69,7 +69,7 @@ The documentation tries to follow the scheme of the functionality as introduced 
 The combined functionality offered by bowerick is provided in the "*-standalone.jar" files, which can be downloaded from the "dist/" directory.
 Alternatively, bowerick can be included as library in your applications via clojars.org.
 
-### Command Line Examples
+## Command Line Examples
 
 The command line examples all refer to bowerick distributed as "*-standalone.jar" file.
 
@@ -81,9 +81,9 @@ java -jar bowerick-<VERSION>-standalone.jar --help
 
 Below, examples for some arguments are given.
 
-#### Broker/Server Mode
+### Broker/Server Mode
 
-##### Broker Startup and Transports Configuration
+#### Broker Startup and Transports Configuration
 
 The initial main aim of the broker/server mode was to easily start a Message-oriented Middleware (MoM) broker/server.
 
@@ -120,7 +120,7 @@ java -jar bowerick-<VERSION>-standalone.jar -u "[ws://127.0.0.1:1864 mqtt://127.
 Note the notation using square brackets to indicate the list of transports.
 More transports can be added by adding their URLs to this list.
 
-##### Message Generators
+#### Message Generators
 
 In addition to starting a broker, bowerick can also start a message along with the borker to produce traffic.
 It provides some built-in message generators and can also be extended with custom message generators.
@@ -178,7 +178,7 @@ The examples are run from the base directory of the bowerick git project.
 This is important for relative file paths that are shown in the examples to work.
 
 
-#### Client Mode
+### Client Mode
 
 The client mode is started via:
 
@@ -193,11 +193,11 @@ To get a list of all commands type "help".
 The client mode CLI also supports tab completion and hints.
 I suggest to press <TAB> once or twice in different places to see the different ways how tab completions and hints can be used.
 
-### Clojure Library Examples
+## Clojure Library Examples
 
 For using bowerick as Clojure library, the best way is to include it as dependency in your project.
 
-#### Minimal Working Example
+### Minimal Working Example
 
     ; Can also be run in: lein repl
     (require '[bowerick.jms :as jms])
@@ -215,7 +215,7 @@ For using bowerick as Clojure library, the best way is to include it as dependen
     (jms/stop brkr)
     ; (quit)
 
-#### Multiple Transports
+### Multiple Transports
 
     ; Can also be run in: lein repl
     (require '[bowerick.jms :as jms])
@@ -234,7 +234,7 @@ For using bowerick as Clojure library, the best way is to include it as dependen
     (jms/stop brkr)
     ; (quit)
 
-#### Pooled Operation
+### Pooled Operation
 
     ; Can also be run in: lein repl
     (require '[bowerick.jms :as jms])
@@ -255,7 +255,7 @@ For using bowerick as Clojure library, the best way is to include it as dependen
     (jms/stop brkr)
     ; (quit)
 
-### Container Image
+## Container Image
 
 Below is an example on using the container image with Docker:
 
@@ -289,7 +289,7 @@ Start broker without message generator:
 docker run -e GEN=false -p 1031:1031 -p 1701:1701 -p 1864:1864 -p 2000:2000 -p 11031:11031 -p 11701:11701 -p 11864:11864 -p 12000:12000 ruedigergad/bowerick:latest
 ```
 
-### Kubernetes Deployment
+## Kubernetes Deployment
 
 Deploy example with message generation into Kubernetes:
 
@@ -313,7 +313,7 @@ kubectl get service my-bowerick-bwrck-brk-gen
 java -jar dist/bowerick-2.9.7-standalone.jar -B -u "tcp://<CLUSTER_IP>:<EXTERNAL_PORT>"
 ```
 
-#### More Cases
+### More Cases
 
 Deploy example without message generation:
 
@@ -336,14 +336,14 @@ cd helm
 helm install my-bowerick-cns bwrck-cns
 ```
 
-### API Docs
+## API Docs
 
 API docs are available:
 http://ruedigergad.github.io/bowerick/doc/
 
-### Cheat Sheet
+## Cheat Sheet
 
-#### Transport Connections
+### Transport Connections
 
 * Encrypted
     * OpenWire via TCP (with optional client authentication)
@@ -384,7 +384,7 @@ http://ruedigergad.github.io/bowerick/doc/
 
       mqtt://127.0.0.1:42430
 
-#### Serialization, Compression, and Pooling
+### Serialization, Compression, and Pooling
 
 Placeholders Used in the Cheat Sheet Examples
 
@@ -431,9 +431,9 @@ Placeholders Used in the Cheat Sheet Examples
  
  (create-nippy-lzf-consumer server-url destination-description callback-fn pool-size)
 
-## License
+# License
 
-Copyright © 2016 - 2021 Ruediger Gad
+Copyright © 2016 - 2024 Ruediger Gad
 
 Copyright © 2014 - 2015 Frankfurt University of Applied Sciences
 
