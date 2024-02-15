@@ -319,7 +319,9 @@ Deploy example without message generation:
 
 ```
 cd helm
-helm install my-bowerick-brk bwrck-brk
+helm install my-bowerick bwrck-brk
+# To install this in parallel with the above, use, e.g.:
+# helm install my-bowerick-brk bwrck-brk
 ```
 
 Add second deployment for message generation:
