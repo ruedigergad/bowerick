@@ -27,7 +27,7 @@
 (test/use-fixtures :each benchmark-fixture)
 
 (def nippy-stress-data-benchable
-  (dissoc nippy/stress-data-benchable :lazy-seq :lazy-seq-empty :sorted-map :sorted-set))
+  (dissoc (nippy/stress-data {:comparable true}) :lazy-seq :lazy-seq-empty :sorted-map :sorted-set))
 
 (defn run-benchmarks
   [description producer-factory-fn consumer-factory-fn data]
