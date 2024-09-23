@@ -39,10 +39,11 @@
    (org.apache.activemq.broker.region.policy PolicyEntry PolicyMap)
    (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
    (org.eclipse.jetty.client HttpClient)
-   (org.eclipse.jetty.client.http HttpClientTransportOverHTTP)
+   ;(org.eclipse.jetty.client.http HttpClientTransportOverHTTP)
    (org.eclipse.jetty.util.ssl SslContextFactory)
    (org.eclipse.jetty.util.thread ScheduledExecutorScheduler)
    (org.eclipse.jetty.websocket.client WebSocketClient)
+   (org.springframework.web.socket.client.jetty JettyWebSocketClient)
    (org.eclipse.paho.client.mqttv3 MqttCallback MqttClient MqttConnectOptions MqttMessage)
    (org.fusesource.stomp.jms StompJmsConnectionFactory)
    (org.iq80.snappy Snappy)
@@ -50,8 +51,8 @@
    (org.springframework.messaging.simp.stomp StompFrameHandler StompHeaders StompSession StompSessionHandlerAdapter)
    (org.springframework.scheduling.concurrent DefaultManagedTaskScheduler)
    (org.springframework.web.socket.messaging WebSocketStompClient)
-   (org.springframework.web.socket.client.standard StandardWebSocketClient)
-   (org.eclipse.jetty.websocket.javax.client.internal JavaxWebSocketClientContainer)
+   ;(org.springframework.web.socket.client.standard StandardWebSocketClient)
+   ;(org.eclipse.jetty.websocket.javax.client.internal JavaxWebSocketClientContainer)
    ))
 
 (def ^:dynamic *user-name* nil)
@@ -412,7 +413,7 @@
         ssl-ctx (if (.startsWith broker-url "wss://")
                   (get-adjusted-ssl-context)
                   (SSLContext/getDefault))
-        ws-client (JavaxWebSocketClientContainer.
+        ws-client (WebSocketClient.
                    (doto
                     (if (.startsWith broker-url "wss://")
                       (HttpClient.
@@ -420,13 +421,13 @@
                         (SslContextFactory. false)
                          (.setSslContext
                           ssl-ctx)))
-                      (HttpClient. (HttpClientTransportOverHTTP.)))
+                      (HttpClient.))
                      (.setExecutor stp-exec)
                      (.setScheduler se-sched)
                      (.start)))
         _ (.start ws-client)
         jws-client (doto
-                     (StandardWebSocketClient. ws-client)
+                     (JettyWebSocketClient. ws-client)
                      ;(.setSslContext ssl-ctx)
                      ;(.start)
                      )
@@ -474,7 +475,7 @@
   (println "Closing WebSocket session...")
   (.disconnect ^StompSession (:session session-map))
   (.stop ^WebSocketStompClient (:ws-stomp-client session-map))
-  (.stop ^StandardWebSocketClient (:jws-client session-map))
+  (.stop ^JettyWebSocketClient (:jws-client session-map))
   (doto ^WebSocketClient (:ws-client session-map) .stop .destroy)
   (.shutdownNow ^java.util.concurrent.ExecutorService (:stp-exec session-map))
   (.stop ^ScheduledExecutorScheduler (:se-sched session-map)))
