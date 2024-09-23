@@ -45,7 +45,7 @@
                          (.start))]
     (test/is
       (thrown-with-msg?
-        javax.jms.JMSSecurityException
+        jakarta.jms.JMSSecurityException
         #"User name .* or password is invalid."
         (jms/create-single-producer jms-server-addr test-topic)))
     (.stop broker-service)))
@@ -111,7 +111,7 @@
     (jms/create-single-producer jms-server-addr test-topic)
     (test/is
       (thrown-with-msg?
-        javax.jms.JMSSecurityException
+        jakarta.jms.JMSSecurityException
         #"User anonymous is not authorized to read from: topic://test.topic.a"
         (jms/create-single-consumer jms-server-addr test-topic (fn [_]))))
     (.stop broker-service)))
@@ -136,7 +136,7 @@
     (jms/create-single-producer jms-server-addr test-topic)
     (test/is
       (thrown-with-msg?
-        javax.jms.JMSSecurityException
+        jakarta.jms.JMSSecurityException
         #"User anonymous is not authorized to read from: topic://test.topic.a"
         (jms/create-single-consumer jms-server-addr test-topic (fn [_]))))
     (jms/stop broker-service)))

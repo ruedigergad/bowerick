@@ -19,18 +19,19 @@
    [clojure.java.io :as java-io]
    [clojure.string :as str]
    [clj-assorted-utils.util :as utils]
-   [taoensso.nippy :as nippy])
+   [taoensso.nippy :as nippy]
+   [clojure.string :as s])
   (:import
    (bowerick JmsProducer)
    (clojure.lang IFn)
    (com.ning.compress.lzf LZFDecoder LZFEncoder)
+   (jakarta.jms BytesMessage ConnectionFactory DeliveryMode Message MessageListener ObjectMessage Session TextMessage)
    (java.lang AutoCloseable)
    (java.nio.charset Charset)
    (java.security KeyStore)
    (java.util ArrayList List)
    (java.util.concurrent ScheduledThreadPoolExecutor ThreadFactory)
    (java.util.concurrent.locks ReentrantLock)
-   (javax.jms BytesMessage ConnectionFactory DeliveryMode Message MessageListener ObjectMessage Session TextMessage)
    (javax.net.ssl KeyManagerFactory SSLContext TrustManagerFactory)
    (org.apache.activemq ActiveMQConnectionFactory ActiveMQSslConnectionFactory)
    (org.apache.activemq.broker BrokerService SslBrokerService SslContext)
@@ -38,16 +39,20 @@
    (org.apache.activemq.broker.region.policy PolicyEntry PolicyMap)
    (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
    (org.eclipse.jetty.client HttpClient)
+   (org.eclipse.jetty.client.http HttpClientTransportOverHTTP)
    (org.eclipse.jetty.util.ssl SslContextFactory)
    (org.eclipse.jetty.util.thread ScheduledExecutorScheduler)
    (org.eclipse.jetty.websocket.client WebSocketClient)
    (org.eclipse.paho.client.mqttv3 MqttCallback MqttClient MqttConnectOptions MqttMessage)
    (org.fusesource.stomp.jms StompJmsConnectionFactory)
    (org.iq80.snappy Snappy)
+   ;(org.eclipse.jetty.websocket.jakarta.client JakartaWebSocketClientContainerProvider)
    (org.springframework.messaging.simp.stomp StompFrameHandler StompHeaders StompSession StompSessionHandlerAdapter)
    (org.springframework.scheduling.concurrent DefaultManagedTaskScheduler)
    (org.springframework.web.socket.messaging WebSocketStompClient)
-   (org.springframework.web.socket.client.jetty JettyWebSocketClient)))
+   (org.springframework.web.socket.client.standard StandardWebSocketClient)
+   (org.eclipse.jetty.websocket.javax.client.internal JavaxWebSocketClientContainer)
+   ))
 
 (def ^:dynamic *user-name* nil)
 (def ^:dynamic *user-password* nil)
@@ -284,10 +289,13 @@
                (SslContext.)
                 (.setSSLContext
                  (get-adjusted-ssl-context)))))
+         add_conn (fn [address]
+                    (let [conn (.addConnector broker ^String address)]
+                      (println "Added connector:" (str conn) (str (class conn)))))
          _ (if (string? address)
-             (.addConnector broker ^String address)
+             (add_conn address)
              (doseq [^String addr (seq address)]
-               (.addConnector broker addr)))
+               (add_conn addr)))
          _ (.start broker)
          _ (.waitUntilStarted broker)
          management-address (str/replace
@@ -401,35 +409,55 @@
                   (ScheduledExecutorScheduler.
                    (str "HttpClient-Scheduler-" broker-url "-" sched-id) true)
                    (.start))
-        ws-client (WebSocketClient.
+        ssl-ctx (if (.startsWith broker-url "wss://")
+                  (get-adjusted-ssl-context)
+                  (SSLContext/getDefault))
+        ws-client (JavaxWebSocketClientContainer.
                    (doto
                     (if (.startsWith broker-url "wss://")
                       (HttpClient.
                        (doto
-                        (SslContextFactory.)
+                        (SslContextFactory. false)
                          (.setSslContext
-                          (get-adjusted-ssl-context))))
-                      (HttpClient.))
+                          ssl-ctx)))
+                      (HttpClient. (HttpClientTransportOverHTTP.)))
                      (.setExecutor stp-exec)
                      (.setScheduler se-sched)
                      (.start)))
+        _ (.start ws-client)
         jws-client (doto
-                    (JettyWebSocketClient. ws-client)
-                     (.start))
+                     (StandardWebSocketClient. ws-client)
+                     ;(.setSslContext ssl-ctx)
+                     ;(.start)
+                     )
         ws-stomp-client (doto
                          (WebSocketStompClient. jws-client)
                           (.setTaskScheduler (DefaultManagedTaskScheduler.))
-                          (.setDefaultHeartbeat (long-array [*ws-client-ping-heartbeat* *ws-client-pong-heartbeat*])))
+                          (.setDefaultHeartbeat (long-array [*ws-client-ping-heartbeat* *ws-client-pong-heartbeat*]))
+                          (.start)
+                          )
         session (atom nil)
         flag (utils/prepare-flag)]
     (println "Connecting WS STOMP client...")
     (.connect
      ws-stomp-client
      broker-url
+     ;(-> broker-url
+     ;    ;(s/replace #"wss://" "https://")
+     ;    ;(s/replace #"ws://" "http://")
+     ;    )
      (proxy [StompSessionHandlerAdapter] []
        (afterConnected [^StompSession new-session ^StompHeaders stomp-headers]
+         (println "FOOOO")
          (reset! session new-session)
-         (utils/set-flag flag)))
+         (utils/set-flag flag))
+       (handleException [^StompSession new-session stomp-command ^StompHeaders stomp-headers payload exception]
+                       (println "11111"))
+       (handleFrame [^StompHeaders stomp-headers payload]
+                        (println "222222"))
+       (handleTransportError [^StompSession new-session exception]
+                        (println "11111")
+                        (println exception)))
      (object-array 0))
     (println "Waiting for WS STOMP client to connect...")
     (utils/await-flag flag)
@@ -446,7 +474,7 @@
   (println "Closing WebSocket session...")
   (.disconnect ^StompSession (:session session-map))
   (.stop ^WebSocketStompClient (:ws-stomp-client session-map))
-  (.stop ^JettyWebSocketClient (:jws-client session-map))
+  (.stop ^StandardWebSocketClient (:jws-client session-map))
   (doto ^WebSocketClient (:ws-client session-map) .stop .destroy)
   (.shutdownNow ^java.util.concurrent.ExecutorService (:stp-exec session-map))
   (.stop ^ScheduledExecutorScheduler (:se-sched session-map)))
@@ -495,7 +523,7 @@
                         (.start))
          ~'session ~(with-meta
                       `(.createSession ~'connection false Session/AUTO_ACKNOWLEDGE)
-                      {:tag 'javax.jms.Session})
+                      {:tag 'jakarta.jms.Session})
          split-destination# (filter #(not= % "") (str/split ~destination-description #"/"))
          destination-type# (first split-destination#)
          destination-name# (str/join "/" (rest split-destination#))
