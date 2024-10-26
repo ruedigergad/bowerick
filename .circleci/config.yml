@@ -6,7 +6,7 @@ orbs:
 jobs:
     run_tests_job:
       docker:
-        - image: circleci/clojure:lein-2.9.5
+        - image: cimg/clojure:1.11.1-openjdk-17.0
       working_directory: ~/repo
       environment:
         LEIN_ROOT: "true"
