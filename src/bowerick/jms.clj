@@ -39,6 +39,7 @@
    (org.apache.activemq.broker.region.policy PolicyEntry PolicyMap)
    (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
    (org.eclipse.jetty.client HttpClient)
+   (org.eclipse.jetty.http HttpHeader)
    ;(org.eclipse.jetty.client.http HttpClientTransportOverHTTP)
    (org.eclipse.jetty.util.ssl SslContextFactory)
    (org.eclipse.jetty.util.thread ScheduledExecutorScheduler)
@@ -50,6 +51,7 @@
    ;(org.eclipse.jetty.websocket.jakarta.client JakartaWebSocketClientContainerProvider)
    (org.springframework.messaging.simp.stomp StompFrameHandler StompHeaders StompSession StompSessionHandlerAdapter)
    (org.springframework.scheduling.concurrent DefaultManagedTaskScheduler)
+   (org.springframework.web.socket WebSocketHttpHeaders)
    (org.springframework.web.socket.messaging WebSocketStompClient)
    ;(org.springframework.web.socket.client.standard StandardWebSocketClient)
    ;(org.eclipse.jetty.websocket.javax.client.internal JavaxWebSocketClientContainer)
@@ -68,8 +70,8 @@
 
 (def ^sun.nio.cs.Unicode ^:dynamic *default-charset* (Charset/forName "UTF-8"))
 
-(def ^:dynamic *ws-client-ping-heartbeat* 10000)
-(def ^:dynamic *ws-client-pong-heartbeat* 10000)
+(def ^:dynamic *ws-client-ping-heartbeat* 5000)
+(def ^:dynamic *ws-client-pong-heartbeat* 5000)
 
 (def ^:dynamic *force-sync-send* true)
 ; Producer window size is in bytes.
@@ -292,7 +294,8 @@
                  (get-adjusted-ssl-context)))))
          add_conn (fn [address]
                     (let [conn (.addConnector broker ^String address)]
-                      (println "Added connector:" (str conn) (str (class conn)))))
+                      ;(println "Added connector:" (str conn) (str (class conn)))
+                      ))
          _ (if (string? address)
              (add_conn address)
              (doseq [^String addr (seq address)]
@@ -423,42 +426,25 @@
                           ssl-ctx)))
                       (HttpClient.))
                      (.setExecutor stp-exec)
-                     (.setScheduler se-sched)
-                     (.start)))
-        _ (.start ws-client)
+                     (.setScheduler se-sched)))
         jws-client (doto
-                     (JettyWebSocketClient. ws-client)
-                     ;(.setSslContext ssl-ctx)
-                     ;(.start)
-                     )
+                     (JettyWebSocketClient. ws-client))
         ws-stomp-client (doto
                          (WebSocketStompClient. jws-client)
-                          (.setTaskScheduler (DefaultManagedTaskScheduler.))
+                          (.setTaskScheduler (doto (DefaultManagedTaskScheduler.) (.setScheduledExecutor (ScheduledThreadPoolExecutor. 5))))
                           (.setDefaultHeartbeat (long-array [*ws-client-ping-heartbeat* *ws-client-pong-heartbeat*]))
-                          (.start)
-                          )
+                          (.start))
         session (atom nil)
         flag (utils/prepare-flag)]
     (println "Connecting WS STOMP client...")
     (.connect
      ws-stomp-client
      broker-url
-     ;(-> broker-url
-     ;    ;(s/replace #"wss://" "https://")
-     ;    ;(s/replace #"ws://" "http://")
-     ;    )
+     (doto (WebSocketHttpHeaders.) (.add (.asString HttpHeader/SEC_WEBSOCKET_SUBPROTOCOL) "stomp"))
      (proxy [StompSessionHandlerAdapter] []
        (afterConnected [^StompSession new-session ^StompHeaders stomp-headers]
-         (println "FOOOO")
          (reset! session new-session)
-         (utils/set-flag flag))
-       (handleException [^StompSession new-session stomp-command ^StompHeaders stomp-headers payload exception]
-                       (println "11111"))
-       (handleFrame [^StompHeaders stomp-headers payload]
-                        (println "222222"))
-       (handleTransportError [^StompSession new-session exception]
-                        (println "11111")
-                        (println exception)))
+         (utils/set-flag flag)))
      (object-array 0))
     (println "Waiting for WS STOMP client to connect...")
     (utils/await-flag flag)

@@ -24,8 +24,10 @@
                  ;[org.apache.activemq/activemq-stomp "6.1.3" :exclusions [org.eclipse.jetty.aggregate/jetty-all]]
                  [org.clojure/clojure "1.12.0"]
                  [org.clojure/tools.cli "1.1.230"]
-                 ;[org.eclipse.jetty/jetty-server "11.0.24"]
+                 [org.eclipse.jetty/jetty-server "11.0.24"]
                  ;[org.eclipse.jetty/jetty-util "11.0.24"]
+                 [org.eclipse.jetty/jetty-servlet "11.0.24"]
+                 ;[org.eclipse.jetty.websocket/websocket-jakarta-server "11.0.24"]
                  [org.eclipse.jetty.websocket/websocket-jetty-server "11.0.24"]
                  ;[org.eclipse.jetty.websocket/websocket-client "9.4.56.v20240826"]
                  ;[org.eclipse.jetty/jetty-http "11.0.24"]
@@ -79,6 +81,7 @@
                 :test-paths ["test" "benchmark"]}}
   :plugins [[lein-cloverage "1.2.4"] [test2junit "1.4.2"] [lein-html5-docs "3.0.3"]]
   ; Explicitly forcing TLSv1.2, for now, because of: https://bugs.openjdk.java.net/browse/JDK-8211426
+  ;:jvm-opts ["-Dorg.slf4j.simpleLogger.defaultLogLevel=trace"]
   ;:jvm-opts ["-Djavax.net.debug=all" "-Djdk.tls.server.protocols=TLSv1.2" "-Djdk.tls.client.protocols=TLSv1.2"]
   ;:jvm-opts ["-Djavax.net.debug=all"]
   )
