@@ -1,5 +1,5 @@
 ;;;
-;;;   Copyright 2016, Ruediger Gad
+;;;   Copyright 2016 - 2024 Ruediger Gad
 ;;;   Copyright 2015, Frankfurt University of Applied Sciences
 ;;;
 ;;;   This software is released under the terms of the Eclipse Public License 
@@ -19,8 +19,7 @@
    [clojure.java.io :as java-io]
    [clojure.string :as str]
    [clj-assorted-utils.util :as utils]
-   [taoensso.nippy :as nippy]
-   [clojure.string :as s])
+   [taoensso.nippy :as nippy])
   (:import
    (bowerick JmsProducer)
    (clojure.lang IFn)
@@ -39,23 +38,20 @@
    (org.apache.activemq.broker.region.policy PolicyEntry PolicyMap)
    (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
    (org.eclipse.jetty.client HttpClient)
+   (org.eclipse.jetty.client.http HttpClientTransportOverHTTP)
    (org.eclipse.jetty.http HttpHeader)
-   ;(org.eclipse.jetty.client.http HttpClientTransportOverHTTP)
-   (org.eclipse.jetty.util.ssl SslContextFactory)
+   (org.eclipse.jetty.io ClientConnector)
+   (org.eclipse.jetty.util.ssl SslContextFactory$Client)
    (org.eclipse.jetty.util.thread ScheduledExecutorScheduler)
    (org.eclipse.jetty.websocket.client WebSocketClient)
    (org.springframework.web.socket.client.jetty JettyWebSocketClient)
    (org.eclipse.paho.client.mqttv3 MqttCallback MqttClient MqttConnectOptions MqttMessage)
    (org.fusesource.stomp.jms StompJmsConnectionFactory)
    (org.iq80.snappy Snappy)
-   ;(org.eclipse.jetty.websocket.jakarta.client JakartaWebSocketClientContainerProvider)
    (org.springframework.messaging.simp.stomp StompFrameHandler StompHeaders StompSession StompSessionHandlerAdapter)
    (org.springframework.scheduling.concurrent DefaultManagedTaskScheduler)
    (org.springframework.web.socket WebSocketHttpHeaders)
-   (org.springframework.web.socket.messaging WebSocketStompClient)
-   ;(org.springframework.web.socket.client.standard StandardWebSocketClient)
-   ;(org.eclipse.jetty.websocket.javax.client.internal JavaxWebSocketClientContainer)
-   ))
+   (org.springframework.web.socket.messaging WebSocketStompClient)))
 
 (def ^:dynamic *user-name* nil)
 (def ^:dynamic *user-password* nil)
@@ -288,14 +284,8 @@
               *trust-store-file*)
              (.setSslContext
               ^SslBrokerService broker
-              (doto
-               (SslContext.)
-                (.setSSLContext
-                 (get-adjusted-ssl-context)))))
-         add_conn (fn [address]
-                    (let [conn (.addConnector broker ^String address)]
-                      ;(println "Added connector:" (str conn) (str (class conn)))
-                      ))
+              (doto (SslContext.) (.setSSLContext (get-adjusted-ssl-context)))))
+         add_conn (fn [address] (.addConnector broker ^String address))
          _ (if (string? address)
              (add_conn address)
              (doseq [^String addr (seq address)]
@@ -420,13 +410,18 @@
                    (doto
                     (if (.startsWith broker-url "wss://")
                       (HttpClient.
-                       (doto
-                        (SslContextFactory. false)
-                         (.setSslContext
-                          ssl-ctx)))
+                       (HttpClientTransportOverHTTP.
+                        (doto
+                         (ClientConnector.)
+                          (.setSslContextFactory
+                           (doto
+                            (SslContextFactory$Client. false)
+                             (.setSslContext
+                              ssl-ctx))))))
                       (HttpClient.))
                      (.setExecutor stp-exec)
-                     (.setScheduler se-sched)))
+                     (.setScheduler se-sched))
+        )
         jws-client (doto
                      (JettyWebSocketClient. ws-client))
         ws-stomp-client (doto
