@@ -28,7 +28,7 @@
     position: fixed;
     top: 0em;
     left: 0em;
-  }</style><link href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" /></head><body><div id="ui-widget"><input autofocus="autofocus" id="api-search" placeholder="API Search" tabindex="1" /></div><div id="top"><header><h1>Namespace bowerick.jms</h1><p>Functions for JMS interaction</p></header><section class="ns-toc" id="other-ns-toc"><h2>Other Namespaces</h2><details><summary>Show/Hide</summary><table><tr><td><a href="bowerick.JmsController.html">bowerick.JmsController</a></td><td><div>JMS controller for ActiveMQ.</div></td></tr><tr><td><a href="bowerick.java-interfaces.html">bowerick.java-interfaces</a></td><td><div>Interfaces for Java interop.</div></td></tr><tr><td><a href="bowerick.main.html">bowerick.main</a></td><td><div>Main class to start the bowerick stand-alone application.</div></td></tr><tr><td><a href="bowerick.message-generator.html">bowerick.message-generator</a></td><td><div>Functions for generating messages</div></td></tr><tr><td><a href="index.html">Index Page</a></td><td></td></tr><tr><td><a href="var-index.html">Alphabetic Var Index</a></td><td></td></tr></table></details></section><section id="pubvars-toc"><h2>Public Vars</h2><nav><a href="#IDMULbroker-management-command-topicMUL">*broker-management-command-topic*</a>, <a href="#IDMULbroker-management-reply-topicMUL">*broker-management-reply-topic*</a>, <a href="#IDMULdefault-charsetMUL">*default-charset*</a>, <a href="#IDMULforce-sync-sendMUL">*force-sync-send*</a>, <a href="#IDMULkey-store-fileMUL">*key-store-file*</a>, <a href="#IDMULkey-store-passwordMUL">*key-store-password*</a>, <a href="#IDMULmqtt-max-in-flightMUL">*mqtt-max-in-flight*</a>, <a href="#IDMULpooled-producer-auto-transmit-intervalMUL">*pooled-producer-auto-transmit-interval*</a>, <a href="#IDMULproducer-window-sizeMUL">*producer-window-size*</a>, <a href="#IDMULserializable-allowlistMUL">*serializable-allowlist*</a>, <a href="#IDMULserializable-packagesMUL">*serializable-packages*</a>, <a href="#IDMULtrust-store-fileMUL">*trust-store-file*</a>, <a href="#IDMULtrust-store-passwordMUL">*trust-store-password*</a>, <a href="#IDMULuser-nameMUL">*user-name*</a>, <a href="#IDMULuser-passwordMUL">*user-password*</a>, <a href="#IDMULws-client-ping-heartbeatMUL">*ws-client-ping-heartbeat*</a>, <a href="#IDMULws-client-pong-heartbeatMUL">*ws-client-pong-heartbeat*</a>, <a href="#ID-GREATERConsumerWrapper">-&gt;ConsumerWrapper</a>, <a href="#ID-GREATERProducerWrapper">-&gt;ProducerWrapper</a>, <a href="#IDclose">close</a>, <a href="#IDclose-ws-stomp-session">close-ws-stomp-session</a>, <a href="#IDcreate-carbonite-consumer">create-carbonite-consumer</a>, <a href="#IDcreate-carbonite-lzf-consumer">create-carbonite-lzf-consumer</a>, <a href="#IDcreate-carbonite-lzf-producer">create-carbonite-lzf-producer</a>, <a href="#IDcreate-carbonite-producer">create-carbonite-producer</a>, <a href="#IDcreate-consumer">create-consumer</a>, <a href="#IDcreate-failsafe-json-consumer">create-failsafe-json-consumer</a>, <a href="#IDcreate-json-consumer">create-json-consumer</a>, <a href="#IDcreate-json-lzf-consumer">create-json-lzf-consumer</a>, <a href="#IDcreate-json-lzf-producer">create-json-lzf-producer</a>, <a href="#IDcreate-json-producer">create-json-producer</a>, <a href="#IDcreate-json-snappy-consumer">create-json-snappy-consumer</a>, <a href="#IDcreate-json-snappy-producer">create-json-snappy-producer</a>, <a href="#IDcreate-mqtt-client">create-mqtt-client</a>, <a href="#IDcreate-nippy-consumer">create-nippy-consumer</a>, <a href="#IDcreate-nippy-lzf-consumer">create-nippy-lzf-consumer</a>, <a href="#IDcreate-nippy-lzf-producer">create-nippy-lzf-producer</a>, <a href="#IDcreate-nippy-producer">create-nippy-producer</a>, <a href="#IDcreate-pooled-consumer">create-pooled-consumer</a>, <a href="#IDcreate-pooled-producer">create-pooled-producer</a>, <a href="#IDcreate-producer">create-producer</a>, <a href="#IDcreate-single-consumer">create-single-consumer</a>, <a href="#IDcreate-single-producer">create-single-producer</a>, <a href="#IDcreate-ws-stomp-session">create-ws-stomp-session</a>, <a href="#IDfallback-serialization">fallback-serialization</a>, <a href="#IDget-adjusted-ssl-context">get-adjusted-ssl-context</a>, <a href="#IDget-destinations">get-destinations</a>, <a href="#IDmap-GREATERConsumerWrapper">map-&gt;ConsumerWrapper</a>, <a href="#IDmap-GREATERProducerWrapper">map-&gt;ProducerWrapper</a>, <a href="#IDmsg-prop-key">msg-prop-key</a>, <a href="#IDremove-url-options">remove-url-options</a>, <a href="#IDsend-error-msg">send-error-msg</a>, <a href="#IDsetup-broker-with-auth">setup-broker-with-auth</a>, <a href="#IDstart-broker">start-broker</a>, <a href="#IDstop">stop</a>, <a href="#IDto-json-bytes">to-json-bytes</a>, <a href="#IDwith-destination">with-destination</a>, <a href="#IDws-scheduler-id">ws-scheduler-id</a></nav></section><section><h2>Usage Documentation</h2><details open="open"><summary>Show/Hide</summary><pre>Functions for JMS interaction</pre></details><a href="#top">Back to top</a></section><section id="details"><h2>Details of Public Vars</h2><div id="IDMULbroker-management-command-topicMUL"><div><h4>Dynamic Var: *broker-management-command-topic*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L62">View Source</a></div><div id="IDMULbroker-management-reply-topicMUL"><div><h4>Dynamic Var: *broker-management-reply-topic*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L63">View Source</a></div><div id="IDMULdefault-charsetMUL"><div><h4>Dynamic Var: *default-charset*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L65">View Source</a></div><div id="IDMULforce-sync-sendMUL"><div><h4>Dynamic Var: *force-sync-send*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L70">View Source</a></div><div id="IDMULkey-store-fileMUL"><div><h4>Dynamic Var: *key-store-file*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L59">View Source</a></div><div id="IDMULkey-store-passwordMUL"><div><h4>Dynamic Var: *key-store-password*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L60">View Source</a></div><div id="IDMULmqtt-max-in-flightMUL"><div><h4>Dynamic Var: *mqtt-max-in-flight*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L76">View Source</a></div><div id="IDMULpooled-producer-auto-transmit-intervalMUL"><div><h4>Dynamic Var: *pooled-producer-auto-transmit-interval*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L74">View Source</a></div><div id="IDMULproducer-window-sizeMUL"><div><h4>Dynamic Var: *producer-window-size*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L72">View Source</a></div><div id="IDMULserializable-allowlistMUL"><div><h4>Dynamic Var: *serializable-allowlist*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L90">View Source</a></div><div id="IDMULserializable-packagesMUL"><div><h4>Dynamic Var: *serializable-packages*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L81">View Source</a></div><div id="IDMULtrust-store-fileMUL"><div><h4>Dynamic Var: *trust-store-file*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L57">View Source</a></div><div id="IDMULtrust-store-passwordMUL"><div><h4>Dynamic Var: *trust-store-password*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L58">View Source</a></div><div id="IDMULuser-nameMUL"><div><h4>Dynamic Var: *user-name*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L54">View Source</a></div><div id="IDMULuser-passwordMUL"><div><h4>Dynamic Var: *user-password*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L55">View Source</a></div><div id="IDMULws-client-ping-heartbeatMUL"><div><h4>Dynamic Var: *ws-client-ping-heartbeat*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L67">View Source</a></div><div id="IDMULws-client-pong-heartbeatMUL"><div><h4>Dynamic Var: *ws-client-pong-heartbeat*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L68">View Source</a></div><div id="ID-GREATERConsumerWrapper"><div><h4>Constructor: -&gt;ConsumerWrapper</h4><pre>Arglists:
+  }</style><link href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" /></head><body><div id="ui-widget"><input autofocus="autofocus" id="api-search" placeholder="API Search" tabindex="1" /></div><div id="top"><header><h1>Namespace bowerick.jms</h1><p>Functions for JMS interaction</p></header><section class="ns-toc" id="other-ns-toc"><h2>Other Namespaces</h2><details><summary>Show/Hide</summary><table><tr><td><a href="bowerick.JmsController.html">bowerick.JmsController</a></td><td><div>JMS controller for ActiveMQ.</div></td></tr><tr><td><a href="bowerick.java-interfaces.html">bowerick.java-interfaces</a></td><td><div>Interfaces for Java interop.</div></td></tr><tr><td><a href="bowerick.main.html">bowerick.main</a></td><td><div>Main class to start the bowerick stand-alone application.</div></td></tr><tr><td><a href="bowerick.message-generator.html">bowerick.message-generator</a></td><td><div>Functions for generating messages</div></td></tr><tr><td><a href="index.html">Index Page</a></td><td></td></tr><tr><td><a href="var-index.html">Alphabetic Var Index</a></td><td></td></tr></table></details></section><section id="pubvars-toc"><h2>Public Vars</h2><nav><a href="#IDMULbroker-management-command-topicMUL">*broker-management-command-topic*</a>, <a href="#IDMULbroker-management-reply-topicMUL">*broker-management-reply-topic*</a>, <a href="#IDMULdefault-charsetMUL">*default-charset*</a>, <a href="#IDMULforce-sync-sendMUL">*force-sync-send*</a>, <a href="#IDMULkey-store-fileMUL">*key-store-file*</a>, <a href="#IDMULkey-store-passwordMUL">*key-store-password*</a>, <a href="#IDMULmqtt-max-in-flightMUL">*mqtt-max-in-flight*</a>, <a href="#IDMULpooled-producer-auto-transmit-intervalMUL">*pooled-producer-auto-transmit-interval*</a>, <a href="#IDMULproducer-window-sizeMUL">*producer-window-size*</a>, <a href="#IDMULserializable-allowlistMUL">*serializable-allowlist*</a>, <a href="#IDMULserializable-packagesMUL">*serializable-packages*</a>, <a href="#IDMULtrust-store-fileMUL">*trust-store-file*</a>, <a href="#IDMULtrust-store-passwordMUL">*trust-store-password*</a>, <a href="#IDMULuser-nameMUL">*user-name*</a>, <a href="#IDMULuser-passwordMUL">*user-password*</a>, <a href="#IDMULws-client-ping-heartbeatMUL">*ws-client-ping-heartbeat*</a>, <a href="#IDMULws-client-pong-heartbeatMUL">*ws-client-pong-heartbeat*</a>, <a href="#ID-GREATERConsumerWrapper">-&gt;ConsumerWrapper</a>, <a href="#ID-GREATERProducerWrapper">-&gt;ProducerWrapper</a>, <a href="#IDclose">close</a>, <a href="#IDclose-ws-stomp-session">close-ws-stomp-session</a>, <a href="#IDcreate-carbonite-consumer">create-carbonite-consumer</a>, <a href="#IDcreate-carbonite-lzf-consumer">create-carbonite-lzf-consumer</a>, <a href="#IDcreate-carbonite-lzf-producer">create-carbonite-lzf-producer</a>, <a href="#IDcreate-carbonite-producer">create-carbonite-producer</a>, <a href="#IDcreate-consumer">create-consumer</a>, <a href="#IDcreate-failsafe-json-consumer">create-failsafe-json-consumer</a>, <a href="#IDcreate-json-consumer">create-json-consumer</a>, <a href="#IDcreate-json-lzf-consumer">create-json-lzf-consumer</a>, <a href="#IDcreate-json-lzf-producer">create-json-lzf-producer</a>, <a href="#IDcreate-json-producer">create-json-producer</a>, <a href="#IDcreate-json-snappy-consumer">create-json-snappy-consumer</a>, <a href="#IDcreate-json-snappy-producer">create-json-snappy-producer</a>, <a href="#IDcreate-mqtt-client">create-mqtt-client</a>, <a href="#IDcreate-nippy-consumer">create-nippy-consumer</a>, <a href="#IDcreate-nippy-lzf-consumer">create-nippy-lzf-consumer</a>, <a href="#IDcreate-nippy-lzf-producer">create-nippy-lzf-producer</a>, <a href="#IDcreate-nippy-producer">create-nippy-producer</a>, <a href="#IDcreate-pooled-consumer">create-pooled-consumer</a>, <a href="#IDcreate-pooled-producer">create-pooled-producer</a>, <a href="#IDcreate-producer">create-producer</a>, <a href="#IDcreate-single-consumer">create-single-consumer</a>, <a href="#IDcreate-single-producer">create-single-producer</a>, <a href="#IDcreate-ws-stomp-session">create-ws-stomp-session</a>, <a href="#IDfallback-serialization">fallback-serialization</a>, <a href="#IDget-adjusted-ssl-context">get-adjusted-ssl-context</a>, <a href="#IDget-destinations">get-destinations</a>, <a href="#IDget-ws-thread-id">get-ws-thread-id</a>, <a href="#IDmap-GREATERConsumerWrapper">map-&gt;ConsumerWrapper</a>, <a href="#IDmap-GREATERProducerWrapper">map-&gt;ProducerWrapper</a>, <a href="#IDmsg-prop-key">msg-prop-key</a>, <a href="#IDremove-url-options">remove-url-options</a>, <a href="#IDsend-error-msg">send-error-msg</a>, <a href="#IDsetup-broker-with-auth">setup-broker-with-auth</a>, <a href="#IDstart-broker">start-broker</a>, <a href="#IDstop">stop</a>, <a href="#IDto-json-bytes">to-json-bytes</a>, <a href="#IDwith-destination">with-destination</a>, <a href="#IDws-thread-id">ws-thread-id</a></nav></section><section><h2>Usage Documentation</h2><details open="open"><summary>Show/Hide</summary><pre>Functions for JMS interaction</pre></details><a href="#top">Back to top</a></section><section id="details"><h2>Details of Public Vars</h2><div id="IDMULbroker-management-command-topicMUL"><div><h4>Dynamic Var: *broker-management-command-topic*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L61">View Source</a></div><div id="IDMULbroker-management-reply-topicMUL"><div><h4>Dynamic Var: *broker-management-reply-topic*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L62">View Source</a></div><div id="IDMULdefault-charsetMUL"><div><h4>Dynamic Var: *default-charset*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L64">View Source</a></div><div id="IDMULforce-sync-sendMUL"><div><h4>Dynamic Var: *force-sync-send*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L69">View Source</a></div><div id="IDMULkey-store-fileMUL"><div><h4>Dynamic Var: *key-store-file*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L58">View Source</a></div><div id="IDMULkey-store-passwordMUL"><div><h4>Dynamic Var: *key-store-password*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L59">View Source</a></div><div id="IDMULmqtt-max-in-flightMUL"><div><h4>Dynamic Var: *mqtt-max-in-flight*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L75">View Source</a></div><div id="IDMULpooled-producer-auto-transmit-intervalMUL"><div><h4>Dynamic Var: *pooled-producer-auto-transmit-interval*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L73">View Source</a></div><div id="IDMULproducer-window-sizeMUL"><div><h4>Dynamic Var: *producer-window-size*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L71">View Source</a></div><div id="IDMULserializable-allowlistMUL"><div><h4>Dynamic Var: *serializable-allowlist*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L89">View Source</a></div><div id="IDMULserializable-packagesMUL"><div><h4>Dynamic Var: *serializable-packages*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L80">View Source</a></div><div id="IDMULtrust-store-fileMUL"><div><h4>Dynamic Var: *trust-store-file*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L56">View Source</a></div><div id="IDMULtrust-store-passwordMUL"><div><h4>Dynamic Var: *trust-store-password*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L57">View Source</a></div><div id="IDMULuser-nameMUL"><div><h4>Dynamic Var: *user-name*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L53">View Source</a></div><div id="IDMULuser-passwordMUL"><div><h4>Dynamic Var: *user-password*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L54">View Source</a></div><div id="IDMULws-client-ping-heartbeatMUL"><div><h4>Dynamic Var: *ws-client-ping-heartbeat*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L66">View Source</a></div><div id="IDMULws-client-pong-heartbeatMUL"><div><h4>Dynamic Var: *ws-client-pong-heartbeat*</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L67">View Source</a></div><div id="ID-GREATERConsumerWrapper"><div><h4>Constructor: -&gt;ConsumerWrapper</h4><pre>Arglists:
 =========
 
   (-&gt;ConsumerWrapper close-fn)
@@ -36,7 +36,7 @@
 Docstring:
 ==========
 
-  Positional factory function for class bowerick.jms.ConsumerWrapper.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L625">View Source</a></div><div id="ID-GREATERProducerWrapper"><div><h4>Constructor: -&gt;ProducerWrapper</h4><pre>Arglists:
+  Positional factory function for class bowerick.jms.ConsumerWrapper.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L618">View Source</a></div><div id="ID-GREATERProducerWrapper"><div><h4>Constructor: -&gt;ProducerWrapper</h4><pre>Arglists:
 =========
 
   (-&gt;ProducerWrapper send-fn send-fn-opt-args close-fn)
@@ -44,7 +44,7 @@ Docstring:
 Docstring:
 ==========
 
-  Positional factory function for class bowerick.jms.ProducerWrapper.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L507">View Source</a></div><div id="IDclose"><div><h4>Function: close</h4><pre>Arglists:
+  Positional factory function for class bowerick.jms.ProducerWrapper.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L499">View Source</a></div><div id="IDclose"><div><h4>Function: close</h4><pre>Arglists:
 =========
 
   (close o)
@@ -52,7 +52,7 @@ Docstring:
 Docstring:
 ==========
 
-  Close a producer or consumer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L724">View Source</a></div><div id="IDclose-ws-stomp-session"><div><h4>Function: close-ws-stomp-session</h4><pre>Arglists:
+  Close a producer or consumer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L718">View Source</a></div><div id="IDclose-ws-stomp-session"><div><h4>Function: close-ws-stomp-session</h4><pre>Arglists:
 =========
 
   (close-ws-stomp-session session-map)
@@ -60,7 +60,7 @@ Docstring:
 Docstring:
 ==========
 
-  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L442">View Source</a></div><div id="IDcreate-carbonite-consumer"><div><h4>Function: create-carbonite-consumer</h4><pre>Arglists:
+  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L435">View Source</a></div><div id="IDcreate-carbonite-consumer"><div><h4>Function: create-carbonite-consumer</h4><pre>Arglists:
 =========
 
   (create-carbonite-consumer broker-url destination-description cb)
@@ -75,7 +75,7 @@ Docstring:
 
   Create a consumer that uses carbonite for de-serialization.
 
-   For more details about consumers and producers please see create-consumer and create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L971">View Source</a></div><div id="IDcreate-carbonite-lzf-consumer"><div><h4>Function: create-carbonite-lzf-consumer</h4><pre>Arglists:
+   For more details about consumers and producers please see create-consumer and create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L965">View Source</a></div><div id="IDcreate-carbonite-lzf-consumer"><div><h4>Function: create-carbonite-lzf-consumer</h4><pre>Arglists:
 =========
 
   (create-carbonite-lzf-consumer broker-url destination-description cb)
@@ -90,7 +90,7 @@ Docstring:
 
   Create a consumer that decompresses the transferred data with LZF and uses carbonite for de-serialization.
 
-   For more details about consumers and producers please see create-consumer and create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L1004">View Source</a></div><div id="IDcreate-carbonite-lzf-producer"><div><h4>Function: create-carbonite-lzf-producer</h4><pre>Arglists:
+   For more details about consumers and producers please see create-consumer and create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L998">View Source</a></div><div id="IDcreate-carbonite-lzf-producer"><div><h4>Function: create-carbonite-lzf-producer</h4><pre>Arglists:
 =========
 
   (create-carbonite-lzf-producer broker-url destination-description)
@@ -104,7 +104,7 @@ Docstring:
 
   Create a producer that uses carbonite for serialization and compresses the serialized data with LZF.
 
-   For more details about producers please see create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L988">View Source</a></div><div id="IDcreate-carbonite-producer"><div><h4>Function: create-carbonite-producer</h4><pre>Arglists:
+   For more details about producers please see create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L982">View Source</a></div><div id="IDcreate-carbonite-producer"><div><h4>Function: create-carbonite-producer</h4><pre>Arglists:
 =========
 
   (create-carbonite-producer broker-url destination-description)
@@ -115,7 +115,7 @@ Docstring:
 
   Create a producer that uses carbonite for serialization.
 
-   For more details about producers please see create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L955">View Source</a></div><div id="IDcreate-consumer"><div><h4>Function: create-consumer</h4><pre>Arglists:
+   For more details about producers please see create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L949">View Source</a></div><div id="IDcreate-consumer"><div><h4>Function: create-consumer</h4><pre>Arglists:
 =========
 
   (create-consumer broker-url destination-description cb)
@@ -139,7 +139,7 @@ Docstring:
    A pooled consumer receives data in batches and it is the counter part to a pooled producer.
 
    Optionally, a single argument function for customizing the de-serialization of the transferred data can be given.
-   Typically, this should be the inverse operation of the serialization function as used for the producer and defaults to identity.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L853">View Source</a></div><div id="IDcreate-failsafe-json-consumer"><div><h4>Function: create-failsafe-json-consumer</h4><pre>Arglists:
+   Typically, this should be the inverse operation of the serialization function as used for the producer and defaults to identity.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L847">View Source</a></div><div id="IDcreate-failsafe-json-consumer"><div><h4>Function: create-failsafe-json-consumer</h4><pre>Arglists:
 =========
 
   (create-failsafe-json-consumer broker-url destination-description cb)
@@ -158,7 +158,7 @@ Docstring:
 Docstring:
 ==========
 
-  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L1123">View Source</a></div><div id="IDcreate-json-consumer"><div><h4>Function: create-json-consumer</h4><pre>Arglists:
+  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L1117">View Source</a></div><div id="IDcreate-json-consumer"><div><h4>Function: create-json-consumer</h4><pre>Arglists:
 =========
 
   (create-json-consumer broker-url destination-description cb)
@@ -185,7 +185,7 @@ Docstring:
    Typically, the pre-process-fn is expected to accept and return a byte array and defaults to identity.
    The pre-process-fn is expected to be the inverse operation of the post-process-fn that was used for the JSON producer (See create-json-producer.).
 
-   For more details about consumers please see create-consumer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L1049">View Source</a></div><div id="IDcreate-json-lzf-consumer"><div><h4>Function: create-json-lzf-consumer</h4><pre>Arglists:
+   For more details about consumers please see create-consumer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L1043">View Source</a></div><div id="IDcreate-json-lzf-consumer"><div><h4>Function: create-json-lzf-consumer</h4><pre>Arglists:
 =========
 
   (create-json-lzf-consumer broker-url destination-description cb)
@@ -198,7 +198,7 @@ Docstring:
 Docstring:
 ==========
 
-  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L1088">View Source</a></div><div id="IDcreate-json-lzf-producer"><div><h4>Function: create-json-lzf-producer</h4><pre>Arglists:
+  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L1082">View Source</a></div><div id="IDcreate-json-lzf-producer"><div><h4>Function: create-json-lzf-producer</h4><pre>Arglists:
 =========
 
   (create-json-lzf-producer broker-url destination-description)
@@ -207,7 +207,7 @@ Docstring:
 Docstring:
 ==========
 
-  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L1077">View Source</a></div><div id="IDcreate-json-producer"><div><h4>Function: create-json-producer</h4><pre>Arglists:
+  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L1071">View Source</a></div><div id="IDcreate-json-producer"><div><h4>Function: create-json-producer</h4><pre>Arglists:
 =========
 
   (create-json-producer broker-url destination-description)
@@ -233,7 +233,7 @@ Docstring:
    One use case for this is, e.g., to compress or encrypt the byte array data.
    Typically, the post-process-fn is expected to accept and return a byte array and defaults to identity.
 
-   For more details about producers please see create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L1021">View Source</a></div><div id="IDcreate-json-snappy-consumer"><div><h4>Function: create-json-snappy-consumer</h4><pre>Arglists:
+   For more details about producers please see create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L1015">View Source</a></div><div id="IDcreate-json-snappy-consumer"><div><h4>Function: create-json-snappy-consumer</h4><pre>Arglists:
 =========
 
   (create-json-snappy-consumer broker-url destination-description cb)
@@ -246,7 +246,7 @@ Docstring:
 Docstring:
 ==========
 
-  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L1111">View Source</a></div><div id="IDcreate-json-snappy-producer"><div><h4>Function: create-json-snappy-producer</h4><pre>Arglists:
+  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L1105">View Source</a></div><div id="IDcreate-json-snappy-producer"><div><h4>Function: create-json-snappy-producer</h4><pre>Arglists:
 =========
 
   (create-json-snappy-producer broker-url destination-description)
@@ -258,7 +258,7 @@ Docstring:
 Docstring:
 ==========
 
-  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L1100">View Source</a></div><div id="IDcreate-mqtt-client"><div><h4>Function: create-mqtt-client</h4><pre>Arglists:
+  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L1094">View Source</a></div><div id="IDcreate-mqtt-client"><div><h4>Function: create-mqtt-client</h4><pre>Arglists:
 =========
 
   (create-mqtt-client broker-url)
@@ -266,7 +266,7 @@ Docstring:
 Docstring:
 ==========
 
-  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L364">View Source</a></div><div id="IDcreate-nippy-consumer"><div><h4>Function: create-nippy-consumer</h4><pre>Arglists:
+  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L365">View Source</a></div><div id="IDcreate-nippy-consumer"><div><h4>Function: create-nippy-consumer</h4><pre>Arglists:
 =========
 
   (create-nippy-consumer broker-url destination-description cb)
@@ -287,7 +287,7 @@ Docstring:
    See also: create-pooled-nippy-producer.
    For uncompressing compressed data, no options need to be specified as nippy can figure out the employed compression algorithms on its own.
 
-   For more details about consumers and producers please see create-consumer and create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L898">View Source</a></div><div id="IDcreate-nippy-lzf-consumer"><div><h4>Function: create-nippy-lzf-consumer</h4><pre>Arglists:
+   For more details about consumers and producers please see create-consumer and create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L892">View Source</a></div><div id="IDcreate-nippy-lzf-consumer"><div><h4>Function: create-nippy-lzf-consumer</h4><pre>Arglists:
 =========
 
   (create-nippy-lzf-consumer broker-url destination-description cb)
@@ -308,7 +308,7 @@ Docstring:
 
   Create a consumer that uncompresses the transferred data via LZF and uses nippy for de-serialization.
 
-   For more details about consumers and producers please see create-consumer and create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L937">View Source</a></div><div id="IDcreate-nippy-lzf-producer"><div><h4>Function: create-nippy-lzf-producer</h4><pre>Arglists:
+   For more details about consumers and producers please see create-consumer and create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L931">View Source</a></div><div id="IDcreate-nippy-lzf-producer"><div><h4>Function: create-nippy-lzf-producer</h4><pre>Arglists:
 =========
 
   (create-nippy-lzf-producer broker-url destination-description)
@@ -324,7 +324,7 @@ Docstring:
 
   Create a producer that uses nippy for serialization and compresses the serialized data with LZF.
 
-   For more details about producers please see create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L920">View Source</a></div><div id="IDcreate-nippy-producer"><div><h4>Function: create-nippy-producer</h4><pre>Arglists:
+   For more details about producers please see create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L914">View Source</a></div><div id="IDcreate-nippy-producer"><div><h4>Function: create-nippy-producer</h4><pre>Arglists:
 =========
 
   (create-nippy-producer broker-url destination-description)
@@ -345,7 +345,7 @@ Docstring:
    Compression can be enabled with {:compressor taoensso.nippy/lz4-compressor}.
    Possible compressor settings are: taoensso.nippy/lz4-compressor, taoensso.nippy/snappy-compressor, taoensso.nippy/lzma2-compressor.
 
-   For more details about producers please see create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L874">View Source</a></div><div id="IDcreate-pooled-consumer"><div><h4>Function: create-pooled-consumer</h4><pre>Arglists:
+   For more details about producers please see create-producer.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L868">View Source</a></div><div id="IDcreate-pooled-consumer"><div><h4>Function: create-pooled-consumer</h4><pre>Arglists:
 =========
 
   (create-pooled-consumer broker-url destination-description cb)
@@ -367,7 +367,7 @@ Docstring:
   
    This function is not intended to be used directly.
    It is recommended to use create-consumer or the various create-XXXXXX-consumer derivatives that employ
-   customized serialization mechanisms instead.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L797">View Source</a></div><div id="IDcreate-pooled-producer"><div><h4>Function: create-pooled-producer</h4><pre>Arglists:
+   customized serialization mechanisms instead.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L791">View Source</a></div><div id="IDcreate-pooled-producer"><div><h4>Function: create-pooled-producer</h4><pre>Arglists:
 =========
 
   (create-pooled-producer broker-url destination-description pool-size)
@@ -390,7 +390,7 @@ Docstring:
   
    This function is not intended to be used directly.
    It is recommended to use create-producer or the various create-XXXXXX-producer derivatives that employ
-   customized serialization mechanisms instead.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L729">View Source</a></div><div id="IDcreate-producer"><div><h4>Function: create-producer</h4><pre>Arglists:
+   customized serialization mechanisms instead.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L723">View Source</a></div><div id="IDcreate-producer"><div><h4>Function: create-producer</h4><pre>Arglists:
 =========
 
   (create-producer broker-url destination-description)
@@ -417,7 +417,7 @@ Docstring:
    sends the entire pool at once when the pool is filled.
   
    Optionally, a single argument function for customizing the serialization of the pooled-data can be given.
-   This defaults to idenitity such that the default serialization of the underlying JMS implementation is used.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L828">View Source</a></div><div id="IDcreate-single-consumer"><div><h4>Function: create-single-consumer</h4><pre>Arglists:
+   This defaults to idenitity such that the default serialization of the underlying JMS implementation is used.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L822">View Source</a></div><div id="IDcreate-single-consumer"><div><h4>Function: create-single-consumer</h4><pre>Arglists:
 =========
 
   (create-single-consumer broker-url destination-description cb)
@@ -440,7 +440,7 @@ Docstring:
   
    This function is not intended to be used directly.
    It is recommended to use create-consumer or the various create-XXXXXX-consumer derivatives that employ
-   customized serialization mechanisms instead.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L634">View Source</a></div><div id="IDcreate-single-producer"><div><h4>Function: create-single-producer</h4><pre>Arglists:
+   customized serialization mechanisms instead.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L628">View Source</a></div><div id="IDcreate-single-producer"><div><h4>Function: create-single-producer</h4><pre>Arglists:
 =========
 
   (create-single-producer broker-url destination-description)
@@ -465,7 +465,7 @@ Docstring:
   
    This function is not intended to be used directly.
    It is recommended to use create-producer or the various create-XXXXXX-producer derivatives that employ
-   customized serialization mechanisms instead.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L522">View Source</a></div><div id="IDcreate-ws-stomp-session"><div><h4>Function: create-ws-stomp-session</h4><pre>Arglists:
+   customized serialization mechanisms instead.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L515">View Source</a></div><div id="IDcreate-ws-stomp-session"><div><h4>Function: create-ws-stomp-session</h4><pre>Arglists:
 =========
 
   (create-ws-stomp-session broker-url)
@@ -473,7 +473,7 @@ Docstring:
 Docstring:
 ==========
 
-  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L386">View Source</a></div><div id="IDfallback-serialization"><div><h4>Function: fallback-serialization</h4><pre>Arglists:
+  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L392">View Source</a></div><div id="IDfallback-serialization"><div><h4>Function: fallback-serialization</h4><pre>Arglists:
 =========
 
   (fallback-serialization data)
@@ -481,7 +481,7 @@ Docstring:
 Docstring:
 ==========
 
-  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L355">View Source</a></div><div id="IDget-adjusted-ssl-context"><div><h4>Function: get-adjusted-ssl-context</h4><pre>Arglists:
+  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L356">View Source</a></div><div id="IDget-adjusted-ssl-context"><div><h4>Function: get-adjusted-ssl-context</h4><pre>Arglists:
 =========
 
   (get-adjusted-ssl-context)
@@ -492,7 +492,7 @@ Docstring:
   Get an SSLContext for which the key and trust stores are initialized based
    on the settings defined in the global dynamic vars:
    *key-store-file* *key-store-password*
-   *trust-store-file* *trust-store-password*</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L105">View Source</a></div><div id="IDget-destinations"><div><h4>Function: get-destinations</h4><pre>Arglists:
+   *trust-store-file* *trust-store-password*</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L104">View Source</a></div><div id="IDget-destinations"><div><h4>Function: get-destinations</h4><pre>Arglists:
 =========
 
   (get-destinations broker)
@@ -503,23 +503,31 @@ Docstring:
 
   Get a lexicographically sorted list of destinations that exist for the given borker-service
    Optionally, destinations without producers can be excluded by setting
-   include-destinations-without-producers to false.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L134">View Source</a></div><div id="IDmap-GREATERConsumerWrapper"><div><h4>Function: map-&gt;ConsumerWrapper</h4><pre>Arglists:
+   include-destinations-without-producers to false.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L133">View Source</a></div><div id="IDget-ws-thread-id"><div><h4>Function: get-ws-thread-id</h4><pre>Arglists:
 =========
 
-  (map-&gt;ConsumerWrapper m__7910__auto__)
+  (get-ws-thread-id)
 
 Docstring:
 ==========
 
-  Factory function for class bowerick.jms.ConsumerWrapper, taking a map of keywords to field values.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L625">View Source</a></div><div id="IDmap-GREATERProducerWrapper"><div><h4>Function: map-&gt;ProducerWrapper</h4><pre>Arglists:
+  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L386">View Source</a></div><div id="IDmap-GREATERConsumerWrapper"><div><h4>Function: map-&gt;ConsumerWrapper</h4><pre>Arglists:
 =========
 
-  (map-&gt;ProducerWrapper m__7910__auto__)
+  (map-&gt;ConsumerWrapper m__7997__auto__)
 
 Docstring:
 ==========
 
-  Factory function for class bowerick.jms.ProducerWrapper, taking a map of keywords to field values.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L507">View Source</a></div><div id="IDmsg-prop-key"><div><h4>Var: msg-prop-key</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L78">View Source</a></div><div id="IDremove-url-options"><div><h4>Function: remove-url-options</h4><pre>Arglists:
+  Factory function for class bowerick.jms.ConsumerWrapper, taking a map of keywords to field values.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L618">View Source</a></div><div id="IDmap-GREATERProducerWrapper"><div><h4>Function: map-&gt;ProducerWrapper</h4><pre>Arglists:
+=========
+
+  (map-&gt;ProducerWrapper m__7997__auto__)
+
+Docstring:
+==========
+
+  Factory function for class bowerick.jms.ProducerWrapper, taking a map of keywords to field values.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L499">View Source</a></div><div id="IDmsg-prop-key"><div><h4>Var: msg-prop-key</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L77">View Source</a></div><div id="IDremove-url-options"><div><h4>Function: remove-url-options</h4><pre>Arglists:
 =========
 
   (remove-url-options url)
@@ -527,7 +535,7 @@ Docstring:
 Docstring:
 ==========
 
-  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L348">View Source</a></div><div id="IDsend-error-msg"><div><h4>Function: send-error-msg</h4><pre>Arglists:
+  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L349">View Source</a></div><div id="IDsend-error-msg"><div><h4>Function: send-error-msg</h4><pre>Arglists:
 =========
 
   (send-error-msg producer msg)
@@ -565,7 +573,7 @@ Docstring:
    
    wss://127.0.0.1:42427
    
-   wss://127.0.0.1:42427?needClientAuth=true
+   wss://127.0.0.1:42427/?needClientAuth=true
    
    mqtt+ssl://127.0.0.1:42429
    
@@ -595,7 +603,7 @@ Docstring:
 Docstring:
 ==========
 
-  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L344">View Source</a></div><div id="IDto-json-bytes"><div><h4>Function: to-json-bytes</h4><pre>Arglists:
+  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L345">View Source</a></div><div id="IDto-json-bytes"><div><h4>Function: to-json-bytes</h4><pre>Arglists:
 =========
 
   (to-json-bytes data)
@@ -603,7 +611,7 @@ Docstring:
 Docstring:
 ==========
 
-  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L99">View Source</a></div><div id="IDwith-destination"><div><h4>Macro: with-destination</h4><pre>Arglists:
+  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L98">View Source</a></div><div id="IDwith-destination"><div><h4>Macro: with-destination</h4><pre>Arglists:
 =========
 
   (with-destination broker-url destination-description &amp; body)
@@ -620,4 +628,4 @@ Docstring:
   
    Destination descriptions have the form &quot;/&lt;type&gt;/&lt;name&gt;&quot; for which &quot;&lt;type&gt;&quot;
    is currently either &quot;topic&quot; or &quot;queue&quot; and the &quot;&lt;name&gt;&quot; is the unique
-   name of the destination.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L452">View Source</a></div><div id="IDws-scheduler-id"><div><h4>Var: ws-scheduler-id</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L384">View Source</a></div></section></div><footer><p>These docs were generated by the <a href="https://github.com/tsdh/lein-html5-docs">Leiningen HTML5 Docs Plugin</a>, version 3.0.3.</p><a href="http://www.w3.org/html/logo/"><img alt="HTML5 Powered" height="64" src="http://www.w3.org/html/logo/badge/html5-badge-h-solo.png" title="HTML5 Powered" width="63" /></a><script src="http://code.jquery.com/jquery.min.js"></script><script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script><script src="api-search.js"></script></footer></body></html>
+   name of the destination.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L444">View Source</a></div><div id="IDws-thread-id"><div><h4>Var: ws-thread-id</h4><pre>  No docs attached.</pre></div><a href="#top">Back to top</a> <a href="https://github.com/ruedigergad/bowerick/blob/master/src/bowerick/jms.clj#L385">View Source</a></div></section></div><footer><p>These docs were generated by the <a href="https://github.com/tsdh/lein-html5-docs">Leiningen HTML5 Docs Plugin</a>, version 3.0.3.</p><a href="http://www.w3.org/html/logo/"><img alt="HTML5 Powered" height="64" src="http://www.w3.org/html/logo/badge/html5-badge-h-solo.png" title="HTML5 Powered" width="63" /></a><script src="http://code.jquery.com/jquery.min.js"></script><script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script><script src="api-search.js"></script></footer></body></html>
