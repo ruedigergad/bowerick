@@ -20,7 +20,7 @@ if [ -n "${CUSTOM_ARGS}" ] ;
 then
     echo "Running with custom args: ${CUSTOM_ARGS}"
     echo "Note, this overrides all other settings for the entrypoint."
-    COMMAND="java -jar bowerick*standalone.jar ${CUSTOM_ARGS}"
+    COMMAND="java --add-opens java.base/sun.security.tools.keytool=ALL-UNNAMED -jar bowerick*standalone.jar ${CUSTOM_ARGS}"
     echo "Running command: ${COMMAND}"
     ${COMMAND}
     exit 0
@@ -41,7 +41,7 @@ GEN_TYPE=${GEN_TYPE:-custom-fn}
 GEN_ARGS=${GEN_ARGS:-./generator.clj}
 GEN_INTERVAL=${GEN_INTERVAL:-100}
 
-COMMAND="java -jar bowerick*standalone.jar -d -v"
+COMMAND="java --add-opens java.base/sun.security.tools.keytool=ALL-UNNAMED -jar bowerick*standalone.jar -d -v"
 if ${BOOTSTRAP_CERTS} ;
 then
     echo "Enabling certificate bootstrap..."

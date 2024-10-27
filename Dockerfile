@@ -1,4 +1,4 @@
-FROM openjdk:11-jdk-bullseye
+FROM openjdk:24-jdk-bookworm
 
 ARG VERSION
 
