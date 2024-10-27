@@ -362,7 +362,7 @@ http://ruedigergad.github.io/bowerick/doc/
       
       wss://127.0.0.1:42427
       
-      wss://127.0.0.1:42427?needClientAuth=true
+      wss://127.0.0.1:42427/?needClientAuth=true
     * MQTT via TCP (with optional client authentication)
 
       mqtt+ssl://127.0.0.1:42429
