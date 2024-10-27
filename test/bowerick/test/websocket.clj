@@ -21,7 +21,7 @@
 (def url-openwire "tcp://127.0.0.1:33323")
 (def url-stomp "stomp://127.0.0.1:33324")
 (def url-websocket "ws://127.0.0.1:33325")
-(def url-websocket-ssl "wss://127.0.0.1:33326?needClientAuth=true")
+(def url-websocket-ssl "wss://127.0.0.1:33326/?needClientAuth=true")
 (def test-topic "/topic/testtopic.foo")
 
 (defn test-with-broker [t]

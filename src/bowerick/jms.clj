@@ -25,6 +25,7 @@
    (clojure.lang IFn)
    (com.ning.compress.lzf LZFDecoder LZFEncoder)
    (jakarta.jms BytesMessage ConnectionFactory DeliveryMode Message MessageListener ObjectMessage Session TextMessage)
+   (jakarta.websocket ContainerProvider)
    (java.lang AutoCloseable)
    (java.nio.charset Charset)
    (java.security KeyStore)
@@ -37,20 +38,16 @@
    (org.apache.activemq.broker.region Destination)
    (org.apache.activemq.broker.region.policy PolicyEntry PolicyMap)
    (org.apache.activemq.security AuthenticationUser AuthorizationEntry AuthorizationPlugin DefaultAuthorizationMap SimpleAuthenticationPlugin)
-   (org.eclipse.jetty.client HttpClient)
-   (org.eclipse.jetty.client.http HttpClientTransportOverHTTP)
    (org.eclipse.jetty.http HttpHeader)
-   (org.eclipse.jetty.io ClientConnector)
-   (org.eclipse.jetty.util.ssl SslContextFactory$Client)
-   (org.eclipse.jetty.util.thread ScheduledExecutorScheduler)
-   (org.eclipse.jetty.websocket.client WebSocketClient)
-   (org.springframework.web.socket.client.jetty JettyWebSocketClient)
    (org.eclipse.paho.client.mqttv3 MqttCallback MqttClient MqttConnectOptions MqttMessage)
    (org.fusesource.stomp.jms StompJmsConnectionFactory)
+   (org.glassfish.tyrus.client ClientManager SslEngineConfigurator)
    (org.iq80.snappy Snappy)
+   (org.springframework.messaging MessageDeliveryException)
    (org.springframework.messaging.simp.stomp StompFrameHandler StompHeaders StompSession StompSessionHandlerAdapter)
    (org.springframework.scheduling.concurrent DefaultManagedTaskScheduler)
    (org.springframework.web.socket WebSocketHttpHeaders)
+   (org.springframework.web.socket.client.standard StandardWebSocketClient)
    (org.springframework.web.socket.messaging WebSocketStompClient)))
 
 (def ^:dynamic *user-name* nil)
@@ -234,7 +231,7 @@
    
    wss://127.0.0.1:42427
    
-   wss://127.0.0.1:42427?needClientAuth=true
+   wss://127.0.0.1:42427/?needClientAuth=true
    
    mqtt+ssl://127.0.0.1:42429
    
@@ -385,54 +382,40 @@
     (.connect mqtt-client conn-opts)
     mqtt-client))
 
-(def ws-scheduler-id (ref 0))
+(def ws-thread-id (ref 0))
+(defn get-ws-thread-id []
+  (dosync
+   (let [current-value @ws-thread-id]
+     (alter ws-thread-id inc)
+     current-value)))
 
 (defn create-ws-stomp-session
   [^String broker-url]
-  (let [sched-id (dosync
-                  (let [current-value @ws-scheduler-id]
-                    (alter ws-scheduler-id inc)
-                    current-value))
-        stp-exec (ScheduledThreadPoolExecutor.
-                  10
+  (let [stp-exec (ScheduledThreadPoolExecutor. 10
                   (proxy [ThreadFactory] []
                     (newThread [^Runnable r]
-                      (doto (Thread. r)
+                      (doto (Thread. r (str "Bwrck-WS-Exec-" broker-url "-" (get-ws-thread-id)))
                         (.setDaemon true)))))
-        se-sched (doto
-                  (ScheduledExecutorScheduler.
-                   (str "HttpClient-Scheduler-" broker-url "-" sched-id) true)
-                   (.start))
         ssl-ctx (if (.startsWith broker-url "wss://")
                   (get-adjusted-ssl-context)
                   (SSLContext/getDefault))
-        ws-client (WebSocketClient.
-                   (doto
-                    (if (.startsWith broker-url "wss://")
-                      (HttpClient.
-                       (HttpClientTransportOverHTTP.
-                        (doto
-                         (ClientConnector.)
-                          (.setSslContextFactory
-                           (doto
-                            (SslContextFactory$Client. false)
-                             (.setSslContext
-                              ssl-ctx))))))
-                      (HttpClient.))
-                     (.setExecutor stp-exec)
-                     (.setScheduler se-sched))
-        )
-        jws-client (doto
-                     (JettyWebSocketClient. ws-client))
+        ws-container (doto (ContainerProvider/getWebSocketContainer))
+        _ (do
+            (println "Configuring WS Container with SSLContext...")
+            (.put (.getProperties ws-container)
+                  ClientManager/SSL_ENGINE_CONFIGURATOR
+                  (SslEngineConfigurator. ssl-ctx)))
+        ws-client (doto (StandardWebSocketClient. ws-container)
+                    (.setSslContext ssl-ctx))
         ws-stomp-client (doto
-                         (WebSocketStompClient. jws-client)
-                          (.setTaskScheduler (doto (DefaultManagedTaskScheduler.) (.setScheduledExecutor (ScheduledThreadPoolExecutor. 5))))
+                         (WebSocketStompClient. ws-client)
+                          (.setTaskScheduler (doto (DefaultManagedTaskScheduler.) (.setScheduledExecutor stp-exec)))
                           (.setDefaultHeartbeat (long-array [*ws-client-ping-heartbeat* *ws-client-pong-heartbeat*]))
                           (.start))
         session (atom nil)
         flag (utils/prepare-flag)]
     (println "Connecting WS STOMP client...")
-    (.connect
+    (.connectAsync
      ws-stomp-client
      broker-url
      (doto (WebSocketHttpHeaders.) (.add (.asString HttpHeader/SEC_WEBSOCKET_SUBPROTOCOL) "stomp"))
@@ -445,21 +428,18 @@
     (utils/await-flag flag)
     (println "WS STOMP client connection succeeded.")
     {:ws-client ws-client
-     :jws-client jws-client
      :ws-stomp-client ws-stomp-client
      :session @session
-     :stp-exec stp-exec
-     :se-sched se-sched}))
+     :stp-exec stp-exec}))
 
 (defn close-ws-stomp-session
   [session-map]
   (println "Closing WebSocket session...")
-  (.disconnect ^StompSession (:session session-map))
+  (try (.disconnect ^StompSession (:session session-map))
+       (catch MessageDeliveryException e
+         (println "Info: Exception on closing STOMP session:" (.getMessage e))))
   (.stop ^WebSocketStompClient (:ws-stomp-client session-map))
-  (.stop ^JettyWebSocketClient (:jws-client session-map))
-  (doto ^WebSocketClient (:ws-client session-map) .stop .destroy)
-  (.shutdownNow ^java.util.concurrent.ExecutorService (:stp-exec session-map))
-  (.stop ^ScheduledExecutorScheduler (:se-sched session-map)))
+  (.shutdownNow ^java.util.concurrent.ExecutorService (:stp-exec session-map)))
 
 (defmacro with-destination
   "Execute body in a context for which connection, session, and destination are

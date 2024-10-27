@@ -49,7 +49,7 @@
     (run-test-with-server t "mqtt+ssl://127.0.0.1:32330")
     (run-test-with-server t "mqtt+ssl://127.0.0.1:32330?needClientAuth=true")
     (run-test-with-server t "wss://127.0.0.1:32328")
-    (run-test-with-server t "wss://127.0.0.1:32328?needClientAuth=true")
+    (run-test-with-server t "wss://127.0.0.1:32328/?needClientAuth=true")
     (run-test-with-server t "ssl://localhost:32325")
     (run-test-with-server t "ssl://localhost:32325?needClientAuth=true")))
 
