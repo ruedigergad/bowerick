@@ -18,7 +18,8 @@
     [cli4clj.cli-tests :as cli-tests]
     [clj-assorted-utils.util :as utils]
     [clojure.test :as test]
-    [clojure.java.io :as io])
+    [clojure.java.io :as io]
+    [clojure.string :as s])
   (:import
     (java.io PipedReader PipedWriter)))
 
@@ -160,7 +161,7 @@
     (utils/await-flag stopped-flag)))
 
 (def ssl_files ["broker-cert.pem" "broker.ks" "broker.ts" "broker-certs.ts"
-                "client-cert.pem" "client-certreq.pem"
+                "client-cert.pem" "client-certreq.pem" "client.ks" "client.ts"
                 "selfsigned-broker.ks" "selfsigned-client.ks"])
 (test/deftest simple-send-receive-with-cli-ssl-self-generated-certificates-broker-test
   (doseq [f ssl_files]
@@ -186,12 +187,20 @@
         _ (.start main-thread)
         _ (println "Waiting for test broker to start up...")
         _ (utils/await-flag started-flag)
+        _ (alter-var-root #'bowerick.jms/*key-store-file* (fn [_ x] x) "client.ks")
+        _ (alter-var-root #'bowerick.jms/*trust-store-file* (fn [_ x] x) "client.ts")
         test-cmd-input [(str "receive " local-cli-ssl-jms-server ":" test-topic)
                         (str "send " local-cli-ssl-jms-server ":" test-topic " \"test-data\"")
                         "_sleep 500"]
-        out-string (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)]
+        out-string (cli-tests/test-cli-stdout #(main/run-cli-app "-k" "-c" "-o") test-cmd-input)]
+    (test/is (s/includes? out-string "Importing key and certificates..."))
+    (test/is (s/includes? out-string "Broker certificate:"))
+    (test/is (s/includes? out-string "-----BEGIN CERTIFICATE-----"))
+    (test/is (s/includes? out-string "-----END CERTIFICATE-----"))
+    (test/is (s/includes? out-string "Client certificate:"))
     (test/is
-     (=
+     (s/ends-with?
+      out-string
       (cli-tests/expected-string
        [(str "Set up consumer for: " local-cli-ssl-jms-server ":" test-topic)
         (str "Sending: " local-cli-ssl-jms-server ":" test-topic " <-")
@@ -199,8 +208,7 @@
         (str "Received: " local-cli-ssl-jms-server ":" test-topic " ->")
         "\"test-data\""
         "Closing bowerick.jms.ProducerWrapper for ssl://127.0.0.1:53848:/topic/testtopic.foo ..."
-        "Closing bowerick.jms.ConsumerWrapper for ssl://127.0.0.1:53848:/topic/testtopic.foo ..."])
-      out-string))
+        "Closing bowerick.jms.ConsumerWrapper for ssl://127.0.0.1:53848:/topic/testtopic.foo ..."])))
     (println "Stopping test broker...")
     (.write stop-wrtr "q\r")
     (println "Waiting for test broker to stop...")
