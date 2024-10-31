@@ -161,7 +161,7 @@
     (utils/await-flag stopped-flag)))
 
 (def ssl_files ["broker-cert.pem" "broker.ks" "broker.ts" "broker-certs.ts"
-                "client-cert.pem" "client-certreq.pem" "client.ks" "client.ts"
+                "client-cert.pem" "client-certreq.pem" "client-key.pem" "client.ks" "client.ts"
                 "selfsigned-broker.ks" "selfsigned-client.ks"])
 (test/deftest simple-send-receive-with-cli-ssl-self-generated-certificates-broker-test
   (doseq [f ssl_files]
