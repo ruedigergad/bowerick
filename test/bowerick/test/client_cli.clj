@@ -26,6 +26,7 @@
 
 (def local-jms-server "tcp://127.0.0.1:42424")
 (def local-cli-jms-server "tcp://127.0.0.1:53847")
+(def local-cli-ssl-jms-server "ssl://127.0.0.1:53848")
 (def test-topic "/topic/testtopic.foo")
 (def json-test-file-name "test/data/json-test-data.txt")
 ;(def csv-test-file-name "test/data/csv_input_test_file.txt")
@@ -157,6 +158,56 @@
     (.write stop-wrtr "q\r")
     (println "Waiting for test broker to stop...")
     (utils/await-flag stopped-flag)))
+
+(def ssl_files ["broker-cert.pem" "broker.ks" "broker.ts" "broker-certs.ts"
+                "client-cert.pem" "client-certreq.pem"
+                "selfsigned-broker.ks" "selfsigned-client.ks"])
+(test/deftest simple-send-receive-with-cli-ssl-self-generated-certificates-broker-test
+  (doseq [f ssl_files]
+    (println "Deleting:" f)
+    (io/delete-file f true))
+  (let [started-string "Broker started."
+        started-flag (utils/prepare-flag)
+        stopped-string "Broker stopped."
+        stopped-flag (utils/prepare-flag)
+        stop-wrtr (PipedWriter.)
+        stop-rdr (PipedReader. stop-wrtr)
+        main-thread (Thread. #(utils/with-out-str-cb
+                                (fn [s]
+                                  (when (.contains s started-string)
+                                    (utils/println-err "Test broker started.")
+                                    (utils/set-flag started-flag))
+                                  (when (.contains s stopped-string)
+                                    (utils/println-err "Test broker stopped.")
+                                    (utils/set-flag stopped-flag)))
+                                (binding [*in* (io/reader stop-rdr)]
+                                  (main/run-cli-app "-b" "-u" (str "\"" local-cli-ssl-jms-server "\"")))))
+        _ (.setDaemon main-thread true)
+        _ (.start main-thread)
+        _ (println "Waiting for test broker to start up...")
+        _ (utils/await-flag started-flag)
+        test-cmd-input [(str "receive " local-cli-ssl-jms-server ":" test-topic)
+                        (str "send " local-cli-ssl-jms-server ":" test-topic " \"test-data\"")
+                        "_sleep 500"]
+        out-string (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)]
+    (test/is
+     (=
+      (cli-tests/expected-string
+       [(str "Set up consumer for: " local-cli-ssl-jms-server ":" test-topic)
+        (str "Sending: " local-cli-ssl-jms-server ":" test-topic " <-")
+        "\"test-data\""
+        (str "Received: " local-cli-ssl-jms-server ":" test-topic " ->")
+        "\"test-data\""
+        "Closing bowerick.jms.ProducerWrapper for ssl://127.0.0.1:53848:/topic/testtopic.foo ..."
+        "Closing bowerick.jms.ConsumerWrapper for ssl://127.0.0.1:53848:/topic/testtopic.foo ..."])
+      out-string))
+    (println "Stopping test broker...")
+    (.write stop-wrtr "q\r")
+    (println "Waiting for test broker to stop...")
+    (utils/await-flag stopped-flag)
+    (doseq [f ssl_files]
+      (println "Checking file exists:" f)
+      (test/is (.exists (io/file f))))))
 
 (test/deftest simple-cli-broker-aframe-test
   (let [started-string "Broker started."

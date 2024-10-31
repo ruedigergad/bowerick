@@ -60,4 +60,5 @@
   ;:jvm-opts ["-Dorg.slf4j.simpleLogger.defaultLogLevel=trace"]
   ;:jvm-opts ["-Djavax.net.debug=all" "-Djdk.tls.server.protocols=TLSv1.2" "-Djdk.tls.client.protocols=TLSv1.2"]
   ;:jvm-opts ["-Djavax.net.debug=all"]
+  :jvm-opts ["--add-opens" "java.base/sun.security.tools.keytool=ALL-UNNAMED"]
   )
