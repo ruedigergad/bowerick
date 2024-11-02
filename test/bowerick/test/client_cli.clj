@@ -217,6 +217,62 @@
       (println "Checking file exists:" f)
       (test/is (.exists (io/file f))))))
 
+(test/deftest simple-send-receive-with-cli-broker-with-permissions-test
+  (let [started-string "Broker started."
+        started-flag (utils/prepare-flag)
+        stopped-string "Broker stopped."
+        stopped-flag (utils/prepare-flag)
+        stop-wrtr (PipedWriter.)
+        stop-rdr (PipedReader. stop-wrtr)
+        main-thread (Thread. #(utils/with-out-str-cb
+                                (fn [s]
+                                  (when (.contains s started-string)
+                                    (utils/println-err "Test broker started.")
+                                    (utils/set-flag started-flag))
+                                  (when (.contains s stopped-string)
+                                    (utils/println-err "Test broker stopped.")
+                                    (utils/set-flag stopped-flag)))
+                                (binding [*in* (io/reader stop-rdr)]
+                                  (main/run-cli-app "-e" "-u" (str "\"" local-cli-jms-server "\"")))))
+        _ (.setDaemon main-thread true)
+        _ (.start main-thread)
+        _ (println "Waiting for test broker to start up...")
+        _ (utils/await-flag started-flag)
+        ; When configuring permissions, the broker grants itself admin access.
+        ; For the test, we need to unset this after the broker had startet because the client would also see
+        ; the admin credentials the broker had configured for itself as they both run in the same JVM.
+        ; So, for doing a realistic test, we need to unset the credentials to mimic a real case for which the client has not credentials.
+        _ (alter-var-root #'bowerick.jms/*user-name* (fn [_ x] x) nil)
+        _ (alter-var-root #'bowerick.jms/*user-password* (fn [_ x] x) nil)
+        test-cmd-input [
+                        ; Need to use admin credentials here because creating a topic requires admin privileges.
+                        "set-user-name admin"
+                        "set-user-password test_admin_pass"
+                        (str "receive " local-cli-jms-server ":" test-topic)
+                        (str "send " local-cli-jms-server ":" test-topic " \"test-data\"")
+                        "_sleep 500"]
+        out-string (cli-tests/test-cli-stdout #(main/run-cli-app "-c" "-o") test-cmd-input)]
+    (test/is
+     (=
+      (cli-tests/expected-string
+       ["\"admin\""
+        "\"test_admin_pass\""
+        (str "Set up consumer for: " local-cli-jms-server ":" test-topic)
+        (str "Sending: " local-cli-jms-server ":" test-topic " <-")
+        "\"test-data\""
+        (str "Received: " local-cli-jms-server ":" test-topic " ->")
+        "\"test-data\""
+        "Closing bowerick.jms.ProducerWrapper for tcp://127.0.0.1:53847:/topic/testtopic.foo ..."
+        "Closing bowerick.jms.ConsumerWrapper for tcp://127.0.0.1:53847:/topic/testtopic.foo ..."])
+      out-string))
+    (println "Stopping test broker...")
+    (.write stop-wrtr "q\r")
+    (println "Waiting for test broker to stop...")
+    (utils/await-flag stopped-flag)
+    ; Reset credentials to default.
+    (alter-var-root #'bowerick.jms/*user-name* (fn [_ x] x) nil)
+    (alter-var-root #'bowerick.jms/*user-password* (fn [_ x] x) nil)))
+
 (test/deftest simple-cli-broker-aframe-test
   (let [started-string "Broker started."
         started-flag (utils/prepare-flag)
